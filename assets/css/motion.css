@@ -1,0 +1,59 @@
+/* AUTO-EXTRACTED from homepage-ch.html · 单一来源，勿手改单页副本 */
+/* ============================================================ MOTION */
+[data-reveal]{ opacity:0; transform:translateY(24px); transition:opacity .8s var(--ease), transform .8s var(--ease); transition-delay:var(--d,0ms); }
+[data-reveal].in{ opacity:1; transform:none; }
+
+/* P4 柔和上浮 — section 段落文字（expo-out 缓动，位移略短，更克制） */
+.intro[data-reveal], .about__p[data-reveal]{
+  transform:translateY(20px); transition:opacity .8s var(--ease), transform .9s var(--ease-soft); transition-delay:var(--d,0ms); }
+.intro[data-reveal].in, .about__p[data-reveal].in{ transform:none; }
+
+/* T1 图纸描边 — section 标题卡入场：基准线展开 → 盒子显影 → 蓝角落位 → 文字浮起。
+   兼容两种结构：.sec-band.sec-anim（策略/奖项，整带为根）与 .band.sec-anim + .sec-box.sec-anim（关于，两根并列） */
+.sec-anim .rule{ transform:scaleX(0); transform-origin:center; transition:transform .7s var(--ease-soft); }
+.sec-anim.in .rule{ transform:scaleX(1); }
+.sec-anim .sec-box, .sec-box.sec-anim{ opacity:0; transition:opacity .55s var(--ease) .34s; }
+.sec-anim.in .sec-box, .sec-box.sec-anim.in{ opacity:1; }
+.sec-anim .corner{ opacity:0; transform:scale(.55); transition:opacity .45s var(--ease) .56s, transform .5s var(--ease-soft) .56s; }
+.sec-anim.in .corner{ opacity:1; transform:none; }
+.sec-anim .bt{ opacity:0; transform:translateY(6px); transition:opacity .5s var(--ease) .68s, transform .6s var(--ease-soft) .68s; }
+.sec-anim.in .bt{ opacity:1; transform:none; }
+
+/* P5-K — section 段落逐行随 scroll 上浮（位置由脚本驱动；单位 = CJK 字 / ASCII 词，保留 .b 与 br） */
+.p-scroll .u, .p-scroll-blur .u{ display:inline-block; opacity:0; will-change:transform,opacity,filter; }
+.grid-overlay .vline{ transform:scaleY(0); transform-origin:top; transition:transform 1.4s var(--ease); }
+.grid-overlay.in .vline{ transform:scaleY(1); }
+@media (prefers-reduced-motion:reduce){
+  [data-reveal]{ opacity:1; transform:none; transition:none; }
+  .marquee__track, .ticker__track{ animation:none; }
+  .grid-overlay .vline{ transform:none; }
+  .rails-top{ opacity:1; transition:none; }
+  .hero__heading .ch{ opacity:1; transform:none; filter:none; animation:none; }
+  .quote p .ch{ opacity:1; transform:none; filter:none; animation:none; }
+  .intro[data-reveal], .about__p[data-reveal]{ transform:none; }
+  .sec-anim .rule{ transform:none; } .sec-anim .sec-box, .sec-box.sec-anim{ opacity:1; }
+  .sec-anim .corner, .sec-anim .bt{ opacity:1; transform:none; }
+  .dot--live::before, .btn .dot::before{ animation:none; opacity:.38; transform:translate(-50%,-50%) scale(1.15); }
+  .hero__ivy.armed{ opacity:1; }
+  .hero__ivy .cap{ opacity:1; transform:none; }
+  .hero__ivy .ivy-t .ch{ opacity:1; filter:none; }
+  .hero__ivy .ivy-t .rest{ grid-template-columns:1fr; }
+  .card__foot{ gap:14px; } .tags{ grid-template-rows:1fr; opacity:1; transform:none; }
+  .pcard__plate{ clip-path:inset(0 0 0 0); } .pcard__foot{ gap:5px; }
+  .pcard__foot .d{ grid-template-rows:1fr; opacity:1; transform:none; }
+  .pcard__foot .t{ text-shadow:0 0 20px rgba(var(--c-bg-rgb),0), 0 0 7px rgba(var(--c-bg-rgb),0); }
+  *{ transition:none !important; }
+}
+
+/* narrow safety: let big type shrink a touch so nothing clips */
+@media (max-width:1100px){
+  .hero__title{ font-size:84px; line-height:1.04; }
+  .hero__sub{ font-size:42px; }
+  .about__stats{ --stat-pad:40px; }
+  .about__stats .num{ font-size:52px; line-height:52px; letter-spacing:-1.4px; }
+  .about__left{ padding-right:40px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .pagebg{ transition:none; }
+}

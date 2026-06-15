@@ -1,0 +1,18 @@
+/* AUTO-EXTRACTED from homepage-ch.html · 单一来源，勿手改单页副本 */
+/* ============================================================
+   常春藤资本 v2.1 — Design tokens (见 DESIGN-SYSTEM.md)
+   ============================================================ */
+:root{
+  /* rgb 三元组：带透明度的派生色 / 阴影统一引用，改主色它们自动跟着变 */
+  --c-ink-rgb:13,27,42; --c-accent-rgb:24,73,198; --c-bg-rgb:250,249,246;
+  --c-bg:#faf9f6; --c-ink:#0d1b2a; --c-slate:#2c3a4a; --c-muted:#7a7e8a;
+  --c-accent:#1849c6; --c-accent-2:#8db4ff;
+  --c-divider:#d8d4c8; --c-hairline:rgba(var(--c-ink-rgb),.10); --c-tag-line:rgba(var(--c-ink-rgb),.25);
+  --c-accent-wash:rgba(var(--c-accent-rgb),.05); --c-accent-line:rgba(var(--c-accent-rgb),.20);
+  --c-grid:#b6bdcd; --cream-grad:rgba(var(--c-bg-rgb),1);
+  --ff-sc:"Noto Sans SC",sans-serif; --ff-serif:"Noto Serif SC",serif;
+  --ff-sans:"Geist",sans-serif; --ff-mono:"Geist Mono",monospace; --ff-ital:"Instrument Serif",serif;
+  --tracking-caption:0.15em;
+  --rail:64px; --page-x:80px; --maxw:1760px; --gap:120px;
+  --ease:cubic-bezier(.22,.61,.36,1); --ease-io:cubic-bezier(.45,.05,.55,.95); --ease-soft:cubic-bezier(.16,1,.3,1);
+}

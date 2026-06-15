@@ -2,10 +2,21 @@
 
 > 本文件只写"我们怎么一起做网站"的合作约束。设计系统见 `DESIGN-SYSTEM.md`,页面结构见 `README.md`。
 
-## 主文件
+## 主文件 & 共享层架构（2026-06-15 重构）
 
-- 生产主文件 = `homepage-ch.html`(单文件:内联 CSS tokens + JS 动效) （每个页面一个主文件）。
-- **未经 Vera 明确批准,不改主文件**。所有探索 / 候选都在 `tests/` 里做。
+- 生产页面 = 每页一个 HTML 主文件(当前 `homepage-ch.html`),**不再是单文件全内联**。
+- **共享层 = 组件/样式/行为的唯一事实源,改组件改这里,不要在单页里复制**:
+  - `assets/css/tokens.css` — 设计 token(`:root`)
+  - `assets/css/base.css` — reset + 结构原语(grid/rails/sec-band/section/pagebg)+ `site-nav/footer` 透明包裹
+  - `assets/css/components.css` — 可复用组件:nav · btn · card · pcard · ticker/tc · marquee · footer(locard/mailpill)
+  - `assets/css/motion.css` — 动画状态 + reduced-motion + 窄屏兜底(**必须最后 load**,覆盖前面)
+  - `assets/js/site.js` — 通用行为:reveal · count-up · nav-tuck · bgop · p-scroll(靠 data-attr/class 钩子,缺元素自动跳过)
+  - `assets/js/partials.js` — `<site-nav>` / `<site-footer>` 自定义元素,**nav/footer 的 markup 也单一来源**(头部同步 load)
+- **每个页面的 `<head>` load 顺序**:`tokens → base → components → 页面专属 <style> → motion`,然后 `<script src=partials.js>`;`</body>` 前 `site.js` + 页面专属 `<script>`。
+- **页面专属**(hero 编排 / blueprint 竖线网格 / 各 section 布局)留在该页内联,不进共享层。
+- `design-system.html` = 共享组件的**活预览**(link 同一套 css + `<site-nav>` 注入),不是副本——改了 components.css 它自动跟着变。
+- **新建页面**:link 上面那套 + 写 `<site-nav>`/`<site-footer>` + 自己的内容,组件直接复用。
+- **未经用户明确批准,不改生产主文件 / 共享层**。所有探索 / 候选都在 `tests/` 里做。
 
 ## 候选 → 审核 → 落地 三步法
 

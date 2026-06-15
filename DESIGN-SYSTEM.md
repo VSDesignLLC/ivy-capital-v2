@@ -32,18 +32,25 @@
 --c-accent:    #1849c6;   /* 品牌蓝 (唯一强调色) */
 --c-accent-2:  #8db4ff;   /* 浅蓝；玻璃描边环 / 奖项卡 hover，以 color-mix 调透明度 */
 
---c-divider:   #d8d4c8;   /* 暖灰分隔线 */
---c-hairline:  rgba(13,27,42,.10);  /* 卡片细描边 */
---c-tag-line:  rgba(13,27,42,.25);  /* 标签胶囊描边 */
+/* rgb 三元组：带透明度的派生色 / 阴影统一引用，改主色它们自动跟着变 */
+--c-ink-rgb:    13,27,42;
+--c-accent-rgb: 24,73,198;
+--c-bg-rgb:     250,249,246;
 
---c-accent-wash: rgba(24,73,198,.05); /* marquee / 按钮底 */
---c-accent-line: rgba(24,73,198,.20); /* 蓝色细线 / 徽章描边 */
+--c-divider:   #d8d4c8;   /* 暖灰分隔线 */
+--c-hairline:  rgba(var(--c-ink-rgb),.10);  /* 卡片细描边 */
+--c-tag-line:  rgba(var(--c-ink-rgb),.25);  /* 标签胶囊描边 */
+
+--c-accent-wash: rgba(var(--c-accent-rgb),.05); /* marquee / 按钮底 */
+--c-accent-line: rgba(var(--c-accent-rgb),.20); /* 蓝色细线 / 徽章描边 */
 
 --c-grid:      #b6bdcd;   /* 蓝图网格线 / 导轨（冷灰） */
---cream-grad:  rgba(250,249,246,1);  /* hero / footer 渐隐用（≈ --c-bg） */
+--cream-grad:  rgba(var(--c-bg-rgb),1);  /* hero / footer 渐隐用（= --c-bg） */
 ```
 
-> `--c-accent-2` 现为真 token；带透明度的用法统一写成 `color-mix(in srgb, var(--c-accent-2) N%, transparent)`（N = 28 / 50 / 85）。
+> **派生色统一**（2026-06-15 token 收尾）：组件里所有带透明度的墨蓝 / 品牌蓝 / 奶白(阴影、hairline、渐隐)都改走 `rgba(var(--c-ink-rgb|--c-accent-rgb|--c-bg-rgb), α)`，不再散落 `rgba(13,27,42,…)` 等字面量；两个 cream 变体(`250,248,247` / `250,249,246`)已统一到 `--c-bg-rgb`。`--c-accent-2` 带透明度用 `color-mix(in srgb, var(--c-accent-2) N%, transparent)`（N=28/50/85）。
+>
+> **仍保留的纯黑**（非 token，刻意）：footer 标语 `rgba(0,0,0,.92)` / 地址卡 `#000` / ICP `.4` 与 nav 语言切换 `#000·.3·.45`——B5 footer 定稿即用纯黑，未改为 `--c-ink`(墨蓝)；如需统一到墨蓝再单独点名。
 
 ## 三、Typography Tokens
 
@@ -169,3 +176,23 @@
 - **Footer → B5 融入版**：背景纹理图（去掉旧奶白渐变 `.fade`）；左 serif 标语 + 3 社交圆钮（56）；右 上海/香港**正方地址卡**（默认纯文字 + 顶线，hover 才浮出天际线底图）；分隔线下为 logo（左）+ 项目投递/工作机会 `.mailpill` 玻璃胶囊（右）+ ICP。`min-height:420`（上下间距对称）。
 - **新增 token**：`--c-accent-2:#8db4ff`（玻璃描边环 / 奖项卡 hover，透明度用 `color-mix`）；`--tracking-caption:0.15em`；缓动补 `--ease-soft` / `--ease-io`。
 - **布局 token 正名**：以 `--rail / --page-x / --gap / --maxw` 为准（详见 §四），旧的 `--space-* / --w-* / --s-* / --radius-*` 文档名作废。
+
+---
+
+## 七、组件事实源 / 复用架构（2026-06-15 重构）
+
+页面不再单文件全内联；token / 组件 / 行为抽到**共享层**，多页面复用、单一事实源：
+
+| 文件 | 内容 |
+|------|------|
+| `assets/css/tokens.css` | 设计 token（`:root`） |
+| `assets/css/base.css` | reset + 结构原语（grid / rails / sec-band / section / pagebg）+ `site-nav/footer` 透明包裹 |
+| `assets/css/components.css` | **可复用组件**：nav · btn · card · pcard · ticker/tc · marquee · footer(locard/mailpill) |
+| `assets/css/motion.css` | 动画状态 + reduced-motion + 窄屏兜底（**最后 load**） |
+| `assets/js/site.js` | 通用行为：reveal · count-up · nav-tuck · bgop · p-scroll |
+| `assets/js/partials.js` | `<site-nav>` / `<site-footer>` 自定义元素（**nav/footer markup 单一来源**） |
+
+- 页面 `<head>` load 顺序：`tokens → base → components → 页面专属 <style> → motion`；`partials.js` 头部同步；`site.js` 在 `</body>` 前。
+- **改组件 = 改 `components.css`**，`homepage-ch.html` 与 `design-system.html` 自动同步，不要在单页里复制组件。
+- `design-system.html` = 共享组件的**活预览**（link 同一套 + `<site-nav>` 注入），不再是手抄副本。
+- 页面专属（hero 编排 / blueprint 竖线网格 / 各 section 布局）留在该页内联。

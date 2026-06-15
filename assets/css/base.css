@@ -1,0 +1,66 @@
+/* AUTO-EXTRACTED from homepage-ch.html · 单一来源，勿手改单页副本 */
+*{margin:0;padding:0;box-sizing:border-box}
+html{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+body{ background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); overflow-x:hidden; }
+img{display:block;max-width:none}
+a{color:inherit;text-decoration:none}
+.page{ width:100%; max-width:var(--maxw); margin:0 auto; position:relative; }
+
+/* ---------- GLOBAL BLUEPRINT GRID ---------- */
+.grid-overlay{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+.grid-overlay .vline{ position:absolute; width:1px; background:var(--c-grid); opacity:.34; height:0; }
+
+/* full-height side rails — drawn ABOVE hero & footer; only nav (z100) covers them */
+.rails-top{ position:absolute; inset:0; z-index:90; pointer-events:none; opacity:0; transition:opacity 1.2s var(--ease); }
+.rails-top.in{ opacity:1; }
+.rails-top .rail{ position:absolute; top:0; bottom:0; width:1px; background:var(--c-grid); opacity:.55; }
+.rails-top .rail.l{ left:var(--rail); }
+.rails-top .rail.r{ right:var(--rail); }
+
+.page > header, .page > section, .page > .marquee-wrap, .page > footer{ position:relative; z-index:1; }
+
+/* ---------- shared ---------- */
+.caption{ font-size:11px; line-height:16.5px; letter-spacing:var(--tracking-caption); text-transform:uppercase; color:var(--c-muted); }
+.dot{ width:7px;height:7px;border-radius:3.5px;background:var(--c-accent);flex:none }
+
+.sec-head{ display:flex; gap:14px; align-items:baseline; color:var(--c-accent); }
+.sec-head .rn{ font-family:var(--ff-ital); font-style:italic; font-size:36px; line-height:42px; letter-spacing:-0.56px; text-transform:uppercase; }
+.sec-head .cn{ font-family:var(--ff-serif); font-weight:500; font-size:36px; line-height:42px; letter-spacing:-0.64px; }
+
+/* BOXED blueprint header */
+.sec-band{ position:relative; height:64px; display:flex; align-items:center; justify-content:center; margin:0 calc(var(--rail) - var(--page-x)); }
+.sec-band.left{ justify-content:flex-start; }
+.sec-band .rule{ position:absolute; left:0; right:0; height:0; border-top:1px solid var(--c-grid); }
+.sec-band .rule.top{ top:0; } .sec-band .rule.bot{ bottom:0; }
+.sec-box{ position:relative; height:64px; background:var(--c-bg);
+  border:1px solid rgba(var(--c-accent-rgb),.4); display:flex; align-items:center; justify-content:center; z-index:1; }
+.sec-band .sec-box{ width:calc(100% / 3); }   /* II/IV: 1/3 of the rail-to-rail rule, matching 关于我们 */
+.sec-box .bt{ display:flex; gap:14px; align-items:baseline; color:var(--c-accent); white-space:nowrap; }
+.sec-box .rn{ font-family:var(--ff-ital); font-style:italic; font-size:36px; line-height:42px; letter-spacing:-0.56px; text-transform:uppercase; }
+.sec-box .cn{ font-family:var(--ff-serif); font-weight:500; font-size:36px; line-height:42px; letter-spacing:-0.64px; }
+.sec-box .serif1{ font-family:var(--ff-serif); font-weight:500; font-size:36px; line-height:42px; letter-spacing:-0.64px; }
+.sec-box .corner{ position:absolute; width:14px; height:14px; }
+.sec-box .corner.tl{ left:12px; top:12px; border-left:1px solid var(--c-accent); border-top:1px solid var(--c-accent); }
+.sec-box .corner.br{ right:11.94px; bottom:12.5px; border-right:1px solid var(--c-accent); border-bottom:1px solid var(--c-accent); }
+
+.intro{ font-size:18px; line-height:28px; color:var(--c-ink); letter-spacing:-0.3px; max-width:760px; }
+
+/* ============================================================ SECTION shells */
+.section{ padding:0 var(--page-x); position:relative; }
+
+/* ============================================================
+   GLOBAL VIDEO BACKGROUND — fixed, behind all content.
+   奶白 body = 最底层；视频 z:0 夹在中间；内容 .page z:1 盖其上。
+   --pgop 由滚动 JS 按 section 设定，transition 平滑过渡。
+   ============================================================ */
+.pagebg{
+  position:fixed; inset:0; width:100%; height:100%;
+  object-fit:cover; z-index:0; pointer-events:none;
+  opacity:var(--pgop,0);
+  transition:opacity .9s var(--ease);
+  will-change:opacity;
+}
+
+/* 自定义元素包裹层透明化 + 找回被 <site-footer> 包住后丢失的 .page>footer 堆叠 */
+site-nav,site-footer{ display:contents; }
+.page > site-footer > footer{ position:relative; z-index:1; }
