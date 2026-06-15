@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>关于我们 · Liquid Glass 按钮测试 (radius 999)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   关于我们 / About — Fluid·Liquid Glass 按钮测试
+   原版 iOS-26 liquid glass，radius 改 999，放进真实 about 语境。
+   左侧奶白底 + 流体图上方各放一个，对比 refraction 是否显形。
+   仅测试，绝不动 index.html。
+   ============================================================ */
+:root{
+  --rail:64px; --page-x:80px; --maxw:1760px;
+  --c-bg:#faf9f6; --c-ink:#0d1b2a; --c-slate:#2c3a4a; --c-muted:#7a7e8a; --c-accent:#1849c6; --c-accent-2:#8db4ff;
+  --c-grid:#b6bdcd; --c-accent-wash:rgba(24,73,198,.05); --c-accent-line:rgba(24,73,198,.20);
+  --ff-sc:"Noto Sans SC",sans-serif; --ff-serif:"Noto Serif SC",serif;
+  --ff-sans:"Geist",sans-serif; --ff-mono:"Geist Mono",monospace; --ff-ital:"Instrument Serif",serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+body{ background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); overflow-x:hidden; }
+img{ display:block; max-width:none; }
+a{ color:inherit; text-decoration:none; }
+
+/* ---------- per-section pinned video background ----------
+   奶白 body 永远垫最底层 (z 最低)。每段一个 sticky 视频框，
+   滚动本段时背景钉住不动；3 段各自不同透明度对比。            */
+.stage{ position:relative; padding:96px 0 140px; border-bottom:1px solid rgba(13,27,42,.08); }
+.stage:last-child{ border-bottom:0; }
+.stage__bg{ position:sticky; top:0; height:100vh; margin-bottom:-100vh; z-index:0; pointer-events:none; overflow:hidden; }
+.stage__bg video{ width:100%; height:100%; object-fit:cover; opacity:var(--bgop,.4); }
+/* lift all real content above the pinned bg */
+.stage > .badge, .stage > .page{ position:relative; z-index:1; }
+.badge{ position:sticky; top:20px; z-index:50; margin:0 0 56px var(--rail);
+  display:inline-flex; align-items:center; gap:10px; width:max-content;
+  padding:9px 16px; background:rgba(250,249,246,.82); backdrop-filter:blur(10px);
+  border:1px solid var(--c-grid); border-radius:999px;
+  font-family:var(--ff-mono); font-size:11px; letter-spacing:.06em; color:var(--c-slate); }
+.badge .bdot{ width:6px; height:6px; border-radius:50%; background:var(--c-accent); }
+
+.page{ width:100%; max-width:var(--maxw); margin:0 auto; position:relative; }
+.rails{ position:absolute; inset:0; pointer-events:none; z-index:0; }
+.rails .rail{ position:absolute; top:0; bottom:0; width:1px; background:var(--c-grid); opacity:.5; }
+.rails .rail.l{ left:var(--rail); } .rails .rail.r{ right:var(--rail); }
+.about{ position:relative; z-index:1; padding:0 var(--rail); }
+.agrid{ display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:64px auto; gap:0; }
+.band{ grid-column:1 / -1; grid-row:1; position:relative; z-index:1; }
+.band .rule{ position:absolute; left:0; right:0; height:0; border-top:1px solid var(--c-grid); }
+.band .rule.top{ top:0; } .band .rule.bot{ bottom:0; }
+.sec-box{ grid-column:2; grid-row:1; position:relative; z-index:2; height:64px; background:var(--c-bg);
+  border:1px solid var(--c-accent-line); display:flex; align-items:center; justify-content:center; }
+.sec-box .corner{ position:absolute; width:14px; height:14px; }
+.sec-box .corner.tl{ left:12px; top:12px; border-left:1px solid var(--c-accent); border-top:1px solid var(--c-accent); }
+.sec-box .corner.br{ right:12px; bottom:12px; border-right:1px solid var(--c-accent); border-bottom:1px solid var(--c-accent); }
+.sec-box .bt{ display:flex; gap:8px; align-items:baseline; color:var(--c-accent); white-space:nowrap; }
+.sec-box .rn{ font-family:var(--ff-ital); font-style:italic; font-size:36px; line-height:42px; letter-spacing:-0.56px; }
+.sec-box .cn{ font-family:var(--ff-serif); font-weight:500; font-size:36px; line-height:42px; letter-spacing:-0.64px; }
+
+.about__left{ grid-column:1 / 3; grid-row:2; min-width:0; display:flex; flex-direction:column; gap:40px; padding:80px 56px 0 16px; }
+.about__p{ font-size:18px; line-height:28px; letter-spacing:-0.3px; color:var(--c-ink); max-width:46em; }
+.about__p .b{ color:var(--c-accent); }
+
+/* image, with a glass button floated over it to show refraction */
+.about__imgwrap{ height:300px; overflow:hidden; position:relative; border-radius:8px; }
+.about__imgwrap img{ position:absolute; width:104%; height:auto; left:-2%; top:-13%; opacity:.92; }
+.about__imgwrap .glass-on-img{ position:absolute; left:28px; bottom:28px; z-index:3; }
+
+.about__stats{ grid-column:3; grid-row:2; --stat-pad:48px;
+  border-left:1px solid var(--c-grid); padding:40px 0 6px var(--stat-pad);
+  display:flex; flex-direction:column; justify-content:space-between; gap:24px; }
+.stat{ position:relative; display:flex; flex-direction:column; gap:14px; }
+.stat .lbl{ font-size:11px; line-height:16.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted); }
+.stat .num{ font-family:var(--ff-sans); font-weight:500; font-size:64px; line-height:64px; letter-spacing:-1.92px; color:var(--c-ink); white-space:nowrap; }
+.stat .num .cn{ font-family:var(--ff-sc); font-weight:500; }
+
+/* ============================================================
+   FLUID · LIQUID GLASS — pill (radius 999)
+   原版多层 inset bevel + 镜面高光(::before) + 渐变描边环(::after)
+   文字改深色以在奶白上可读（白字会消失）。
+   ============================================================ */
+.btn-lg{
+  position:relative; align-self:flex-start; isolation:isolate;
+  display:inline-flex; align-items:center; gap:12px;
+  padding:16px 32px; border-radius:999px;
+  font-family:var(--ff-sc); font-weight:500; font-size:18px; line-height:21px;
+  color:var(--c-ink); cursor:pointer; border:1px solid transparent; overflow:visible;
+  background:linear-gradient(135deg, rgba(255,255,255,.55), rgba(255,255,255,.18) 42%, rgba(255,255,255,.42));
+  backdrop-filter:blur(10px) saturate(180%) brightness(1.04);
+  -webkit-backdrop-filter:blur(10px) saturate(180%) brightness(1.04);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.9),
+    inset 0 -8px 16px rgba(255,255,255,.4),
+    inset 0 2px 6px rgba(255,255,255,.5),
+    0 10px 28px -10px rgba(13,27,42,.28);
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease);
+}
+/* specular highlight — slides down on hover */
+.btn-lg::before{ content:""; position:absolute; inset:0; z-index:-1; border-radius:inherit;
+  background:radial-gradient(130% 90% at 30% 0%, rgba(255,255,255,.85), transparent 55%);
+  opacity:.85; transition:transform .6s var(--ease), opacity .6s var(--ease); }
+/* gradient ring (brand-blue tinted) */
+.btn-lg::after{ content:""; position:absolute; inset:0; border-radius:inherit; padding:1px; z-index:-1;
+  background:linear-gradient(135deg, rgba(255,255,255,.95), rgba(141,180,255,.5) 38%, rgba(255,255,255,.1) 68%, rgba(255,255,255,.8));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude; }
+.btn-lg .dot{ width:7px; height:7px; border-radius:50%; background:var(--c-accent); flex:none;
+  box-shadow:0 0 0 0 rgba(24,73,198,.0); transition:transform .5s var(--ease), box-shadow .5s var(--ease); }
+.btn-lg:hover{ transform:translateY(-2px) scale(1.015);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,1),
+    inset 0 -8px 18px rgba(255,255,255,.5),
+    inset 0 2px 8px rgba(255,255,255,.6),
+    0 16px 36px -12px rgba(24,73,198,.34); }
+.btn-lg:hover::before{ transform:translateY(7px); opacity:1; }
+.btn-lg:hover .dot{ transform:scale(1.5); box-shadow:0 0 10px rgba(24,73,198,.5); }
+.btn-lg:active{ transform:translateY(0) scale(.99); }
+
+/* over-image variant: brighter ring, glass reads against the photo */
+.glass-on-img .btn-lg, .btn-lg.on-img{ color:#fff;
+  background:linear-gradient(135deg, rgba(255,255,255,.32), rgba(255,255,255,.08) 42%, rgba(255,255,255,.22));
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.7),
+    inset 0 -8px 16px rgba(255,255,255,.14),
+    inset 0 2px 6px rgba(255,255,255,.28),
+    0 12px 30px rgba(5,12,28,.4); }
+.btn-lg.on-img .dot{ background:#fff; }
+
+/* reveal */
+[data-reveal]{ opacity:0; transform:translateY(12px); transition:opacity .7s var(--ease), transform .7s var(--ease); transition-delay:var(--d,0ms); }
+.page.in [data-reveal]{ opacity:1; transform:none; }
+@media (prefers-reduced-motion: reduce){
+  [data-reveal]{ opacity:1 !important; transform:none !important; transition:none !important; }
+  .btn-lg, .btn-lg .dot, .btn-lg::before{ transition:none !important; }
+}
+@media (max-width:1100px){
+  .stat .num{ font-size:52px; line-height:52px; letter-spacing:-1.4px; }
+  .sec-box .rn,.sec-box .cn{ font-size:30px; line-height:36px; }
+  .about__left{ padding-right:40px; }
+  .about__stats{ --stat-pad:40px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== 4 段对比：每段视频背景不同透明度；奶白 body 垫最底层 ====== -->
+
+<!-- 版本 0 — 视频 opacity 10% -->
+<section class="stage" style="--bgop:.1">
+  <div class="stage__bg">
+    <video autoplay muted loop playsinline preload="auto"><source src="../assets/kling_20260612_作品_以上传图为首帧_整幅_3648_0.mp4" type="video/mp4" /></video>
+  </div>
+  <div class="badge"><span class="bdot"></span>视频背景 · opacity 10%（极淡）</div>
+  <div class="page">
+    <div class="rails"><span class="rail l"></span><span class="rail r"></span></div>
+    <div class="about">
+      <div class="agrid">
+        <div class="band" data-reveal><span class="rule top"></span><span class="rule bot"></span></div>
+        <div class="sec-box" data-reveal>
+          <span class="corner tl"></span><span class="corner br"></span>
+          <span class="bt"><span class="rn">I.</span><span class="cn">关于我们</span></span>
+        </div>
+        <div class="about__left">
+          <p class="about__p" data-reveal>常春藤资本成立于 2007 年，总部位于上海，是中国最早一批<span class="b">市场化</span>风险投资机构之一。自成立以来我们穿越多个周期，始终坚持以深度研究和行业洞察为驱动，寻找那些有能力、有野心、有韧性，能够发现广阔市场价值的创业者。<br><br>常春藤旗下同时拥有一级市场投资平台「常春藤资本」与二级市场投资平台「常春藤基金」，累计管理规模超过 240 亿元人民币。常春藤资本已投资并长期陪伴超过 150 家科技企业成长，其中 23 家企业成功上市。</p>
+          <button class="btn-lg" data-reveal style="--d:80ms"><span class="dot"></span>了解更多</button>
+          <div class="about__imgwrap" data-reveal style="--d:140ms">
+            <img src="../assets/about-flow.png" alt="" />
+            <div class="glass-on-img"><button class="btn-lg on-img"><span class="dot"></span>了解更多</button></div>
+          </div>
+        </div>
+        <div class="about__stats" data-reveal style="--d:100ms">
+          <div class="stat"><span class="lbl">成立</span><span class="num">2007</span></div>
+          <div class="stat"><span class="lbl">管理规模</span><span class="num">240<span class="cn">亿</span></span></div>
+          <div class="stat"><span class="lbl">已投项目</span><span class="num">200+</span></div>
+          <div class="stat"><span class="lbl">上市企业</span><span class="num">23</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 版本 1 — 视频 opacity 25% -->
+<section class="stage" style="--bgop:.25">
+  <div class="stage__bg">
+    <video autoplay muted loop playsinline preload="auto"><source src="../assets/kling_20260612_作品_以上传图为首帧_整幅_3648_0.mp4" type="video/mp4" /></video>
+  </div>
+  <div class="badge"><span class="bdot"></span>视频背景 · opacity 25%（最淡）</div>
+  <div class="page">
+    <div class="rails"><span class="rail l"></span><span class="rail r"></span></div>
+    <div class="about">
+      <div class="agrid">
+        <div class="band" data-reveal><span class="rule top"></span><span class="rule bot"></span></div>
+        <div class="sec-box" data-reveal>
+          <span class="corner tl"></span><span class="corner br"></span>
+          <span class="bt"><span class="rn">I.</span><span class="cn">关于我们</span></span>
+        </div>
+        <div class="about__left">
+          <p class="about__p" data-reveal>常春藤资本成立于 2007 年，总部位于上海，是中国最早一批<span class="b">市场化</span>风险投资机构之一。自成立以来我们穿越多个周期，始终坚持以深度研究和行业洞察为驱动，寻找那些有能力、有野心、有韧性，能够发现广阔市场价值的创业者。<br><br>常春藤旗下同时拥有一级市场投资平台「常春藤资本」与二级市场投资平台「常春藤基金」，累计管理规模超过 240 亿元人民币。常春藤资本已投资并长期陪伴超过 150 家科技企业成长，其中 23 家企业成功上市。</p>
+          <button class="btn-lg" data-reveal style="--d:80ms"><span class="dot"></span>了解更多</button>
+          <div class="about__imgwrap" data-reveal style="--d:140ms">
+            <img src="../assets/about-flow.png" alt="" />
+            <div class="glass-on-img"><button class="btn-lg on-img"><span class="dot"></span>了解更多</button></div>
+          </div>
+        </div>
+        <div class="about__stats" data-reveal style="--d:100ms">
+          <div class="stat"><span class="lbl">成立</span><span class="num">2007</span></div>
+          <div class="stat"><span class="lbl">管理规模</span><span class="num">240<span class="cn">亿</span></span></div>
+          <div class="stat"><span class="lbl">已投项目</span><span class="num">200+</span></div>
+          <div class="stat"><span class="lbl">上市企业</span><span class="num">23</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 版本 2 — 视频 opacity 40% -->
+<section class="stage" style="--bgop:.4">
+  <div class="stage__bg">
+    <video autoplay muted loop playsinline preload="auto"><source src="../assets/kling_20260612_作品_以上传图为首帧_整幅_3648_0.mp4" type="video/mp4" /></video>
+  </div>
+  <div class="badge"><span class="bdot"></span>视频背景 · opacity 40%（中）</div>
+  <div class="page">
+    <div class="rails"><span class="rail l"></span><span class="rail r"></span></div>
+    <div class="about">
+      <div class="agrid">
+        <div class="band" data-reveal><span class="rule top"></span><span class="rule bot"></span></div>
+        <div class="sec-box" data-reveal>
+          <span class="corner tl"></span><span class="corner br"></span>
+          <span class="bt"><span class="rn">I.</span><span class="cn">关于我们</span></span>
+        </div>
+        <div class="about__left">
+          <p class="about__p" data-reveal>常春藤资本成立于 2007 年，总部位于上海，是中国最早一批<span class="b">市场化</span>风险投资机构之一。自成立以来我们穿越多个周期，始终坚持以深度研究和行业洞察为驱动，寻找那些有能力、有野心、有韧性，能够发现广阔市场价值的创业者。<br><br>常春藤旗下同时拥有一级市场投资平台「常春藤资本」与二级市场投资平台「常春藤基金」，累计管理规模超过 240 亿元人民币。常春藤资本已投资并长期陪伴超过 150 家科技企业成长，其中 23 家企业成功上市。</p>
+          <button class="btn-lg" data-reveal style="--d:80ms"><span class="dot"></span>了解更多</button>
+          <div class="about__imgwrap" data-reveal style="--d:140ms">
+            <img src="../assets/about-flow.png" alt="" />
+            <div class="glass-on-img"><button class="btn-lg on-img"><span class="dot"></span>了解更多</button></div>
+          </div>
+        </div>
+        <div class="about__stats" data-reveal style="--d:100ms">
+          <div class="stat"><span class="lbl">成立</span><span class="num">2007</span></div>
+          <div class="stat"><span class="lbl">管理规模</span><span class="num">240<span class="cn">亿</span></span></div>
+          <div class="stat"><span class="lbl">已投项目</span><span class="num">200+</span></div>
+          <div class="stat"><span class="lbl">上市企业</span><span class="num">23</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 版本 3 — 视频 opacity 55% -->
+<section class="stage" style="--bgop:.55">
+  <div class="stage__bg">
+    <video autoplay muted loop playsinline preload="auto"><source src="../assets/kling_20260612_作品_以上传图为首帧_整幅_3648_0.mp4" type="video/mp4" /></video>
+  </div>
+  <div class="badge"><span class="bdot"></span>视频背景 · opacity 55%（最显）</div>
+  <div class="page">
+    <div class="rails"><span class="rail l"></span><span class="rail r"></span></div>
+    <div class="about">
+      <div class="agrid">
+        <div class="band" data-reveal><span class="rule top"></span><span class="rule bot"></span></div>
+        <div class="sec-box" data-reveal>
+          <span class="corner tl"></span><span class="corner br"></span>
+          <span class="bt"><span class="rn">I.</span><span class="cn">关于我们</span></span>
+        </div>
+        <div class="about__left">
+          <p class="about__p" data-reveal>常春藤资本成立于 2007 年，总部位于上海，是中国最早一批<span class="b">市场化</span>风险投资机构之一。自成立以来我们穿越多个周期，始终坚持以深度研究和行业洞察为驱动，寻找那些有能力、有野心、有韧性，能够发现广阔市场价值的创业者。<br><br>常春藤旗下同时拥有一级市场投资平台「常春藤资本」与二级市场投资平台「常春藤基金」，累计管理规模超过 240 亿元人民币。常春藤资本已投资并长期陪伴超过 150 家科技企业成长，其中 23 家企业成功上市。</p>
+          <button class="btn-lg" data-reveal style="--d:80ms"><span class="dot"></span>了解更多</button>
+          <div class="about__imgwrap" data-reveal style="--d:140ms">
+            <img src="../assets/about-flow.png" alt="" />
+            <div class="glass-on-img"><button class="btn-lg on-img"><span class="dot"></span>了解更多</button></div>
+          </div>
+        </div>
+        <div class="about__stats" data-reveal style="--d:100ms">
+          <div class="stat"><span class="lbl">成立</span><span class="num">2007</span></div>
+          <div class="stat"><span class="lbl">管理规模</span><span class="num">240<span class="cn">亿</span></span></div>
+          <div class="stat"><span class="lbl">已投项目</span><span class="num">200+</span></div>
+          <div class="stat"><span class="lbl">上市企业</span><span class="num">23</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var pages = document.querySelectorAll('.page');
+  if(!('IntersectionObserver' in window)){ pages.forEach(function(p){ p.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:0.18 });
+  pages.forEach(function(p){ io.observe(p); });
+})();
+</script>
+</body>
+</html>

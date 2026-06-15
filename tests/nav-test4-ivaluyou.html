@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>T4 · "I Value You" 揭示 — Ivy Capital 常春藤资本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --c-bg:#faf9f6; --c-ink:#0d1b2a; --c-slate:#2c3a4a; --c-muted:#7a7e8a;
+  --c-accent:#1849c6; --c-grid:#b6bdcd; --cream-grad:rgba(250,249,246,1);
+  --ff-sc:"Noto Sans SC",sans-serif; --ff-serif:"Noto Serif SC",serif;
+  --ff-sans:"Geist",sans-serif; --ff-mono:"Geist Mono",monospace; --ff-ital:"Instrument Serif",serif;
+  --tracking-caption:0.15em; --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{ background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); overflow-x:hidden; }
+img{display:block;max-width:none} a{color:inherit;text-decoration:none}
+.caption{ font-size:11px; line-height:16.5px; letter-spacing:var(--tracking-caption); text-transform:uppercase; color:var(--c-muted); }
+.dot{ width:7px;height:7px;border-radius:3.5px;background:var(--c-accent);flex:none }
+.nav{ position:absolute; top:0; left:0; width:100%; z-index:100; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px; padding:20px 40px 21px; background:rgba(250,248,247,.4); backdrop-filter:blur(8px); border-bottom:1px solid rgba(255,255,255,.9); }
+.nav__logo img{ height:30px; width:auto; }
+.nav__links{ justify-self:center; display:flex; gap:40px; }
+.nav__links a{ font-size:14px; line-height:21px; font-weight:700; color:var(--c-ink); padding:4px 0; position:relative; white-space:nowrap; }
+.nav__lang{ justify-self:end; display:flex; align-items:center; gap:6px; background:#fff; border-radius:100px; padding:6px 12px; }
+.nav__lang .z{ font-weight:700; font-size:11px; letter-spacing:.88px; color:#000; }
+.nav__lang .sep{ font-family:var(--ff-mono); font-weight:700; font-size:11px; color:rgba(0,0,0,.3); }
+.nav__lang .en{ font-family:var(--ff-mono); font-weight:700; font-size:11px; letter-spacing:.88px; color:rgba(0,0,0,.45); }
+.hero{ position:relative; height:1024px; overflow:hidden; }
+.hero__img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+.hero__grad{ position:absolute; inset:0; background:linear-gradient(90deg, var(--cream-grad) 2.7%, rgba(250,249,246,.6) 30.7%, rgba(250,249,246,0) 54.5%); }
+.hero__eyebrow{ position:absolute; top:97px; left:100px; right:64px; display:flex; justify-content:space-between; align-items:flex-start; }
+.hero__eyebrow .left{ display:flex; gap:9px; align-items:center; }
+.hero__eyebrow .left .caption{ letter-spacing:.2em; }
+.hero__eyebrow .left .yr{ font-family:var(--ff-ital); font-style:italic; font-size:14px; line-height:21px; color:var(--c-muted); }
+.hero__eyebrow .left .city{ font-family:var(--ff-mono); font-size:11px; line-height:16.5px; color:var(--c-muted); letter-spacing:.05em; }
+.hero__eyebrow .right{ display:flex; gap:8px; align-items:center; }
+.hero__eyebrow .right .caption{ color:var(--c-accent); letter-spacing:.2em; }
+.hero__heading{ position:absolute; left:80px; top:371px; display:flex; flex-direction:column; gap:40px; }
+.hero__title{ font-weight:700; font-size:108px; line-height:112.32px; letter-spacing:-0.64px; color:var(--c-ink); }
+.hero__title .b{ color:var(--c-accent); }
+.hero__sub{ font-size:54px; line-height:64px; letter-spacing:-0.64px; color:var(--c-slate); }
+.hero__sub .b{ color:var(--c-accent); }
+
+/* ── .hero__ivy : the choreographed wordplay ─────────────────── */
+.hero__ivy{ position:absolute; left:0; right:0; top:807px; display:flex; flex-direction:column; align-items:center; gap:15px; transition:opacity .5s var(--ease); }
+.hero__ivy.armed{ opacity:0; }
+.hero__ivy .ivy-t{
+  font-family:var(--ff-ital); font-style:italic; font-size:28.3px; line-height:31.2px;
+  letter-spacing:-0.34px; color:var(--c-accent);
+  display:flex; align-items:baseline; justify-content:center; gap:20px;
+  transition:gap .6s var(--ease);
+  white-space:nowrap;
+}
+.hero__ivy.spread .ivy-t{ gap:38px; }
+.hero__ivy.open .ivy-t{ gap:10px; }
+.ivy-t .w{ display:inline-flex; align-items:baseline; }
+.ivy-t .cap{ display:inline-block; opacity:0; vertical-align:baseline; transition:opacity .5s var(--ease), transform .55s var(--ease); }
+.hero__ivy.acronym .cap{ opacity:1; }
+.w-i .cap{ transition-delay:0s }
+.w-v .cap{ transition-delay:.1s }
+.w-y .cap{ transition-delay:.2s }
+
+/* the line + glow host */
+.hero__ivy .ivy-line{ position:relative; width:1px; height:110px; background:rgba(182,189,205,.7); }
+.ivy-glow{ pointer-events:none; opacity:0; }
+
+/* ── Test scaffolding ─────────────────────────────────────────── */
+.t-section{ position:relative; }
+.t-corner{ position:sticky; top:16px; height:0; z-index:200; }
+.t-badge{
+  position:absolute; top:0; left:16px;
+  font-family:var(--ff-mono); font-size:11px; font-weight:700; letter-spacing:.08em;
+  color:var(--c-bg); background:var(--c-ink);
+  padding:7px 12px; border-radius:4px;
+  box-shadow:0 2px 12px rgba(13,27,42,.28);
+  display:flex; align-items:center; gap:8px; white-space:nowrap;
+}
+.t-badge .t-dot{ width:6px; height:6px; border-radius:50%; background:var(--c-accent); }
+.t-replay{
+  position:absolute; top:38px; left:16px;
+  font-family:var(--ff-mono); font-size:11px; font-weight:700; letter-spacing:.06em;
+  color:var(--c-ink); background:rgba(255,255,255,.9); border:1px solid rgba(13,27,42,.14);
+  padding:6px 11px; border-radius:100px; cursor:pointer;
+  display:flex; align-items:center; gap:6px; white-space:nowrap;
+  box-shadow:0 1px 6px rgba(13,27,42,.12);
+  transition:background .2s var(--ease), transform .2s var(--ease);
+}
+.t-replay:hover{ background:#fff; transform:translateY(-1px); }
+.t-replay:active{ transform:translateY(0); }
+.t-replay .pl{ color:var(--c-accent); font-size:9px; }
+
+.scroll-hint{
+  position:fixed; left:50%; bottom:18px; transform:translateX(-50%); z-index:300;
+  font-family:var(--ff-mono); font-size:10px; font-weight:500; letter-spacing:.12em;
+  color:var(--c-slate); background:rgba(250,249,246,.82); backdrop-filter:blur(6px);
+  border:1px solid rgba(13,27,42,.1); border-radius:100px; padding:7px 14px;
+  display:flex; align-items:center; gap:8px; white-space:nowrap;
+  box-shadow:0 2px 10px rgba(13,27,42,.1);
+}
+.scroll-hint .ar{ color:var(--c-accent); animation:hintBob 1.8s var(--ease) infinite; }
+@keyframes hintBob{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(3px) } }
+
+/* ════════════════════════════════════════════════════════════════
+   版本A — 经典打字机 (classic typewriter + caret + downward glow pulse)
+   ════════════════════════════════════════════════════════════════ */
+.v-a .ivy-t .cap{ transform:translateY(9px); }
+.v-a .hero__ivy.acronym .cap{ transform:translateY(0); }
+.v-a .rest{ display:inline; }
+.v-a .ch{ display:none; }
+.v-a .ch.shown{ display:inline; }
+.v-a .caret{
+  display:inline-block; width:1.5px; height:.92em; vertical-align:-.06em;
+  background:var(--c-accent); margin-left:1.5px; border-radius:1px; opacity:0;
+}
+.v-a .w.typing .caret{ opacity:1; animation:caretBlink .82s steps(1,end) infinite; }
+@keyframes caretBlink{ 0%,49%{ opacity:1 } 50%,100%{ opacity:0 } }
+/* glow: a soft luminous segment that glides down the line, gently looping */
+.v-a .ivy-glow{
+  position:absolute; left:-1.5px; top:0; width:4px; height:34px; border-radius:3px;
+  background:linear-gradient(180deg, rgba(24,73,198,0) 0%, rgba(24,73,198,.5) 50%, rgba(24,73,198,0) 100%);
+  filter:blur(1.4px);
+}
+.v-a .hero__ivy.resolved .ivy-glow{ animation:glowGlideA 2.1s var(--ease) infinite; }
+@keyframes glowGlideA{
+  0%{ transform:translateY(-34px); opacity:0; }
+  14%{ opacity:.9; }
+  82%{ opacity:.9; }
+  100%{ transform:translateY(110px); opacity:0; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   版本B — 顺滑展开 (clip-reveal word growth + continuous drifting glow)
+   ════════════════════════════════════════════════════════════════ */
+.v-b .ivy-t .cap{ transform:translateY(9px); }
+.v-b .hero__ivy.acronym .cap{ transform:translateY(0); }
+.v-b .rest{ display:inline-grid; grid-template-columns:0fr; transition:grid-template-columns .58s var(--ease); }
+.v-b .rest > .rest-inner{ overflow:hidden; white-space:nowrap; }
+.v-b .w-y .rest{ transition-delay:.16s; }
+.v-b .hero__ivy.grown .rest{ grid-template-columns:1fr; }
+/* glow: a continuous soft blue gradient drifting downward along the line */
+.v-b .ivy-line{ overflow:hidden; }
+.v-b .ivy-glow{
+  position:absolute; left:0; right:0; top:0; bottom:0;
+  background:repeating-linear-gradient(180deg,
+    rgba(24,73,198,0) 0px, rgba(24,73,198,0) 24px,
+    rgba(24,73,198,.5) 46px, rgba(24,73,198,0) 68px);
+  background-size:100% 68px;
+}
+.v-b .hero__ivy.resolved .ivy-glow{ opacity:.85; animation:glowDriftB 3.2s linear infinite; }
+@keyframes glowDriftB{ from{ background-position:0 -68px } to{ background-position:0 0 } }
+
+/* ════════════════════════════════════════════════════════════════
+   版本C — 精致混排 (emphasised caps settle + blur-in remainder + node trail)
+   ════════════════════════════════════════════════════════════════ */
+.v-c .ivy-t .cap{ transform:scale(1.16); transform-origin:center bottom; }
+.v-c .hero__ivy.settle .cap{ transform:scale(1); }
+.v-c .rest{ display:inline-grid; grid-template-columns:0fr; transition:grid-template-columns .5s var(--ease); }
+.v-c .rest > .rest-inner{ overflow:hidden; white-space:nowrap; }
+.v-c .ch{ opacity:0; filter:blur(7px); transition:opacity .5s var(--ease), filter .5s var(--ease); }
+.v-c .hero__ivy.typed .rest{ grid-template-columns:1fr; }
+.v-c .hero__ivy.typed .ch{ opacity:1; filter:blur(0); }
+.v-c .rest-inner .ch:nth-child(1){ transition-delay:.05s }
+.v-c .rest-inner .ch:nth-child(2){ transition-delay:.13s }
+.v-c .rest-inner .ch:nth-child(3){ transition-delay:.21s }
+.v-c .rest-inner .ch:nth-child(4){ transition-delay:.29s }
+/* glow: a small bright node descending, leaving a fading trail above it */
+.v-c .ivy-glow{
+  position:absolute; left:50%; top:0; width:4px; height:4px; margin-left:-2px; border-radius:50%;
+  background:rgba(24,73,198,.92); box-shadow:0 0 6px 1px rgba(24,73,198,.45);
+}
+.v-c .ivy-glow::before{
+  content:''; position:absolute; left:50%; bottom:4px; width:2px; height:42px; margin-left:-1px;
+  background:linear-gradient(180deg, rgba(24,73,198,0) 0%, rgba(24,73,198,.4) 100%);
+  filter:blur(.5px);
+}
+.v-c .hero__ivy.resolved .ivy-glow{ animation:glowNodeC 2.5s var(--ease) infinite; }
+@keyframes glowNodeC{
+  0%{ transform:translateY(-6px); opacity:0; }
+  12%{ opacity:1; }
+  86%{ opacity:1; }
+  100%{ transform:translateY(112px); opacity:0; }
+}
+
+/* ── reduced motion: show final "I Value You" + static line, no glow loop ── */
+@media (prefers-reduced-motion: reduce){
+  .hero__ivy{ opacity:1 !important; }
+  .ivy-t .cap, .ivy-t .ch{ opacity:1 !important; transform:none !important; filter:none !important; display:inline !important; }
+  .ivy-t .rest{ grid-template-columns:1fr !important; }
+  .caret{ display:none !important; }
+  .ivy-glow{ animation:none !important; opacity:0 !important; }
+  .scroll-hint .ar{ animation:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ T4 · 版本A — 经典打字机 ════════════ -->
+<section class="t-section v-a">
+  <div class="t-corner">
+    <div class="t-badge"><span class="t-dot"></span>T4 · 版本A — 经典打字机</div>
+    <button class="t-replay" type="button"><span class="pl">▷</span>重播</button>
+  </div>
+  <nav class="nav">
+    <div class="nav__logo"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></div>
+    <div class="nav__links"><a href="#">首页</a><a href="#">关于</a><a href="#">团队</a><a href="#">被投企业</a><a href="#">最新动态</a></div>
+    <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+  </nav>
+  <header class="hero">
+    <img class="hero__img" src="../assets/hero-flow.png" alt="" />
+    <div class="hero__grad"></div>
+    <div class="hero__eyebrow">
+      <div class="left"><span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span></div>
+      <div class="right"><span class="dot"></span><span class="caption">第六期基金 · 募集中</span></div>
+    </div>
+    <div class="hero__heading">
+      <h1 class="hero__title"><span class="b">常春藤</span>资本</h1>
+      <p class="hero__sub">一家以人为本的深科技投资机构，<br>与你共生、共韧、<span class="b">长青</span>。</p>
+    </div>
+    <div class="hero__ivy armed" data-v="a">
+      <span class="ivy-t">
+        <span class="w w-i"><span class="cap">I</span></span>
+        <span class="w w-v"><span class="cap">V</span><span class="rest"><span class="ch">a</span><span class="ch">l</span><span class="ch">u</span><span class="ch">e</span></span><span class="caret"></span></span>
+        <span class="w w-y"><span class="cap">Y</span><span class="rest"><span class="ch">o</span><span class="ch">u</span></span><span class="caret"></span></span>
+      </span>
+      <span class="ivy-line"><span class="ivy-glow"></span></span>
+    </div>
+  </header>
+</section>
+
+<!-- ════════════ T4 · 版本B — 顺滑展开 ════════════ -->
+<section class="t-section v-b">
+  <div class="t-corner">
+    <div class="t-badge"><span class="t-dot"></span>T4 · 版本B — 顺滑展开</div>
+    <button class="t-replay" type="button"><span class="pl">▷</span>重播</button>
+  </div>
+  <nav class="nav">
+    <div class="nav__logo"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></div>
+    <div class="nav__links"><a href="#">首页</a><a href="#">关于</a><a href="#">团队</a><a href="#">被投企业</a><a href="#">最新动态</a></div>
+    <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+  </nav>
+  <header class="hero">
+    <img class="hero__img" src="../assets/hero-flow.png" alt="" />
+    <div class="hero__grad"></div>
+    <div class="hero__eyebrow">
+      <div class="left"><span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span></div>
+      <div class="right"><span class="dot"></span><span class="caption">第六期基金 · 募集中</span></div>
+    </div>
+    <div class="hero__heading">
+      <h1 class="hero__title"><span class="b">常春藤</span>资本</h1>
+      <p class="hero__sub">一家以人为本的深科技投资机构，<br>与你共生、共韧、<span class="b">长青</span>。</p>
+    </div>
+    <div class="hero__ivy armed" data-v="b">
+      <span class="ivy-t">
+        <span class="w w-i"><span class="cap">I</span></span>
+        <span class="w w-v"><span class="cap">V</span><span class="rest"><span class="rest-inner">alue</span></span></span>
+        <span class="w w-y"><span class="cap">Y</span><span class="rest"><span class="rest-inner">ou</span></span></span>
+      </span>
+      <span class="ivy-line"><span class="ivy-glow"></span></span>
+    </div>
+  </header>
+</section>
+
+<!-- ════════════ T4 · 版本C — 精致混排 ════════════ -->
+<section class="t-section v-c">
+  <div class="t-corner">
+    <div class="t-badge"><span class="t-dot"></span>T4 · 版本C — 精致混排</div>
+    <button class="t-replay" type="button"><span class="pl">▷</span>重播</button>
+  </div>
+  <nav class="nav">
+    <div class="nav__logo"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></div>
+    <div class="nav__links"><a href="#">首页</a><a href="#">关于</a><a href="#">团队</a><a href="#">被投企业</a><a href="#">最新动态</a></div>
+    <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+  </nav>
+  <header class="hero">
+    <img class="hero__img" src="../assets/hero-flow.png" alt="" />
+    <div class="hero__grad"></div>
+    <div class="hero__eyebrow">
+      <div class="left"><span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span></div>
+      <div class="right"><span class="dot"></span><span class="caption">第六期基金 · 募集中</span></div>
+    </div>
+    <div class="hero__heading">
+      <h1 class="hero__title"><span class="b">常春藤</span>资本</h1>
+      <p class="hero__sub">一家以人为本的深科技投资机构，<br>与你共生、共韧、<span class="b">长青</span>。</p>
+    </div>
+    <div class="hero__ivy armed" data-v="c">
+      <span class="ivy-t">
+        <span class="w w-i"><span class="cap">I</span></span>
+        <span class="w w-v"><span class="cap">V</span><span class="rest"><span class="rest-inner"><span class="ch">a</span><span class="ch">l</span><span class="ch">u</span><span class="ch">e</span></span></span></span>
+        <span class="w w-y"><span class="cap">Y</span><span class="rest"><span class="rest-inner"><span class="ch">o</span><span class="ch">u</span></span></span></span>
+      </span>
+      <span class="ivy-line"><span class="ivy-glow"></span></span>
+    </div>
+  </header>
+</section>
+
+<div class="scroll-hint"><span class="ar">↓</span> 向下滚动 · IVY 进入视口时触发，离开复位</div>
+
+<script>
+(function(){
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var ivies = Array.prototype.slice.call(document.querySelectorAll('.hero__ivy'));
+
+  function after(ivy, tk, ms, fn){
+    setTimeout(function(){ if(ivy._token === tk) fn(); }, ms);
+  }
+
+  function reset(ivy){
+    ivy._token = (ivy._token||0) + 1;
+    ivy.classList.remove('acronym','spread','open','grown','settle','typed','resolved');
+    ivy.classList.add('armed');
+    ivy.querySelectorAll('.ch.shown').forEach(function(c){ c.classList.remove('shown'); });
+    ivy.querySelectorAll('.w.typing').forEach(function(w){ w.classList.remove('typing'); });
+  }
+
+  // typewriter (版本A): reveal remainder chars one-by-one with a blinking caret per word
+  function typeA(ivy, tk, done){
+    var words = Array.prototype.slice.call(ivy.querySelectorAll('.w')).filter(function(w){ return w.querySelector('.ch'); });
+    var wi = 0;
+    (function nextWord(){
+      if(ivy._token !== tk) return;
+      if(wi >= words.length){ done && done(); return; }
+      var w = words[wi];
+      var chs = Array.prototype.slice.call(w.querySelectorAll('.ch'));
+      var ci = 0;
+      w.classList.add('typing');
+      (function nextCh(){
+        if(ivy._token !== tk) return;
+        if(ci >= chs.length){
+          w.classList.remove('typing'); wi++;
+          setTimeout(nextWord, 230);
+          return;
+        }
+        chs[ci].classList.add('shown'); ci++;
+        setTimeout(nextCh, 95);
+      })();
+    })();
+  }
+
+  function seqA(ivy, tk){
+    // IVY in → spread apart → settle open → typewriter remainders → glow pulse
+    after(ivy, tk, 820, function(){
+      ivy.classList.add('spread');
+      after(ivy, tk, 560, function(){
+        ivy.classList.remove('spread');
+        ivy.classList.add('open');
+        after(ivy, tk, 360, function(){
+          typeA(ivy, tk, function(){
+            after(ivy, tk, 280, function(){ ivy.classList.add('resolved'); });
+          });
+        });
+      });
+    });
+  }
+
+  function seqB(ivy, tk){
+    // IVY in → words grow out of their capitals (clip reveal) → continuous drifting glow
+    after(ivy, tk, 760, function(){
+      ivy.classList.add('open','grown');
+      after(ivy, tk, 920, function(){ ivy.classList.add('resolved'); });
+    });
+  }
+
+  function seqC(ivy, tk){
+    // emphasised caps → settle to size → remainder blurs in (staggered) → descending node + trail
+    after(ivy, tk, 820, function(){
+      ivy.classList.add('settle','open');
+      after(ivy, tk, 300, function(){
+        ivy.classList.add('typed');
+        after(ivy, tk, 860, function(){ ivy.classList.add('resolved'); });
+      });
+    });
+  }
+
+  function play(ivy){
+    reset(ivy);
+    var tk = ivy._token;
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      if(ivy._token !== tk) return;
+      ivy.classList.remove('armed');
+      ivy.classList.add('acronym');
+      var v = ivy.dataset.v;
+      if(v === 'a') seqA(ivy, tk);
+      else if(v === 'b') seqB(ivy, tk);
+      else seqC(ivy, tk);
+    }); });
+  }
+
+  // reduced motion: jump straight to the resolved phrase, static line, no glow loop
+  if(RM.matches){
+    ivies.forEach(function(ivy){
+      ivy.classList.remove('armed');
+      ivy.classList.add('acronym','settle','open','grown','typed','resolved');
+      ivy.querySelectorAll('.ch').forEach(function(c){ c.classList.add('shown'); });
+    });
+  } else {
+    ivies.forEach(function(ivy){ ivy.classList.add('armed'); });
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        var ivy = e.target;
+        if(e.isIntersecting){
+          if(!ivy._playing){ ivy._playing = true; play(ivy); }
+        } else {
+          ivy._playing = false;
+          reset(ivy);
+        }
+      });
+    }, { threshold: 0.6 });
+    ivies.forEach(function(ivy){ io.observe(ivy); });
+  }
+
+  // replay buttons re-run the whole sequence for their section
+  document.querySelectorAll('.t-replay').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var ivy = btn.closest('.t-section').querySelector('.hero__ivy');
+      if(RM.matches) return;
+      ivy._playing = true;
+      play(ivy);
+    });
+  });
+})();
+</script>
+</body>
+</html>

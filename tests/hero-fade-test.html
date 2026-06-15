@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hero Fade Test · 常春藤资本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   常春藤资本 — Hero fade test (tokens + hero CSS verbatim from index.html)
+   ============================================================ */
+:root{
+  --c-bg:#faf9f6; --c-ink:#0d1b2a; --c-slate:#2c3a4a; --c-muted:#7a7e8a;
+  --c-accent:#1849c6;
+  --c-divider:#d8d4c8; --c-hairline:rgba(13,27,42,.10); --c-tag-line:rgba(13,27,42,.25);
+  --c-accent-wash:rgba(24,73,198,.05); --c-accent-line:rgba(24,73,198,.20);
+  --c-grid:#b6bdcd; --cream-grad:rgba(250,249,246,1);
+  --ff-sc:"Noto Sans SC",sans-serif; --ff-serif:"Noto Serif SC",serif;
+  --ff-sans:"Geist",sans-serif; --ff-mono:"Geist Mono",monospace; --ff-ital:"Instrument Serif",serif;
+  --tracking-caption:0.15em;
+  --rail:64px; --page-x:80px; --maxw:1760px;
+  --ease:cubic-bezier(.22,.61,.36,1); --ease-io:cubic-bezier(.45,.05,.55,.95);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+body{ background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); overflow-x:hidden; }
+img{display:block;max-width:none}
+a{color:inherit;text-decoration:none}
+.dot{ width:7px;height:7px;border-radius:3.5px;background:var(--c-accent);flex:none }
+.caption{ font-size:11px; line-height:16.5px; letter-spacing:var(--tracking-caption); text-transform:uppercase; color:var(--c-muted); }
+
+/* ============================================================ NAV (verbatim) */
+.nav{ position:fixed; top:0; left:0; width:100%; z-index:100;
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px;
+  padding:20px 40px 21px; background:rgba(250,248,247,.4); backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(255,255,255,.9); transition:background .4s var(--ease), border-color .4s var(--ease); }
+.nav__logo img{ height:30px; width:auto; }
+.nav__links{ justify-self:center; display:flex; gap:40px; }
+.nav__links a{ font-size:14px; line-height:21px; font-weight:700; color:var(--c-ink); padding:4px 0; position:relative; white-space:nowrap; }
+.nav__links a::after{ content:""; position:absolute; left:0; bottom:0; height:1.5px; width:0; background:var(--c-accent); transition:width .35s var(--ease); }
+.nav__links a:hover{ color:var(--c-accent); } .nav__links a:hover::after{ width:100%; }
+.nav__lang{ justify-self:end; display:flex; align-items:center; gap:6px; background:#fff; border-radius:100px; padding:6px 12px; }
+.nav__lang .z{ font-weight:700; font-size:11px; letter-spacing:.88px; color:#000; }
+.nav__lang .sep{ font-family:var(--ff-mono); font-weight:700; font-size:11px; color:rgba(0,0,0,.3); }
+.nav__lang .en{ font-family:var(--ff-mono); font-weight:700; font-size:11px; letter-spacing:.88px; color:rgba(0,0,0,.45); cursor:pointer; }
+
+/* ============================================================ HERO (verbatim from index.html) */
+.hero{ position:relative; height:1024px; overflow:hidden; }
+.hero__img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+.hero__grad{ position:absolute; inset:0; background:linear-gradient(90deg, var(--cream-grad) 2.7%, rgba(250,249,246,.6) 30.7%, rgba(250,249,246,0) 54.5%); }
+.hero__eyebrow{ position:absolute; top:97px; left:100px; right:64px; display:flex; justify-content:space-between; align-items:flex-start; }
+.hero__eyebrow .left{ display:flex; gap:9px; align-items:center; }
+.hero__eyebrow .left .caption{ letter-spacing:.2em; }
+.hero__eyebrow .left .yr{ font-family:var(--ff-ital); font-style:italic; font-size:14px; line-height:21px; color:var(--c-muted); }
+.hero__eyebrow .left .city{ font-family:var(--ff-mono); font-size:11px; line-height:16.5px; color:var(--c-muted); letter-spacing:.05em; }
+.hero__eyebrow .right{ display:flex; gap:8px; align-items:center; }
+.hero__eyebrow .right .caption{ color:var(--c-accent); letter-spacing:.2em; }
+.hero__heading{ position:absolute; left:80px; top:371px; display:flex; flex-direction:column; gap:40px; }
+.hero__title{ font-weight:700; font-size:108px; line-height:112.32px; letter-spacing:-0.64px; color:var(--c-ink); }
+.hero__title .b{ color:var(--c-accent); }
+.hero__sub{ font-size:54px; line-height:64px; letter-spacing:-0.64px; color:var(--c-slate); }
+.hero__sub .b{ color:var(--c-accent); }
+.hero__ivy{ position:absolute; left:0; right:0; top:807px; display:flex; flex-direction:column; align-items:center; gap:15px; }
+.hero__ivy .ivy-t{ font-family:var(--ff-ital); font-style:italic; font-size:28.3px; line-height:31.2px; letter-spacing:-0.34px; color:var(--c-accent); }
+.hero__ivy .ivy-line{ width:1px; height:110px; background:var(--c-grid); opacity:.7; }
+
+/* HERO eyebrow dot — breathing halo (T3-A) */
+.dot--live{ position:relative; isolation:isolate; }
+.dot--live::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1; width:22px; height:22px; border-radius:50%; pointer-events:none;
+  transform:translate(-50%,-50%) scale(.55);
+  background:radial-gradient(circle, rgba(255,255,255,.95) 0%, rgba(255,255,255,.55) 38%, rgba(24,73,198,.16) 68%, rgba(24,73,198,0) 100%);
+  filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite; }
+@keyframes dot-halo{ 0%{ transform:translate(-50%,-50%) scale(.55); opacity:0; } 28%{ opacity:.92; } 100%{ transform:translate(-50%,-50%) scale(1.7); opacity:0; } }
+
+/* HERO headline — per-character left→right reveal (T2-A) */
+.hero__heading .ch{ display:inline-block; white-space:pre; will-change:transform,opacity,filter; opacity:0; transform:translateY(0.4em); filter:blur(4px); }
+.hero__heading.play .ch{ animation:headline-in .56s var(--ease) both; animation-delay:var(--delay); }
+@keyframes headline-in{ from{ opacity:0; transform:translateY(0.4em); filter:blur(4px); } to{ opacity:1; transform:translateY(0); filter:blur(0); } }
+
+/* HERO "I Value You" choreography — 版本C 精致混排 (T4-C) */
+.hero__ivy{ transition:opacity .5s var(--ease); }
+.hero__ivy.armed{ opacity:0; }
+.hero__ivy .ivy-t{ display:flex; align-items:baseline; justify-content:center; gap:20px; transition:gap .6s var(--ease); white-space:nowrap; }
+.hero__ivy.open .ivy-t{ gap:10px; }
+.ivy-t .w{ display:inline-flex; align-items:baseline; }
+.ivy-t .cap{ display:inline-block; opacity:0; vertical-align:baseline; transform:scale(1.16); transform-origin:center bottom; transition:opacity .5s var(--ease), transform .55s var(--ease); }
+.hero__ivy.acronym .cap{ opacity:1; }
+.hero__ivy.settle .cap{ transform:scale(1); }
+.w-i .cap{ transition-delay:0s } .w-v .cap{ transition-delay:.1s } .w-y .cap{ transition-delay:.2s }
+.ivy-t .rest{ display:inline-grid; grid-template-columns:0fr; transition:grid-template-columns .5s var(--ease); }
+.ivy-t .rest > .rest-inner{ overflow:hidden; white-space:nowrap; }
+.hero__ivy .ivy-t .ch{ opacity:0; filter:blur(7px); transition:opacity .5s var(--ease), filter .5s var(--ease); }
+.hero__ivy.typed .rest{ grid-template-columns:1fr; }
+.hero__ivy.typed .ivy-t .ch{ opacity:1; filter:blur(0); }
+.rest-inner .ch:nth-child(1){ transition-delay:.05s } .rest-inner .ch:nth-child(2){ transition-delay:.13s } .rest-inner .ch:nth-child(3){ transition-delay:.21s } .rest-inner .ch:nth-child(4){ transition-delay:.29s }
+.hero__ivy .ivy-line{ position:relative; }
+.ivy-glow{ pointer-events:none; opacity:0; position:absolute; left:50%; top:0; width:4px; height:4px; margin-left:-2px; border-radius:50%; background:rgba(24,73,198,.92); box-shadow:0 0 6px 1px rgba(24,73,198,.45); }
+.ivy-glow::before{ content:''; position:absolute; left:50%; bottom:4px; width:2px; height:42px; margin-left:-1px; background:linear-gradient(180deg, rgba(24,73,198,0) 0%, rgba(24,73,198,.4) 100%); filter:blur(.5px); }
+.hero__ivy.resolved .ivy-glow{ animation:glowNodeC 2.5s var(--ease) infinite; }
+@keyframes glowNodeC{ 0%{ transform:translateY(-6px); opacity:0; } 12%{ opacity:1; } 86%{ opacity:1; } 100%{ transform:translateY(112px); opacity:0; } }
+
+/* ============================================================ NEW: bottom-up cream fade overlay
+   base — sits above video + .hero__grad, below eyebrow/heading/ivy (which come later in DOM) */
+.hero__fade{ position:absolute; inset:0; pointer-events:none; }
+
+/* 版本A — 温和长渐变 : 0%@45 → 100%@78 */
+.hero--a .hero__fade{
+  background:linear-gradient(180deg,
+    rgba(250,249,246,0) 45%,
+    var(--cream-grad) 78%);
+}
+/* 版本B — 居中 : 0%@60 → 100%@80 */
+.hero--b .hero__fade{
+  background:linear-gradient(180deg,
+    rgba(250,249,246,0) 60%,
+    var(--cream-grad) 80%);
+}
+/* 版本C — 紧凑高位 : 0%@66 → 100%@76 */
+.hero--c .hero__fade{
+  background:linear-gradient(180deg,
+    rgba(250,249,246,0) 66%,
+    var(--cream-grad) 76%);
+}
+/* 版本D — 柔和缓动 : multi-stop eased 0@52, .35@64, .8@72, 1@78 */
+.hero--d .hero__fade{
+  background:linear-gradient(180deg,
+    rgba(250,249,246,0) 52%,
+    rgba(250,249,246,.35) 64%,
+    rgba(250,249,246,.8) 72%,
+    var(--cream-grad) 78%);
+}
+
+/* ============================================================ test badge */
+.fade-badge{ position:sticky; top:10px; z-index:60; margin:10px 0 0 10px; display:inline-block;
+  font-family:var(--ff-mono); font-size:11px; line-height:1.4; letter-spacing:.02em; color:var(--c-ink);
+  background:rgba(250,249,246,.82); border:1px solid var(--c-accent-line); backdrop-filter:blur(6px);
+  padding:6px 11px; border-radius:6px; pointer-events:none; }
+.fade-badge b{ color:var(--c-accent); font-weight:700; }
+
+/* cream continuation section so the hero→next seam is testable */
+.after{ height:520px; background:var(--c-bg); display:flex; align-items:flex-start; justify-content:center; padding-top:60px; }
+.after .caption{ letter-spacing:.2em; }
+
+@media (prefers-reduced-motion:reduce){
+  .dot--live::before{ animation:none; opacity:.38; transform:translate(-50%,-50%) scale(1.15); }
+  .hero__heading .ch{ opacity:1; transform:none; filter:none; animation:none; }
+  .hero__ivy.armed{ opacity:1; }
+  .hero__ivy .cap{ opacity:1; transform:none; }
+  .hero__ivy .ivy-t .ch{ opacity:1; filter:none; }
+  .hero__ivy .ivy-t .rest{ grid-template-columns:1fr; }
+  *{ transition:none !important; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__logo"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></div>
+  <div class="nav__links">
+    <a href="#">首页</a><a href="#">关于</a><a href="#">团队</a>
+    <a href="#">被投企业</a><a href="#">最新动态</a>
+  </div>
+  <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+</nav>
+
+<!-- ============== TEMPLATE (repeated 4×, only the hero--X class & badge differ) ============== -->
+
+<!-- 版本A -->
+<header class="hero hero--a">
+  <video class="hero__img" autoplay muted loop playsinline preload="auto" poster="../assets/hero-flow.png">
+    <source src="../assets/kling_20260612_作品_A_seamless_2668_0.mp4" type="video/mp4" />
+  </video>
+  <div class="hero__grad"></div>
+  <div class="hero__fade"></div>
+  <div class="fade-badge">Hero Fade · <b>版本A — 温和</b> 0%@45 → 100%@78</div>
+  <div class="hero__eyebrow">
+    <div class="left"><span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span></div>
+    <div class="right"><span class="dot dot--live"></span><span class="caption">第六期基金 · 募集中</span></div>
+  </div>
+  <div class="hero__heading">
+    <h1 class="hero__title" aria-label="常春藤资本"><span class="b">常春藤</span>资本</h1>
+    <p class="hero__sub" aria-label="一家以人为本的深科技投资机构，与你共生、共韧、长青。">一家以人为本的深科技投资机构，<br>与你共生、共韧、<span class="b">长青</span>。</p>
+  </div>
+  <div class="hero__ivy armed" data-v="c">
+    <span class="ivy-t">
+      <span class="w w-i"><span class="cap">I</span></span>
+      <span class="w w-v"><span class="cap">V</span><span class="rest"><span class="rest-inner"><span class="ch">a</span><span class="ch">l</span><span class="ch">u</span><span class="ch">e</span></span></span></span>
+      <span class="w w-y"><span class="cap">Y</span><span class="rest"><span class="rest-inner"><span class="ch">o</span><span class="ch">u</span></span></span></span>
+    </span>
+    <span class="ivy-line"><span class="ivy-glow"></span></span>
+  </div>
+</header>
+<div class="after"><span class="caption">↓ 此处为纯 cream 续接区 · 检查 hero 与下一段接缝</span></div>
+
+<!-- 版本B -->
+<header class="hero hero--b">
+  <video class="hero__img" autoplay muted loop playsinline preload="auto" poster="../assets/hero-flow.png">
+    <source src="../assets/kling_20260612_作品_A_seamless_2668_0.mp4" type="video/mp4" />
+  </video>
+  <div class="hero__grad"></div>
+  <div class="hero__fade"></div>
+  <div class="fade-badge">Hero Fade · <b>版本B — 居中</b> 0%@60 → 100%@80</div>
+  <div class="hero__eyebrow">
+    <div class="left"><span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span></div>
+    <div class="right"><span class="dot dot--live"></span><span class="caption">第六期基金 · 募集中</span></div>
+  </div>
+  <div class="hero__heading">
+    <h1 class="hero__title" aria-label="常春藤资本"><span class="b">常春藤</span>资本</h1>
+    <p class="hero__sub" aria-label="一家以人为本的深科技投资机构，与你共生、共韧、长青。">一家以人为本的深科技投资机构，<br>与你共生、共韧、<span class="b">长青</span>。</p>
+  </div>
+  <div class="hero__ivy armed" data-v="c">
+    <span class="ivy-t">
+      <span class="w w-i"><span class="cap">I</span></span>
+      <span class="w w-v"><span class="cap">V</span><span class="rest"><span class="rest-inner"><span class="ch">a</span><span class="ch">l</span><span class="ch">u</span><span class="ch">e</span></span></span></span>
+      <span class="w w-y"><span class="cap">Y</span><span class="rest"><span class="rest-inner"><span class="ch">o</span><span class="ch">u</span></span></span></span>
+    </span>
+    <span class="ivy-line"><span class="ivy-glow"></span></span>
+  </div>
+</header>
+<div class="after"><span class="caption">↓ 此处为纯 cream 续接区 · 检查 hero 与下一段接缝</span></div>
+
+<!-- 版本C -->
+<header class="hero hero--c">
+  <video class="hero__img" autoplay muted loop playsinline preload="auto" poster="../assets/hero-flow.png">
+    <source src="../assets/kling_20260612_作品_A_seamless_2668_0.mp4" type="video/mp4" />
+  </video>
+  <div class="hero__grad"></div>
+  <div class="hero__fade"></div>
+  <div class="fade-badge">Hero Fade · <b>版本C — 紧凑高位</b> 0%@66 → 100%@76</div>
+  <div class="hero__eyebrow">
+    <div class="left"><span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span></div>
+    <div class="right"><span class="dot dot--live"></span><span class="caption">第六期基金 · 募集中</span></div>
+  </div>
+  <div class="hero__heading">
+    <h1 class="hero__title" aria-label="常春藤资本"><span class="b">常春藤</span>资本</h1>
+    <p class="hero__sub" aria-label="一家以人为本的深科技投资机构，与你共生、共韧、长青。">一家以人为本的深科技投资机构，<br>与你共生、共韧、<span class="b">长青</span>。</p>
+  </div>
+  <div class="hero__ivy armed" data-v="c">
+    <span class="ivy-t">
+      <span class="w w-i"><span class="cap">I</span></span>
+      <span class="w w-v"><span class="cap">V</span><span class="rest"><span class="rest-inner"><span class="ch">a</span><span class="ch">l</span><span class="ch">u</span><span class="ch">e</span></span></span></span>
+      <span class="w w-y"><span class="cap">Y</span><span class="rest"><span class="rest-inner"><span class="ch">o</span><span class="ch">u</span></span></span></span>
+    </span>
+    <span class="ivy-line"><span class="ivy-glow"></span></span>
+  </div>
+</header>
+<div class="after"><span class="caption">↓ 此处为纯 cream 续接区 · 检查 hero 与下一段接缝</span></div>
+
+<!-- 版本D -->
+<header class="hero hero--d">
+  <video class="hero__img" autoplay muted loop playsinline preload="auto" poster="../assets/hero-flow.png">
+    <source src="../assets/kling_20260612_作品_A_seamless_2668_0.mp4" type="video/mp4" />
+  </video>
+  <div class="hero__grad"></div>
+  <div class="hero__fade"></div>
+  <div class="fade-badge">Hero Fade · <b>版本D — 柔和缓动</b> 0@52 · .35@64 · .8@72 · 1@78</div>
+  <div class="hero__eyebrow">
+    <div class="left"><span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span></div>
+    <div class="right"><span class="dot dot--live"></span><span class="caption">第六期基金 · 募集中</span></div>
+  </div>
+  <div class="hero__heading">
+    <h1 class="hero__title" aria-label="常春藤资本"><span class="b">常春藤</span>资本</h1>
+    <p class="hero__sub" aria-label="一家以人为本的深科技投资机构，与你共生、共韧、长青。">一家以人为本的深科技投资机构，<br>与你共生、共韧、<span class="b">长青</span>。</p>
+  </div>
+  <div class="hero__ivy armed" data-v="c">
+    <span class="ivy-t">
+      <span class="w w-i"><span class="cap">I</span></span>
+      <span class="w w-v"><span class="cap">V</span><span class="rest"><span class="rest-inner"><span class="ch">a</span><span class="ch">l</span><span class="ch">u</span><span class="ch">e</span></span></span></span>
+      <span class="w w-y"><span class="cap">Y</span><span class="rest"><span class="rest-inner"><span class="ch">o</span><span class="ch">u</span></span></span></span>
+    </span>
+    <span class="ivy-line"><span class="ivy-glow"></span></span>
+  </div>
+</header>
+<div class="after"><span class="caption">↓ 此处为纯 cream 续接区 · 检查 hero 与下一段接缝</span></div>
+
+<script>
+(function(){
+  var RM = matchMedia('(prefers-reduced-motion:reduce)');
+
+  /* ---------- HERO video: autoplay, pause for reduced-motion (per instance) ---------- */
+  document.querySelectorAll('video.hero__img').forEach(function(v){
+    if(RM.matches){ try{ v.removeAttribute('autoplay'); v.pause(); v.currentTime=0; }catch(e){} }
+    else { var p=v.play(); if(p&&p.catch) p.catch(function(){}); }
+  });
+
+  /* ---------- HERO headline: split into chars, cascade L→R — PER heading instance ---------- */
+  function splitHeading(heading){
+    if(RM.matches) return;
+    var TITLE_STAGGER=52, SUB_GAP=95, SUB_STAGGER=18;
+    function split(el){
+      var out=[];
+      (function walk(node,blue){
+        Array.prototype.slice.call(node.childNodes).forEach(function(n){
+          if(n.nodeType===3){
+            var t=n.textContent, frag=document.createDocumentFragment();
+            for(var i=0;i<t.length;i++){ var c=t[i];
+              if(c==='\n'||c==='\r'||c==='\t'){ frag.appendChild(document.createTextNode(c)); continue; }
+              var s=document.createElement('span'); s.className='ch'+(blue?' b':''); s.setAttribute('aria-hidden','true'); s.textContent=c;
+              frag.appendChild(s); out.push(s);
+            }
+            node.replaceChild(frag,n);
+          } else if(n.nodeType===1){ if(n.tagName==='BR') return; walk(n, blue||n.classList.contains('b')); }
+        });
+      })(el,false);
+      return out;
+    }
+    var titleChars=split(heading.querySelector('.hero__title'));
+    var subChars=split(heading.querySelector('.hero__sub'));
+    titleChars.forEach(function(s,i){ s.style.setProperty('--delay',(i*TITLE_STAGGER)+'ms'); });
+    var off=titleChars.length*TITLE_STAGGER+SUB_GAP;
+    subChars.forEach(function(s,j){ s.style.setProperty('--delay',(off+j*SUB_STAGGER)+'ms'); });
+  }
+  document.querySelectorAll('.hero__heading').forEach(splitHeading);
+
+  /* each heading plays its cascade when scrolled into its own viewport */
+  if(!RM.matches){
+    var hio=new IntersectionObserver(function(es){ es.forEach(function(e){
+      if(e.isIntersecting){ requestAnimationFrame(function(){ requestAnimationFrame(function(){ e.target.classList.add('play'); }); }); }
+      else { e.target.classList.remove('play'); }
+    }); },{ threshold:0.25 });
+    document.querySelectorAll('.hero__heading').forEach(function(h){ hio.observe(h); });
+  }
+
+  /* ---------- HERO "I Value You": play when in its own viewport, reset when out — PER ivy ---------- */
+  function setupIvy(ivy){
+    function after(tk,ms,fn){ setTimeout(function(){ if(ivy._token===tk) fn(); }, ms); }
+    function reset(){ ivy._token=(ivy._token||0)+1; ivy.classList.remove('acronym','open','settle','typed','resolved'); ivy.classList.add('armed'); }
+    function seqC(tk){ after(tk,820,function(){ ivy.classList.add('settle','open'); after(tk,300,function(){ ivy.classList.add('typed'); after(tk,860,function(){ ivy.classList.add('resolved'); }); }); }); }
+    function play(){ reset(); var tk=ivy._token; requestAnimationFrame(function(){ requestAnimationFrame(function(){ if(ivy._token!==tk) return; ivy.classList.remove('armed'); ivy.classList.add('acronym'); seqC(tk); }); }); }
+    if(RM.matches){ ivy.classList.remove('armed'); ivy.classList.add('acronym','settle','open','typed','resolved'); return; }
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){
+      if(e.isIntersecting){ if(!ivy._playing){ ivy._playing=true; play(); } }
+      else { ivy._playing=false; reset(); }
+    }); },{ threshold:0.4 });
+    io.observe(ivy);
+  }
+  document.querySelectorAll('.hero__ivy').forEach(setupIvy);
+})();
+</script>
+</body>
+</html>

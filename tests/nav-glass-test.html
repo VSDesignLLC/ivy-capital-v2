@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nav Bar 玻璃质感测试 · 4 版本 — 常春藤资本</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --c-bg:#faf9f6; --c-ink:#0d1b2a; --c-slate:#2c3a4a; --c-muted:#7a7e8a;
+  --c-accent:#1849c6; --c-grid:#b6bdcd; --cream-grad:rgba(250,249,246,1);
+  --c-accent-wash:rgba(24,73,198,.05); --page-x:80px; --maxw:1760px;
+  --ff-sc:"Noto Sans SC",sans-serif; --ff-serif:"Noto Serif SC",serif;
+  --ff-sans:"Geist",sans-serif; --ff-mono:"Geist Mono",monospace; --ff-ital:"Instrument Serif",serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{ -webkit-font-smoothing:antialiased; }
+body{ background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); }
+img{display:block;max-width:none}
+a{color:inherit;text-decoration:none}
+
+/* fixed video bg so glass blur is visible */
+.pagebg{ position:fixed; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; pointer-events:none; opacity:.5; }
+
+/* ============================================================ NAV — shared base (height 64) */
+.nav{ position:fixed; top:0; left:0; width:100%; z-index:100;
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px;
+  height:64px; padding:0 40px;
+  transition:background .45s var(--ease), backdrop-filter .45s var(--ease), box-shadow .45s var(--ease), border-color .45s var(--ease), transform .5s var(--ease), opacity .5s var(--ease); }
+.nav__logo img{ height:27px; width:auto; }
+.nav__links{ justify-self:center; display:flex; gap:40px; }
+.nav__links a{ font-size:14px; line-height:21px; color:var(--c-ink); padding:4px 0; position:relative; white-space:nowrap; transition:color .3s var(--ease); }
+.nav__links a::after{ content:""; position:absolute; left:0; bottom:0; height:1.5px; width:0; background:var(--c-accent); transition:width .35s var(--ease); }
+.nav__links a:hover{ color:var(--c-accent); } .nav__links a:hover::after{ width:100%; }
+.nav__lang{ justify-self:end; display:flex; align-items:center; gap:6px; border-radius:100px; padding:6px 12px;
+  background:rgba(255,255,255,.55); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,.7); }
+.nav__lang .z{ font-weight:700; font-size:11px; letter-spacing:.88px; color:#000; }
+.nav__lang .sep{ font-family:var(--ff-mono); font-weight:700; font-size:11px; color:rgba(0,0,0,.3); }
+.nav__lang .en{ font-family:var(--ff-mono); font-weight:700; font-size:11px; letter-spacing:.88px; color:rgba(0,0,0,.45); cursor:pointer; }
+
+/* ============================================================
+   V1 — 卡片磨砂 / Card Frost
+   直接套卡片 hover 的磨砂渐变 + 底缘白色反光线（轻）。weight 500。
+   ============================================================ */
+.v1 .nav{
+  background:linear-gradient(180deg, rgba(250,249,246,.32) 0%, rgba(250,249,246,.56) 100%);
+  -webkit-backdrop-filter:blur(11px) saturate(150%); backdrop-filter:blur(11px) saturate(150%);
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.62), 0 1px 1px rgba(13,27,42,.04); }
+.v1 .nav::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:1px; pointer-events:none;
+  background:linear-gradient(90deg, rgba(24,73,198,0), rgba(24,73,198,.30) 22%, rgba(24,73,198,.30) 78%, rgba(24,73,198,0)); }
+.v1 .nav.scrolled{ background:linear-gradient(180deg, rgba(250,249,246,.66), rgba(250,249,246,.84));
+  -webkit-backdrop-filter:blur(16px) saturate(160%); backdrop-filter:blur(16px) saturate(160%); }
+.v1 .nav__links a{ font-weight:500; }
+
+/* ============================================================
+   V2 — 液态玻璃 / Liquid Glass (button-grade)  ★直敷卡片玻璃质感
+   blur+saturate+brightness、上下内缘高光、底缘 蓝→白→蓝 反光线。weight 500。
+   ============================================================ */
+.v2 .nav{
+  background:linear-gradient(180deg, rgba(255,255,255,.42), rgba(255,255,255,.15) 52%, rgba(255,255,255,.34));
+  -webkit-backdrop-filter:blur(14px) saturate(180%) brightness(1.05); backdrop-filter:blur(14px) saturate(180%) brightness(1.05);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.85),
+    inset 0 -1px 0 rgba(255,255,255,.5),
+    0 8px 24px -16px rgba(13,27,42,.3); }
+.v2 .nav::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:1.5px; pointer-events:none;
+  background:linear-gradient(90deg, rgba(141,180,255,0), rgba(141,180,255,.5) 18%, rgba(255,255,255,.7) 50%, rgba(141,180,255,.5) 82%, rgba(141,180,255,0)); }
+.v2 .nav.scrolled{
+  background:linear-gradient(180deg, rgba(255,255,255,.62), rgba(255,255,255,.4) 52%, rgba(255,255,255,.56));
+  -webkit-backdrop-filter:blur(18px) saturate(185%) brightness(1.05); backdrop-filter:blur(18px) saturate(185%) brightness(1.05); }
+.v2 .nav__links a{ font-weight:500; }
+
+/* ============================================================
+   V3 — 极简发丝 / Minimal Hairline
+   最轻：低 alpha 磨砂 + 仅一道白色反光发丝。weight 400（最不笨重）。
+   ============================================================ */
+.v3 .nav{
+  background:rgba(250,249,246,.20);
+  -webkit-backdrop-filter:blur(9px) saturate(130%); backdrop-filter:blur(9px) saturate(130%);
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.55); }
+.v3 .nav::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:1px; pointer-events:none;
+  background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.5) 50%, rgba(255,255,255,0)); }
+.v3 .nav.scrolled{ background:rgba(250,249,246,.6);
+  -webkit-backdrop-filter:blur(15px) saturate(140%); backdrop-filter:blur(15px) saturate(140%); }
+.v3 .nav__links a{ font-weight:400; }
+
+/* ============================================================
+   V4 — 浮动胶囊岛 / Floating Capsule  (56px, inset)
+   收成居中浮岛：圆角 + 渐变描边环（同 button）+ 全套液态玻璃。最不像「条」。
+   ============================================================ */
+.v4 .nav{ top:14px; left:50%; transform:translateX(-50%); width:auto; max-width:calc(100% - 48px);
+  display:flex; height:56px; padding:0 12px 0 24px; gap:36px; border-radius:999px; isolation:isolate;
+  background:linear-gradient(135deg, rgba(255,255,255,.5), rgba(255,255,255,.2) 45%, rgba(255,255,255,.4));
+  -webkit-backdrop-filter:blur(16px) saturate(180%) brightness(1.04); backdrop-filter:blur(16px) saturate(180%) brightness(1.04);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.9),
+    inset 0 -6px 14px rgba(255,255,255,.4),
+    0 14px 32px -14px rgba(13,27,42,.3); }
+.v4 .nav::after{ content:""; position:absolute; inset:0; border-radius:inherit; padding:1px; z-index:-1; pointer-events:none;
+  background:linear-gradient(135deg, rgba(255,255,255,.95), rgba(141,180,255,.5) 38%, rgba(255,255,255,.1) 68%, rgba(255,255,255,.8));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; }
+.v4 .nav__logo{ display:flex; align-items:center; }
+.v4 .nav__links{ justify-self:auto; }
+.v4 .nav__links a{ font-weight:500; }
+.v4 .nav__lang{ justify-self:auto; }
+
+/* ============================================================
+   V5 — 浮动胶囊·满宽 / Floating Capsule · content-width
+   宽度对齐常规 section 文字（左右 --page-x；>maxw 时居中锁宽）。
+   滚动动效：向下 scroll 出现 / 向上 scroll 收起（顶部始终显示）。
+   ============================================================ */
+.v5 .nav{ top:14px; left:50%; transform:translateX(-50%);
+  width:calc(min(100%, var(--maxw)) - 2 * var(--page-x)); height:56px;
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px;
+  padding:0 16px 0 26px; border-radius:999px; isolation:isolate;
+  background:linear-gradient(135deg, rgba(255,255,255,.5), rgba(255,255,255,.2) 45%, rgba(255,255,255,.4));
+  -webkit-backdrop-filter:blur(16px) saturate(180%) brightness(1.04); backdrop-filter:blur(16px) saturate(180%) brightness(1.04);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.9),
+    inset 0 -6px 14px rgba(255,255,255,.4),
+    0 14px 32px -14px rgba(13,27,42,.3); }
+.v5 .nav::after{ content:""; position:absolute; inset:0; border-radius:inherit; padding:1px; z-index:-1; pointer-events:none;
+  background:linear-gradient(135deg, rgba(255,255,255,.95), rgba(141,180,255,.5) 38%, rgba(255,255,255,.1) 68%, rgba(255,255,255,.8));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; }
+.v5 .nav__links a{ font-weight:500; }
+.v5 .nav.tuck{ transform:translateX(-50%) translateY(calc(-100% - 22px)); opacity:0; }
+
+/* ============================================================ demo page content */
+.hero{ position:relative; height:100vh; min-height:680px; overflow:hidden; z-index:1; }
+.hero video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.hero .grad{ position:absolute; inset:0; background:linear-gradient(90deg, var(--cream-grad) 3%, rgba(250,249,246,.5) 32%, rgba(250,249,246,0) 56%); }
+.hero .h{ position:absolute; left:80px; top:46%; font-weight:700; font-size:88px; line-height:1.04; letter-spacing:-.5px; color:var(--c-ink); }
+.hero .h .b{ color:var(--c-accent); }
+.band{ position:relative; z-index:1; padding:80px; }
+.band h2{ font-family:var(--ff-serif); font-size:34px; color:var(--c-ink); margin-bottom:8px; }
+.band p{ font-size:16px; line-height:26px; color:var(--c-slate); max-width:720px; }
+.strip{ position:relative; z-index:1; display:grid; grid-template-columns:repeat(4,1fr); gap:18px; padding:0 80px 100px; }
+.strip .t{ aspect-ratio:1/1; overflow:hidden; border:1px solid var(--c-grid); }
+.strip .t img{ width:100%; height:100%; object-fit:cover; }
+.spacer{ height:40vh; }
+
+/* ============================================================ variant switcher */
+.switch{ position:fixed; z-index:200; left:50%; bottom:24px; transform:translateX(-50%);
+  display:flex; gap:6px; align-items:center; padding:7px; border-radius:100px;
+  background:rgba(13,27,42,.82); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); box-shadow:0 12px 30px -10px rgba(0,0,0,.45); }
+.switch b{ color:#fff; font-size:11px; font-family:var(--ff-mono); letter-spacing:.1em; padding:0 8px; opacity:.7; }
+.switch button{ font-family:var(--ff-sc); font-size:12px; color:#fff; cursor:pointer; border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06); padding:8px 13px; border-radius:100px; transition:all .25s var(--ease); white-space:nowrap; }
+.switch button:hover{ background:rgba(255,255,255,.16); }
+.switch button.on{ background:#fff; color:var(--c-ink); border-color:#fff; font-weight:500; }
+.switch .scrolltip{ color:#fff; font-size:11px; opacity:.55; padding-left:6px; }
+</style>
+</head>
+<body class="v2">
+
+<video class="pagebg" autoplay muted loop playsinline preload="auto">
+  <source src="../assets/kling_20260612_作品_以上传图为首帧_整幅_4326_0.mp4" type="video/mp4" />
+</video>
+
+<!-- NAV (single, real fixed; variant set by body class) -->
+<nav class="nav" id="nav">
+  <div class="nav__logo"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></div>
+  <div class="nav__links">
+    <a href="#">首页</a><a href="#">关于</a><a href="#">团队</a><a href="#">被投企业</a><a href="#">最新动态</a>
+  </div>
+  <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+</nav>
+
+<header class="hero">
+  <video autoplay muted loop playsinline preload="auto" poster="../assets/hero-flow.png">
+    <source src="../assets/kling_20260612_作品_A_seamless_2668_0.mp4" type="video/mp4" />
+  </video>
+  <div class="grad"></div>
+  <div class="h"><span class="b">常春藤</span>资本</div>
+</header>
+
+<section class="band">
+  <h2>关于我们</h2>
+  <p>常春藤资本成立于 2007 年，总部位于上海，是中国最早一批市场化风险投资机构之一。滚动页面，把 nav 推过浅色背景与下方的纹理图卡，观察玻璃在不同底色上的表现与 scrolled 态。</p>
+</section>
+
+<section class="strip">
+  <div class="t"><img src="../assets/proj-3820.png" alt=""></div>
+  <div class="t"><img src="../assets/proj-3824.png" alt=""></div>
+  <div class="t"><img src="../assets/proj-3825.png" alt=""></div>
+  <div class="t"><img src="../assets/proj-3826.png" alt=""></div>
+</section>
+
+<div class="spacer"></div>
+
+<!-- SWITCHER -->
+<div class="switch">
+  <b>NAV</b>
+  <button data-v="v1">V1 卡片磨砂</button>
+  <button data-v="v2" class="on">V2 液态玻璃</button>
+  <button data-v="v3">V3 极简发丝</button>
+  <button data-v="v4">V4 浮动胶囊</button>
+  <button data-v="v5">V5 胶囊·满宽+滚动</button>
+  <span class="scrolltip">↕ 滚动看 scrolled / V5 收起</span>
+</div>
+
+<script>
+(function(){
+  var body=document.body, nav=document.getElementById('nav');
+  var btns=[].slice.call(document.querySelectorAll('.switch button'));
+  btns.forEach(function(b){ b.onclick=function(){
+    body.className=b.dataset.v;            // variant only
+    nav.classList.remove('tuck');          // 切换时复位
+    if(window.scrollY>40) nav.classList.add('scrolled');
+    btns.forEach(function(x){ x.classList.remove('on'); }); b.classList.add('on');
+  };});
+  var lastY = window.scrollY;
+  function onScroll(){
+    var y = window.scrollY;
+    nav.classList.toggle('scrolled', y>40);
+    if(body.classList.contains('v5')){
+      var dy = y - lastY;
+      if(y < 8){ nav.classList.remove('tuck'); }        // 顶部始终显示
+      else if(dy > 4){ nav.classList.add('tuck'); }     // 向下 → 消失
+      else if(dy < -4){ nav.classList.remove('tuck'); } // 向上 → 出现
+    } else { nav.classList.remove('tuck'); }
+    lastY = y;
+  }
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+  // play bg/hero videos
+  document.querySelectorAll('video').forEach(function(v){ var p=v.play(); if(p&&p.catch)p.catch(function(){}); });
+})();
+</script>
+</body>
+</html>

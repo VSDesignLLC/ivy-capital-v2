@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>T3 · Breathing Dot A/B/C — Ivy Capital 常春藤资本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --c-bg:#faf9f6; --c-ink:#0d1b2a; --c-slate:#2c3a4a; --c-muted:#7a7e8a;
+  --c-accent:#1849c6; --c-grid:#b6bdcd; --cream-grad:rgba(250,249,246,1);
+  --ff-sc:"Noto Sans SC",sans-serif; --ff-serif:"Noto Serif SC",serif;
+  --ff-sans:"Geist",sans-serif; --ff-mono:"Geist Mono",monospace; --ff-ital:"Instrument Serif",serif;
+  --tracking-caption:0.15em; --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-io:cubic-bezier(.45,.05,.55,.95);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{ background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); overflow-x:hidden; }
+img{display:block;max-width:none} a{color:inherit;text-decoration:none}
+.caption{ font-size:11px; line-height:16.5px; letter-spacing:var(--tracking-caption); text-transform:uppercase; color:var(--c-muted); }
+.dot{ width:7px;height:7px;border-radius:3.5px;background:var(--c-accent);flex:none }
+.nav{ position:absolute; top:0; left:0; width:100%; z-index:100; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px; padding:20px 40px 21px; background:rgba(250,248,247,.4); backdrop-filter:blur(8px); border-bottom:1px solid rgba(255,255,255,.9); }
+.nav__logo img{ height:30px; width:auto; }
+.nav__links{ justify-self:center; display:flex; gap:40px; }
+.nav__links a{ font-size:14px; line-height:21px; font-weight:700; color:var(--c-ink); padding:4px 0; position:relative; white-space:nowrap; }
+.nav__lang{ justify-self:end; display:flex; align-items:center; gap:6px; background:#fff; border-radius:100px; padding:6px 12px; }
+.nav__lang .z{ font-weight:700; font-size:11px; letter-spacing:.88px; color:#000; }
+.nav__lang .sep{ font-family:var(--ff-mono); font-weight:700; font-size:11px; color:rgba(0,0,0,.3); }
+.nav__lang .en{ font-family:var(--ff-mono); font-weight:700; font-size:11px; letter-spacing:.88px; color:rgba(0,0,0,.45); }
+.hero{ position:relative; height:1024px; overflow:hidden; }
+.hero__img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+.hero__grad{ position:absolute; inset:0; background:linear-gradient(90deg, var(--cream-grad) 2.7%, rgba(250,249,246,.6) 30.7%, rgba(250,249,246,0) 54.5%); }
+.hero__eyebrow{ position:absolute; top:97px; left:100px; right:64px; display:flex; justify-content:space-between; align-items:flex-start; }
+.hero__eyebrow .left{ display:flex; gap:9px; align-items:center; }
+.hero__eyebrow .left .caption{ letter-spacing:.2em; }
+.hero__eyebrow .left .yr{ font-family:var(--ff-ital); font-style:italic; font-size:14px; line-height:21px; color:var(--c-muted); }
+.hero__eyebrow .left .city{ font-family:var(--ff-mono); font-size:11px; line-height:16.5px; color:var(--c-muted); letter-spacing:.05em; }
+.hero__eyebrow .right{ display:flex; gap:8px; align-items:center; }
+.hero__eyebrow .right .caption{ color:var(--c-accent); letter-spacing:.2em; }
+.hero__heading{ position:absolute; left:80px; top:371px; display:flex; flex-direction:column; gap:40px; }
+.hero__title{ font-weight:700; font-size:108px; line-height:112.32px; letter-spacing:-0.64px; color:var(--c-ink); }
+.hero__title .b{ color:var(--c-accent); }
+.hero__sub{ font-size:54px; line-height:64px; letter-spacing:-0.64px; color:var(--c-slate); }
+.hero__sub .b{ color:var(--c-accent); }
+.hero__ivy{ position:absolute; left:0; right:0; top:807px; display:flex; flex-direction:column; align-items:center; gap:15px; }
+.hero__ivy .ivy-t{ font-family:var(--ff-ital); font-style:italic; font-size:28.3px; line-height:31.2px; letter-spacing:-0.34px; color:var(--c-accent); }
+.hero__ivy .ivy-line{ width:1px; height:110px; background:var(--c-grid); opacity:.7; }
+
+/* ── Test scaffolding ─────────────────────────────────────────── */
+.t-section{ position:relative; }
+.t-badge{
+  position:sticky; top:16px; z-index:300;
+  margin:16px 0 -46px 16px; width:fit-content;
+  font-family:var(--ff-mono); font-size:11px; font-weight:700; letter-spacing:.08em;
+  color:var(--c-bg); background:var(--c-ink);
+  padding:7px 12px; border-radius:4px;
+  box-shadow:0 2px 12px rgba(13,27,42,.28);
+  display:flex; align-items:center; gap:8px; white-space:nowrap;
+}
+.t-badge .t-dot{ width:6px; height:6px; border-radius:50%; background:var(--c-accent); }
+
+/* ── 4× zoom inset (shared shell) ─────────────────────────────── */
+.zoom{ position:absolute; right:40px; bottom:40px; z-index:90; width:178px; }
+.zoom__label{
+  font-family:var(--ff-mono); font-size:10px; font-weight:700; letter-spacing:.12em;
+  color:var(--c-slate); text-transform:uppercase; margin-bottom:8px;
+  display:flex; align-items:center; gap:7px;
+}
+.zoom__label::before{ content:""; flex:1; height:1px; background:rgba(24,73,198,.25); }
+.zoom__label::after{ content:""; flex:1; height:1px; background:rgba(24,73,198,.25); }
+.zoom__stage{
+  position:relative; height:150px; border-radius:12px; overflow:hidden;
+  background:radial-gradient(130% 120% at 30% 28%, #f6f4ef 0%, #eef0f4 55%, #e4e9f2 100%);
+  border:1px solid rgba(24,73,198,.16);
+  box-shadow:0 10px 30px -14px rgba(13,27,42,.30), inset 0 1px 0 rgba(255,255,255,.8);
+  display:flex; align-items:center; justify-content:center;
+}
+.zoom__stage::after{ /* corner crosshair guide */
+  content:""; position:absolute; left:50%; top:50%; width:1px; height:1px;
+  box-shadow:0 0 0 0 transparent;
+}
+.zoom__inner{ transform:scale(4); transform-origin:center; }
+.zoom__cap{
+  position:absolute; left:10px; bottom:9px; z-index:5;
+  font-family:var(--ff-mono); font-size:9px; font-weight:700; letter-spacing:.1em;
+  color:rgba(24,73,198,.7);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   The breathing treatment is scoped to .dot--live, which sits ONLY
+   on the eyebrow's .right dot and its 4× zoom replica. All halos use
+   pseudo-elements behind a solid core (isolation + z-index:-1).
+   ════════════════════════════════════════════════════════════════ */
+.dot--live{ position:relative; isolation:isolate; }
+
+/* ════════════ 版本A — 呼吸光晕 (breathing halo) ════════════ */
+/* One soft blurred white bloom, calmly scaling 1→1.7 and fading, 2.4s ease-in-out. */
+.v-a .dot--live::before{
+  content:""; position:absolute; left:50%; top:50%; z-index:-1;
+  width:22px; height:22px; border-radius:50%; pointer-events:none;
+  transform:translate(-50%,-50%) scale(.55);
+  background:radial-gradient(circle,
+    rgba(255,255,255,.95) 0%,
+    rgba(255,255,255,.55) 38%,
+    rgba(24,73,198,.16) 68%,
+    rgba(24,73,198,0) 100%);
+  filter:blur(2px);
+  animation:a-halo 2.4s var(--ease-io) infinite;
+}
+@keyframes a-halo{
+  0%   { transform:translate(-50%,-50%) scale(.55); opacity:0; }
+  28%  { opacity:.92; }
+  100% { transform:translate(-50%,-50%) scale(1.7); opacity:0; }
+}
+
+/* ════════════ 版本B — 涟漪扩散 (sonar ripple) ════════════ */
+/* Two staggered rings expand outward from the solid dot and fade, 2.8s loop. */
+.v-b .dot--live::before,
+.v-b .dot--live::after{
+  content:""; position:absolute; left:50%; top:50%; z-index:-1;
+  width:7px; height:7px; border-radius:50%; pointer-events:none; box-sizing:border-box;
+  transform:translate(-50%,-50%) scale(1);
+  border:1.4px solid rgba(255,255,255,.92);
+  box-shadow:0 0 5px rgba(255,255,255,.55), 0 0 1px rgba(24,73,198,.5);
+  animation:b-ping 2.8s var(--ease) infinite;
+}
+.v-b .dot--live::after{
+  border-color:rgba(24,73,198,.45);
+  animation-delay:1.4s;
+}
+@keyframes b-ping{
+  0%   { transform:translate(-50%,-50%) scale(1);   opacity:.95; }
+  60%  { opacity:0; }
+  100% { transform:translate(-50%,-50%) scale(5);   opacity:0; }
+}
+
+/* ════════════ 版本C — 双层脉冲 (dual-layer pulse) ════════════ */
+/* Steady soft white disc pulsing opacity + a tiny heartbeat on the dot core itself. */
+.v-c .dot--live{
+  animation:c-beat 2.4s var(--ease-io) infinite;
+}
+.v-c .dot--live::before{
+  content:""; position:absolute; left:50%; top:50%; z-index:-1;
+  width:19px; height:19px; border-radius:50%; pointer-events:none;
+  transform:translate(-50%,-50%) scale(1);
+  background:radial-gradient(circle,
+    rgba(255,255,255,.85) 0%,
+    rgba(255,255,255,.45) 50%,
+    rgba(24,73,198,.10) 78%,
+    rgba(24,73,198,0) 100%);
+  filter:blur(1.5px);
+  animation:c-disc 2.4s var(--ease-io) infinite;
+}
+@keyframes c-beat{
+  0%,100% { transform:scale(1); }
+  50%     { transform:scale(1.12); }
+}
+@keyframes c-disc{
+  0%,100% { transform:translate(-50%,-50%) scale(1);    opacity:.30; }
+  50%     { transform:translate(-50%,-50%) scale(1.28); opacity:.66; }
+}
+
+/* ── reduced motion: no looping; calm static dot with a faint static bloom ── */
+@media (prefers-reduced-motion: reduce){
+  .dot--live::before,
+  .dot--live::after,
+  .v-c .dot--live{ animation:none !important; }
+  .v-a .dot--live::before{ opacity:.38; transform:translate(-50%,-50%) scale(1.15); }
+  .v-b .dot--live::before,
+  .v-b .dot--live::after{ opacity:.5; transform:translate(-50%,-50%) scale(1.7); }
+  .v-c .dot--live::before{ opacity:.32; transform:translate(-50%,-50%) scale(1.1); }
+}
+
+/* responsive height: keep baseline tall but never overflow short viewports */
+@media (max-height:1024px){
+  .hero{ height:auto; min-height:760px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ T3 · 版本A — 呼吸光晕 ════════════ -->
+<section class="t-section v-a">
+  <div class="t-badge"><span class="t-dot"></span>T3 · 版本A — 呼吸光晕</div>
+  <nav class="nav">
+    <div class="nav__logo"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></div>
+    <div class="nav__links"><a href="#">首页</a><a href="#">关于</a><a href="#">团队</a><a href="#">被投企业</a><a href="#">最新动态</a></div>
+    <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+  </nav>
+  <header class="hero">
+    <img class="hero__img" src="../assets/hero-flow.png" alt="" />
+    <div class="hero__grad"></div>
+    <div class="hero__eyebrow">
+      <div class="left"><span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span></div>
+      <div class="right"><span class="dot dot--live"></span><span class="caption">第六期基金 · 募集中</span></div>
+    </div>
+    <div class="hero__heading">
+      <h1 class="hero__title"><span class="b">常春藤</span>资本</h1>
+      <p class="hero__sub">一家以人为本的深科技投资机构，<br>与你共生、共韧、<span class="b">长青</span>。</p>
+    </div>
+    <div class="hero__ivy"><span class="ivy-t">I Value You</span><span class="ivy-line"></span></div>
+    <div class="zoom">
+      <div class="zoom__label">4× 放大</div>
+      <div class="zoom__stage">
+        <div class="zoom__inner"><span class="dot dot--live"></span></div>
+        <span class="zoom__cap">呼吸光晕</span>
+      </div>
+    </div>
+  </header>
+</section>
+
+<!-- ════════════ T3 · 版本B — 涟漪扩散 ════════════ -->
+<section class="t-section v-b">
+  <div class="t-badge"><span class="t-dot"></span>T3 · 版本B — 涟漪扩散</div>
+  <nav class="nav">
+    <div class="nav__logo"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></div>
+    <div class="nav__links"><a href="#">首页</a><a href="#">关于</a><a href="#">团队</a><a href="#">被投企业</a><a href="#">最新动态</a></div>
+    <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+  </nav>
+  <header class="hero">
+    <img class="hero__img" src="../assets/hero-flow.png" alt="" />
+    <div class="hero__grad"></div>
+    <div class="hero__eyebrow">
+      <div class="left"><span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span></div>
+      <div class="right"><span class="dot dot--live"></span><span class="caption">第六期基金 · 募集中</span></div>
+    </div>
+    <div class="hero__heading">
+      <h1 class="hero__title"><span class="b">常春藤</span>资本</h1>
+      <p class="hero__sub">一家以人为本的深科技投资机构，<br>与你共生、共韧、<span class="b">长青</span>。</p>
+    </div>
+    <div class="hero__ivy"><span class="ivy-t">I Value You</span><span class="ivy-line"></span></div>
+    <div class="zoom">
+      <div class="zoom__label">4× 放大</div>
+      <div class="zoom__stage">
+        <div class="zoom__inner"><span class="dot dot--live"></span></div>
+        <span class="zoom__cap">涟漪扩散</span>
+      </div>
+    </div>
+  </header>
+</section>
+
+<!-- ════════════ T3 · 版本C — 双层脉冲 ════════════ -->
+<section class="t-section v-c">
+  <div class="t-badge"><span class="t-dot"></span>T3 · 版本C — 双层脉冲</div>
+  <nav class="nav">
+    <div class="nav__logo"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></div>
+    <div class="nav__links"><a href="#">首页</a><a href="#">关于</a><a href="#">团队</a><a href="#">被投企业</a><a href="#">最新动态</a></div>
+    <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+  </nav>
+  <header class="hero">
+    <img class="hero__img" src="../assets/hero-flow.png" alt="" />
+    <div class="hero__grad"></div>
+    <div class="hero__eyebrow">
+      <div class="left"><span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span></div>
+      <div class="right"><span class="dot dot--live"></span><span class="caption">第六期基金 · 募集中</span></div>
+    </div>
+    <div class="hero__heading">
+      <h1 class="hero__title"><span class="b">常春藤</span>资本</h1>
+      <p class="hero__sub">一家以人为本的深科技投资机构，<br>与你共生、共韧、<span class="b">长青</span>。</p>
+    </div>
+    <div class="hero__ivy"><span class="ivy-t">I Value You</span><span class="ivy-line"></span></div>
+    <div class="zoom">
+      <div class="zoom__label">4× 放大</div>
+      <div class="zoom__stage">
+        <div class="zoom__inner"><span class="dot dot--live"></span></div>
+        <span class="zoom__cap">双层脉冲</span>
+      </div>
+    </div>
+  </header>
+</section>
+
+</body>
+</html>

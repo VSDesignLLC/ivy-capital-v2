@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>T2 · 标题逐字显现 — A/B 对照</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{ --c-bg:#faf9f6; --c-ink:#0d1b2a; --c-slate:#2c3a4a; --c-muted:#7a7e8a; --c-accent:#1849c6; --c-grid:#b6bdcd; --cream-grad:rgba(250,249,246,1); --ff-sc:"Noto Sans SC",sans-serif; --ff-serif:"Noto Serif SC",serif; --ff-mono:"Geist Mono",monospace; --ff-ital:"Instrument Serif",serif; --tracking-caption:0.15em; --ease:cubic-bezier(.22,.61,.36,1); }
+*{margin:0;padding:0;box-sizing:border-box}
+body{ background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); overflow-x:hidden; }
+img{display:block;max-width:none} a{color:inherit;text-decoration:none}
+.caption{ font-size:11px; line-height:16.5px; letter-spacing:var(--tracking-caption); text-transform:uppercase; color:var(--c-muted); }
+.dot{ width:7px;height:7px;border-radius:3.5px;background:var(--c-accent);flex:none }
+
+/* NAV (baseline) */
+.nav{ position:absolute; top:0; left:0; width:100%; z-index:100; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px; padding:20px 40px 21px; background:rgba(250,248,247,.4); backdrop-filter:blur(8px); border-bottom:1px solid rgba(255,255,255,.9); }
+.nav__logo img{ height:30px; width:auto; }
+.nav__links{ justify-self:center; display:flex; gap:40px; }
+.nav__links a{ font-size:14px; line-height:21px; font-weight:700; color:var(--c-ink); padding:4px 0; position:relative; white-space:nowrap; }
+.nav__links a::after{ content:""; position:absolute; left:0; bottom:0; height:1.5px; width:0; background:var(--c-accent); transition:width .35s var(--ease); }
+.nav__links a:hover{ color:var(--c-accent); } .nav__links a:hover::after{ width:100%; }
+.nav__lang{ justify-self:end; display:flex; align-items:center; gap:6px; background:#fff; border-radius:100px; padding:6px 12px; }
+.nav__lang .z{ font-weight:700; font-size:11px; letter-spacing:.88px; color:#000; }
+.nav__lang .sep{ font-family:var(--ff-mono); font-weight:700; font-size:11px; color:rgba(0,0,0,.3); }
+.nav__lang .en{ font-family:var(--ff-mono); font-weight:700; font-size:11px; letter-spacing:.88px; color:rgba(0,0,0,.45); cursor:pointer; }
+
+/* HERO (baseline) */
+.stage{ position:relative; }
+.hero{ position:relative; height:1024px; overflow:hidden; }
+.hero__img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+.hero__grad{ position:absolute; inset:0; background:linear-gradient(90deg, var(--cream-grad) 2.7%, rgba(250,249,246,.6) 30.7%, rgba(250,249,246,0) 54.5%); }
+.hero__eyebrow{ position:absolute; top:97px; left:100px; right:64px; display:flex; justify-content:space-between; align-items:flex-start; }
+.hero__eyebrow .left{ display:flex; gap:9px; align-items:center; }
+.hero__eyebrow .left .caption{ letter-spacing:.2em; }
+.hero__eyebrow .left .yr{ font-family:var(--ff-ital); font-style:italic; font-size:14px; line-height:21px; color:var(--c-muted); }
+.hero__eyebrow .left .city{ font-family:var(--ff-mono); font-size:11px; line-height:16.5px; color:var(--c-muted); letter-spacing:.05em; }
+.hero__eyebrow .right{ display:flex; gap:8px; align-items:center; }
+.hero__eyebrow .right .caption{ color:var(--c-accent); letter-spacing:.2em; }
+.hero__heading{ position:absolute; left:80px; top:371px; display:flex; flex-direction:column; gap:40px; }
+.hero__title{ font-weight:700; font-size:108px; line-height:112.32px; letter-spacing:-0.64px; color:var(--c-ink); }
+.hero__title .b{ color:var(--c-accent); }
+.hero__sub{ font-size:54px; line-height:64px; letter-spacing:-0.64px; color:var(--c-slate); }
+.hero__sub .b{ color:var(--c-accent); }
+.hero__ivy{ position:absolute; left:0; right:0; top:807px; display:flex; flex-direction:column; align-items:center; gap:15px; }
+.hero__ivy .ivy-t{ font-family:var(--ff-ital); font-style:italic; font-size:28.3px; line-height:31.2px; letter-spacing:-0.34px; color:var(--c-accent); }
+.hero__ivy .ivy-line{ width:1px; height:110px; background:var(--c-grid); opacity:.7; }
+
+/* TEST BADGE (sticky, zero-height wrap so it doesn't shift layout) */
+.badge-wrap{ position:sticky; top:84px; height:0; z-index:300; }
+.badge{ position:absolute; left:24px; top:0; display:inline-flex; align-items:center; gap:12px; background:var(--c-ink); color:#fff; font-family:var(--ff-mono); font-size:11px; letter-spacing:.06em; padding:7px 7px 7px 15px; border-radius:100px; box-shadow:0 8px 26px rgba(13,27,42,.22); }
+.badge .replay{ font-family:var(--ff-mono); font-size:11px; line-height:1; color:var(--c-ink); background:#fff; border:none; border-radius:100px; padding:6px 13px; cursor:pointer; letter-spacing:.04em; transition:background .25s var(--ease), color .25s var(--ease); }
+.badge .replay:hover{ background:var(--c-accent); color:#fff; }
+.badge .replay:active{ transform:translateY(1px); }
+
+/* ============ PER-CHARACTER REVEAL ENGINE ============ */
+.ch{ display:inline-block; white-space:pre; will-change:transform,opacity,filter,clip-path; }
+
+/* --- 版本A — 逐字上浮 --- */
+.v-a .ch{ opacity:0; transform:translateY(0.4em); filter:blur(4px); }
+.v-a.play .ch{ animation:a-in .56s var(--ease) both; animation-delay:var(--delay); }
+@keyframes a-in{
+  from{ opacity:0; transform:translateY(0.4em); filter:blur(4px); }
+  to  { opacity:1; transform:translateY(0);     filter:blur(0);    }
+}
+
+/* --- 版本B — 左切入 (clip wipe) --- */
+.v-b .ch{ clip-path:inset(0 100% 0 0); }
+.v-b.play .ch{ animation:b-in .58s var(--ease) both; animation-delay:var(--delay); }
+@keyframes b-in{
+  from{ clip-path:inset(0 100% 0 0); }
+  to  { clip-path:inset(0 0%   0 0); }
+}
+
+/* --- 版本C — 模糊聚焦 (per-char focus + container letter-spacing settle) --- */
+.v-c .hero__title{ letter-spacing:9px; }
+.v-c .hero__sub{ letter-spacing:5px; }
+.v-c .ch{ opacity:0; filter:blur(12px); }
+.v-c.play .ch{ animation:c-in .6s var(--ease) both; animation-delay:var(--delay); }
+.v-c.play .hero__title{ letter-spacing:-0.64px; transition:letter-spacing 1.15s var(--ease); }
+.v-c.play .hero__sub{ letter-spacing:-0.64px; transition:letter-spacing 1.15s var(--ease) .22s; }
+@keyframes c-in{
+  from{ opacity:0; filter:blur(12px); }
+  to  { opacity:1; filter:blur(0);    }
+}
+
+/* prefers-reduced-motion: show final state instantly */
+@media (prefers-reduced-motion: reduce){
+  .ch{ opacity:1 !important; transform:none !important; filter:none !important; clip-path:none !important; animation:none !important; }
+  .v-c .hero__title, .v-c .hero__sub{ letter-spacing:-0.64px !important; transition:none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ 版本A — 逐字上浮 ============ -->
+<section class="stage v-a" id="stage-a">
+  <div class="badge-wrap"><div class="badge">T2 · 版本A — 逐字上浮<button class="replay" type="button">重播 ▷</button></div></div>
+  <nav class="nav">
+    <div class="nav__logo"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></div>
+    <div class="nav__links">
+      <a href="#">首页</a><a href="#">关于</a><a href="#">团队</a><a href="#">被投企业</a><a href="#">最新动态</a>
+    </div>
+    <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+  </nav>
+  <header class="hero">
+    <img class="hero__img" src="../assets/hero-flow.png" alt="" />
+    <div class="hero__grad"></div>
+    <div class="hero__eyebrow">
+      <div class="left"><span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span></div>
+      <div class="right"><span class="dot"></span><span class="caption">第六期基金 · 募集中</span></div>
+    </div>
+    <div class="hero__heading">
+      <h1 class="hero__title" aria-label="常春藤资本"><span class="b">常春藤</span>资本</h1>
+      <p class="hero__sub" aria-label="一家以人为本的深科技投资机构，与你共生、共韧、长青。">一家以人为本的深科技投资机构，<br>与你共生、共韧、<span class="b">长青</span>。</p>
+    </div>
+    <div class="hero__ivy"><span class="ivy-t">I Value You</span><span class="ivy-line"></span></div>
+  </header>
+</section>
+
+<!-- ============ 版本B — 左切入 ============ -->
+<section class="stage v-b" id="stage-b">
+  <div class="badge-wrap"><div class="badge">T2 · 版本B — 左切入<button class="replay" type="button">重播 ▷</button></div></div>
+  <nav class="nav">
+    <div class="nav__logo"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></div>
+    <div class="nav__links">
+      <a href="#">首页</a><a href="#">关于</a><a href="#">团队</a><a href="#">被投企业</a><a href="#">最新动态</a>
+    </div>
+    <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+  </nav>
+  <header class="hero">
+    <img class="hero__img" src="../assets/hero-flow.png" alt="" />
+    <div class="hero__grad"></div>
+    <div class="hero__eyebrow">
+      <div class="left"><span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span></div>
+      <div class="right"><span class="dot"></span><span class="caption">第六期基金 · 募集中</span></div>
+    </div>
+    <div class="hero__heading">
+      <h1 class="hero__title" aria-label="常春藤资本"><span class="b">常春藤</span>资本</h1>
+      <p class="hero__sub" aria-label="一家以人为本的深科技投资机构，与你共生、共韧、长青。">一家以人为本的深科技投资机构，<br>与你共生、共韧、<span class="b">长青</span>。</p>
+    </div>
+    <div class="hero__ivy"><span class="ivy-t">I Value You</span><span class="ivy-line"></span></div>
+  </header>
+</section>
+
+<!-- ============ 版本C — 模糊聚焦 ============ -->
+<section class="stage v-c" id="stage-c">
+  <div class="badge-wrap"><div class="badge">T2 · 版本C — 模糊聚焦<button class="replay" type="button">重播 ▷</button></div></div>
+  <nav class="nav">
+    <div class="nav__logo"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></div>
+    <div class="nav__links">
+      <a href="#">首页</a><a href="#">关于</a><a href="#">团队</a><a href="#">被投企业</a><a href="#">最新动态</a>
+    </div>
+    <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+  </nav>
+  <header class="hero">
+    <img class="hero__img" src="../assets/hero-flow.png" alt="" />
+    <div class="hero__grad"></div>
+    <div class="hero__eyebrow">
+      <div class="left"><span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span></div>
+      <div class="right"><span class="dot"></span><span class="caption">第六期基金 · 募集中</span></div>
+    </div>
+    <div class="hero__heading">
+      <h1 class="hero__title" aria-label="常春藤资本"><span class="b">常春藤</span>资本</h1>
+      <p class="hero__sub" aria-label="一家以人为本的深科技投资机构，与你共生、共韧、长青。">一家以人为本的深科技投资机构，<br>与你共生、共韧、<span class="b">长青</span>。</p>
+    </div>
+    <div class="hero__ivy"><span class="ivy-t">I Value You</span><span class="ivy-line"></span></div>
+  </header>
+</section>
+
+<script>
+(function(){
+  "use strict";
+
+  // Stagger timing (ms). Title leads, sub continues the left->right cascade.
+  var TITLE_STAGGER = 52;   // per CJK char in the 5-char title
+  var SUB_GAP       = 95;   // pause after title before the sub begins
+  var SUB_STAGGER   = 18;   // tighter per-char stagger across the longer sub line
+
+  // Split an element's text into per-character <span class="ch"> nodes,
+  // preserving inline color groups (.b -> brand blue) and any <br>.
+  // Returns the ordered list of created char spans (left -> right).
+  function splitElement(el){
+    var out = [];
+    function walk(node, inheritBlue){
+      var kids = Array.prototype.slice.call(node.childNodes);
+      kids.forEach(function(child){
+        if(child.nodeType === 3){ // text node
+          var text = child.textContent;
+          var frag = document.createDocumentFragment();
+          for(var i = 0; i < text.length; i++){
+            var chs = text[i];
+            if(chs === '\n' || chs === '\r' || chs === '\t'){
+              frag.appendChild(document.createTextNode(chs));
+              continue;
+            }
+            var span = document.createElement('span');
+            span.className = 'ch' + (inheritBlue ? ' b' : '');
+            span.setAttribute('aria-hidden', 'true');
+            span.textContent = chs;
+            frag.appendChild(span);
+            out.push(span);
+          }
+          node.replaceChild(frag, child);
+        } else if(child.nodeType === 1){
+          if(child.tagName === 'BR'){ return; } // keep line break in place
+          var blue = inheritBlue || child.classList.contains('b');
+          walk(child, blue);
+        }
+      });
+    }
+    walk(el, false);
+    return out;
+  }
+
+  function setup(stage){
+    var title = stage.querySelector('.hero__title');
+    var sub   = stage.querySelector('.hero__sub');
+    if(!title || !sub) return;
+
+    var titleChars = splitElement(title);
+    var subChars   = splitElement(sub);
+
+    titleChars.forEach(function(span, i){
+      span.style.setProperty('--delay', (i * TITLE_STAGGER) + 'ms');
+    });
+    var offset = titleChars.length * TITLE_STAGGER + SUB_GAP;
+    subChars.forEach(function(span, j){
+      span.style.setProperty('--delay', (offset + j * SUB_STAGGER) + 'ms');
+    });
+
+    // Replay button: reset then re-trigger the cascade.
+    var btn = stage.querySelector('.replay');
+    if(btn){
+      btn.addEventListener('click', function(){
+        stage.classList.remove('play');
+        // force reflow so the animation restarts cleanly
+        void stage.offsetWidth;
+        stage.classList.add('play');
+      });
+    }
+  }
+
+  var stages = Array.prototype.slice.call(document.querySelectorAll('.stage'));
+  stages.forEach(setup);
+
+  // Gate each version so it (re)plays whenever scrolled into view.
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('play');
+        } else {
+          entry.target.classList.remove('play');
+        }
+      });
+    }, { threshold: 0.4 });
+    stages.forEach(function(s){ io.observe(s); });
+  } else {
+    stages.forEach(function(s){ s.classList.add('play'); });
+  }
+})();
+</script>
+</body>
+</html>

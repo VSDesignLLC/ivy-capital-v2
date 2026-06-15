@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glass Lab · 常春藤资本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@300;400;500;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d1b2a;
+  --accent:#1849c6;
+  --accent-2:#8db4ff;
+  --cream:#faf9f6;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Noto Sans SC",sans-serif;
+  color:#eaf0ff;
+  min-height:100vh;
+  /* atmospheric backdrop so glass has something to refract */
+  background:
+    radial-gradient(60% 50% at 18% 12%, rgba(141,180,255,.55) 0%, transparent 60%),
+    radial-gradient(55% 60% at 85% 20%, rgba(24,73,198,.65) 0%, transparent 55%),
+    radial-gradient(70% 70% at 75% 95%, rgba(255,176,120,.40) 0%, transparent 55%),
+    radial-gradient(50% 50% at 20% 85%, rgba(99,67,196,.45) 0%, transparent 55%),
+    linear-gradient(160deg,#0a1424 0%,#0d1b2a 45%,#13243b 100%);
+  background-attachment:fixed;
+  position:relative;
+  overflow-x:hidden;
+}
+/* film grain so frost reads against texture */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+/* moving photographic strip behind glass — proves the refraction */
+.scenery{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.9}
+.scenery span{
+  position:absolute;border-radius:50%;filter:blur(2px);
+  background:linear-gradient(135deg,#fff,transparent);mix-blend-mode:soft-light;
+}
+.s1{width:120px;height:120px;top:30%;left:8%;animation:float 14s var(--ease) infinite alternate}
+.s2{width:200px;height:200px;top:60%;right:12%;background:radial-gradient(circle,#ffd9a8,transparent);animation:float 18s var(--ease) infinite alternate-reverse}
+.s3{width:80px;height:80px;top:78%;left:42%;background:radial-gradient(circle,#9ad,transparent);animation:float 11s var(--ease) infinite alternate}
+@keyframes float{to{transform:translateY(-40px) translateX(30px)}}
+
+.wrap{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:72px 32px 120px}
+
+header{margin-bottom:64px}
+.eyebrow{
+  font-family:"Geist Mono",monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--accent-2);margin-bottom:18px;display:flex;align-items:center;gap:12px;
+}
+.eyebrow::before{content:"";width:32px;height:1px;background:var(--accent-2);opacity:.6}
+h1{
+  font-family:"Instrument Serif",serif;font-weight:400;font-size:clamp(44px,7vw,84px);
+  line-height:.98;letter-spacing:-.01em;color:#fff;
+}
+h1 em{font-style:italic;color:var(--accent-2)}
+.lede{margin-top:20px;max-width:520px;font-weight:300;font-size:16px;line-height:1.7;color:#aebbd4}
+
+section{margin-top:72px}
+.label{
+  font-family:"Geist Mono",monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:#7e8aa6;margin-bottom:6px;
+}
+.name{font-family:"Instrument Serif",serif;font-style:italic;font-size:26px;color:#fff;margin-bottom:4px}
+.spec{font-family:"Geist Mono",monospace;font-size:11px;color:#5f6c87;margin-bottom:26px}
+
+.row{display:flex;flex-wrap:wrap;gap:20px;align-items:center}
+
+/* ============ SHARED GLASS BUTTON BASE ============ */
+.btn{
+  position:relative;cursor:pointer;border:none;
+  padding:15px 30px;border-radius:16px;
+  font-family:"Noto Sans SC",sans-serif;font-weight:500;font-size:15px;letter-spacing:.01em;
+  color:#fff;isolation:isolate;overflow:hidden;
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease);
+}
+.btn:active{transform:scale(.97)}
+
+/* ---- 1. FROSTED (classic) ---- */
+.frost{
+  background:rgba(255,255,255,.10);
+  backdrop-filter:blur(16px) saturate(160%);
+  -webkit-backdrop-filter:blur(16px) saturate(160%);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 8px 32px rgba(5,12,28,.35), inset 0 1px 0 rgba(255,255,255,.25);
+}
+.frost:hover{box-shadow:0 12px 44px rgba(5,12,28,.5), inset 0 1px 0 rgba(255,255,255,.4);transform:translateY(-2px)}
+
+/* ---- 2. FLUID / LIQUID GLASS (iOS-26 style) ---- */
+.fluid{
+  background:linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.06) 40%, rgba(255,255,255,.14));
+  backdrop-filter:blur(8px) saturate(180%) brightness(1.08);
+  -webkit-backdrop-filter:blur(8px) saturate(180%) brightness(1.08);
+  border:1px solid transparent;
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.6),
+    inset 0 -8px 16px rgba(255,255,255,.12),
+    inset 0 2px 6px rgba(255,255,255,.25),
+    0 10px 30px rgba(5,12,28,.45);
+}
+/* specular highlight that slides on hover */
+.fluid::before{
+  content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;
+  background:radial-gradient(120% 80% at 30% 0%, rgba(255,255,255,.45), transparent 50%);
+  opacity:.8;transition:transform .6s var(--ease),opacity .6s var(--ease);
+}
+.fluid:hover{transform:translateY(-2px) scale(1.02)}
+.fluid:hover::before{transform:translateY(6px);opacity:1}
+/* gradient ring */
+.fluid::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;z-index:-1;
+  background:linear-gradient(135deg,rgba(255,255,255,.7),rgba(141,180,255,.2) 40%,rgba(255,255,255,.05) 70%,rgba(255,255,255,.5));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+}
+
+/* ---- 3. TINTED (brand blue glass) ---- */
+.tint{
+  background:linear-gradient(135deg, rgba(24,73,198,.55), rgba(24,73,198,.30));
+  backdrop-filter:blur(14px) saturate(180%);
+  -webkit-backdrop-filter:blur(14px) saturate(180%);
+  border:1px solid rgba(141,180,255,.35);
+  box-shadow:0 8px 28px rgba(24,73,198,.4), inset 0 1px 0 rgba(255,255,255,.3);
+}
+.tint:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(24,73,198,.6), inset 0 1px 0 rgba(255,255,255,.45)}
+
+/* ---- 4. HEAVY FROST ---- */
+.heavy{
+  background:rgba(255,255,255,.16);
+  backdrop-filter:blur(40px) saturate(120%);
+  -webkit-backdrop-filter:blur(40px) saturate(120%);
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 8px 32px rgba(5,12,28,.3), inset 0 0 0 1px rgba(255,255,255,.05);
+  color:#0d1b2a;
+}
+.heavy:hover{transform:translateY(-2px);background:rgba(255,255,255,.24)}
+
+/* ---- 5. ULTRA-THIN (whisper frost) ---- */
+.thin{
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(6px) saturate(140%);
+  -webkit-backdrop-filter:blur(6px) saturate(140%);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
+}
+.thin:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25)}
+
+/* ---- 6. NOISE GLASS (textured frost) ---- */
+.noise{
+  background:rgba(255,255,255,.10);
+  backdrop-filter:blur(18px) saturate(150%);
+  -webkit-backdrop-filter:blur(18px) saturate(150%);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 8px 30px rgba(5,12,28,.4);
+}
+.noise::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;opacity:.5;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.noise:hover{transform:translateY(-2px)}
+
+.btn .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent-2);margin-right:8px;vertical-align:middle;box-shadow:0 0 8px var(--accent-2)}
+
+/* ============ NAV BARS ============ */
+.navwrap{margin-top:18px}
+nav{
+  display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:20px;
+}
+nav .brand{
+  font-family:"Instrument Serif",serif;font-style:italic;font-size:19px;color:#fff;
+  padding-right:14px;margin-right:6px;border-right:1px solid rgba(255,255,255,.15);white-space:nowrap;
+}
+nav a{
+  text-decoration:none;color:#cdd8ef;font-size:14px;font-weight:400;
+  padding:9px 16px;border-radius:12px;transition:all .35s var(--ease);white-space:nowrap;position:relative;
+}
+nav a:hover{color:#fff;background:rgba(255,255,255,.12)}
+nav a.active{color:#fff;background:rgba(255,255,255,.16)}
+nav .cta{margin-left:auto}
+nav .cta a{
+  background:linear-gradient(135deg,rgba(141,180,255,.3),rgba(24,73,198,.4));
+  color:#fff;border:1px solid rgba(141,180,255,.3);
+}
+nav .cta a:hover{background:linear-gradient(135deg,rgba(141,180,255,.5),rgba(24,73,198,.6))}
+
+/* nav variants reuse the same glass classes */
+nav.frost{border-radius:20px}
+nav.fluid{border-radius:20px}
+nav.tint{border-radius:20px}
+
+@media(max-width:680px){
+  nav{flex-wrap:wrap}
+  nav .cta{margin-left:0}
+  .navwrap{overflow-x:auto}
+}
+
+footer{margin-top:90px;font-family:"Geist Mono",monospace;font-size:11px;color:#5f6c87;letter-spacing:.05em}
+</style>
+</head>
+<body>
+<div class="scenery"><span class="s1"></span><span class="s2"></span><span class="s3"></span></div>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Glass Lab · 玻璃材质实验</div>
+    <h1>磨砂 &amp; <em>流体玻璃</em><br>效果对照</h1>
+    <p class="lede">六种 glass 配方，每种含 button + nav bar 两种形态。背景刻意做了渐变 mesh、漂浮光斑和噪点，方便对比每种玻璃如何折射底层。Hover / 点击看动效。</p>
+  </header>
+
+  <!-- 1 -->
+  <section>
+    <div class="label">01 / Classic</div>
+    <div class="name">Frosted Glass</div>
+    <div class="spec">blur(16px) · white .10 · hairline border · soft shadow</div>
+    <div class="row">
+      <button class="btn frost"><span class="dot"></span>了解策略</button>
+      <button class="btn frost">立即预约</button>
+    </div>
+    <div class="navwrap">
+      <nav class="frost">
+        <span class="brand">常春藤资本</span>
+        <a href="#" class="active">关于</a><a href="#">策略</a><a href="#">业绩</a><a href="#">团队</a>
+        <span class="cta"><a href="#">联系我们</a></span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="label">02 / iOS-26</div>
+    <div class="name">Fluid · Liquid Glass</div>
+    <div class="spec">specular highlight · gradient ring · inner bevel · slides on hover</div>
+    <div class="row">
+      <button class="btn fluid"><span class="dot"></span>了解策略</button>
+      <button class="btn fluid">立即预约</button>
+    </div>
+    <div class="navwrap">
+      <nav class="fluid">
+        <span class="brand">常春藤资本</span>
+        <a href="#" class="active">关于</a><a href="#">策略</a><a href="#">业绩</a><a href="#">团队</a>
+        <span class="cta"><a href="#">联系我们</a></span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="label">03 / Branded</div>
+    <div class="name">Tinted Glass</div>
+    <div class="spec">brand blue #1849c6 透光 · 蓝色边框光晕</div>
+    <div class="row">
+      <button class="btn tint"><span class="dot"></span>了解策略</button>
+      <button class="btn tint">立即预约</button>
+    </div>
+    <div class="navwrap">
+      <nav class="tint">
+        <span class="brand">常春藤资本</span>
+        <a href="#" class="active">关于</a><a href="#">策略</a><a href="#">业绩</a><a href="#">团队</a>
+        <span class="cta"><a href="#">联系我们</a></span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="label">04 / Opaque</div>
+    <div class="name">Heavy Frost</div>
+    <div class="spec">blur(40px) · 高遮罩 · 深色文字 · 接近毛玻璃磨砂面板</div>
+    <div class="row">
+      <button class="btn heavy"><span class="dot" style="background:var(--accent)"></span>了解策略</button>
+      <button class="btn heavy">立即预约</button>
+    </div>
+    <div class="navwrap">
+      <nav class="heavy" style="color:var(--ink)">
+        <span class="brand" style="color:var(--ink);border-color:rgba(13,27,42,.15)">常春藤资本</span>
+        <a href="#" class="active" style="color:var(--ink);background:rgba(13,27,42,.08)">关于</a>
+        <a href="#" style="color:#2c3a4a">策略</a><a href="#" style="color:#2c3a4a">业绩</a><a href="#" style="color:#2c3a4a">团队</a>
+        <span class="cta"><a href="#" style="color:#fff">联系我们</a></span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="label">05 / Whisper</div>
+    <div class="name">Ultra-thin Glass</div>
+    <div class="spec">blur(6px) · white .05 · 极轻，适合大面积 nav / overlay</div>
+    <div class="row">
+      <button class="btn thin"><span class="dot"></span>了解策略</button>
+      <button class="btn thin">立即预约</button>
+    </div>
+    <div class="navwrap">
+      <nav class="thin">
+        <span class="brand">常春藤资本</span>
+        <a href="#" class="active">关于</a><a href="#">策略</a><a href="#">业绩</a><a href="#">团队</a>
+        <span class="cta"><a href="#">联系我们</a></span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <div class="label">06 / Textured</div>
+    <div class="name">Noise Glass</div>
+    <div class="spec">磨砂噪点叠加 · 真实玻璃颗粒感</div>
+    <div class="row">
+      <button class="btn noise"><span class="dot"></span>了解策略</button>
+      <button class="btn noise">立即预约</button>
+    </div>
+    <div class="navwrap">
+      <nav class="noise">
+        <span class="brand">常春藤资本</span>
+        <a href="#" class="active">关于</a><a href="#">策略</a><a href="#">业绩</a><a href="#">团队</a>
+        <span class="cta"><a href="#">联系我们</a></span>
+      </nav>
+    </div>
+  </section>
+
+  <footer>GLASS-LAB · backdrop-filter required (Chrome / Safari / Edge) · 拖动滚动时观察玻璃后的光斑折射</footer>
+</div>
+</body>
+</html>

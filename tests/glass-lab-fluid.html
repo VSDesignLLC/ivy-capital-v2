@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluid Glass · 常春藤资本 · 3 版对照</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ——— tokens 直接取自 DESIGN-SYSTEM.md ——— */
+  --c-bg:#faf9f6; --c-ink:#0d1b2a; --c-slate:#2c3a4a; --c-muted:#7a7e8a;
+  --c-accent:#1849c6; --c-accent-2:#8db4ff;
+  --c-divider:#d8d4c8; --c-hairline:rgba(13,27,42,.10); --c-tag-line:rgba(13,27,42,.25);
+  --c-accent-wash:rgba(24,73,198,.05); --c-accent-line:rgba(24,73,198,.20);
+  --c-grid:#b6bdcd;
+  --ff-sc:"Noto Sans SC",sans-serif; --ff-serif:"Noto Serif SC",serif;
+  --ff-mono:"Geist Mono",monospace; --ff-ital:"Instrument Serif",serif;
+  --radius-pill:999px; --radius-qr:8px;
+  --ease:cubic-bezier(.22,.61,.36,1);  /* 设计系统指定缓动 */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--ff-sc);background:var(--c-bg);color:var(--c-ink);-webkit-font-smoothing:antialiased}
+
+/* ============ PAGE CHROME ============ */
+.intro{max-width:1100px;margin:0 auto;padding:64px 80px 28px}
+.kicker{font-family:var(--ff-mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--c-muted);display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.kicker::before{content:"";width:28px;height:1px;background:var(--c-accent)}
+.intro h1{font-family:var(--ff-serif);font-weight:500;font-size:40px;line-height:1.16;letter-spacing:-.02em}
+.intro h1 i{font-family:var(--ff-ital);font-style:italic;color:var(--c-accent)}
+.intro p{margin-top:16px;max-width:560px;font-size:16px;line-height:28px;color:var(--c-slate)}
+
+/* version block */
+.version{max-width:1100px;margin:0 auto;padding:0 80px}
+.vhead{display:flex;align-items:baseline;gap:16px;padding:48px 0 4px;border-top:1px solid var(--c-hairline);margin-top:48px}
+.vno{font-family:var(--ff-mono);font-size:12px;color:var(--c-accent);letter-spacing:.1em}
+.vname{font-family:var(--ff-ital);font-style:italic;font-size:28px}
+.vspec{font-family:var(--ff-mono);font-size:11px;color:var(--c-muted);letter-spacing:.04em;padding:2px 0 22px}
+
+/* two-context stage: cream-blueprint band + dark hero band */
+.stage{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--c-hairline);border:1px solid var(--c-hairline)}
+@media(max-width:840px){.stage{grid-template-columns:1fr}}
+.ctx{position:relative;padding:40px 34px;min-height:188px;display:flex;flex-direction:column;justify-content:center;gap:20px;overflow:hidden}
+
+/* LIGHT context: cream + blueprint rails + faint blue wash (真实奶白语境) */
+.ctx.light{
+  background:
+    linear-gradient(0deg, var(--c-accent-wash), var(--c-accent-wash)),
+    var(--c-bg);
+}
+.ctx.light::before{ /* blueprint vertical rails */
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(90deg, var(--c-grid) 0 1px, transparent 1px),
+    linear-gradient(90deg, var(--c-grid) 0 1px, transparent 1px);
+  background-size:100% 100%;background-position:64px 0, calc(100% - 64px) 0;
+  background-repeat:no-repeat;opacity:.5;
+}
+.ctx.light::after{ /* one horizontal blueprint hairline */
+  content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--c-grid);opacity:.4;pointer-events:none;
+}
+/* DARK context: navy hero with photographic warmth (Hero / footer 语境) */
+.ctx.dark{
+  background:
+    radial-gradient(80% 120% at 78% 18%, rgba(24,73,198,.55), transparent 60%),
+    radial-gradient(60% 90% at 12% 90%, rgba(255,176,120,.22), transparent 60%),
+    linear-gradient(150deg,#0a1424,#0d1b2a 55%,#13243b);
+}
+.ctx.dark .ctxtag{color:var(--c-accent-2)}
+.ctxtag{position:absolute;top:12px;left:14px;font-family:var(--ff-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--c-muted);opacity:.8}
+
+.row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;position:relative;z-index:2}
+
+/* ============================================================
+   V1 · BLUEPRINT FROST  — 直角 + hairline + 角标 + 蓝底线滑入
+   ============================================================ */
+.bp{
+  position:relative;cursor:pointer;border:1px solid var(--c-grid);border-radius:0;
+  padding:14px 26px;font-family:var(--ff-sc);font-weight:500;font-size:16px;
+  background:rgba(255,255,255,.45);
+  backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+  color:var(--c-ink);overflow:hidden;
+  transition:border-color .6s var(--ease), box-shadow .6s var(--ease), transform .6s var(--ease);
+}
+.ctx.dark .bp{background:rgba(255,255,255,.08);color:#eef3ff;border-color:rgba(141,180,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+/* corner mark 角标 (blueprint header 语言) */
+.bp::before{content:"";position:absolute;top:6px;left:6px;width:6px;height:6px;border-top:1px solid var(--c-accent);border-left:1px solid var(--c-accent);opacity:.45;transition:opacity .6s var(--ease)}
+/* blue underline slides in (设计系统: 底部下划线滑入) */
+.bp::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--c-accent);transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease)}
+.bp:hover{border-color:var(--c-accent);transform:translateY(-2px)}
+.bp:hover::before{opacity:1}
+.bp:hover::after{transform:scaleX(1)}
+.bp:active{transform:translateY(0)}
+
+/* ============================================================
+   V2 · LIQUID PILL — 胶囊 + 单层柔光 + 蓝圆点放大 (主 CTA)
+   ============================================================ */
+.lp{
+  position:relative;cursor:pointer;border:1px solid var(--c-hairline);border-radius:var(--radius-pill);
+  padding:14px 28px;font-family:var(--ff-sc);font-weight:500;font-size:16px;
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,.4));
+  backdrop-filter:blur(12px) saturate(150%);-webkit-backdrop-filter:blur(12px) saturate(150%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.85), inset 0 -6px 12px rgba(13,27,42,.04), 0 6px 20px rgba(13,27,42,.08);
+  color:var(--c-ink);
+  transition:box-shadow .6s var(--ease), transform .6s var(--ease), background .6s var(--ease);
+}
+.ctx.dark .lp{
+  background:linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+  border-color:rgba(141,180,255,.25);color:#eef3ff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4), inset 0 -6px 12px rgba(0,0,0,.12), 0 6px 24px rgba(0,0,0,.3);
+}
+/* single restrained sheen */
+.lp::before{content:"";position:absolute;inset:1px;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(180deg, rgba(255,255,255,.5), transparent 42%);opacity:.7}
+.lp .dot{width:7px;height:7px;border-radius:50%;background:var(--c-accent);flex:none;transition:transform .6s var(--ease), box-shadow .6s var(--ease)}
+.lp:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.9), inset 0 -6px 14px rgba(13,27,42,.05), 0 12px 30px rgba(24,73,198,.18)}
+.lp:hover .dot{transform:scale(1.6);box-shadow:0 0 10px rgba(24,73,198,.6)}
+.lp:active{transform:translateY(0)}
+/* filled variant for primary CTA */
+.lp.solid{background:linear-gradient(180deg,#2657d6,#1849c6);color:#fff;border-color:transparent;box-shadow:inset 0 1px 0 rgba(255,255,255,.3), 0 8px 22px rgba(24,73,198,.35)}
+.lp.solid .dot{background:#fff}
+.lp.solid::before{background:linear-gradient(180deg, rgba(255,255,255,.35), transparent 45%)}
+.lp.solid:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.4), 0 14px 34px rgba(24,73,198,.5)}
+
+/* ============================================================
+   V3 · INK GLASS — navy 染色玻璃 (深色 / sticky nav / footer 卡)
+   ============================================================ */
+.ink{
+  position:relative;cursor:pointer;border:1px solid rgba(141,180,255,.22);border-radius:var(--radius-qr);
+  padding:14px 26px;font-family:var(--ff-sc);font-weight:500;font-size:16px;
+  background:linear-gradient(180deg, rgba(13,27,42,.42), rgba(13,27,42,.62));
+  backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12), 0 10px 30px rgba(5,12,28,.4);
+  color:#eef3ff;overflow:hidden;
+  transition:box-shadow .6s var(--ease), transform .6s var(--ease), border-color .6s var(--ease);
+}
+.ctx.light .ink{box-shadow:inset 0 1px 0 rgba(255,255,255,.1), 0 12px 30px rgba(13,27,42,.18)}
+/* top edge light + blue inner glow */
+.ink::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(120% 100% at 50% 0%, rgba(141,180,255,.18), transparent 55%)}
+.ink:hover{transform:translateY(-2px);border-color:rgba(141,180,255,.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 16px 40px rgba(5,12,28,.5)}
+.ink:active{transform:translateY(0)}
+
+/* ============ NAV (复用各版本玻璃) ============ */
+nav{display:flex;align-items:center;gap:4px;padding:9px 12px;position:relative;z-index:2}
+nav.bp{border-radius:0}
+nav.lp{border-radius:var(--radius-pill);padding:8px 10px}
+nav.ink{border-radius:var(--radius-qr)}
+nav .brand{font-family:var(--ff-ital);font-style:italic;font-size:18px;padding:0 14px 0 6px;white-space:nowrap}
+nav.ink .brand,.ctx.dark nav .brand{color:#fff}
+nav a{font-family:var(--ff-sc);font-weight:700;font-size:14px;text-decoration:none;color:var(--c-slate);padding:8px 14px;white-space:nowrap;position:relative;transition:color .4s var(--ease)}
+nav.ink a,.ctx.dark nav a{color:#aebbd4}
+nav a::after{content:"";position:absolute;left:14px;right:14px;bottom:4px;height:1.5px;background:var(--c-accent);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+nav a:hover{color:var(--c-accent)}
+nav.ink a:hover,.ctx.dark nav a:hover{color:var(--c-accent-2)}
+nav a:hover::after,nav a.active::after{transform:scaleX(1)}
+nav.ink a::after,.ctx.dark nav a::after{background:var(--c-accent-2)}
+nav a.active{color:var(--c-ink)}
+nav.ink a.active,.ctx.dark nav a.active{color:#fff}
+nav .navcta{margin-left:auto;padding-left:10px}
+
+.navwrap{position:relative;z-index:2}
+
+footer{max-width:1100px;margin:64px auto 0;padding:24px 80px 100px;border-top:1px solid var(--c-hairline);font-family:var(--ff-mono);font-size:11px;color:var(--c-muted);letter-spacing:.04em;line-height:1.8}
+</style>
+</head>
+<body>
+  <div class="intro">
+    <div class="kicker">Fluid Glass · 对齐 Design-System · 3 版</div>
+    <h1>流体玻璃，<i>克制版</i><br>三种配方，两种语境同测</h1>
+    <p>全部取用 DESIGN-SYSTEM.md 的真实 token：品牌蓝唯一强调、blueprint hairline、直角/胶囊圆角、<code>cubic-bezier(.22,.61,.36,1)</code> 缓动。每版左侧为<strong>奶白+蓝图网格</strong>语境，右侧为<strong>深色 Hero</strong>语境——玻璃要在两边都成立。Hover 看动效。</p>
+  </div>
+
+  <!-- V1 -->
+  <div class="version">
+    <div class="vhead"><span class="vno">V1</span><span class="vname">Blueprint Frost</span></div>
+    <div class="vspec">直角 0px · #b6bdcd hairline · 蓝色角标 · hover：描边变蓝 + 底线滑入</div>
+    <div class="stage">
+      <div class="ctx light"><span class="ctxtag">奶白 · 蓝图网格</span>
+        <div class="row"><button class="bp">了解策略</button><button class="bp">查看业绩</button></div>
+        <div class="navwrap"><nav class="bp"><span class="brand">常春藤资本</span><a class="active">关于</a><a>策略</a><a>业绩</a><a>团队</a><span class="navcta"><a>联系</a></span></nav></div>
+      </div>
+      <div class="ctx dark"><span class="ctxtag">深色 · Hero</span>
+        <div class="row"><button class="bp">了解策略</button><button class="bp">查看业绩</button></div>
+        <div class="navwrap"><nav class="bp"><span class="brand">常春藤资本</span><a class="active">关于</a><a>策略</a><a>业绩</a><a>团队</a><span class="navcta"><a>联系</a></span></nav></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V2 -->
+  <div class="version">
+    <div class="vhead"><span class="vno">V2</span><span class="vname">Liquid Pill</span></div>
+    <div class="vspec">胶囊 999px · 单层柔光 · 蓝圆点 hover 放大 · 含 solid 主 CTA 变体</div>
+    <div class="stage">
+      <div class="ctx light"><span class="ctxtag">奶白 · 蓝图网格</span>
+        <div class="row"><button class="lp"><span class="dot"></span>了解策略</button><button class="lp solid"><span class="dot"></span>立即预约</button></div>
+        <div class="navwrap"><nav class="lp"><span class="brand">常春藤资本</span><a class="active">关于</a><a>策略</a><a>业绩</a><a>团队</a><span class="navcta"><button class="lp solid" style="font-size:14px;padding:9px 18px"><span class="dot"></span>联系</button></span></nav></div>
+      </div>
+      <div class="ctx dark"><span class="ctxtag">深色 · Hero</span>
+        <div class="row"><button class="lp"><span class="dot"></span>了解策略</button><button class="lp solid"><span class="dot"></span>立即预约</button></div>
+        <div class="navwrap"><nav class="lp"><span class="brand">常春藤资本</span><a class="active">关于</a><a>策略</a><a>业绩</a><a>团队</a><span class="navcta"><button class="lp solid" style="font-size:14px;padding:9px 18px"><span class="dot"></span>联系</button></span></nav></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V3 -->
+  <div class="version">
+    <div class="vhead"><span class="vno">V3</span><span class="vname">Ink Glass</span></div>
+    <div class="vspec">navy 染色 · 圆角 8px (=QR token) · 蓝光内晕 · 对应 footer 玻璃卡 / sticky nav</div>
+    <div class="stage">
+      <div class="ctx light"><span class="ctxtag">奶白 · 蓝图网格</span>
+        <div class="row"><button class="ink">了解策略</button><button class="ink">查看业绩</button></div>
+        <div class="navwrap"><nav class="ink"><span class="brand">常春藤资本</span><a class="active">关于</a><a>策略</a><a>业绩</a><a>团队</a><span class="navcta"><a>联系</a></span></nav></div>
+      </div>
+      <div class="ctx dark"><span class="ctxtag">深色 · Hero</span>
+        <div class="row"><button class="ink">了解策略</button><button class="ink">查看业绩</button></div>
+        <div class="navwrap"><nav class="ink"><span class="brand">常春藤资本</span><a class="active">关于</a><a>策略</a><a>业绩</a><a>团队</a><span class="navcta"><a>联系</a></span></nav></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    FLUID-GLASS · tokens from DESIGN-SYSTEM.md · 品牌蓝 #1849c6 唯一强调 · 缓动 cubic-bezier(.22,.61,.36,1)<br>
+    backdrop-filter required (Chrome/Safari/Edge) · Firefox 需 fallback
+  </footer>
+</body>
+</html>

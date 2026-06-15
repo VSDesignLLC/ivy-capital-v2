@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Glass Button · 呼吸蓝点 (standalone)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --c-bg:#faf9f6; --c-ink:#0d1b2a; --c-slate:#2c3a4a; --c-muted:#7a7e8a;
+  --c-accent:#1849c6; --c-accent-2:#8db4ff; --c-grid:#b6bdcd;
+  --ff-sc:"Noto Sans SC",sans-serif; --ff-mono:"Geist Mono",monospace; --ff-ital:"Instrument Serif",serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-io:cubic-bezier(.45,.05,.55,.95);   /* 呼吸缓动 (来自 hero 右上角圆点) */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{ -webkit-font-smoothing:antialiased; }
+body{ min-height:100vh; background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:64px; padding:80px 24px; }
+/* faint blueprint rails so the glass has a touch of context */
+body::before, body::after{ content:""; position:fixed; top:0; bottom:0; width:1px; background:var(--c-grid); opacity:.4; }
+body::before{ left:64px; } body::after{ right:64px; }
+
+.lab-cap{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted);
+  display:flex; align-items:center; gap:12px; }
+.lab-cap::before{ content:""; width:28px; height:1px; background:var(--c-accent); }
+
+.row{ display:flex; gap:40px; align-items:center; flex-wrap:wrap; justify-content:center; }
+
+/* ============================================================
+   FLUID · LIQUID GLASS BUTTON (radius 999)
+   ============================================================ */
+.btn{ position:relative; isolation:isolate; display:inline-flex; align-items:center; gap:12px;
+  padding:16px 32px; border-radius:999px; border:1px solid transparent; overflow:visible;
+  color:var(--c-ink); font-weight:500; font-size:18px; line-height:21px; cursor:pointer; text-decoration:none;
+  background:linear-gradient(135deg, rgba(255,255,255,.55), rgba(255,255,255,.18) 42%, rgba(255,255,255,.42));
+  backdrop-filter:blur(10px) saturate(180%) brightness(1.04);
+  -webkit-backdrop-filter:blur(10px) saturate(180%) brightness(1.04);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.9),
+    inset 0 -8px 16px rgba(255,255,255,.4),
+    inset 0 2px 6px rgba(255,255,255,.5),
+    0 10px 28px -10px rgba(13,27,42,.28);
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease); }
+/* specular highlight — slides down on hover */
+.btn::before{ content:""; position:absolute; inset:0; z-index:-1; border-radius:inherit;
+  background:radial-gradient(130% 90% at 30% 0%, rgba(255,255,255,.85), transparent 55%);
+  opacity:.85; transition:transform .6s var(--ease), opacity .6s var(--ease); }
+/* gradient ring (brand-blue tinted) */
+.btn::after{ content:""; position:absolute; inset:0; border-radius:inherit; padding:1px; z-index:-1;
+  background:linear-gradient(135deg, rgba(255,255,255,.95), rgba(141,180,255,.5) 38%, rgba(255,255,255,.1) 68%, rgba(255,255,255,.8));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude; }
+.btn:hover{ transform:translateY(-2px) scale(1.015);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,1),
+    inset 0 -8px 18px rgba(255,255,255,.5),
+    inset 0 2px 8px rgba(255,255,255,.6),
+    0 16px 36px -12px rgba(24,73,198,.34); }
+.btn:hover::before{ transform:translateY(7px); opacity:1; }
+.btn:active{ transform:translateY(0) scale(.99); }
+
+/* ============================================================
+   小蓝点 · default = 呼吸光晕 (hero 右上角圆点 / nav-test3 版本A)
+   核心实心点 + ::before 柔光 bloom，scale .55→1.7，2.4s 无限呼吸
+   ============================================================ */
+.btn .dot{ position:relative; isolation:isolate;
+  width:7px; height:7px; border-radius:50%; background:var(--c-accent); flex:none; }
+.btn .dot::before{
+  content:""; position:absolute; left:50%; top:50%; z-index:-1; pointer-events:none;
+  width:22px; height:22px; border-radius:50%;
+  transform:translate(-50%,-50%) scale(.55);
+  /* 蓝色为主的呼吸光晕（浅色按钮上可见；动作=hero 版本A） */
+  background:radial-gradient(circle,
+    rgba(24,73,198,.55) 0%,
+    rgba(24,73,198,.38) 36%,
+    rgba(24,73,198,.14) 68%,
+    rgba(24,73,198,0) 100%);
+  filter:blur(2px);
+  animation:a-halo 2.4s var(--ease-io) infinite;
+}
+@keyframes a-halo{
+  0%   { transform:translate(-50%,-50%) scale(.55); opacity:0; }
+  28%  { opacity:.92; }
+  100% { transform:translate(-50%,-50%) scale(1.7); opacity:0; }
+}
+/* hover：核心点轻微放大；呼吸光晕继续 */
+.btn:hover .dot{ transform:scale(1.4); transition:transform .5s var(--ease); }
+
+@media (prefers-reduced-motion: reduce){
+  .btn, .btn::before, .btn .dot{ transition:none; }
+  .btn .dot::before{ animation:none; opacity:.45; transform:translate(-50%,-50%) scale(1.2); }
+}
+</style>
+</head>
+<body>
+
+  <div class="lab-cap">Glass Button · 呼吸蓝点 · default state</div>
+
+  <div class="row">
+    <a class="btn" href="#"><span class="dot"></span>了解更多</a>
+    <a class="btn" href="#"><span class="dot"></span>更多项目</a>
+  </div>
+
+  <div class="lab-cap" style="opacity:.7">hover 看玻璃高光下滑 + 上浮；圆点持续呼吸</div>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+# 备份 / 历史版本
+*.backup-*.html
+*.backup-*.md
+*-backup.html
+homepage-ch-novideo-backup.html
+design-system.backup-*.html
+DESIGN-SYSTEM.backup-*.md
+
+# 设计系统 / 文档 / 工作区文件（不对外）
+design-system.html
+DESIGN-SYSTEM.md
+README.md
+CLAUDE.md
+tests/
+.claude/
+.gstack/
+.DS_Store
+assets/.DS_Store
+assets/.gstack/
+
+# 未被 homepage-ch.html 引用的大资源
+assets/about-flow.png
+assets/footer-bg-archive.png
+assets/kling_20260611_作品_A_seamless_4125_0.mp4
+assets/kling_20260612_作品_ (1).mp4
+assets/kling_20260612_作品_以上传图为首帧_整幅_3634_0 (1).mp4
+assets/kling_20260612_作品_以上传图为首帧_整幅_3648_0.mp4

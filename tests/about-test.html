@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>关于我们 · About — 对比 / Comparison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   关于我们 / About — fidelity replication + refinement variants
+   Blueprint grid. Title-box right edge LOCKED to the 2/3 divider
+   via shared CSS grid lines (no JS needed for alignment).
+   ============================================================ */
+:root{
+  --rail:64px; --page-x:80px; --maxw:1760px;
+  --c-bg:#faf9f6; --c-ink:#0d1b2a; --c-slate:#2c3a4a; --c-muted:#7a7e8a; --c-accent:#1849c6;
+  --c-grid:#b6bdcd; --c-accent-wash:rgba(24,73,198,.05); --c-accent-line:rgba(24,73,198,.20);
+  --ff-sc:"Noto Sans SC",sans-serif; --ff-serif:"Noto Serif SC",serif;
+  --ff-sans:"Geist",sans-serif; --ff-mono:"Geist Mono",monospace; --ff-ital:"Instrument Serif",serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+body{ background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); overflow-x:hidden; }
+img{ display:block; max-width:none; }
+a{ color:inherit; text-decoration:none; }
+
+/* ---------- stage / version scaffolding ---------- */
+.stage{ position:relative; padding:120px 0 160px; border-bottom:1px solid rgba(13,27,42,.06); }
+.stage:last-child{ border-bottom:0; }
+.badge{ position:sticky; top:20px; z-index:50; margin:0 0 64px var(--rail);
+  display:inline-flex; align-items:center; gap:10px; width:max-content;
+  padding:9px 16px; background:rgba(250,249,246,.82); backdrop-filter:blur(10px);
+  border:1px solid var(--c-grid); border-radius:999px;
+  font-family:var(--ff-mono); font-size:11px; letter-spacing:.06em; color:var(--c-slate); }
+.badge .bdot{ width:6px; height:6px; border-radius:50%; background:var(--c-accent); }
+
+/* ---------- the page (full-width responsive stage, per spec) ---------- */
+.page{ width:100%; max-width:var(--maxw); margin:0 auto; position:relative; }
+
+/* faint full-height side rails @ x=64 / x=right-64 (content-region edges) */
+.rails{ position:absolute; inset:0; pointer-events:none; z-index:0; }
+.rails .rail{ position:absolute; top:0; bottom:0; width:1px; background:var(--c-grid); opacity:.5; }
+.rails .rail.l{ left:var(--rail); } .rails .rail.r{ right:var(--rail); }
+
+/* content region is inset by the rail on both sides */
+.about{ position:relative; z-index:1; padding:0 var(--rail); }
+
+/* THE LOCK: one 3-column grid (zero gap) drives both the title box and
+   the divider. Title box = grid-column 2 → right edge sits on the col2|col3
+   line (the 2/3 point). Stats = grid-column 3 → its border-left sits on the
+   SAME line. Shared grid line ⇒ right edge == divider x at every width. */
+.agrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:64px auto;
+  column-gap:0; row-gap:0;
+}
+
+/* ---- band (row 1): the horizontal rules spanning the full content width ---- */
+.band{ grid-column:1 / -1; grid-row:1; position:relative; z-index:1; }
+.band .rule{ position:absolute; left:0; right:0; height:0; border-top:1px solid var(--c-grid); }
+.band .rule.top{ top:0; } .band .rule.bot{ bottom:0; }
+
+/* ---- boxed section title: occupies the CENTER THIRD (grid-column 2) ---- */
+.sec-box{ grid-column:2; grid-row:1; position:relative; z-index:2;
+  height:64px; background:var(--c-bg);
+  border:1px solid var(--c-accent-line);
+  display:flex; align-items:center; justify-content:center; }
+.sec-box .corner{ position:absolute; width:14px; height:14px; }
+.sec-box .corner.tl{ left:12px; top:12px; border-left:1px solid var(--c-accent); border-top:1px solid var(--c-accent); }
+.sec-box .corner.br{ right:12px; bottom:12px; border-right:1px solid var(--c-accent); border-bottom:1px solid var(--c-accent); }
+.sec-box .bt{ display:flex; gap:8px; align-items:baseline; color:var(--c-accent); white-space:nowrap; }
+.sec-box .rn{ font-family:var(--ff-ital); font-style:italic; font-size:36px; line-height:42px; letter-spacing:-0.56px; }
+.sec-box .cn{ font-family:var(--ff-serif); font-weight:500; font-size:36px; line-height:42px; letter-spacing:-0.64px; }
+
+/* ---- body (row 2) ---- */
+.about__left{ grid-column:1 / 3; grid-row:2; min-width:0;
+  display:flex; flex-direction:column; gap:40px;
+  padding:80px 56px 0 16px; }
+.about__p{ font-size:18px; line-height:28px; letter-spacing:-0.3px; color:var(--c-ink); max-width:46em; }
+.about__p .b{ color:var(--c-accent); }
+.btn{ align-self:flex-start; display:inline-flex; align-items:center; gap:12px;
+  padding:17px 33px; border-radius:999px; background:var(--c-accent-wash);
+  border:1px solid #fff; backdrop-filter:blur(8px); color:var(--c-accent);
+  font-family:var(--ff-sc); font-size:18px; line-height:21px;
+  transition:transform .4s var(--ease), background .4s var(--ease), box-shadow .4s var(--ease); }
+.btn:hover{ transform:translateY(-2px); background:rgba(24,73,198,.10); box-shadow:0 10px 30px -12px rgba(24,73,198,.35); }
+.btn .dot{ width:7px; height:7px; border-radius:50%; background:var(--c-accent); flex:none; transition:transform .4s var(--ease); }
+.btn:hover .dot{ transform:scale(1.5); }
+.about__imgwrap{ height:270px; overflow:hidden; position:relative; }
+.about__imgwrap img{ position:absolute; width:104%; height:auto; left:-2%; top:-13%; opacity:.8; }
+
+/* ---- stats column (row 2, grid-column 3) — strictly RIGHT of divider ---- */
+.about__stats{ grid-column:3; grid-row:2; --stat-pad:48px;
+  border-left:1px solid var(--c-grid);     /* THE 2/3 DIVIDER — on the col2|col3 line */
+  padding:40px 0 6px var(--stat-pad);      /* generous left pad: numbers never touch the line */
+  display:flex; flex-direction:column; justify-content:space-between; gap:24px; }
+.stat{ position:relative; display:flex; flex-direction:column; gap:14px; }
+.stat .lbl{ font-size:11px; line-height:16.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted); }
+.stat .num{ font-family:var(--ff-sans); font-weight:500; font-size:64px; line-height:64px; letter-spacing:-1.92px; color:var(--c-ink); white-space:nowrap; }
+.stat .num .cn{ font-family:var(--ff-sc); font-weight:500; }
+
+/* ============================================================
+   版本B — 账本分隔 (ledger rules + 01–04 index ticks)
+   ============================================================ */
+.v-b .about__stats{ padding-top:0; }
+.v-b .stat{ padding:28px 0; border-top:1px solid rgba(13,27,42,.10); }
+.v-b .stat:first-child{ border-top:0; padding-top:0; }
+.v-b .stat:last-child{ padding-bottom:0; }
+.v-b .lblrow{ display:flex; align-items:baseline; gap:10px; }
+.v-b .idx{ font-family:var(--ff-mono); font-size:11px; font-weight:500; letter-spacing:.04em; color:var(--c-accent); }
+
+/* ============================================================
+   版本C — 强对齐 (baseline ticks meeting the divider + count-up)
+   ============================================================ */
+.v-c .stat::before{ content:""; position:absolute; left:calc(-1 * var(--stat-pad)); bottom:6px;
+  width:34px; height:1px; background:var(--c-grid); opacity:.85; }
+.v-c .stat::after{ content:""; position:absolute; left:calc(-1 * var(--stat-pad)); bottom:6px;
+  width:3px; height:3px; margin:1px 0 0 0; border-radius:50%; background:var(--c-accent);
+  transform:translate(-1px,1px); }
+
+/* ---------- reveal motion ---------- */
+[data-reveal]{ opacity:0; transform:translateY(12px); transition:opacity .7s var(--ease), transform .7s var(--ease); transition-delay:var(--d,0ms); }
+.page.in [data-reveal]{ opacity:1; transform:none; }
+
+@media (prefers-reduced-motion: reduce){
+  [data-reveal]{ opacity:1 !important; transform:none !important; transition:none !important; }
+  .btn, .btn .dot{ transition:none !important; }
+  .badge{ backdrop-filter:none; }
+}
+
+/* ---------- modest down-scale on narrow viewports (still locked) ---------- */
+@media (max-width:1100px){
+  .stat .num{ font-size:52px; line-height:52px; letter-spacing:-1.4px; }
+  .sec-box .rn,.sec-box .cn{ font-size:30px; line-height:36px; }
+  .about__left{ padding-right:40px; }
+  .about__stats{ --stat-pad:40px; }
+}
+@media (max-width:760px){
+  .stat .num{ font-size:40px; line-height:40px; }
+  .sec-box .rn,.sec-box .cn{ font-size:24px; line-height:28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================== 版本A — 忠实 ============================== -->
+<section class="stage">
+  <div class="badge"><span class="bdot"></span>关于我们 · 版本A — 忠实</div>
+  <div class="page v-a">
+    <div class="rails"><span class="rail l"></span><span class="rail r"></span></div>
+    <div class="about">
+      <div class="agrid">
+        <div class="band" data-reveal>
+          <span class="rule top"></span><span class="rule bot"></span>
+        </div>
+        <div class="sec-box" data-reveal>
+          <span class="corner tl"></span><span class="corner br"></span>
+          <span class="bt"><span class="rn">I.</span><span class="cn">关于我们</span></span>
+        </div>
+        <div class="about__left">
+          <p class="about__p" data-reveal>常春藤资本成立于 2007 年，总部位于上海，是中国最早一批<span class="b">市场化</span>风险投资机构之一。自成立以来我们穿越多个周期，始终坚持以深度研究和行业洞察为驱动，寻找那些有能力、有野心、有韧性，能够发现广阔市场价值的创业者。<br><br>常春藤旗下同时拥有一级市场投资平台「常春藤资本」与二级市场投资平台「常春藤基金」，累计管理规模超过 240 亿元人民币。常春藤资本已投资并长期陪伴超过 150 家科技企业成长，其中 23 家企业成功上市。</p>
+          <a class="btn" href="#" data-reveal style="--d:80ms"><span class="dot"></span>了解更多</a>
+          <div class="about__imgwrap" data-reveal style="--d:140ms"><img src="../assets/about-flow.png" alt="" /></div>
+        </div>
+        <div class="about__stats" data-reveal style="--d:100ms">
+          <div class="stat"><span class="lbl">成立</span><span class="num">2007</span></div>
+          <div class="stat"><span class="lbl">管理规模</span><span class="num">240<span class="cn">亿</span></span></div>
+          <div class="stat"><span class="lbl">已投项目</span><span class="num">200+</span></div>
+          <div class="stat"><span class="lbl">上市企业</span><span class="num">23</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== 版本B — 账本分隔 ============================== -->
+<section class="stage">
+  <div class="badge"><span class="bdot"></span>关于我们 · 版本B — 账本分隔</div>
+  <div class="page v-b">
+    <div class="rails"><span class="rail l"></span><span class="rail r"></span></div>
+    <div class="about">
+      <div class="agrid">
+        <div class="band" data-reveal>
+          <span class="rule top"></span><span class="rule bot"></span>
+        </div>
+        <div class="sec-box" data-reveal>
+          <span class="corner tl"></span><span class="corner br"></span>
+          <span class="bt"><span class="rn">I.</span><span class="cn">关于我们</span></span>
+        </div>
+        <div class="about__left">
+          <p class="about__p" data-reveal>常春藤资本成立于 2007 年，总部位于上海，是中国最早一批<span class="b">市场化</span>风险投资机构之一。自成立以来我们穿越多个周期，始终坚持以深度研究和行业洞察为驱动，寻找那些有能力、有野心、有韧性，能够发现广阔市场价值的创业者。<br><br>常春藤旗下同时拥有一级市场投资平台「常春藤资本」与二级市场投资平台「常春藤基金」，累计管理规模超过 240 亿元人民币。常春藤资本已投资并长期陪伴超过 150 家科技企业成长，其中 23 家企业成功上市。</p>
+          <a class="btn" href="#" data-reveal style="--d:80ms"><span class="dot"></span>了解更多</a>
+          <div class="about__imgwrap" data-reveal style="--d:140ms"><img src="../assets/about-flow.png" alt="" /></div>
+        </div>
+        <div class="about__stats" data-reveal style="--d:100ms">
+          <div class="stat"><span class="lblrow"><span class="idx">01</span><span class="lbl">成立</span></span><span class="num">2007</span></div>
+          <div class="stat"><span class="lblrow"><span class="idx">02</span><span class="lbl">管理规模</span></span><span class="num">240<span class="cn">亿</span></span></div>
+          <div class="stat"><span class="lblrow"><span class="idx">03</span><span class="lbl">已投项目</span></span><span class="num">200+</span></div>
+          <div class="stat"><span class="lblrow"><span class="idx">04</span><span class="lbl">上市企业</span></span><span class="num">23</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== 版本C — 强对齐 ============================== -->
+<section class="stage">
+  <div class="badge"><span class="bdot"></span>关于我们 · 版本C — 强对齐</div>
+  <div class="page v-c">
+    <div class="rails"><span class="rail l"></span><span class="rail r"></span></div>
+    <div class="about">
+      <div class="agrid">
+        <div class="band" data-reveal>
+          <span class="rule top"></span><span class="rule bot"></span>
+        </div>
+        <div class="sec-box" data-reveal>
+          <span class="corner tl"></span><span class="corner br"></span>
+          <span class="bt"><span class="rn">I.</span><span class="cn">关于我们</span></span>
+        </div>
+        <div class="about__left">
+          <p class="about__p" data-reveal>常春藤资本成立于 2007 年，总部位于上海，是中国最早一批<span class="b">市场化</span>风险投资机构之一。自成立以来我们穿越多个周期，始终坚持以深度研究和行业洞察为驱动，寻找那些有能力、有野心、有韧性，能够发现广阔市场价值的创业者。<br><br>常春藤旗下同时拥有一级市场投资平台「常春藤资本」与二级市场投资平台「常春藤基金」，累计管理规模超过 240 亿元人民币。常春藤资本已投资并长期陪伴超过 150 家科技企业成长，其中 23 家企业成功上市。</p>
+          <a class="btn" href="#" data-reveal style="--d:80ms"><span class="dot"></span>了解更多</a>
+          <div class="about__imgwrap" data-reveal style="--d:140ms"><img src="../assets/about-flow.png" alt="" /></div>
+        </div>
+        <div class="about__stats" data-reveal style="--d:100ms">
+          <div class="stat"><span class="lbl">成立</span><span class="num" data-count="2007" data-suffix="">2007</span></div>
+          <div class="stat"><span class="lbl">管理规模</span><span class="num" data-count="240" data-suffix="亿" data-cn="1">240<span class="cn">亿</span></span></div>
+          <div class="stat"><span class="lbl">已投项目</span><span class="num" data-count="200" data-suffix="+">200+</span></div>
+          <div class="stat"><span class="lbl">上市企业</span><span class="num" data-count="23" data-suffix="">23</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function countUp(el){
+    var target = parseInt(el.getAttribute('data-count'),10);
+    var suffix = el.getAttribute('data-suffix') || '';
+    var cn = el.getAttribute('data-cn');
+    var dur = 1200, start = null;
+    function render(v){
+      if(cn){ el.innerHTML = v + '<span class="cn">' + suffix + '</span>'; }
+      else { el.textContent = v + suffix; }
+    }
+    if(reduce){ render(target); return; }
+    function step(ts){
+      if(start===null) start = ts;
+      var p = Math.min((ts-start)/dur, 1);
+      var eased = 1 - Math.pow(1-p, 3);
+      render(Math.round(target*eased));
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var pages = document.querySelectorAll('.page');
+  if(!('IntersectionObserver' in window)){
+    pages.forEach(function(p){ p.classList.add('in'); });
+    document.querySelectorAll('.v-c [data-count]').forEach(countUp);
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('in');
+      if(e.target.classList.contains('v-c')){
+        e.target.querySelectorAll('[data-count]').forEach(countUp);
+      }
+      io.unobserve(e.target);
+    });
+  }, { threshold:0.18 });
+  pages.forEach(function(p){ io.observe(p); });
+})();
+</script>
+</body>
+</html>
