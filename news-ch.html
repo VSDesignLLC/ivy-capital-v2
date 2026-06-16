@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>最新动态 · 常春藤资本 Ivy Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================ NEWS 页专属布局
+   复用共享层组件 (sec-band/sec-box · rails · grid)。
+   文案严格取自飞书《2026官网内容》Page5 最新动态（仅 block 62 介绍文字）；
+   公众号文章文档未提供 → 文章卡用 placeholder 占位（标题/日期/分类），分类取自 block 62 内容类型。 */
+
+#news{ padding-bottom:var(--gap); }
+
+/* ---------- NEWS HERO（仅文档 Page5 介绍文字） ---------- */
+.nhero{ position:relative; padding:200px var(--page-x) 92px; }
+.nhero__title{ font-family:var(--ff-serif); font-weight:500; font-size:42px; line-height:1.5; letter-spacing:-0.6px; color:var(--c-ink); max-width:23em; }
+.nhero__title .b{ color:var(--c-accent); }
+
+/* ---------- 最新动态 文章卡（placeholder 占位，待填公众号文章） ---------- */
+.news-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:56px; }
+.ncard{ display:flex; flex-direction:column; isolation:isolate; }
+.ncard__cover{ position:relative; aspect-ratio:16/10; overflow:hidden; border:1px solid var(--c-hairline);
+  background:linear-gradient(150deg,#efece4 0%,#e6e2d8 100%);
+  transition:transform .6s var(--ease-soft), box-shadow .6s var(--ease-soft), border-color .6s var(--ease-soft);
+  box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),0), 0 36px 64px -30px rgba(var(--c-ink-rgb),0); }
+/* 图片占位图标：方框 + 圆 */
+.ncard__cover::after{ content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:48px; height:40px; border:2px solid rgba(var(--c-ink-rgb),.12); border-radius:5px; }
+.ncard__cover::before{ content:""; position:absolute; left:50%; top:54%; transform:translate(-50%,-50%); z-index:1; width:13px; height:13px; border-radius:50%; background:rgba(var(--c-ink-rgb),.11); }
+.ncard__corner{ position:absolute; width:13px; height:13px; opacity:.4; z-index:2; }
+.ncard__corner.tl{ left:11px; top:11px; border-left:1px solid var(--c-ink); border-top:1px solid var(--c-ink); }
+.ncard__corner.br{ right:11px; bottom:11px; border-right:1px solid var(--c-ink); border-bottom:1px solid var(--c-ink); }
+.ncard:hover .ncard__cover{ transform:translateY(-6px); border-color:var(--c-accent-line);
+  box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),.10), 0 14px 30px -14px rgba(var(--c-ink-rgb),.14), 0 36px 64px -30px rgba(var(--c-ink-rgb),.20); }
+.ncard__body{ padding-top:20px; display:flex; flex-direction:column; gap:12px; }
+.ncard__kick{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--c-muted); }
+.ncard__kick .cat{ color:var(--c-accent); }
+.ncard__title{ font-family:var(--ff-serif); font-weight:600; font-size:22px; line-height:30px; letter-spacing:-0.3px; color:var(--c-ink); }
+/* 摘要占位骨架（两条灰线，不编造文字） */
+.ncard__excerpt{ display:flex; flex-direction:column; gap:8px; margin-top:2px; }
+.ncard__excerpt span{ display:block; height:11px; border-radius:4px; background:rgba(var(--c-ink-rgb),.07); }
+.ncard__excerpt span:nth-child(2){ width:70%; }
+.ncard__more{ font-size:13px; letter-spacing:.01em; color:var(--c-accent); margin-top:6px; }
+
+/* ---------- narrow safety ---------- */
+@media (max-width:1100px){
+  .nhero{ padding-top:150px; }
+  .nhero__title{ font-size:32px; }
+  .news-grid{ grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:640px){
+  .news-grid{ grid-template-columns:1fr; }
+}
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+</head>
+<body>
+
+<!-- GLOBAL fixed video background（与首页同源，最新动态页压得很淡） -->
+<video class="pagebg" id="pagebg" autoplay muted loop playsinline preload="auto">
+  <source src="assets/kling_20260612_作品_以上传图为首帧_整幅_4326_0.mp4" type="video/mp4" />
+</video>
+
+<div class="page">
+
+  <div class="rails-top" id="rails" aria-hidden="true">
+    <div class="rail l"></div>
+    <div class="rail r"></div>
+  </div>
+
+  <!-- NAV (共享单一来源) -->
+  <site-nav></site-nav>
+
+  <!-- NEWS HERO — 仅文档 Page5 介绍文字 -->
+  <header class="nhero" data-bgop="0.10">
+    <h1 class="nhero__title" data-reveal>这里记录着常春藤资本的最新投资动态、行业观察、品牌活动与生态合作，以及被投企业在技术创新、产品进展和商业化探索中的<span class="b">重要里程碑</span>。</h1>
+  </header>
+
+  <!-- 最新动态 — placeholder 占位（文档未提供公众号文章） -->
+  <section class="section" id="news" data-bgop="0.04">
+    <div class="sec-band left sec-anim">
+      <span class="rule top"></span><span class="rule bot"></span>
+      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+        <span class="bt"><span class="cn">最新动态</span></span>
+      </div>
+    </div>
+    <div class="news-grid">
+      <article class="ncard" data-reveal><div class="ncard__cover"><span class="ncard__corner tl"></span><span class="ncard__corner br"></span></div><div class="ncard__body"><span class="ncard__kick">2026.06 · <span class="cat">投资动态</span></span><h3 class="ncard__title">文章标题</h3><div class="ncard__excerpt"><span></span><span></span></div><span class="ncard__more">阅读全文 →</span></div></article>
+      <article class="ncard" data-reveal style="--d:80ms"><div class="ncard__cover"><span class="ncard__corner tl"></span><span class="ncard__corner br"></span></div><div class="ncard__body"><span class="ncard__kick">2026.05 · <span class="cat">行业观察</span></span><h3 class="ncard__title">文章标题</h3><div class="ncard__excerpt"><span></span><span></span></div><span class="ncard__more">阅读全文 →</span></div></article>
+      <article class="ncard" data-reveal style="--d:160ms"><div class="ncard__cover"><span class="ncard__corner tl"></span><span class="ncard__corner br"></span></div><div class="ncard__body"><span class="ncard__kick">2026.05 · <span class="cat">品牌活动</span></span><h3 class="ncard__title">文章标题</h3><div class="ncard__excerpt"><span></span><span></span></div><span class="ncard__more">阅读全文 →</span></div></article>
+      <article class="ncard" data-reveal><div class="ncard__cover"><span class="ncard__corner tl"></span><span class="ncard__corner br"></span></div><div class="ncard__body"><span class="ncard__kick">2026.04 · <span class="cat">生态合作</span></span><h3 class="ncard__title">文章标题</h3><div class="ncard__excerpt"><span></span><span></span></div><span class="ncard__more">阅读全文 →</span></div></article>
+      <article class="ncard" data-reveal style="--d:80ms"><div class="ncard__cover"><span class="ncard__corner tl"></span><span class="ncard__corner br"></span></div><div class="ncard__body"><span class="ncard__kick">2026.03 · <span class="cat">企业里程碑</span></span><h3 class="ncard__title">文章标题</h3><div class="ncard__excerpt"><span></span><span></span></div><span class="ncard__more">阅读全文 →</span></div></article>
+      <article class="ncard" data-reveal style="--d:160ms"><div class="ncard__cover"><span class="ncard__corner tl"></span><span class="ncard__corner br"></span></div><div class="ncard__body"><span class="ncard__kick">2026.03 · <span class="cat">投资动态</span></span><h3 class="ncard__title">文章标题</h3><div class="ncard__excerpt"><span></span><span></span></div><span class="ncard__more">阅读全文 →</span></div></article>
+    </div>
+  </section>
+
+  <!-- FOOTER (共享单一来源) -->
+  <site-footer></site-footer>
+
+</div>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>
