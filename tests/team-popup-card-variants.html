@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>团队成员弹窗卡片 · 迭代汇总</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/tokens.css" />
+<style>
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); }
+  .wrap{ max-width:1280px; margin:0 auto; padding:64px 40px 120px; }
+
+  .head__tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--c-accent); margin-bottom:14px; }
+  .head__h1{ font-family:var(--ff-serif); font-weight:600; font-size:38px; letter-spacing:-0.02em; margin:0 0 14px; }
+  .head__sub{ font-size:15px; line-height:1.75; color:var(--c-slate); max-width:760px; margin:0; }
+
+  /* 迭代线索 pills */
+  .thread{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:34px 0 8px; padding:18px 20px;
+    border:1px solid var(--c-hairline); border-radius:14px; background:rgba(var(--c-ink-rgb),.015); }
+  .thread .p{ font-family:var(--ff-mono); font-size:12px; letter-spacing:.04em; padding:6px 12px; border-radius:999px;
+    background:rgba(var(--c-ink-rgb),.05); color:var(--c-slate); }
+  .thread .p.star{ background:var(--c-ink); color:var(--c-bg); }
+  .thread .arr{ color:var(--c-muted); font-size:14px; }
+
+  .stage{ margin-top:56px; }
+  .stage__bar{ display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:6px; }
+  .stage__r{ font-family:var(--ff-mono); font-size:12px; letter-spacing:.12em; color:var(--c-accent); }
+  .stage__t{ font-family:var(--ff-serif); font-weight:600; font-size:23px; letter-spacing:-0.01em; }
+  .badge{ font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; padding:4px 10px; border-radius:999px; }
+  .badge.base{ background:rgba(var(--c-ink-rgb),.07); color:var(--c-muted); }
+  .badge.key{ background:var(--c-accent-wash); color:var(--c-accent); border:1px solid var(--c-accent-line); }
+  .badge.star{ background:var(--c-ink); color:var(--c-bg); }
+  .stage__open{ margin-left:auto; font-family:var(--ff-mono); font-size:12px; color:var(--c-accent); text-decoration:none; }
+  .stage__open:hover{ text-decoration:underline; }
+  .stage__note{ font-size:14px; line-height:1.7; color:var(--c-slate); margin:8px 0 18px; max-width:860px; }
+  .stage__note b{ color:var(--c-ink); font-weight:600; }
+
+  .frame{ position:relative; border:1px solid var(--c-hairline); border-radius:16px; overflow:hidden;
+    box-shadow:0 24px 60px -34px rgba(var(--c-ink-rgb),.4); background:#000; }
+  .frame iframe{ display:block; width:100%; height:600px; border:0; background:var(--c-bg); }
+
+  .foot{ margin-top:72px; padding-top:24px; border-top:1px solid var(--c-hairline); font-size:13px; line-height:1.7; color:var(--c-muted); }
+  .foot b{ color:var(--c-slate); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div class="head__tag">Team · member popup card — iteration log</div>
+    <h1 class="head__h1">团队成员弹窗卡片 · 迭代汇总</h1>
+    <p class="head__sub">点 team 卡片后弹出的成员详情弹窗。从"还原参考图布局"出发，逐步引入 homepage 的 rail 分割语言、把操作图标嵌进 rail 分块、并落到浅色主题。下面按迭代顺序排列，每段可单独打开看完整交互（× / ESC / ← → 翻页 / 主题切换）。</p>
+  </div>
+
+  <div class="thread">
+    <span class="p">R1 · Layout 还原</span>
+    <span class="arr">→</span>
+    <span class="p">R2 · Rail 分割 + icon 入格 + 浅/深双主题</span>
+    <span class="arr">→</span>
+    <span class="p star">★ R3 · 浅色 + Elevation</span>
+  </div>
+
+  <!-- R1 -->
+  <section class="stage">
+    <div class="stage__bar">
+      <span class="stage__r">R1</span>
+      <span class="stage__t">Layout 还原</span>
+      <span class="badge base">基础版</span>
+      <a class="stage__open" href="0616%20subpages/team-modal.html" target="_blank">单独打开 ↗</a>
+    </div>
+    <p class="stage__note">照参考图 1:1 还原：左肖像 + 右深色面板；面板内「投资团队」标签置顶、× 右上、<b>姓名（accent 竖条）+ 职位 + 简介底对齐</b>、侧边 ←→ 翻页、底部拖拽条。配色 / 字体 / 字号全部换成我们 design system 的 token。<b>Vera：layout 已还原</b>，但操作图标都还浮在面板内。</p>
+    <div class="frame"><iframe data-act="card" src="0616%20subpages/team-modal.html" title="R1 layout 还原"></iframe></div>
+  </section>
+
+  <!-- R2 -->
+  <section class="stage">
+    <div class="stage__bar">
+      <span class="stage__r">R2</span>
+      <span class="stage__t">Rail 分割 + icon 入格 + 浅/深双主题</span>
+      <span class="badge key">关键迭代</span>
+      <a class="stage__open" href="0616%20subpages/team-modal-rails.html" target="_blank">单独打开 ↗</a>
+    </div>
+    <p class="stage__note">沿卡片四条边把线延伸到视口，形成 homepage rail 那样的<b>九宫格分割</b>（卡片是正中格）；把 <b>close / prev / next 嵌进 rail 分块</b>（close 右上格、prev 左中格、next 右中格，整块可点、hover 淡填充）；新增<b>浅 / 深主题切换</b>（左下角小钮）。<b>Vera：浅色布局挺好，rail 分割与 icon 入格都成立。</b></p>
+    <div class="frame"><iframe data-act="card" src="0616%20subpages/team-modal-rails.html#open" title="R2 rail + icon 入格 + 双主题"></iframe></div>
+  </section>
+
+  <!-- R3 -->
+  <section class="stage">
+    <div class="stage__bar">
+      <span class="stage__r">R3</span>
+      <span class="stage__t">浅色 + Elevation（当前方向）</span>
+      <span class="badge star">★ 当前</span>
+      <a class="stage__open" href="0616%20subpages/team-modal-light-elevation.html" target="_blank">单独打开 ↗</a>
+    </div>
+    <p class="stage__note">锁定浅色，专测卡片从奶白底上"浮起"的处理，顶部按钮可切：<b>无 / 极淡描边 / 柔和投影 / 大扩散 / 蓝染投影 / 描边+投影</b>。预览默认展示「柔和投影」。<b>Vera：目前很好了。</b>elevation 最终定一个即可（推荐 柔和投影 或 描边+投影，最不压过 rail 的分割语言）。</p>
+    <div class="frame"><iframe data-act="elev" src="0616%20subpages/team-modal-light-elevation.html" title="R3 浅色 elevation"></iframe></div>
+  </section>
+
+  <div class="foot">
+    <b>落地说明：</b>定稿 = 浅色 rail 版（R2 的 rail 分割 + icon 入格）+ R3 选定的 elevation。届时把弹窗结构 / 样式精确写进 <b>team-ch.html</b>，接到 <b>.pcard 的点击</b>上（成员真实资料文档未提供，简介现为占位，不编造）。<br>
+    单个探讨版本已归档于 <b>tests/0616 subpages/</b>：team-modal.html · team-modal-rails.html · team-modal-light-elevation.html。
+  </div>
+
+</div>
+
+<script>
+  // 同源 iframe：加载后自动点开弹窗，让汇总页一眼看到成品态
+  document.querySelectorAll('iframe[data-act]').forEach(function(f){
+    f.addEventListener('load', function(){
+      try{
+        var d = f.contentDocument; if(!d) return;
+        if(f.dataset.act === 'card'){
+          var card = d.querySelector('#grid .pcard'); if(card) card.click();
+        } else if(f.dataset.act === 'elev'){
+          var btn = d.querySelector('.ctl button[data-e="e-soft"]'); if(btn) btn.click();
+        }
+      }catch(e){ /* 跨源时静默跳过 */ }
+    });
+  });
+</script>
+</body>
+</html>

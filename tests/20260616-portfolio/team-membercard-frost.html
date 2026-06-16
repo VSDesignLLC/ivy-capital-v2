@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V1 磨砂高度调试 · team pcard</title>
+<base href="../../">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<style>
+  body{ background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); margin:0; }
+  .wrap{ max-width:1100px; margin:0 auto; padding:72px 80px; }
+
+  .intro .cap{ font-family:var(--ff-mono); font-size:11px; letter-spacing:var(--tracking-caption);
+    text-transform:uppercase; color:var(--c-accent); margin:0 0 14px; }
+  .intro .note{ font-size:15px; line-height:24px; color:var(--c-slate); max-width:680px; margin:0 0 8px; }
+
+  /* 每个高度一块 */
+  .blk{ margin-top:64px; }
+  .blk > .sec-head{ margin-bottom:24px; }
+  .blk > .sec-head .cn{ font-size:24px; line-height:30px; }
+  .blk > .sec-head .rn{ font-size:24px; line-height:30px; }
+  .blk > .sec-head .sub{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.06em;
+    color:var(--c-muted); align-self:center; text-transform:none; }
+
+  /* 并排：静止态 / 展开态 */
+  .pair{ display:grid; grid-template-columns:repeat(2, minmax(0,340px)); gap:24px; }
+  .colcap{ font-family:var(--ff-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--c-muted); margin:0 0 10px; }
+
+  /* ---- V1 共享：姓名+职位常显 + 底部常驻奶白渐变 ---- */
+  .pcard__foot{ gap:4px; }
+  .pcard:hover .pcard__foot{ gap:6px; }
+  .pcard__foot .d{ grid-template-rows:1fr; opacity:1; transform:none; color:var(--c-slate); }
+  .pcard__foot .t{ color:var(--c-ink); }
+  .v1 .pcard__foot{ padding-top:60px;
+    background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 0%, rgba(var(--c-bg-rgb),.55) 42%, rgba(var(--c-bg-rgb),.96) 100%); }
+  .v1 .pcard__foot .t{ text-shadow:0 0 10px rgba(var(--c-bg-rgb),.7); }
+
+  /* 展开态：强制把磨砂蒙层完全 reveal（等价于 hover） */
+  .open .pcard__plate{ clip-path:inset(0 0 0 0) !important; }
+
+  /* 各档磨砂高度 */
+  .h50 .pcard__plate{ height:50%; }
+  .h42 .pcard__plate{ height:42%; }
+  .h36 .pcard__plate{ height:36%; }
+  .h30 .pcard__plate{ height:30%; }
+</style>
+<link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="intro">
+    <p class="cap">V1 渐变常驻 · 磨砂层高度调试</p>
+    <p class="note">右列已强制展开（等价于 hover），方便直接看磨砂顶边到哪。左列为静止态（仅常驻渐变）。
+      虚线标出文字块顶部，磨砂顶边略高于它即可，不要窜太高。</p>
+  </div>
+
+  <!-- 50% 参照 -->
+  <section class="blk v1 h50">
+    <div class="sec-head"><span class="rn">50%</span><span class="cn">当前（偏高）</span><span class="sub">pcard 默认 · 明显高过文字</span></div>
+    <div class="pair">
+      <div><p class="colcap">静止</p><article class="pcard"><img class="pcard__bg" src="tests/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">创始合伙人</span></span></div></article></div>
+      <div><p class="colcap">展开（hover）</p><article class="pcard open"><img class="pcard__bg" src="tests/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">创始合伙人</span></span></div></article></div>
+    </div>
+  </section>
+
+  <!-- 42% -->
+  <section class="blk v1 h42">
+    <div class="sec-head"><span class="rn">42%</span><span class="cn">收一档</span><span class="sub"></span></div>
+    <div class="pair">
+      <div><p class="colcap">静止</p><article class="pcard"><img class="pcard__bg" src="tests/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">管理合伙人</span></span></div></article></div>
+      <div><p class="colcap">展开（hover）</p><article class="pcard open"><img class="pcard__bg" src="tests/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">管理合伙人</span></span></div></article></div>
+    </div>
+  </section>
+
+  <!-- 36% -->
+  <section class="blk v1 h36">
+    <div class="sec-head"><span class="rn">36%</span><span class="cn">贴合文字</span><span class="sub">磨砂顶边约略高过文字块</span></div>
+    <div class="pair">
+      <div><p class="colcap">静止</p><article class="pcard"><img class="pcard__bg" src="tests/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">合伙人</span></span></div></article></div>
+      <div><p class="colcap">展开（hover）</p><article class="pcard open"><img class="pcard__bg" src="tests/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">合伙人</span></span></div></article></div>
+    </div>
+  </section>
+
+  <!-- 30% -->
+  <section class="blk v1 h30">
+    <div class="sec-head"><span class="rn">30%</span><span class="cn">最紧</span><span class="sub">仅裹住文字</span></div>
+    <div class="pair">
+      <div><p class="colcap">静止</p><article class="pcard"><img class="pcard__bg" src="tests/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">董事总经理</span></span></div></article></div>
+      <div><p class="colcap">展开（hover）</p><article class="pcard open"><img class="pcard__bg" src="tests/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">董事总经理</span></span></div></article></div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

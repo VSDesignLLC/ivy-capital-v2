@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>图片卡 · logo 在 hover 时浮现</title>
+<base href="../../">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<style>
+  body{ background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); margin:0; }
+  .wrap{ max-width:1760px; margin:0 auto; padding:72px 80px; }
+
+  .intro .cap{ font-family:var(--ff-mono); font-size:11px; letter-spacing:var(--tracking-caption);
+    text-transform:uppercase; color:var(--c-accent); margin:0 0 14px; }
+  .intro .note{ font-size:15px; line-height:24px; color:var(--c-slate); max-width:720px; margin:0; }
+
+  section{ margin-top:64px; }
+  .sec-head{ display:flex; align-items:baseline; gap:14px; margin:0 0 8px; }
+  .sec-head .rn{ font-family:var(--ff-ital); font-style:italic; font-size:26px; color:var(--c-accent); }
+  .sec-head .cn{ font-family:var(--ff-serif); font-weight:600; font-size:26px; color:var(--c-ink); }
+  .seclead{ margin:0 0 28px; font-size:13px; line-height:21px; color:var(--c-muted); }
+
+  .pgrid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+  /* 交互演示：两张大卡并排 */
+  .demo{ display:grid; grid-template-columns:repeat(2, minmax(0,360px)); gap:28px; }
+  .colcap{ font-family:var(--ff-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--c-muted); margin:0 0 10px; }
+
+  /* ---- pcard V1：姓名+副标题常显 + 渐变常驻 + 磨砂 36% ---- */
+  .pcard__foot{ gap:4px; padding-top:60px;
+    background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 0%, rgba(var(--c-bg-rgb),.55) 42%, rgba(var(--c-bg-rgb),.96) 100%); }
+  .pcard:hover .pcard__foot, .pcard.is-hover .pcard__foot{ gap:6px; }
+  .pcard__foot .t{ color:var(--c-ink); text-shadow:0 0 10px rgba(var(--c-bg-rgb),.7); }
+  .pcard__foot .d{ grid-template-rows:1fr; opacity:1; transform:none; color:var(--c-slate); }
+  .pcard__foot .d .d-inner{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .pcard__plate{ height:36%; }
+
+  /* ---- logo：静止隐藏，hover 时居中淡入（直接叠加，无白片）---- */
+  .pcard__logo{ position:absolute; left:50%; top:42%; transform:translate(-50%,-56%); z-index:3;
+    opacity:0; pointer-events:none;
+    transition:opacity .5s var(--ease), transform .6s var(--ease-soft); }
+  .pcard__logo img{ display:block; width:168px; height:auto; }
+  .pcard:hover .pcard__logo, .pcard.is-hover .pcard__logo{ opacity:1; transform:translate(-50%,-50%); }
+
+  /* 把 hover 视觉态固化到 .is-hover，便于静态对照 / 截图 */
+  .pcard.is-hover{ transform:translateY(-6px); border-color:var(--c-accent-line);
+    box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),.10), 0 14px 30px -14px rgba(var(--c-ink-rgb),.14), 0 36px 64px -30px rgba(var(--c-ink-rgb),.20); }
+  .pcard.is-hover .pcard__plate{ clip-path:inset(0 0 0 0); }
+  .pcard.is-hover .pcard__bg{ transform:scale(1.06); }
+
+  @media (max-width:1100px){ .pgrid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:640px){ .pgrid{ grid-template-columns:1fr; } .wrap{ padding:48px 24px; } }
+</style>
+<link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="intro">
+    <p class="cap">图片卡 · logo 在 hover 时浮现</p>
+    <p class="note">静止态只有纹理 + 底部中文名（名字已经显示，不重复放 logo）；鼠标移上去时，
+      企业 logo 在卡片正中淡入、磨砂层上展。logo 直接叠加（无白片），先用来牟科技 LYMOW 占位。
+      移动到下方卡片可实时体验；右侧两组已固化为 hover 态便于对照。</p>
+  </div>
+
+  <!-- 交互演示 -->
+  <section>
+    <div class="sec-head"><span class="rn">i.</span><span class="cn">交互演示</span></div>
+    <p class="seclead">左 = 静止（仅中文名） · 右 = hover（logo 浮现 + 磨砂上展）</p>
+    <div class="demo">
+      <div><p class="colcap">静止</p><article class="pcard"><img class="pcard__bg" src="assets/proj-3830.jpg" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt="LYMOW"></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">来牟科技</span><span class="d"><span class="d-inner">专注欧美市场的智能割草机器人公司</span></span></div></article></div>
+      <div><p class="colcap">hover</p><article class="pcard is-hover"><img class="pcard__bg" src="assets/proj-3830.jpg" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt="LYMOW"></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">来牟科技</span><span class="d"><span class="d-inner">专注欧美市场的智能割草机器人公司</span></span></div></article></div>
+    </div>
+  </section>
+
+  <!-- 实时网格（移上去看 logo 浮现） -->
+  <section>
+    <div class="sec-head"><span class="rn">ii.</span><span class="cn">实时网格</span></div>
+    <p class="seclead">移动到任意卡片看 logo 浮现 · 8 张不同纹理底</p>
+    <div class="pgrid">
+      <article class="pcard"><img class="pcard__bg" src="assets/proj-3817.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt="LYMOW"></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">来牟科技</span><span class="d"><span class="d-inner">专注欧美市场的智能割草机器人公司</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="assets/proj-3819.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt="LYMOW"></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">来牟科技</span><span class="d"><span class="d-inner">专注欧美市场的智能割草机器人公司</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="assets/proj-3820.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt="LYMOW"></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">来牟科技</span><span class="d"><span class="d-inner">专注欧美市场的智能割草机器人公司</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="assets/proj-3821.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt="LYMOW"></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">来牟科技</span><span class="d"><span class="d-inner">专注欧美市场的智能割草机器人公司</span></span></div></article>
+      <article class="pcard is-hover"><img class="pcard__bg" src="assets/proj-3824.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt="LYMOW"></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">来牟科技</span><span class="d"><span class="d-inner">专注欧美市场的智能割草机器人公司</span></span></div></article>
+      <article class="pcard is-hover"><img class="pcard__bg" src="assets/proj-3825.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt="LYMOW"></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">来牟科技</span><span class="d"><span class="d-inner">专注欧美市场的智能割草机器人公司</span></span></div></article>
+      <article class="pcard is-hover"><img class="pcard__bg" src="assets/proj-3826.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt="LYMOW"></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">来牟科技</span><span class="d"><span class="d-inner">专注欧美市场的智能割草机器人公司</span></span></div></article>
+      <article class="pcard is-hover"><img class="pcard__bg" src="assets/proj-3830.jpg" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt="LYMOW"></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">来牟科技</span><span class="d"><span class="d-inner">专注欧美市场的智能割草机器人公司</span></span></div></article>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

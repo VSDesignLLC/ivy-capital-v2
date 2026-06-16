@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Portfolio 企业网格卡片 · 迭代汇总</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/tokens.css" />
+<style>
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); }
+  .wrap{ max-width:1280px; margin:0 auto; padding:64px 40px 120px; }
+
+  .head__tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--c-accent); margin-bottom:14px; }
+  .head__h1{ font-family:var(--ff-serif); font-weight:600; font-size:38px; letter-spacing:-0.02em; margin:0 0 14px; }
+  .head__sub{ font-size:15px; line-height:1.75; color:var(--c-slate); max-width:780px; margin:0; }
+
+  /* 迭代线索 pills */
+  .thread{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:34px 0 8px; padding:18px 20px;
+    border:1px solid var(--c-hairline); border-radius:14px; background:rgba(var(--c-ink-rgb),.015); }
+  .thread .p{ font-family:var(--ff-mono); font-size:12px; letter-spacing:.04em; padding:6px 12px; border-radius:999px;
+    background:rgba(var(--c-ink-rgb),.05); color:var(--c-slate); }
+  .thread .p.star{ background:var(--c-ink); color:var(--c-bg); }
+  .thread .arr{ color:var(--c-muted); font-size:14px; }
+
+  .stage{ margin-top:56px; }
+  .stage__bar{ display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:6px; }
+  .stage__r{ font-family:var(--ff-mono); font-size:12px; letter-spacing:.12em; color:var(--c-accent); }
+  .stage__t{ font-family:var(--ff-serif); font-weight:600; font-size:23px; letter-spacing:-0.01em; }
+  .badge{ font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; padding:4px 10px; border-radius:999px; }
+  .badge.base{ background:rgba(var(--c-ink-rgb),.07); color:var(--c-muted); }
+  .badge.key{ background:var(--c-accent-wash); color:var(--c-accent); border:1px solid var(--c-accent-line); }
+  .badge.star{ background:var(--c-ink); color:var(--c-bg); }
+  .stage__open{ margin-left:auto; font-family:var(--ff-mono); font-size:12px; color:var(--c-accent); text-decoration:none; }
+  .stage__open:hover{ text-decoration:underline; }
+  .stage__note{ font-size:14px; line-height:1.7; color:var(--c-slate); margin:8px 0 18px; max-width:880px; }
+  .stage__note b{ color:var(--c-ink); font-weight:600; }
+
+  .frame{ position:relative; border:1px solid var(--c-hairline); border-radius:16px; overflow:hidden;
+    box-shadow:0 24px 60px -34px rgba(var(--c-ink-rgb),.4); background:var(--c-bg); }
+  .frame iframe{ display:block; width:100%; height:640px; border:0; background:var(--c-bg); }
+
+  .foot{ margin-top:72px; padding-top:24px; border-top:1px solid var(--c-hairline); font-size:13px; line-height:1.7; color:var(--c-muted); }
+  .foot b{ color:var(--c-slate); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div class="head__tag">Portfolio · company grid card — iteration log</div>
+    <h1 class="head__h1">Portfolio 企业网格卡片 · 迭代汇总</h1>
+    <p class="head__sub">把「被投企业 / 企业案例」网格从纯文字卡改造成图片卡的全过程。卡片样式起源于 team grid，
+      再应用到 portfolio。下面按迭代顺序排列，每段嵌入当时的探讨页、可单独打开看完整交互（hover 看磨砂上展 / logo 浮现）。</p>
+  </div>
+
+  <div class="thread">
+    <span class="p">R1 · 卡片样式（选 B：姓名+副标题常显）</span>
+    <span class="arr">→</span>
+    <span class="p">R2 · 磨砂高度 36%</span>
+    <span class="arr">→</span>
+    <span class="p">R3 · 图片 + 文字 混合网格</span>
+    <span class="arr">→</span>
+    <span class="p">R4 · logo 直接叠加 · hover 浮现</span>
+    <span class="arr">→</span>
+    <span class="p star">★ 选定版</span>
+  </div>
+
+  <!-- R1 -->
+  <section class="stage">
+    <div class="stage__bar">
+      <span class="stage__r">R1</span>
+      <span class="stage__t">卡片样式（team grid 起源）</span>
+      <span class="badge base">基础版</span>
+      <a class="stage__open" href="20260616-portfolio/team-membercard-compare.html" target="_blank">单独打开 ↗</a>
+    </div>
+    <p class="stage__note">用首页「代表项目」<b>.pcard 图片卡</b>格式重写网格卡，对比 3 种映射
+      （A pill=职位 / B hover 展开职位 / C pill=编号）。<b>Vera：选 B 方向</b>，但改为
+      <b>姓名 + 副标题一开始就常显</b>，hover 时背景层向上展开把文字衬得更清楚（占位用真实人像）。</p>
+    <div class="frame"><iframe src="20260616-portfolio/team-membercard-compare.html" title="R1 卡片样式 A/B/C"></iframe></div>
+  </section>
+
+  <!-- R2 -->
+  <section class="stage">
+    <div class="stage__bar">
+      <span class="stage__r">R2</span>
+      <span class="stage__t">磨砂层高度</span>
+      <span class="badge key">关键迭代</span>
+      <a class="stage__open" href="20260616-portfolio/team-membercard-frost.html" target="_blank">单独打开 ↗</a>
+    </div>
+    <p class="stage__note">pcard 默认磨砂层 50%，hover 上展时<b>窜得比文字高一大截</b>。对比 50 / 42 / 36 / 30%
+      （每档并排「静止 / 展开」）。<b>Vera：选 36%</b>——盖住姓名+职位、文字落在磨砂面上更清楚，又不窜太高。</p>
+    <div class="frame"><iframe src="20260616-portfolio/team-membercard-frost.html" title="R2 磨砂高度 50/42/36/30"></iframe></div>
+  </section>
+
+  <!-- R3 -->
+  <section class="stage">
+    <div class="stage__bar">
+      <span class="stage__r">R3</span>
+      <span class="stage__t">图片网格 + 文字网格 混合</span>
+      <span class="badge key">关键迭代</span>
+      <a class="stage__open" href="20260616-portfolio/portfolio-cardgrid-hybrid.html" target="_blank">单独打开 ↗</a>
+    </div>
+    <p class="stage__note">数据形状问题：portfolio 有 <b>79 家</b>、却只有 8 张占位纹理、无企业实拍 / logo，全做图片卡会很长且配图重复。
+      <b>选定混合版</b>：顶部 16 家精选做图片卡（pcard V1 · 4×4），其余 63 家保持原<b>文字网格</b>；badge=年份，已上市副标题前加蓝色「已上市 ·」。</p>
+    <div class="frame"><iframe src="20260616-portfolio/portfolio-cardgrid-hybrid.html" title="R3 混合网格"></iframe></div>
+  </section>
+
+  <!-- R4 -->
+  <section class="stage">
+    <div class="stage__bar">
+      <span class="stage__r">R4</span>
+      <span class="stage__t">logo 叠加</span>
+      <span class="badge key">关键迭代</span>
+      <a class="stage__open" href="20260616-portfolio/portfolio-cardgrid-logo.html" target="_blank">单独打开 ↗</a>
+    </div>
+    <p class="stage__note">在图片卡上叠企业 logo。先对比「直接叠加 / 磨砂白片」→ <b>Vera：选直接叠加（更简洁）</b>。
+      再定 <b>logo 只在 hover 后浮现</b>（静止已显示中文名，再放 logo 就重复），居中淡入。
+      深色纹理底上黑 logo 会发灰 → 落地时给精选卡优先挑浅纹理。logo 暂用来牟科技 LYMOW 统一占位。</p>
+    <div class="frame"><iframe src="20260616-portfolio/portfolio-cardgrid-logo.html" title="R4 logo 直接叠加 + hover 浮现"></iframe></div>
+  </section>
+
+  <!-- ★ 选定版 -->
+  <section class="stage">
+    <div class="stage__bar">
+      <span class="stage__r">★</span>
+      <span class="stage__t">选定版（合并 R3 布局 + R4 logo）</span>
+      <span class="badge star">★ 当前</span>
+      <a class="stage__open" href="20260616-portfolio/portfolio-cardgrid-final.html" target="_blank">单独打开 ↗</a>
+    </div>
+    <p class="stage__note">把混合布局与 hover 浮现 logo 合到一起：<b>16 家精选图片卡（4×4）+ 63 家文字网格</b>，
+      图片卡静止显示中文名 + 副标题，<b>hover 时 logo 居中淡入 + 磨砂上展</b>。<b>Vera：目前很好了。</b></p>
+    <div class="frame"><iframe src="20260616-portfolio/portfolio-cardgrid-final.html" title="★ 选定版"></iframe></div>
+  </section>
+
+  <div class="foot">
+    <b>落地说明：</b>定稿 = 混合网格（R3）+ 图片卡 hover 浮现 logo（R4，直接叠加）。届时把网格结构 / 样式精确写进
+    <b>portfolio-ch.html</b>。<b>待补</b>：各企业 logo（现仅 <b>assets/logo-lymow.png</b> 一个占位）、精选 16 家名单、
+    深色纹理优先换浅、真实企业配图。<br>
+    单步探讨已归档于 <b>tests/20260616-portfolio/</b>：team-membercard-compare.html · team-membercard-frost.html ·
+    portfolio-cardgrid-hybrid.html · portfolio-cardgrid-logo.html · portfolio-cardgrid-final.html。
+  </div>
+
+</div>
+</body>
+</html>

@@ -190,6 +190,7 @@ a{color:inherit;text-decoration:none}
 .about__p .b{ color:var(--c-accent); }
 .about__imgwrap{ height:270px; overflow:hidden; position:relative; }
 .about__imgwrap img{ position:absolute; width:104%; height:auto; left:-2%; top:-13%; opacity:.8; }
+.about__imgwrap video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.9; }
 .about__stats{ grid-column:3; grid-row:2; --stat-pad:48px; border-left:1px solid var(--c-grid);
   padding:40px 0 6px var(--stat-pad); display:flex; flex-direction:column; justify-content:space-between; gap:24px; }
 .about__stats .stat{ position:relative; display:flex; flex-direction:column; gap:14px; }
@@ -352,7 +353,7 @@ a{color:inherit;text-decoration:none}
 
 <!-- GLOBAL fixed video background (奶白底之上 / 内容之下；opacity 随 scroll 变化) -->
 <video class="pagebg" id="pagebg" autoplay muted loop playsinline preload="auto">
-  <source src="../assets/kling_20260612_作品_以上传图为首帧_整幅_3648_0.mp4" type="video/mp4" />
+  <source src="../assets/kling-20260612-3648.mp4" type="video/mp4" />
 </video>
 
 <div class="page">
@@ -421,7 +422,7 @@ a{color:inherit;text-decoration:none}
       <div class="about__left">
         <p class="about__p" data-reveal>常春藤资本成立于 2007 年，总部位于上海，是中国最早一批<span class="b">市场化</span>风险投资机构之一。自成立以来我们穿越多个周期，始终坚持以深度研究和行业洞察为驱动，寻找那些有能力、有野心、有韧性，能够发现广阔市场价值的创业者。<br><br>常春藤旗下同时拥有一级市场投资平台「常春藤资本」与二级市场投资平台「常春藤基金」，累计管理规模超过 240 亿元人民币。常春藤资本已投资并长期陪伴超过 150 家科技企业成长，其中 23 家企业成功上市。</p>
         <a class="btn" href="#" data-reveal style="--d:120ms"><span class="dot"></span>了解更多</a>
-        <div class="about__imgwrap" data-reveal style="--d:160ms"><img src="../assets/about-flow.png" alt="" /></div>
+        <div class="about__imgwrap" data-reveal style="--d:160ms"><video class="about__vid" autoplay muted loop playsinline preload="auto"><source src="../assets/A_cinematic_hero_loop_Tw%20%281%29.mp4" type="video/mp4" /></video></div>
       </div>
       <div class="about__stats" data-reveal style="--d:120ms">
         <div class="stat"><span class="lbl">成立</span><span class="num" data-count="2007">2007</span></div>

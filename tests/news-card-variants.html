@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>最新动态 · news card 候选对比</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/tokens.css" />
+<link rel="stylesheet" href="../assets/css/base.css" />
+<link rel="stylesheet" href="../assets/css/components.css" />
+<style>
+  body{ background:var(--c-bg); }
+  .wrap{ max-width:1280px; margin:0 auto; padding:60px 48px 140px; }
+  .head__tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--c-accent); margin-bottom:12px; }
+  .head__h1{ font-family:var(--ff-serif); font-weight:600; font-size:36px; letter-spacing:-0.02em; margin:0 0 12px; color:var(--c-ink); }
+  .head__sub{ font-size:14px; line-height:1.75; color:var(--c-slate); max-width:780px; margin:0; }
+  .head__sub b{ color:var(--c-ink); }
+
+  .vsec{ margin-top:64px; }
+  .vsec__bar{ display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:6px; }
+  .vsec__k{ font-family:var(--ff-mono); font-size:12px; letter-spacing:.12em; color:var(--c-accent); }
+  .vsec__t{ font-family:var(--ff-serif); font-weight:600; font-size:22px; color:var(--c-ink); }
+  .vsec__note{ font-size:13.5px; line-height:1.7; color:var(--c-slate); margin:6px 0 26px; max-width:880px; }
+  .vsec__note b{ color:var(--c-ink); }
+  .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+
+  .clamp2{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .clamp3{ display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+
+  /* =========================================================
+     V1 · 图卡（照 Image #8 · pcard 语言，深色 plate 常驻）
+     ========================================================= */
+  .nc1{ position:relative; display:flex; flex-direction:column; height:430px; overflow:hidden;
+    border:1px solid var(--c-divider); background:var(--c-ink); text-decoration:none; isolation:isolate;
+    transition:transform .6s var(--ease-soft), box-shadow .6s var(--ease-soft), border-color .6s var(--ease-soft);
+    box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),0), 0 36px 64px -30px rgba(var(--c-ink-rgb),0); }
+  .nc1__img{ position:relative; height:56%; overflow:hidden; }
+  .nc1__img img{ width:100%; height:100%; object-fit:cover; transition:transform 1.1s var(--ease); }
+  .nc1__img::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(9,19,40,0) 40%, rgba(9,19,40,.55) 100%); }
+  .nc1__badge{ position:absolute; z-index:2; top:16px; left:16px; display:inline-flex; align-items:center; gap:7px;
+    padding:5px 11px 5px 9px; background:rgba(9,19,40,.42); border:1px solid rgba(255,255,255,.28); border-radius:100px;
+    -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); }
+  .nc1__badge i{ width:6px; height:6px; border-radius:50%; background:var(--c-accent-2); }
+  .nc1__badge span{ font-family:var(--ff-mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#fff; }
+  .nc1__band{ flex:1 1 auto; padding:22px 24px 24px; display:flex; flex-direction:column; justify-content:flex-end; gap:12px;
+    background:linear-gradient(180deg, #16233d 0%, #0d1b2a 70%); }
+  .nc1__title{ font-family:var(--ff-sc); font-weight:700; font-size:20px; line-height:28px; letter-spacing:-0.2px; color:#fff; }
+  .nc1__date{ font-family:var(--ff-mono); font-size:12px; letter-spacing:.06em; color:var(--c-accent-2); }
+  .nc1:hover{ transform:translateY(-6px); border-color:color-mix(in srgb, var(--c-accent-2) 30%, transparent);
+    box-shadow:0 18px 44px -20px rgba(9,19,40,.6), 0 6px 16px -10px rgba(var(--c-accent-rgb),.4); }
+  .nc1:hover .nc1__img img{ transform:scale(1.06); }
+
+  /* =========================================================
+     V2 · 文字编辑卡（.card 语言，无图，奶白）
+     ========================================================= */
+  .nc2{ height:340px; text-decoration:none; }
+  .nc2 .card__top .tag{ color:var(--c-accent); }
+  .nc2 .card__top .idx{ color:var(--c-muted); font-family:var(--ff-mono); }
+  .nc2__title{ font-family:var(--ff-serif); font-weight:600; font-size:25px; line-height:34px; letter-spacing:-0.3px; color:var(--c-ink); text-shadow:none; }
+  .nc2__more{ font-size:13px; letter-spacing:.01em; color:var(--c-accent);
+    opacity:0; transform:translateY(6px); transition:opacity .45s var(--ease), transform .5s var(--ease-soft); }
+  .nc2:hover .nc2__more{ opacity:1; transform:translateY(0); }
+  .nc2 .card__foot{ gap:14px; }
+  .nc2:hover .card__foot{ gap:14px; }
+
+  /* =========================================================
+     V3 · 封面在上 + 文字在下（杂志式）
+     ========================================================= */
+  .nc3{ display:flex; flex-direction:column; text-decoration:none; isolation:isolate; }
+  .nc3__cover{ position:relative; aspect-ratio:16/10; overflow:hidden; border:1px solid var(--c-hairline);
+    transition:transform .6s var(--ease-soft), box-shadow .6s var(--ease-soft), border-color .6s var(--ease-soft);
+    box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),0), 0 36px 64px -30px rgba(var(--c-ink-rgb),0); }
+  .nc3__cover img{ width:100%; height:100%; object-fit:cover; transition:transform 1.1s var(--ease); }
+  .nc3__cat{ position:absolute; top:14px; left:14px; z-index:2; padding:5px 11px; border-radius:100px;
+    background:rgba(var(--c-bg-rgb),.82); border:1px solid var(--c-accent-line); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);
+    font-family:var(--ff-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--c-accent); }
+  .nc3:hover .nc3__cover{ transform:translateY(-6px); border-color:var(--c-accent-line);
+    box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),.10), 0 36px 64px -30px rgba(var(--c-ink-rgb),.20); }
+  .nc3:hover .nc3__cover img{ transform:scale(1.06); }
+  .nc3__body{ padding-top:18px; display:flex; flex-direction:column; gap:10px; }
+  .nc3__date{ font-family:var(--ff-mono); font-size:12px; letter-spacing:.06em; color:var(--c-muted); }
+  .nc3__title{ font-family:var(--ff-serif); font-weight:600; font-size:21px; line-height:30px; letter-spacing:-0.3px; color:var(--c-ink); }
+  .nc3__more{ font-size:13px; color:var(--c-accent); margin-top:2px; }
+
+  /* =========================================================
+     V4 · 字体主导（无图友好，海军蓝头 + 奶白身）
+     ========================================================= */
+  .nc4{ display:flex; flex-direction:column; height:340px; overflow:hidden; text-decoration:none;
+    border:1px solid var(--c-hairline); background:var(--c-bg); isolation:isolate;
+    transition:transform .6s var(--ease-soft), box-shadow .6s var(--ease-soft), border-color .6s var(--ease-soft);
+    box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),0), 0 36px 64px -30px rgba(var(--c-ink-rgb),0); }
+  .nc4__head{ position:relative; height:128px; flex:none; padding:22px 24px; overflow:hidden;
+    display:flex; flex-direction:column; justify-content:space-between;
+    background:linear-gradient(152deg,#16233d 0%, #0d1b2a 60%, #091324 100%); }
+  .nc4__head::before{ content:""; position:absolute; right:-30px; top:-30px; width:160px; height:160px; border-radius:50%;
+    background:radial-gradient(circle, rgba(var(--c-accent-rgb),.5) 0%, rgba(var(--c-accent-rgb),0) 65%); }
+  .nc4__cat{ position:relative; font-family:var(--ff-ital); font-style:italic; font-size:30px; line-height:1; color:var(--c-accent-2); }
+  .nc4__date{ position:relative; font-family:var(--ff-mono); font-size:12px; letter-spacing:.08em; color:rgba(255,255,255,.62); }
+  .nc4__body{ flex:1; padding:22px 24px; display:flex; flex-direction:column; }
+  .nc4__title{ font-family:var(--ff-sc); font-weight:700; font-size:20px; line-height:28px; letter-spacing:-0.2px; color:var(--c-ink); }
+  .nc4__more{ margin-top:auto; font-size:13px; color:var(--c-accent); }
+  .nc4:hover{ transform:translateY(-6px); border-color:var(--c-accent-line);
+    box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),.10), 0 36px 64px -30px rgba(var(--c-ink-rgb),.20); }
+
+  @media (max-width:1000px){ .grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:640px){ .grid{ grid-template-columns:1fr; } }
+</style>
+<link rel="stylesheet" href="../assets/css/motion.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div class="head__tag">News · article card candidates</div>
+    <h1 class="head__h1">最新动态 · news card 候选</h1>
+    <p class="head__sub">数据字段取自表格：<b>类型 · 时间 · 文章链接 · 文章标题</b>（无图片字段，文章为公众号外链）。每版第 1 张用真实文章（互联网女皇 Mary Meeker），后两张为占位（标注「占位」，不编造新闻）。图卡版的封面暂用品牌抽象图占位，正式上线可换公众号文章首图 / 设计封面。整卡点击 = 跳文章链接。</p>
+  </div>
+
+  <section class="vsec">
+    <div class="vsec__bar"><span class="vsec__k">V1</span><span class="vsec__t">图卡（照 Image #8 · 满图 + 深色 plate 常驻）</span></div>
+    <p class="vsec__note">复用「代表项目」pcard 视觉：满图 + 右上<b>类型</b> badge + 底部深色面板放<b>标题</b>与<b>时间</b>。视觉最重、最像参考图，<b>但依赖每篇有封面图</b>（公众号文章不一定都有，需兜底）。</p>
+    <div class="grid" id="g1"></div>
+  </section>
+
+  <section class="vsec">
+    <div class="vsec__bar"><span class="vsec__k">V2</span><span class="vsec__t">文字编辑卡（card 语言 · 无图 · 奶白）</span></div>
+    <p class="vsec__note">复用 <b>.card</b> 奶白卡：顶部<b>类型</b>（蓝）+ <b>时间</b>（等宽，右对齐），底部大号 serif <b>标题</b>，hover 浮起 + 出「阅读全文 →」。<b>完全不依赖图片</b>，最适合外链文章流。</p>
+    <div class="grid" id="g2"></div>
+  </section>
+
+  <section class="vsec">
+    <div class="vsec__bar"><span class="vsec__k">V3</span><span class="vsec__t">封面在上 + 文字在下（杂志式）</span></div>
+    <p class="vsec__note">图在上（<b>类型</b> chip 叠角），文字在下方页面底色上：<b>时间</b> + serif <b>标题</b> + 阅读全文。比 V1 轻、可读性更高，仍需封面图。即现 news 页 .ncard 的精炼版。</p>
+    <div class="grid" id="g3"></div>
+  </section>
+
+  <section class="vsec">
+    <div class="vsec__bar"><span class="vsec__k">V4</span><span class="vsec__t">字体主导（无图友好 · 海军蓝头）</span></div>
+    <p class="vsec__note">无封面：顶部海军蓝色块用 italic 大字放<b>类型</b> + 等宽<b>时间</b>，下半奶白放<b>标题</b> + 阅读全文。把「无图」变成风格本身，品牌感强、信息密度高。</p>
+    <div class="grid" id="g4"></div>
+  </section>
+
+</div>
+
+<script>
+  var ITEMS = [
+    { type:'Ivy Views', date:'2025.6.6', url:'https://mp.weixin.qq.com/s/wTHvlB4p7ZZr5fmB9C4cSA',
+      title:'读完互联网女皇 Mary Meeker 最新 AI 报告：三个观察、三个问题以及未来思考',
+      img:'../assets/proj-3830.jpg' },
+    { type:'行业观察', date:'2025.5.20', url:'#',
+      title:'（占位）用于测试较长文章标题在卡片内的两到三行换行与截断表现',
+      img:'../assets/philosophy-vision.jpg' },
+    { type:'媒体报道', date:'2025.4.18', url:'#',
+      title:'（占位）短标题示例',
+      img:'../assets/proj-3831.jpg' }
+  ];
+
+  function tpl(v, it){
+    if(v===1) return ''+
+      '<a class="nc1" href="'+it.url+'" target="_blank" rel="noopener">'+
+        '<div class="nc1__img"><img src="'+it.img+'" alt=""><span class="nc1__badge"><i></i><span>'+it.type+'</span></span></div>'+
+        '<div class="nc1__band"><h3 class="nc1__title clamp2">'+it.title+'</h3><span class="nc1__date">'+it.date+'</span></div>'+
+      '</a>';
+    if(v===2) return ''+
+      '<a class="card nc2" href="'+it.url+'" target="_blank" rel="noopener">'+
+        '<span class="corner tl"></span><span class="corner br"></span>'+
+        '<div class="card__top"><span class="tag">'+it.type+'</span><span class="idx">'+it.date+'</span></div>'+
+        '<div class="card__foot"><h3 class="card__title nc2__title clamp3">'+it.title+'</h3><span class="nc2__more">阅读全文 →</span></div>'+
+      '</a>';
+    if(v===3) return ''+
+      '<a class="nc3" href="'+it.url+'" target="_blank" rel="noopener">'+
+        '<div class="nc3__cover"><img src="'+it.img+'" alt=""><span class="nc3__cat">'+it.type+'</span></div>'+
+        '<div class="nc3__body"><span class="nc3__date">'+it.date+'</span><h3 class="nc3__title clamp2">'+it.title+'</h3><span class="nc3__more">阅读全文 →</span></div>'+
+      '</a>';
+    return ''+
+      '<a class="nc4" href="'+it.url+'" target="_blank" rel="noopener">'+
+        '<div class="nc4__head"><span class="nc4__cat">'+it.type+'</span><span class="nc4__date">'+it.date+'</span></div>'+
+        '<div class="nc4__body"><h3 class="nc4__title clamp3">'+it.title+'</h3><span class="nc4__more">阅读全文 →</span></div>'+
+      '</a>';
+  }
+  [1,2,3,4].forEach(function(v){
+    document.getElementById('g'+v).innerHTML = ITEMS.map(function(it){ return tpl(v,it); }).join('');
+  });
+</script>
+</body>
+</html>

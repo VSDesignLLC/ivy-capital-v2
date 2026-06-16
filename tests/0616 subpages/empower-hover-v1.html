@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>V1 · 移植 投资策略卡 hover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/tokens.css" />
+<link rel="stylesheet" href="../assets/css/base.css" />
+<link rel="stylesheet" href="../assets/css/components.css" />
+<style>
+  body{ padding:80px var(--page-x); }
+  .wrap{ max-width:var(--maxw); margin:0 auto; }
+  .variant-label{ font-family:var(--ff-mono); font-size:11px; letter-spacing:var(--tracking-caption);
+    text-transform:uppercase; color:var(--c-muted); margin-bottom:8px; }
+  .sec-h{ display:flex; gap:14px; align-items:baseline; color:var(--c-accent); margin-bottom:54px; }
+  .sec-h .rn{ font-family:var(--ff-ital); font-style:italic; font-size:40px; line-height:1; text-transform:uppercase; }
+  .sec-h .cn{ font-family:var(--ff-serif); font-weight:500; font-size:40px; line-height:1; letter-spacing:-.02em; }
+
+  /* ---------- card A: image top, reading block below ---------- */
+  .grid-a{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; align-items:stretch; }
+  .acard{ position:relative; display:flex; flex-direction:column; background:var(--c-bg);
+    border:1px solid var(--c-hairline); overflow:hidden; isolation:isolate;
+    transition:transform .7s var(--ease-soft), box-shadow .7s var(--ease-soft), border-color .7s var(--ease-soft);
+    box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),0), 0 30px 60px -34px rgba(var(--c-ink-rgb),0); }
+  .acard:hover{ transform:translateY(-6px); border-color:var(--c-accent-line);
+    box-shadow:0 10px 24px -12px rgba(var(--c-ink-rgb),.14), 0 40px 70px -34px rgba(var(--c-ink-rgb),.22); }
+  /* fixed-height image zone => the 3 cards align perfectly at the seam regardless of text length */
+  .acard__media{ position:relative; height:230px; overflow:hidden; flex:none; }
+  .acard__media img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    transition:transform 1.1s var(--ease); }
+
+  /* ===== V1 移植招式：投资策略卡 hover 神髓适配到 image-top 阅读卡 ===== */
+  /* 1) 图片放大：基准 1.05 → hover 1.07（呼应 .card .card__bg scale1.06） */
+  .acard:hover .acard__media img{ transform:scale(1.07); }
+  /* 2) 渐变窗帘：常态托底，hover 加深并向上爬（复刻 .card__grad 招式，transition 同 .62s var(--ease-soft)） */
+  .acard__media::after{ content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(var(--c-ink-rgb),.18) 0%, rgba(var(--c-ink-rgb),0) 38%,
+      rgba(var(--c-bg-rgb),0) 72%, rgba(var(--c-bg-rgb),1) 100%);
+    transition:background .62s var(--ease-soft); }
+  .acard:hover .acard__media::after{
+    background:linear-gradient(180deg, rgba(var(--c-ink-rgb),.30) 0%, rgba(var(--c-ink-rgb),.06) 30%,
+      rgba(var(--c-bg-rgb),.18) 56%, rgba(var(--c-bg-rgb),1) 100%); }
+
+  .acard__idx{ position:absolute; left:20px; top:18px; z-index:2; font-family:var(--ff-mono);
+    font-size:12px; letter-spacing:.12em; color:#fff; text-shadow:0 1px 6px rgba(var(--c-ink-rgb),.5); }
+  /* reading block; flex:1 so feet align; title pinned to top of block */
+  .acard__body{ flex:1; display:flex; flex-direction:column; padding:26px 30px 30px; }
+  /* 3) accent 细线：hover 横向生长 34px → 64px 并加亮辉光 */
+  .acard__rule{ width:34px; height:2px; background:var(--c-accent); margin-bottom:18px; flex:none;
+    transition:width .55s var(--ease-soft), box-shadow .55s var(--ease-soft); }
+  .acard:hover .acard__rule{ width:64px; box-shadow:0 0 0 0.5px var(--c-accent), 0 1px 10px -2px var(--c-accent); }
+  .acard__title{ font-family:var(--ff-serif); font-weight:500; font-size:25px; line-height:1.32;
+    letter-spacing:-.01em; color:var(--c-ink); margin-bottom:16px; }
+  .acard__title .q{ color:var(--c-accent); }
+  .acard__desc{ font-family:var(--ff-sc); font-size:14.5px; line-height:1.85; color:var(--c-slate);
+    letter-spacing:.005em; }
+  /* 4) 隐藏 meta 标签行：常驻坐底，hover 以 grid-rows 0fr→1fr 优雅展开淡入（精确复刻 .tags 时序） */
+  .acard__meta{ margin-top:auto; display:grid; grid-template-rows:0fr; opacity:0; transform:translateY(8px); padding-top:0;
+    transition:grid-template-rows .55s var(--ease-soft), opacity .45s var(--ease) .04s, transform .55s var(--ease-soft), padding-top .55s var(--ease-soft); }
+  .acard:hover .acard__meta{ grid-template-rows:1fr; opacity:1; transform:translateY(0); padding-top:20px; }
+  .acard__meta-inner{ overflow:hidden; min-height:0; display:flex; flex-wrap:wrap; gap:8px; }
+  .acard__meta .mtag{ border:1px solid var(--c-tag-line); border-radius:100px; padding:6px 13px;
+    font-family:var(--ff-mono); font-size:11px; line-height:16.5px; letter-spacing:.04em; color:var(--c-slate); }
+  .acard__meta .mtag.lead{ color:var(--c-accent); border-color:var(--c-accent-line); }
+
+  @media (max-width:1100px){ .grid-a{ grid-template-columns:1fr; max-width:560px; margin:0 auto; } }
+</style>
+<link rel="stylesheet" href="../assets/css/motion.css" />
+</head>
+<body>
+<div class="wrap">
+  <div class="variant-label">// V1 · 移植 投资策略卡 hover</div>
+  <div class="sec-h"><span class="rn">Empowerment</span><span class="cn">投后赋能</span></div>
+
+  <div class="grid-a">
+    <article class="acard">
+      <div class="acard__media"><span class="acard__idx">// 01</span>
+        <img src="../assets/strategy-flow.png" alt="" /></div>
+      <div class="acard__body">
+        <div class="acard__rule"></div>
+        <h3 class="acard__title">顶配的<span class="q">"智囊后援"</span></h3>
+        <p class="acard__desc">我们长期构建由成功企业家、科学家、资深投资人与顶级智库学者组成的 CXO Network。我们不只提供董事会里的建议，更将一群这群真正打过仗、投过船、在科技前沿的CXO带到你身边，在企业发展的关键阶段，这个"外部大脑"将为创始人提供跨维度的深度咨询，让创业不再是一个人的独行。</p>
+        <div class="acard__meta"><div class="acard__meta-inner">
+          <span class="mtag lead">// CXO Network</span><span class="mtag">跨维度咨询</span><span class="mtag">外部大脑</span>
+        </div></div>
+      </div>
+    </article>
+
+    <article class="acard">
+      <div class="acard__media"><span class="acard__idx">// 02</span>
+        <img src="../assets/footer-shanghai.jpg" alt="" /></div>
+      <div class="acard__body">
+        <div class="acard__rule"></div>
+        <h3 class="acard__title">深度的<span class="q">"生态共振"</span></h3>
+        <p class="acard__desc">除了资金支持，我们长期帮助被投企业对接产业链上下游、核心客户、上市公司与关键合作伙伴。依托常春藤横跨一级与二级市场的长期积累，以及丰富的产业生态资源，我们也持续推动被投企业之间产生协同与合作，让技术真正走向产业落地。</p>
+        <div class="acard__meta"><div class="acard__meta-inner">
+          <span class="mtag lead">// 产业链对接</span><span class="mtag">一二级联动</span><span class="mtag">协同落地</span>
+        </div></div>
+      </div>
+    </article>
+
+    <article class="acard">
+      <div class="acard__media"><span class="acard__idx">// 03</span>
+        <img src="../assets/footer-hongkong.jpg" alt="" /></div>
+      <div class="acard__body">
+        <div class="acard__rule"></div>
+        <h3 class="acard__title">创业者的<span class="q">"伴跑者"</span></h3>
+        <p class="acard__desc">很多时候我们是创业者的心理医生，这背后是我们对创业中孤独与低谷的深刻共情。当你深夜沮丧、甚至想放弃时，我们愿意成为那个随时接起电话、带上一瓶酒坐下来倾听的人。我们理解创业的艰难，所以不止陪你赢，更在你最难的时候，给你毫无保留的托底与信念。</p>
+        <div class="acard__meta"><div class="acard__meta-inner">
+          <span class="mtag lead">// 持续陪伴</span><span class="mtag">毫无保留</span><span class="mtag">长期托底</span>
+        </div></div>
+      </div>
+    </article>
+  </div>
+</div>
+</body>
+</html>

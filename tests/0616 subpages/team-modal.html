@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>团队 · 成员弹窗 lightbox（layout 还原 · 我们的 token）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../assets/css/tokens.css" />
+<link rel="stylesheet" href="../../assets/css/base.css" />
+<link rel="stylesheet" href="../../assets/css/components.css" />
+<style>
+  /* ===========================================================
+     测试页脚手架：底层放几张 team pcard 当触发器，点击开 lightbox。
+     lightbox = 严格照参考图布局，配色/字号全部用我们的 design token。
+     =========================================================== */
+  body{ background:var(--c-bg); }
+  .scaf{ max-width:var(--maxw); margin:0 auto; padding:80px var(--page-x) 120px; }
+  .scaf__tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted); margin-bottom:8px; }
+  .scaf__hint{ font-family:var(--ff-sc); font-size:14px; color:var(--c-slate); margin-bottom:48px; }
+  .scaf__grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+  .scaf__grid .pcard{ cursor:pointer; }
+  .scaf__grid .pcard__foot{ gap:4px; padding-top:60px;
+    background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 0%, rgba(var(--c-bg-rgb),.55) 42%, rgba(var(--c-bg-rgb),.96) 100%); }
+  .scaf__grid .pcard__foot .t{ color:var(--c-ink); text-shadow:0 0 10px rgba(var(--c-bg-rgb),.7); }
+  .scaf__grid .pcard__foot .d{ grid-template-rows:1fr; opacity:1; transform:none; color:var(--c-slate); }
+  .scaf__grid .pcard__plate{ height:36%; }
+
+  /* ===========================================================
+     LIGHTBOX
+     =========================================================== */
+  .lb{ position:fixed; inset:0; z-index:200; display:none; }
+  .lb.is-open{ display:block; }
+
+  /* 背景遮罩：深色 + 背后卡片虚化（用海军蓝 ink 调，不用纯黑） */
+  .lb__scrim{ position:absolute; inset:0; background:rgba(var(--c-ink-rgb),.82);
+    backdrop-filter:blur(10px) saturate(.9); -webkit-backdrop-filter:blur(10px) saturate(.9);
+    opacity:0; transition:opacity .4s var(--ease); }
+  .lb.is-open .lb__scrim{ opacity:1; }
+
+  /* 居中卡片：左图 + 右深色面板，两栏一体 */
+  .lb__card{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) scale(.985);
+    display:grid; grid-template-columns:1.15fr 1fr; align-items:stretch;
+    width:min(1180px, calc(100vw - 220px)); height:min(840px, 86vh);
+    background:var(--c-ink); overflow:hidden;
+    box-shadow:0 40px 120px -30px rgba(0,0,0,.65);
+    opacity:0; transition:opacity .45s var(--ease), transform .55s var(--ease-soft); }
+  .lb.is-open .lb__card{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+
+  /* 左：肖像，撑满卡片高度（栏宽比 1.15:1 已贴合参考图） */
+  .lb__photo{ min-width:0; min-height:0; background:#2a2f37; }
+  .lb__photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* 右：深色文字面板 */
+  .lb__panel{ position:relative; min-width:0; padding:46px 54px 52px;
+    display:flex; flex-direction:column; }
+
+  /* 顶部标签：投资团队 */
+  .lb__label{ font-family:var(--ff-sc); font-weight:500; font-size:16px; letter-spacing:.02em;
+    color:rgba(var(--c-bg-rgb),.62); }
+
+  /* 关闭按钮：右上，淡方块 hover */
+  .lb__close{ position:absolute; top:30px; right:30px; width:46px; height:46px;
+    display:grid; place-items:center; background:transparent; border:0; cursor:pointer;
+    color:rgba(var(--c-bg-rgb),.55); transition:color .25s var(--ease), background .25s var(--ease); }
+  .lb__close:hover{ color:var(--c-bg); background:rgba(var(--c-bg-rgb),.08); }
+  .lb__close svg{ width:22px; height:22px; }
+
+  /* 主体：底对齐 */
+  .lb__body{ margin-top:auto; }
+
+  /* 姓名 + 竖条 accent */
+  .lb__name{ position:relative; padding-left:18px; font-family:var(--ff-sc); font-weight:700;
+    font-size:34px; line-height:1.1; letter-spacing:-0.5px; color:var(--c-bg); }
+  .lb__name::before{ content:""; position:absolute; left:0; top:.14em; bottom:.12em; width:3px;
+    background:var(--c-accent); }
+  .lb__role{ padding-left:18px; margin-top:10px; font-family:var(--ff-sc); font-weight:400;
+    font-size:15px; letter-spacing:.04em; color:rgba(var(--c-bg-rgb),.55); }
+
+  /* 简介：占位文字 */
+  .lb__bio{ margin-top:30px; max-width:46ch; font-family:var(--ff-sc); font-weight:400;
+    font-size:17px; line-height:1.95; color:rgba(var(--c-bg-rgb),.82); }
+
+  /* 右侧翻页箭头（卡片外、视口右缘竖排） */
+  .lb__nav{ position:absolute; right:46px; top:62%; display:flex; flex-direction:column; gap:14px; }
+  .lb__arr{ width:54px; height:54px; display:grid; place-items:center; background:transparent; border:0;
+    cursor:pointer; color:rgba(var(--c-bg-rgb),.5); transition:color .25s var(--ease), background .25s var(--ease); }
+  .lb__arr:hover{ color:var(--c-bg); background:rgba(var(--c-bg-rgb),.08); }
+  .lb__arr svg{ width:26px; height:26px; }
+
+  /* 底部拖拽条（参考图的 sheet handle，纯装饰） */
+  .lb__handle{ position:absolute; left:50%; bottom:26px; transform:translateX(-50%);
+    width:64px; height:5px; border-radius:5px; background:rgba(var(--c-bg-rgb),.32); }
+
+  @media (max-width:900px){
+    .lb__card{ grid-template-columns:1fr; width:calc(100vw - 48px); height:88vh; }
+    .lb__photo{ aspect-ratio:auto; height:46%; }
+    .lb__panel{ padding:30px 28px 40px; overflow:auto; }
+    .lb__name{ font-size:27px; } .lb__bio{ font-size:15px; line-height:1.8; }
+    .lb__nav{ right:8px; }
+  }
+</style>
+<link rel="stylesheet" href="../../assets/css/motion.css" />
+</head>
+<body>
+
+  <div class="scaf">
+    <div class="scaf__tag">Test · team member lightbox</div>
+    <div class="scaf__hint">点任意一张卡片打开弹窗。弹窗内可用右侧 ← → 翻页，× / ESC / 点遮罩关闭。</div>
+    <div class="scaf__grid" id="grid"></div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="团队成员详情">
+    <div class="lb__scrim" data-close></div>
+    <div class="lb__card">
+      <div class="lb__photo"><img id="lbImg" src="" alt="" /></div>
+      <div class="lb__panel">
+        <span class="lb__label">投资团队</span>
+        <button class="lb__close" type="button" data-close aria-label="关闭">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+        </button>
+        <div class="lb__body">
+          <h2 class="lb__name" id="lbName">成员姓名</h2>
+          <div class="lb__role" id="lbRole">职位</div>
+          <p class="lb__bio" id="lbBio"></p>
+        </div>
+      </div>
+    </div>
+    <div class="lb__nav">
+      <button class="lb__arr" type="button" id="lbPrev" aria-label="上一位">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button class="lb__arr" type="button" id="lbNext" aria-label="下一位">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <div class="lb__handle" aria-hidden="true"></div>
+  </div>
+
+<script>
+  // ---- 占位数据（成员资料文档未提供，用占位，不编造真实人名） ----
+  var BIO = "资深技术创业者，曾在多家知名科技公司担任工程、研发与管理要职，并主导多条产品线从 0 到 1 的落地。此后转入早期投资，长期关注硬科技与前沿技术方向，累计参与数十家科技公司的早期布局与陪伴成长。拥有计算机相关学士、硕士与博士学位。（占位简介，待补充真实资料。）";
+  var ROLES = ["创始合伙人","管理合伙人","合伙人","董事总经理","投资总监","投资副总裁","投资经理","投资分析师"];
+  var members = ROLES.map(function(r,i){ return { name:"成员姓名", role:r, img:"../../assets/team-placeholder.png", bio:BIO }; });
+
+  // ---- 渲染底层触发卡片 ----
+  var grid = document.getElementById('grid');
+  members.forEach(function(m,i){
+    var a = document.createElement('article');
+    a.className = 'pcard';
+    a.dataset.i = i;
+    a.innerHTML = '<img class="pcard__bg" src="'+m.img+'" alt=""><div class="pcard__plate"></div>'+
+      '<div class="pcard__foot"><span class="t">'+m.name+'</span><span class="d"><span class="d-inner">'+m.role+'</span></span></div>';
+    a.addEventListener('click', function(){ open(i); });
+    grid.appendChild(a);
+  });
+
+  // ---- lightbox 行为 ----
+  var lb = document.getElementById('lb'), cur = 0;
+  var elImg = document.getElementById('lbImg'), elName = document.getElementById('lbName'),
+      elRole = document.getElementById('lbRole'), elBio = document.getElementById('lbBio');
+
+  function paint(i){
+    var m = members[i];
+    elImg.src = m.img; elName.textContent = m.name; elRole.textContent = m.role; elBio.textContent = m.bio;
+  }
+  function open(i){ cur = i; paint(i); lb.classList.add('is-open'); document.body.style.overflow='hidden'; }
+  function close(){ lb.classList.remove('is-open'); document.body.style.overflow=''; }
+  function go(d){ cur = (cur + d + members.length) % members.length; paint(cur); }
+
+  document.getElementById('lbPrev').addEventListener('click', function(){ go(-1); });
+  document.getElementById('lbNext').addEventListener('click', function(){ go(1); });
+  lb.querySelectorAll('[data-close]').forEach(function(el){ el.addEventListener('click', close); });
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('is-open')) return;
+    if(e.key==='Escape') close();
+    else if(e.key==='ArrowLeft') go(-1);
+    else if(e.key==='ArrowRight') go(1);
+  });
+</script>
+</body>
+</html>

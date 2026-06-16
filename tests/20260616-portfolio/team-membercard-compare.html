@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team grid · pcard 格式 · 姓名+职位常显 · 背景层上展对比</title>
+<base href="../../">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<style>
+  body{ background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); margin:0; }
+  .wrap{ max-width:1760px; margin:0 auto; padding:80px; }
+
+  /* page intro */
+  .intro{ margin-bottom:64px; }
+  .intro .cap{ font-family:var(--ff-mono); font-size:11px; letter-spacing:var(--tracking-caption);
+    text-transform:uppercase; color:var(--c-accent); margin:0 0 14px; }
+  .intro .note{ font-size:15px; line-height:24px; color:var(--c-slate); max-width:720px; margin:0; }
+
+  /* per-section */
+  .cmp{ margin-top:88px; }
+  .cmp:first-of-type{ margin-top:56px; }
+  .cmp > .sec-head{ margin-bottom:32px; }
+  .cmp > .sec-head .cn{ font-size:28px; line-height:34px; }
+  .cmp > .sec-head .rn{ font-size:28px; line-height:34px; }
+  .cmp > .sec-head .sub{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.06em;
+    color:var(--c-muted); align-self:center; text-transform:none; }
+
+  /* grid */
+  .pgrid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+
+  /* ---- 共享：姓名 + 职位「一开始就都显示」 ---- */
+  /* 覆盖原 pcard 里 .d 默认折叠(0fr/opacity:0)，改成常显 */
+  .cmp .pcard__foot{ gap:4px; }
+  .cmp .pcard:hover .pcard__foot{ gap:6px; }
+  .cmp .pcard__foot .d{ grid-template-rows:1fr; opacity:1; transform:none; color:var(--c-slate); }
+  .cmp .pcard__foot .t{ color:var(--c-ink); }
+
+  /* ===== V1 渐变常驻：底部常驻奶白渐变保证可读，hover 磨砂蒙层再上展叠加 ===== */
+  .v1 .pcard__foot{ padding-top:60px;
+    background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 0%, rgba(var(--c-bg-rgb),.55) 42%, rgba(var(--c-bg-rgb),.96) 100%); }
+  /* 常驻渐变下文字阴影可减弱 */
+  .v1 .pcard__foot .t{ text-shadow:0 0 10px rgba(var(--c-bg-rgb),.7); }
+
+  /* ===== V2 磨砂上展：磨砂蒙层一开始露出底部一截，hover 向上展开露更多 ===== */
+  .v2 .pcard__plate{ clip-path:inset(56% 0 0 0); }
+  .v2 .pcard:hover .pcard__plate{ clip-path:inset(0 0 0 0); }
+
+  @media (max-width:1200px){ .pgrid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:680px){ .pgrid{ grid-template-columns:1fr; } .wrap{ padding:40px 24px; } }
+</style>
+<link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="intro">
+    <p class="cap">Team grid · pcard 格式 · 姓名 + 职位常显</p>
+    <p class="note">方案 B 方向：用「代表项目」卡片（<code>.pcard</code>）格式重排团队网格，<strong>姓名与职位一开始就都显示</strong>，
+      悬停时背景层向上展开把文字衬得更清楚。人像底部为深色，故对比两种「背景层」做法 —— 都保持 ink-on-cream、始终清晰可读。
+      占位用同一张人像，真实成员照片待补。</p>
+  </div>
+
+  <!-- ================= V1 渐变常驻 ================= -->
+  <section class="cmp v1">
+    <div class="sec-head">
+      <span class="rn">V1.</span><span class="cn">渐变常驻</span>
+      <span class="sub">底部常驻柔和渐变 · hover 磨砂蒙层再上展叠加</span>
+    </div>
+    <div class="pgrid">
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">创始合伙人</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">管理合伙人</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">合伙人</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">董事总经理</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资总监</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资副总裁</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资经理</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资分析师</span></span></div></article>
+    </div>
+  </section>
+
+  <!-- ================= V2 磨砂上展 ================= -->
+  <section class="cmp v2">
+    <div class="sec-head">
+      <span class="rn">V2.</span><span class="cn">磨砂上展</span>
+      <span class="sub">磨砂蒙层常驻底部一截 · hover 向上展开露更多</span>
+    </div>
+    <div class="pgrid">
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">创始合伙人</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">管理合伙人</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">合伙人</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">董事总经理</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资总监</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资副总裁</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资经理</span></span></div></article>
+      <article class="pcard"><img class="pcard__bg" src="tests/20260616-portfolio/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资分析师</span></span></div></article>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>团队弹窗 · 浅色卡片 elevation 对比</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../assets/css/tokens.css" />
+<link rel="stylesheet" href="../../assets/css/base.css" />
+<link rel="stylesheet" href="../../assets/css/components.css" />
+<style>
+  body{ background:var(--c-bg); }
+
+  /* 顶部方案切换条 */
+  .ctl{ position:fixed; z-index:300; top:18px; left:50%; transform:translateX(-50%);
+    display:flex; gap:6px; padding:7px; background:rgba(var(--c-bg-rgb),.92); border:1px solid var(--c-hairline);
+    border-radius:999px; box-shadow:0 10px 30px -12px rgba(var(--c-ink-rgb),.25); backdrop-filter:blur(6px); }
+  .ctl button{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.06em; padding:7px 13px; border-radius:999px;
+    border:0; background:transparent; color:var(--c-slate); cursor:pointer; transition:background .2s, color .2s; white-space:nowrap; }
+  .ctl button:hover{ background:rgba(var(--c-ink-rgb),.06); }
+  .ctl button.on{ background:var(--c-ink); color:var(--c-bg); }
+
+  /* ===== LIGHTBOX（锁定浅色） ===== */
+  .lb{ position:fixed; inset:0; z-index:200;
+    --pn:var(--c-bg); --tx-rgb:var(--c-ink-rgb);
+    --scrim:rgba(var(--c-bg-rgb),.84); --rail:rgba(var(--c-ink-rgb),.14); --photo:#d9d6cd; }
+  .lb__scrim{ position:absolute; inset:0; z-index:0; background:var(--scrim);
+    backdrop-filter:blur(10px) saturate(.9); -webkit-backdrop-filter:blur(10px) saturate(.9); }
+
+  .lb__rail{ position:fixed; z-index:1; background:var(--rail); pointer-events:none; }
+  .lb__rail.v{ width:1px; top:0; height:100vh; } .lb__rail.h{ height:1px; left:0; width:100vw; }
+  .lb__rail.l{ left:var(--x1,-99px); } .lb__rail.r{ left:var(--x2,-99px); }
+  .lb__rail.t{ top:var(--y1,-99px); } .lb__rail.b{ top:var(--y2,-99px); }
+
+  .lb__card{ position:absolute; z-index:2; top:50%; left:50%; transform:translate(-50%,-50%);
+    display:grid; grid-template-columns:1.15fr 1fr; align-items:stretch;
+    width:min(1180px, calc(100vw - 220px)); height:min(840px, 86vh);
+    background:var(--pn); overflow:hidden; transition:box-shadow .35s var(--ease); }
+
+  /* ---- elevation 方案（切换 class） ---- */
+  .lb__card.e-none{ box-shadow:none; }
+  .lb__card.e-hair{ box-shadow:0 0 0 1px var(--c-hairline); }
+  .lb__card.e-soft{ box-shadow:0 24px 60px -26px rgba(var(--c-ink-rgb),.28); }
+  .lb__card.e-lift{ box-shadow:0 54px 120px -34px rgba(var(--c-ink-rgb),.38); }
+  .lb__card.e-tint{ box-shadow:0 40px 96px -32px rgba(var(--c-accent-rgb),.34); }
+  .lb__card.e-combo{ box-shadow:0 0 0 1px var(--c-hairline), 0 30px 72px -30px rgba(var(--c-ink-rgb),.30); }
+
+  .lb__photo{ min-width:0; min-height:0; background:var(--photo); }
+  .lb__photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .lb__panel{ position:relative; min-width:0; padding:46px 54px 52px; display:flex; flex-direction:column; }
+  .lb__label{ font-family:var(--ff-sc); font-weight:500; font-size:16px; color:rgba(var(--tx-rgb),.62); }
+  .lb__body{ margin-top:auto; }
+  .lb__name{ position:relative; padding-left:18px; font-family:var(--ff-sc); font-weight:700; font-size:34px; line-height:1.1; letter-spacing:-0.5px; color:rgb(var(--tx-rgb)); }
+  .lb__name::before{ content:""; position:absolute; left:0; top:.14em; bottom:.12em; width:3px; background:var(--c-accent); }
+  .lb__role{ padding-left:18px; margin-top:10px; font-family:var(--ff-sc); font-size:15px; letter-spacing:.04em; color:rgba(var(--tx-rgb),.55); }
+  .lb__bio{ margin-top:30px; max-width:46ch; font-family:var(--ff-sc); font-size:17px; line-height:1.95; color:rgba(var(--tx-rgb),.82); }
+
+  .lb__cell{ position:fixed; z-index:3; display:grid; place-items:center; background:transparent; border:0; cursor:pointer;
+    color:rgba(var(--tx-rgb),.5); transition:color .25s, background .25s; }
+  .lb__cell:hover{ color:rgb(var(--tx-rgb)); background:rgba(var(--tx-rgb),.07); }
+  .lb__cell svg{ width:24px; height:24px; }
+  .lb__cell.close{ left:var(--x2,-99px); top:0; width:calc(100vw - var(--x2,0px)); height:var(--y1,0px); }
+  .lb__cell.prev{ left:0; top:var(--y1,0px); width:var(--x1,0px); height:calc(var(--y2,0px) - var(--y1,0px)); }
+  .lb__cell.next{ left:var(--x2,-99px); top:var(--y1,0px); width:calc(100vw - var(--x2,0px)); height:calc(var(--y2,0px) - var(--y1,0px)); }
+</style>
+<link rel="stylesheet" href="../../assets/css/motion.css" />
+</head>
+<body>
+
+  <div class="ctl" id="ctl">
+    <button data-e="e-none" class="on">无</button>
+    <button data-e="e-hair">极淡描边</button>
+    <button data-e="e-soft">柔和投影</button>
+    <button data-e="e-lift">大扩散</button>
+    <button data-e="e-tint">蓝染投影</button>
+    <button data-e="e-combo">描边+投影</button>
+  </div>
+
+  <div class="lb" id="lb">
+    <div class="lb__scrim"></div>
+    <div class="lb__rail v l"></div><div class="lb__rail v r"></div>
+    <div class="lb__rail h t"></div><div class="lb__rail h b"></div>
+
+    <div class="lb__card e-none" id="card">
+      <div class="lb__photo"><img src="../../assets/team-placeholder.png" alt="" /></div>
+      <div class="lb__panel">
+        <span class="lb__label">投资团队</span>
+        <div class="lb__body">
+          <h2 class="lb__name">成员姓名</h2>
+          <div class="lb__role">创始合伙人</div>
+          <p class="lb__bio">资深技术创业者，曾在多家知名科技公司担任工程、研发与管理要职，并主导多条产品线从 0 到 1 的落地。此后转入早期投资，长期关注硬科技与前沿技术方向，累计参与数十家科技公司的早期布局与陪伴成长。拥有计算机相关学士、硕士与博士学位。（占位简介，待补充真实资料。）</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="lb__cell close" aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+    <button class="lb__cell prev" aria-label="上一位"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="lb__cell next" aria-label="下一位"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+
+<script>
+  var lb=document.getElementById('lb'), card=document.getElementById('card'), ctl=document.getElementById('ctl');
+  function layout(){ var c=card.getBoundingClientRect();
+    lb.style.setProperty('--x1',c.left+'px'); lb.style.setProperty('--x2',c.right+'px');
+    lb.style.setProperty('--y1',c.top+'px'); lb.style.setProperty('--y2',c.bottom+'px'); }
+  ctl.addEventListener('click', function(e){ var btn=e.target.closest('button'); if(!btn) return;
+    card.className='lb__card '+btn.dataset.e;
+    ctl.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b===btn); });
+  });
+  window.addEventListener('resize', layout, {passive:true});
+  requestAnimationFrame(function(){ requestAnimationFrame(layout); });
+</script>
+</body>
+</html>
