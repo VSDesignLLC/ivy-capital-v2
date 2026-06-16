@@ -7,7 +7,7 @@
   }
   var io = new IntersectionObserver(revealCb, { threshold:0.12, rootMargin:'0px 0px -8% 0px' });
   /* 标题卡 + section 段落：等整条标题横线已进入视口更深一点（约 75% 处）再触发 */
-  var ioLate = new IntersectionObserver(revealCb, { threshold:0, rootMargin:'0px 0px -25% 0px' });
+  var ioLate = new IntersectionObserver(revealCb, { threshold:0, rootMargin:'0px 0px -42% 0px' });
   var lateSel = '.sec-anim, .intro[data-reveal], .about__p[data-reveal]';
   var lateSet = new Set(Array.prototype.slice.call(document.querySelectorAll(lateSel)));
   document.querySelectorAll('[data-reveal], .sec-anim').forEach(function(el){
@@ -115,7 +115,7 @@
       els.forEach(function(p){
         if(!p._units) return;
         var top=p.getBoundingClientRect().top;
-        var g=clamp01((vh*0.95 - top)/(vh*0.95 - vh*0.42));   // top 从 95%vh 升到 42%vh → 0→1
+        var g=clamp01((vh*0.90 - top)/(vh*0.90 - vh*0.55));   // top 从 90%vh 升到 55%vh（中间偏下）→ 0→1
         var n=p._lines, st=n>1?0.45/(n-1):0, dur=1-st*(n-1), blur=p.classList.contains('p-scroll-blur');
         p._units.forEach(function(u){
           var pi=clamp01(dur>0?(g-u._li*st)/dur:g), e=1-Math.pow(1-pi,3);
