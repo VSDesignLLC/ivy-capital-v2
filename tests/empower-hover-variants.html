@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>投后赋能 · 卡片 hover 对比（V1/V2/V3）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/tokens.css" />
+<link rel="stylesheet" href="../assets/css/base.css" />
+<link rel="stylesheet" href="../assets/css/components.css" />
+<style>
+  body{ padding:80px var(--page-x); }
+  .wrap{ max-width:var(--maxw); margin:0 auto; }
+  .cmp + .cmp{ margin-top:120px; padding-top:100px; border-top:1px solid var(--c-hairline); }
+  .variant-label{ font-family:var(--ff-mono); font-size:11px; letter-spacing:var(--tracking-caption);
+    text-transform:uppercase; color:var(--c-muted); margin-bottom:8px; }
+  .variant-note{ font-family:var(--ff-sc); font-size:13px; line-height:1.7; color:var(--c-slate); margin-bottom:34px; max-width:680px; }
+  .sec-h{ display:flex; gap:14px; align-items:baseline; color:var(--c-accent); margin-bottom:18px; }
+  .sec-h .rn{ font-family:var(--ff-ital); font-style:italic; font-size:40px; line-height:1; text-transform:uppercase; }
+  .sec-h .cn{ font-family:var(--ff-serif); font-weight:500; font-size:40px; line-height:1; letter-spacing:-.02em; }
+
+  /* ================= 共享 base：image-top 阅读卡（来自 empower-A，三版同一事实源） ================= */
+  .grid-a{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; align-items:stretch; }
+  .acard{ position:relative; display:flex; flex-direction:column; background:var(--c-bg);
+    border:1px solid var(--c-hairline); overflow:hidden; isolation:isolate;
+    transition:transform .7s var(--ease-soft), box-shadow .7s var(--ease-soft), border-color .7s var(--ease-soft);
+    box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),0), 0 30px 60px -34px rgba(var(--c-ink-rgb),0); }
+  /* 默认 hover 上浮（V1/V2 共用；V3 自带覆盖） */
+  .acard:hover{ transform:translateY(-6px); border-color:var(--c-accent-line);
+    box-shadow:0 10px 24px -12px rgba(var(--c-ink-rgb),.14), 0 40px 70px -34px rgba(var(--c-ink-rgb),.22); }
+  .acard__media{ position:relative; height:230px; overflow:hidden; flex:none; }
+  .acard__media img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    transition:transform 1.1s var(--ease); }
+  .acard__media::after{ content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(var(--c-ink-rgb),.18) 0%, rgba(var(--c-ink-rgb),0) 38%,
+      rgba(var(--c-bg-rgb),0) 72%, rgba(var(--c-bg-rgb),1) 100%); }
+  .acard__idx{ position:absolute; left:20px; top:18px; z-index:2; font-family:var(--ff-mono);
+    font-size:12px; letter-spacing:.12em; color:#fff; text-shadow:0 1px 6px rgba(var(--c-ink-rgb),.5); }
+  .acard__body{ flex:1; display:flex; flex-direction:column; padding:26px 30px 30px; }
+  .acard__rule{ width:34px; height:2px; background:var(--c-accent); margin-bottom:18px; flex:none; }
+  .acard__title{ font-family:var(--ff-serif); font-weight:500; font-size:25px; line-height:1.32;
+    letter-spacing:-.01em; color:var(--c-ink); margin-bottom:16px; }
+  .acard__title .q{ color:var(--c-accent); }
+  .acard__desc{ font-family:var(--ff-sc); font-size:14.5px; line-height:1.85; color:var(--c-slate);
+    letter-spacing:.005em; }
+
+  /* ===================== V1 · 移植「投资策略」卡 hover ===================== */
+  /* 招式：图放大 + 底部渐变窗帘加深上爬 + accent 细线横向生长 + 隐藏标签药丸优雅展开 */
+  .v1 .acard:hover .acard__media img{ transform:scale(1.07); }
+  .v1 .acard__media::after{ transition:background .62s var(--ease-soft); }
+  .v1 .acard:hover .acard__media::after{
+    background:linear-gradient(180deg, rgba(var(--c-ink-rgb),.30) 0%, rgba(var(--c-ink-rgb),.06) 30%,
+      rgba(var(--c-bg-rgb),.18) 56%, rgba(var(--c-bg-rgb),1) 100%); }
+  .v1 .acard__rule{ transition:width .55s var(--ease-soft), box-shadow .55s var(--ease-soft); }
+  .v1 .acard:hover .acard__rule{ width:64px; box-shadow:0 0 0 0.5px var(--c-accent), 0 1px 10px -2px var(--c-accent); }
+  .v1 .acard__meta{ margin-top:auto; display:grid; grid-template-rows:0fr; opacity:0; transform:translateY(8px); padding-top:0;
+    transition:grid-template-rows .55s var(--ease-soft), opacity .45s var(--ease) .04s, transform .55s var(--ease-soft), padding-top .55s var(--ease-soft); }
+  .v1 .acard:hover .acard__meta{ grid-template-rows:1fr; opacity:1; transform:translateY(0); padding-top:20px; }
+  .v1 .acard__meta-inner{ overflow:hidden; min-height:0; display:flex; flex-wrap:wrap; gap:8px; }
+  .v1 .acard__meta .mtag{ border:1px solid var(--c-tag-line); border-radius:100px; padding:6px 13px;
+    font-family:var(--ff-mono); font-size:11px; line-height:16.5px; letter-spacing:.04em; color:var(--c-slate); }
+  .v1 .acard__meta .mtag.lead{ color:var(--c-accent); border-color:var(--c-accent-line); }
+
+  /* ===================== V2 · 移植「代表项目」卡 hover ===================== */
+  /* 招式：磨砂玻璃 veil 从图底 clip-path 升起 + 顶边 accent 发丝线 + 白高光线 + 隐藏 meta 随之展开 */
+  .v2 .acard:hover .acard__media img{ transform:scale(1.06); }
+  .v2 .acard__media::after{ z-index:1; pointer-events:none; }
+  .v2 .acard__idx{ z-index:4; }
+  .v2 .acard__veil{ position:absolute; left:0; right:0; bottom:0; height:58%; z-index:2; pointer-events:none;
+    background:linear-gradient(180deg,
+      rgba(var(--c-bg-rgb),.04) 0%, rgba(var(--c-bg-rgb),.46) 26%,
+      rgba(var(--c-bg-rgb),.78) 60%, rgba(var(--c-bg-rgb),.97) 100%);
+    -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px);
+    clip-path:inset(100% 0 0 0); transition:clip-path .64s var(--ease-soft); }
+  .v2 .acard__veil::before{ content:""; position:absolute; left:0; right:0; top:0; height:1px;
+    background:linear-gradient(90deg, rgba(var(--c-accent-rgb),0), rgba(var(--c-accent-rgb),.5) 20%,
+      rgba(var(--c-accent-rgb),.5) 80%, rgba(var(--c-accent-rgb),0)); }
+  .v2 .acard__veil::after{ content:""; position:absolute; left:0; right:0; top:1px; height:1px;
+    background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.65) 30%,
+      rgba(255,255,255,.65) 70%, rgba(255,255,255,0)); }
+  .v2 .acard:hover .acard__veil{ clip-path:inset(0 0 0 0); }
+  .v2 .acard__rule{ transition:width .55s var(--ease-soft), box-shadow .55s var(--ease-soft); }
+  .v2 .acard:hover .acard__rule{ width:52px; box-shadow:0 0 12px rgba(var(--c-accent-rgb),.5); }
+  .v2 .acard__more{ display:grid; grid-template-rows:0fr; opacity:0; margin-top:0;
+    transition:grid-template-rows .55s var(--ease-soft), opacity .45s var(--ease-soft), margin-top .55s var(--ease-soft); }
+  .v2 .acard__more > span{ overflow:hidden; min-height:0; display:inline-flex; align-items:center; gap:7px;
+    font-family:var(--ff-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--c-accent); }
+  .v2 .acard__more .arr{ transition:transform .55s var(--ease-soft); }
+  .v2 .acard:hover .acard__more{ grid-template-rows:1fr; opacity:1; margin-top:18px; }
+  .v2 .acard:hover .acard__more .arr{ transform:translateX(4px); }
+
+  /* ===================== V3 · 移植「奖项」卡 hover ===================== */
+  /* 招式：下方阅读块 A→B 翻深海军蓝（带右下 accent 辉光）+ 文字转白/青 + 角标淡出 + 图文交界缝衔接 */
+  .v3 .acard{ transition:transform .7s var(--ease-soft), box-shadow .7s var(--ease-soft), border-color .6s var(--ease); }
+  .v3 .acard:hover{ transform:translateY(-6px);
+    border-color:color-mix(in srgb, var(--c-accent-2) 28%, transparent);
+    box-shadow:0 18px 44px -20px rgba(9,19,40,.6), 0 6px 16px -10px rgba(var(--c-accent-rgb),.4); }
+  .v3 .acard:hover .acard__media img{ transform:scale(1.05); }
+  .v3 .acard__media::after{ z-index:0; }
+  /* seam-bridge：navy 底渐变随 body 翻面同步淡入，避免米/蓝硬切 */
+  .v3 .acard__media::before{ content:""; position:absolute; inset:0; z-index:1; opacity:0;
+    transition:opacity .55s var(--ease);
+    background:linear-gradient(180deg, rgba(22,35,61,0) 46%, rgba(22,35,61,.5) 78%, #16233d 100%); }
+  .v3 .acard:hover .acard__media::before{ opacity:1; }
+  .v3 .acard__idx{ z-index:3; transition:opacity .45s var(--ease); }
+  .v3 .acard:hover .acard__idx{ opacity:0; }
+  .v3 .acard__body{ position:relative; isolation:isolate; }
+  .v3 .acard__body::before{ content:""; position:absolute; inset:0; z-index:0; opacity:0;
+    transition:opacity .55s var(--ease);
+    background:
+      radial-gradient(120% 100% at 100% 100%, rgba(var(--c-accent-rgb),.42) 0%, rgba(var(--c-accent-rgb),0) 52%),
+      linear-gradient(158deg, #16233d 0%, #0d1b2a 58%, #091324 100%); }
+  .v3 .acard:hover .acard__body::before{ opacity:1; }
+  .v3 .acard__rule{ position:relative; z-index:1;
+    transition:background .55s var(--ease), box-shadow .55s var(--ease), width .55s var(--ease); }
+  .v3 .acard__title{ position:relative; z-index:1; transition:color .55s var(--ease); }
+  .v3 .acard__title .q{ transition:color .55s var(--ease); }
+  .v3 .acard__desc{ position:relative; z-index:1;
+    transition:color .55s var(--ease), font-size .55s var(--ease), line-height .55s var(--ease); }
+  .v3 .acard:hover .acard__rule{ background:var(--c-accent-2); width:42px;
+    box-shadow:0 0 12px rgba(var(--c-accent-rgb),.55), 0 0 4px rgba(141,180,255,.8); }
+  .v3 .acard:hover .acard__title{ color:#fff; }
+  .v3 .acard:hover .acard__title .q{ color:var(--c-accent-2); }
+  .v3 .acard:hover .acard__desc{ color:rgba(255,255,255,.74); font-size:16px; line-height:1.95; }
+
+  /* ===================== V4 · V1 动效 + V2「查看案例」标签（融合版） ===================== */
+  /* 动效完全沿用 V1：图放大 + 底部渐变窗帘加深上爬 + accent 细线生长 + 隐藏行 grid-rows 优雅展开；
+     展开内容换成 V2 风格的「查看案例 →」mono 标签（箭头右移），不再用三枚标签药丸 */
+  .v4 .acard:hover .acard__media img{ transform:scale(1.07); }
+  .v4 .acard__media::after{ transition:background .62s var(--ease-soft); }
+  .v4 .acard:hover .acard__media::after{
+    background:linear-gradient(180deg, rgba(var(--c-ink-rgb),.30) 0%, rgba(var(--c-ink-rgb),.06) 30%,
+      rgba(var(--c-bg-rgb),.18) 56%, rgba(var(--c-bg-rgb),1) 100%); }
+  .v4 .acard__rule{ transition:width .55s var(--ease-soft), box-shadow .55s var(--ease-soft); }
+  .v4 .acard:hover .acard__rule{ width:64px; box-shadow:0 0 0 0.5px var(--c-accent), 0 1px 10px -2px var(--c-accent); }
+  /* V1 的展开容器/时序（grid-rows + translateY + padding-top） */
+  .v4 .acard__meta{ margin-top:auto; display:grid; grid-template-rows:0fr; opacity:0; transform:translateY(8px); padding-top:0;
+    transition:grid-template-rows .55s var(--ease-soft), opacity .45s var(--ease) .04s, transform .55s var(--ease-soft), padding-top .55s var(--ease-soft); }
+  .v4 .acard:hover .acard__meta{ grid-template-rows:1fr; opacity:1; transform:translateY(0); padding-top:20px; }
+  .v4 .acard__meta-inner{ overflow:hidden; min-height:0; }
+  /* V2 风格的「查看案例 →」标签 */
+  .v4 .acard__more{ display:inline-flex; align-items:center; gap:7px;
+    font-family:var(--ff-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--c-accent); }
+  .v4 .acard__more .arr{ transition:transform .55s var(--ease-soft); }
+  .v4 .acard:hover .acard__more .arr{ transform:translateX(4px); }
+
+  /* ===================== V5 · 依托 V4：hover 整图铺满全卡 + 文字区白色磨砂托底（chrome 对齐 component .card） ===================== */
+  /* 卡片 chrome 对齐 homepage .card：三层阴影 + .75s 过渡 + accent 边框 + 角标 */
+  .v5 .acard{ background:var(--c-bg);
+    transition:transform .75s var(--ease-soft), box-shadow .75s var(--ease-soft), border-color .75s var(--ease-soft);
+    box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),0), 0 14px 30px -14px rgba(var(--c-ink-rgb),0), 0 36px 64px -30px rgba(var(--c-ink-rgb),0); }
+  .v5 .acard:hover{ transform:translateY(-6px); border-color:var(--c-accent-line);
+    box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),.10), 0 14px 30px -14px rgba(var(--c-ink-rgb),.14), 0 36px 64px -30px rgba(var(--c-ink-rgb),.20); }
+  /* 全卡图片背景层（常驻，下半被 cream 阅读块盖住 → 常态呈「图在上」） */
+  .v5 .acard__bg{ position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover;
+    transition:transform 1.1s var(--ease); }
+  .v5 .acard:hover .acard__bg{ transform:scale(1.06); }
+  /* 顶部 230px 透明占位露出背景图；其 cream 渐隐衔接缝在 hover 时淡出，让整图连续 */
+  .v5 .acard__media{ position:relative; z-index:1; background:transparent; }
+  .v5 .acard__media::after{ transition:opacity .6s var(--ease-soft); }
+  .v5 .acard:hover .acard__media::after{ opacity:0; }
+  /* idx 与角标的位置关系对齐 homepage .card：角标在 12px，// 01 退到 30px 内容线，留出呼吸 */
+  .v5 .acard__idx{ z-index:3; left:30px; top:30px; }
+  .v5 .corner{ z-index:2; }
+  /* 阅读块：常态实心 cream 托底；hover → 白色半透明磨砂（顶端柔化过渡），露出背景图同时保证文字可读 */
+  .v5 .acard__body{ position:relative; z-index:1; background:var(--c-bg);
+    -webkit-backdrop-filter:blur(0px); backdrop-filter:blur(0px);
+    transition:background .6s var(--ease-soft), -webkit-backdrop-filter .6s var(--ease-soft), backdrop-filter .6s var(--ease-soft); }
+  .v5 .acard:hover .acard__body{
+    background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.64) 40px, rgba(255,255,255,.66) 100%);
+    -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px); }
+  /* 沿用 V4 动效：accent 细线生长 + 「查看案例 →」标签展开 */
+  .v5 .acard__rule{ transition:width .55s var(--ease-soft), box-shadow .55s var(--ease-soft); }
+  .v5 .acard:hover .acard__rule{ width:64px; box-shadow:0 0 0 0.5px var(--c-accent), 0 1px 10px -2px var(--c-accent); }
+  .v5 .acard__meta{ margin-top:auto; display:grid; grid-template-rows:0fr; opacity:0; transform:translateY(8px); padding-top:0;
+    transition:grid-template-rows .55s var(--ease-soft), opacity .45s var(--ease) .04s, transform .55s var(--ease-soft), padding-top .55s var(--ease-soft); }
+  .v5 .acard:hover .acard__meta{ grid-template-rows:1fr; opacity:1; transform:translateY(0); padding-top:20px; }
+  .v5 .acard__meta-inner{ overflow:hidden; min-height:0; }
+  .v5 .acard__more{ display:inline-flex; align-items:center; gap:7px;
+    font-family:var(--ff-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--c-accent); }
+  .v5 .acard__more .arr{ transition:transform .55s var(--ease-soft); }
+  .v5 .acard:hover .acard__more .arr{ transform:translateX(4px); }
+
+  @media (max-width:1100px){ .grid-a{ grid-template-columns:1fr; max-width:560px; margin:0 auto; } }
+  @media (prefers-reduced-motion:reduce){
+    .acard, .acard *, .acard::before, .acard::after,
+    .acard__media::before, .acard__media::after, .acard__body::before,
+    .acard__veil, .acard__veil::before, .acard__veil::after{ transition:none !important; }
+    .acard:hover{ transform:none !important; }
+  }
+</style>
+<link rel="stylesheet" href="../assets/css/motion.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ V1 ============ -->
+  <section class="cmp v1">
+    <div class="variant-label">// V1 · 移植「投资策略」卡 hover</div>
+    <div class="sec-h"><span class="rn">Empowerment</span><span class="cn">投后赋能</span></div>
+    <p class="variant-note">取首页投资策略卡的招式：图片放大 + 底部渐变窗帘加深上爬 + accent 细线横向生长 + 一行隐藏标签药丸以 grid-rows 优雅展开淡入（阅读块底部新增 meta 行）。</p>
+    <div class="grid-a">
+      <article class="acard">
+        <div class="acard__media"><span class="acard__idx">// 01</span>
+          <img src="../assets/strategy-flow.png" alt="" /></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">顶配的<span class="q">"智囊后援"</span></h3>
+          <p class="acard__desc">我们长期构建由成功企业家、科学家、资深投资人与顶级智库学者组成的 CXO Network。我们不只提供董事会里的建议，更将一群这群真正打过仗、投过船、在科技前沿的CXO带到你身边，在企业发展的关键阶段，这个"外部大脑"将为创始人提供跨维度的深度咨询，让创业不再是一个人的独行。</p>
+          <div class="acard__meta"><div class="acard__meta-inner">
+            <span class="mtag lead">// CXO Network</span><span class="mtag">跨维度咨询</span><span class="mtag">外部大脑</span>
+          </div></div>
+        </div>
+      </article>
+      <article class="acard">
+        <div class="acard__media"><span class="acard__idx">// 02</span>
+          <img src="../assets/footer-shanghai.jpg" alt="" /></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">深度的<span class="q">"生态共振"</span></h3>
+          <p class="acard__desc">除了资金支持，我们长期帮助被投企业对接产业链上下游、核心客户、上市公司与关键合作伙伴。依托常春藤横跨一级与二级市场的长期积累，以及丰富的产业生态资源，我们也持续推动被投企业之间产生协同与合作，让技术真正走向产业落地。</p>
+          <div class="acard__meta"><div class="acard__meta-inner">
+            <span class="mtag lead">// 产业链对接</span><span class="mtag">一二级联动</span><span class="mtag">协同落地</span>
+          </div></div>
+        </div>
+      </article>
+      <article class="acard">
+        <div class="acard__media"><span class="acard__idx">// 03</span>
+          <img src="../assets/footer-%20HongKong.jpg" alt="" /></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">创业者的<span class="q">"伴跑者"</span></h3>
+          <p class="acard__desc">很多时候我们是创业者的心理医生，这背后是我们对创业中孤独与低谷的深刻共情。当你深夜沮丧、甚至想放弃时，我们愿意成为那个随时接起电话、带上一瓶酒坐下来倾听的人。我们理解创业的艰难，所以不止陪你赢，更在你最难的时候，给你毫无保留的托底与信念。</p>
+          <div class="acard__meta"><div class="acard__meta-inner">
+            <span class="mtag lead">// 持续陪伴</span><span class="mtag">毫无保留</span><span class="mtag">长期托底</span>
+          </div></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ V2 ============ -->
+  <section class="cmp v2">
+    <div class="variant-label">// V2 · 移植「代表项目」卡 hover</div>
+    <div class="sec-h"><span class="rn">Empowerment</span><span class="cn">投后赋能</span></div>
+    <p class="variant-note">取首页代表项目卡的招式：磨砂玻璃 veil 从图片底部 clip-path 升起（带 blur），顶边一道 accent 发丝线 + 白色高光线像光扫过图文交界，图片放大，一行隐藏 "查看案例 →" 随玻璃升起而展开。</p>
+    <div class="grid-a">
+      <article class="acard">
+        <div class="acard__media"><span class="acard__idx">// 01</span>
+          <img src="../assets/strategy-flow.png" alt="" />
+          <div class="acard__veil"></div></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">顶配的<span class="q">"智囊后援"</span></h3>
+          <p class="acard__desc">我们长期构建由成功企业家、科学家、资深投资人与顶级智库学者组成的 CXO Network。我们不只提供董事会里的建议，更将一群这群真正打过仗、投过船、在科技前沿的CXO带到你身边，在企业发展的关键阶段，这个"外部大脑"将为创始人提供跨维度的深度咨询，让创业不再是一个人的独行。</p>
+          <div class="acard__more"><span>查看案例<span class="arr">→</span></span></div>
+        </div>
+      </article>
+      <article class="acard">
+        <div class="acard__media"><span class="acard__idx">// 02</span>
+          <img src="../assets/footer-shanghai.jpg" alt="" />
+          <div class="acard__veil"></div></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">深度的<span class="q">"生态共振"</span></h3>
+          <p class="acard__desc">除了资金支持，我们长期帮助被投企业对接产业链上下游、核心客户、上市公司与关键合作伙伴。依托常春藤横跨一级与二级市场的长期积累，以及丰富的产业生态资源，我们也持续推动被投企业之间产生协同与合作，让技术真正走向产业落地。</p>
+          <div class="acard__more"><span>查看案例<span class="arr">→</span></span></div>
+        </div>
+      </article>
+      <article class="acard">
+        <div class="acard__media"><span class="acard__idx">// 03</span>
+          <img src="../assets/footer-%20HongKong.jpg" alt="" />
+          <div class="acard__veil"></div></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">创业者的<span class="q">"伴跑者"</span></h3>
+          <p class="acard__desc">很多时候我们是创业者的心理医生，这背后是我们对创业中孤独与低谷的深刻共情。当你深夜沮丧、甚至想放弃时，我们愿意成为那个随时接起电话、带上一瓶酒坐下来倾听的人。我们理解创业的艰难，所以不止陪你赢，更在你最难的时候，给你毫无保留的托底与信念。</p>
+          <div class="acard__more"><span>查看案例<span class="arr">→</span></span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ V3 ============ -->
+  <section class="cmp v3">
+    <div class="variant-label">// V3 · 移植「奖项」卡 hover</div>
+    <div class="sec-h"><span class="rn">Empowerment</span><span class="cn">投后赋能</span></div>
+    <p class="variant-note">取首页奖项卡的招式：hover 时下方阅读块整体 A→B 翻深海军蓝（带右下角 accent 径向辉光），标题转白、引号字转青、正文转白并放大，accent 细线发光，角标淡出；图片底部加 navy 渐变桥接缝，避免米/蓝硬切。最戏剧化。</p>
+    <div class="grid-a">
+      <article class="acard">
+        <div class="acard__media"><span class="acard__idx">// 01</span>
+          <img src="../assets/strategy-flow.png" alt="" /></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">顶配的<span class="q">"智囊后援"</span></h3>
+          <p class="acard__desc">我们长期构建由成功企业家、科学家、资深投资人与顶级智库学者组成的 CXO Network。我们不只提供董事会里的建议，更将一群这群真正打过仗、投过船、在科技前沿的CXO带到你身边，在企业发展的关键阶段，这个"外部大脑"将为创始人提供跨维度的深度咨询，让创业不再是一个人的独行。</p>
+        </div>
+      </article>
+      <article class="acard">
+        <div class="acard__media"><span class="acard__idx">// 02</span>
+          <img src="../assets/footer-shanghai.jpg" alt="" /></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">深度的<span class="q">"生态共振"</span></h3>
+          <p class="acard__desc">除了资金支持，我们长期帮助被投企业对接产业链上下游、核心客户、上市公司与关键合作伙伴。依托常春藤横跨一级与二级市场的长期积累，以及丰富的产业生态资源，我们也持续推动被投企业之间产生协同与合作，让技术真正走向产业落地。</p>
+        </div>
+      </article>
+      <article class="acard">
+        <div class="acard__media"><span class="acard__idx">// 03</span>
+          <img src="../assets/footer-%20HongKong.jpg" alt="" /></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">创业者的<span class="q">"伴跑者"</span></h3>
+          <p class="acard__desc">很多时候我们是创业者的心理医生，这背后是我们对创业中孤独与低谷的深刻共情。当你深夜沮丧、甚至想放弃时，我们愿意成为那个随时接起电话、带上一瓶酒坐下来倾听的人。我们理解创业的艰难，所以不止陪你赢，更在你最难的时候，给你毫无保留的托底与信念。</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ V4 ============ -->
+  <section class="cmp v4">
+    <div class="variant-label">// V4 · V1 动效 + V2「查看案例」标签（融合版）</div>
+    <div class="sec-h"><span class="rn">Empowerment</span><span class="cn">投后赋能</span></div>
+    <p class="variant-note">完全沿用 V1 的动效：图片放大 + 底部渐变窗帘加深上爬 + accent 细线横向生长 + 隐藏行以 grid-rows 优雅展开；但展开内容换成 V2 风格的「查看案例 →」mono 标签（箭头右移），不再用三枚标签药丸。</p>
+    <div class="grid-a">
+      <article class="acard">
+        <div class="acard__media"><span class="acard__idx">// 01</span>
+          <img src="../assets/strategy-flow.png" alt="" /></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">顶配的<span class="q">"智囊后援"</span></h3>
+          <p class="acard__desc">我们长期构建由成功企业家、科学家、资深投资人与顶级智库学者组成的 CXO Network。我们不只提供董事会里的建议，更将一群这群真正打过仗、投过船、在科技前沿的CXO带到你身边，在企业发展的关键阶段，这个"外部大脑"将为创始人提供跨维度的深度咨询，让创业不再是一个人的独行。</p>
+          <div class="acard__meta"><div class="acard__meta-inner">
+            <span class="acard__more">查看案例<span class="arr">→</span></span>
+          </div></div>
+        </div>
+      </article>
+      <article class="acard">
+        <div class="acard__media"><span class="acard__idx">// 02</span>
+          <img src="../assets/footer-shanghai.jpg" alt="" /></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">深度的<span class="q">"生态共振"</span></h3>
+          <p class="acard__desc">除了资金支持，我们长期帮助被投企业对接产业链上下游、核心客户、上市公司与关键合作伙伴。依托常春藤横跨一级与二级市场的长期积累，以及丰富的产业生态资源，我们也持续推动被投企业之间产生协同与合作，让技术真正走向产业落地。</p>
+          <div class="acard__meta"><div class="acard__meta-inner">
+            <span class="acard__more">查看案例<span class="arr">→</span></span>
+          </div></div>
+        </div>
+      </article>
+      <article class="acard">
+        <div class="acard__media"><span class="acard__idx">// 03</span>
+          <img src="../assets/footer-%20HongKong.jpg" alt="" /></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">创业者的<span class="q">"伴跑者"</span></h3>
+          <p class="acard__desc">很多时候我们是创业者的心理医生，这背后是我们对创业中孤独与低谷的深刻共情。当你深夜沮丧、甚至想放弃时，我们愿意成为那个随时接起电话、带上一瓶酒坐下来倾听的人。我们理解创业的艰难，所以不止陪你赢，更在你最难的时候，给你毫无保留的托底与信念。</p>
+          <div class="acard__meta"><div class="acard__meta-inner">
+            <span class="acard__more">查看案例<span class="arr">→</span></span>
+          </div></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ V5 ============ -->
+  <section class="cmp v5">
+    <div class="variant-label">// V5 · 依托 V4：整图铺满全卡 + 文字白磨砂托底（chrome 对齐 component .card）</div>
+    <div class="sec-h"><span class="rn">Empowerment</span><span class="cn">投后赋能</span></div>
+    <p class="variant-note">沿用 V4 的动效与「查看案例 →」标签；hover 时顶部图片背景铺满整卡高度（image scale 1.06），文字区从实心 cream 变为白色半透明磨砂（backdrop blur）托底，露出背景图同时保证可读；卡片本身的边框 / 三层阴影 / 过渡 / 角标对齐 homepage component 的 .card。</p>
+    <div class="grid-a">
+      <article class="acard">
+        <img class="acard__bg" src="../assets/strategy-flow.png" alt="" />
+        <span class="corner tl"></span><span class="corner br"></span>
+        <span class="acard__idx">// 01</span>
+        <div class="acard__media"></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">顶配的<span class="q">"智囊后援"</span></h3>
+          <p class="acard__desc">我们长期构建由成功企业家、科学家、资深投资人与顶级智库学者组成的 CXO Network。我们不只提供董事会里的建议，更将一群这群真正打过仗、投过船、在科技前沿的CXO带到你身边，在企业发展的关键阶段，这个"外部大脑"将为创始人提供跨维度的深度咨询，让创业不再是一个人的独行。</p>
+          <div class="acard__meta"><div class="acard__meta-inner">
+            <span class="acard__more">查看案例<span class="arr">→</span></span>
+          </div></div>
+        </div>
+      </article>
+      <article class="acard">
+        <img class="acard__bg" src="../assets/footer-shanghai.jpg" alt="" />
+        <span class="corner tl"></span><span class="corner br"></span>
+        <span class="acard__idx">// 02</span>
+        <div class="acard__media"></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">深度的<span class="q">"生态共振"</span></h3>
+          <p class="acard__desc">除了资金支持，我们长期帮助被投企业对接产业链上下游、核心客户、上市公司与关键合作伙伴。依托常春藤横跨一级与二级市场的长期积累，以及丰富的产业生态资源，我们也持续推动被投企业之间产生协同与合作，让技术真正走向产业落地。</p>
+          <div class="acard__meta"><div class="acard__meta-inner">
+            <span class="acard__more">查看案例<span class="arr">→</span></span>
+          </div></div>
+        </div>
+      </article>
+      <article class="acard">
+        <img class="acard__bg" src="../assets/footer-%20HongKong.jpg" alt="" />
+        <span class="corner tl"></span><span class="corner br"></span>
+        <span class="acard__idx">// 03</span>
+        <div class="acard__media"></div>
+        <div class="acard__body">
+          <div class="acard__rule"></div>
+          <h3 class="acard__title">创业者的<span class="q">"伴跑者"</span></h3>
+          <p class="acard__desc">很多时候我们是创业者的心理医生，这背后是我们对创业中孤独与低谷的深刻共情。当你深夜沮丧、甚至想放弃时，我们愿意成为那个随时接起电话、带上一瓶酒坐下来倾听的人。我们理解创业的艰难，所以不止陪你赢，更在你最难的时候，给你毫无保留的托底与信念。</p>
+          <div class="acard__meta"><div class="acard__meta-inner">
+            <span class="acard__more">查看案例<span class="arr">→</span></span>
+          </div></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
