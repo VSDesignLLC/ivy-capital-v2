@@ -55,7 +55,8 @@
 .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; padding-top:56px; }
 
 /* ---------- II. 投资哲学 · IVY — 整行 hover 揭示（C3 终版：混合图 + 逐行揭示） ---------- */
-.phil{ max-width:1100px; margin:40px auto 0; border-top:1px solid var(--c-hairline); }
+/* 容器横向撑满到左右竖线(rail)，与标题横线(sec-band rule)等宽：同 .sec-band 的负 margin 外扩到 rail */
+.phil{ margin:40px calc(var(--rail) - var(--page-x)) 0; border-top:1px solid var(--c-hairline); }
 .phil-row{ position:relative; overflow:hidden; border-bottom:1px solid var(--c-hairline); isolation:isolate; }
 /* per-row 图在底 + 顶部 navy scrim，hover 前隐藏 */
 .phil-row::before{ content:""; position:absolute; inset:0; z-index:-1;
