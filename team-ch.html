@@ -18,10 +18,45 @@
 
 #team{ padding-bottom:var(--gap); }
 
-/* ---------- TEAM HERO（仅文档 Page3 介绍文字） ---------- */
-.thero{ position:relative; padding:200px var(--page-x) 92px; }
-.thero__title{ font-family:var(--ff-serif); font-weight:500; font-size:42px; line-height:1.5; letter-spacing:-0.6px; color:var(--c-ink); max-width:23em; }
-.thero__title .b{ color:var(--c-accent); }
+/* ---------- HERO · V4 中轴版（design system display 标题 + 呼吸点 label + 贯穿中轴引导） ---------- */
+.hax{ position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:200px var(--page-x) 0; overflow:hidden; background:var(--c-bg); }
+.hax__halo{ position:absolute; left:50%; top:46%; z-index:0; pointer-events:none; width:min(1100px,86vw); aspect-ratio:1/1; transform:translate(-50%,-50%); background:radial-gradient(circle at center, var(--c-accent-wash) 0%, rgba(var(--c-accent-rgb),.018) 38%, rgba(var(--c-accent-rgb),0) 70%); }
+.hax__inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); display:flex; flex-direction:column; align-items:center; text-align:center; }
+/* label = 呼吸圆点 + 英文页名（复用 homepage hero eyebrow；.dot/.caption 在 base.css，dot-halo 在 components.css；浅底蓝光晕） */
+.hax__kick{ display:inline-flex; align-items:center; gap:10px; margin-bottom:42px; }
+.hax__kick .caption{ color:var(--c-accent); letter-spacing:.2em; }
+.hax__kick .dot--live{ position:relative; isolation:isolate; }
+.hax__kick .dot--live::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1; width:22px; height:22px; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%) scale(.55); background:radial-gradient(circle, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.38) 36%, rgba(var(--c-accent-rgb),.14) 68%, rgba(var(--c-accent-rgb),0) 100%); filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite; }
+/* Hero 主标题 = design system `display`：Noto Sans SC Bold · 108/112/-0.64 */
+.hax__title{ font-family:var(--ff-sc); font-weight:700; font-size:108px; line-height:1.04; letter-spacing:-0.64px; color:var(--c-ink); }
+.hax__title .b{ color:var(--c-accent); }
+.hax__title .en{ display:block; margin-top:14px; font-family:var(--ff-ital); font-style:italic; font-weight:400; font-size:34px; line-height:1; letter-spacing:.2px; color:var(--c-muted); }
+.hax__desc{ margin-top:38px; max-width:680px; font-family:var(--ff-sc); font-weight:400; font-size:18px; line-height:32px; letter-spacing:-0.2px; color:var(--c-slate); }
+.hax__axis{ position:relative; z-index:2; margin-top:60px; flex:1 0 auto; min-height:160px; display:flex; flex-direction:column; align-items:center; width:100%; }
+.hax__axis-line{ flex:1 1 auto; width:1px; background:linear-gradient(to bottom, var(--c-accent) 0%, rgba(var(--c-accent-rgb),.45) 40%, var(--c-accent-line) 100%); transform-origin:top; transform:scaleY(1); animation:haxDraw 1.7s var(--ease-soft) .45s both; }
+.hax__axis::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--c-accent); flex:none; margin-bottom:-3px; z-index:1; opacity:0; animation:haxDot .6s var(--ease) .4s both; }
+@keyframes haxDraw{ from{ transform:scaleY(0); opacity:0; } to{ transform:scaleY(1); opacity:1; } }
+@keyframes haxDot{ to{ opacity:1; } }
+.hax__more{ display:flex; flex-direction:column; align-items:center; gap:14px; padding:18px 0 40px; background:transparent; border:0; cursor:pointer; -webkit-appearance:none; appearance:none; opacity:0; animation:haxFade .8s var(--ease) 1.4s both; }
+.hax__more-cap{ font-family:var(--ff-mono); font-size:11px; font-weight:500; letter-spacing:.5em; text-indent:.5em; text-transform:uppercase; color:var(--c-muted); transition:color .3s var(--ease); }
+.hax__more:hover .hax__more-cap{ color:var(--c-accent); }
+.hax__more-arr{ width:9px; height:9px; border-right:1.5px solid var(--c-accent); border-bottom:1.5px solid var(--c-accent); transform:rotate(45deg); transition:transform .3s var(--ease); }
+.hax__more:hover .hax__more-arr{ transform:rotate(45deg) translate(2px,2px); }
+@keyframes haxFade{ to{ opacity:1; } }
+.hax__kick, .hax__title, .hax__desc{ opacity:0; transform:translateY(20px); animation:haxRise .9s var(--ease-soft) both; }
+.hax__kick{ animation-delay:.12s; } .hax__title{ animation-delay:.26s; } .hax__desc{ animation-delay:.42s; }
+@keyframes haxRise{ to{ opacity:1; transform:none; } }
+@media (max-width:1100px){
+  .hax{ padding-top:150px; }
+  .hax__title{ font-size:64px; letter-spacing:-1.2px; }
+  .hax__title .en{ font-size:26px; }
+  .hax__desc{ font-size:16px; line-height:29px; }
+}
+@media (prefers-reduced-motion:reduce){
+  .hax__kick, .hax__title, .hax__desc, .hax__more{ opacity:1; transform:none; animation:none; }
+  .hax__axis-line{ animation:none; transform:none; opacity:1; }
+  .hax__axis::before{ animation:none; opacity:1; }
+}
 
 /* ---------- 团队成员网格（占位骨架，待填真实资料） ---------- */
 .team-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:56px; }
@@ -47,8 +82,6 @@
 
 /* ---------- narrow safety ---------- */
 @media (max-width:1100px){
-  .thero{ padding-top:150px; }
-  .thero__title{ font-size:32px; }
   .team-grid{ grid-template-columns:repeat(2,1fr); }
 }
 @media (max-width:640px){
@@ -75,9 +108,19 @@
   <!-- NAV (共享单一来源) -->
   <site-nav></site-nav>
 
-  <!-- TEAM HERO — 仅文档 Page3 介绍文字 -->
-  <header class="thero" data-bgop="0.10">
-    <h1 class="thero__title" data-reveal>我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以<span class="b">长期陪伴和深度连接</span>，共同穿越技术创新与企业成长的周期。</h1>
+  <!-- TEAM HERO · V4 中轴版 -->
+  <header class="hero hax">
+    <div class="hax__halo" aria-hidden="true"></div>
+    <div class="hax__inner">
+      <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Team</span></p>
+      <h1 class="hax__title">团<span class="b">队</span><span class="en">Ivy Capital</span></h1>
+      <p class="hax__desc">我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以长期陪伴和深度连接，共同穿越技术创新与企业成长的周期。</p>
+    </div>
+    <div class="hax__axis" aria-hidden="true"><span class="hax__axis-line"></span></div>
+    <button class="hax__more" type="button" aria-label="向下浏览更多">
+      <span class="hax__more-arr" aria-hidden="true"></span>
+      <span class="hax__more-cap">了 解 更 多</span>
+    </button>
   </header>
 
   <!-- 团队成员 — 占位骨架（文档未提供成员资料） -->
@@ -106,5 +149,16 @@
 </div>
 
 <script src="assets/js/site.js"></script>
+<script>
+  // 「了解更多」滚动引导：不用锚点（避免 fragment 问题），向下滚一屏。
+  (function(){
+    document.querySelectorAll('.hax__more').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+        window.scrollBy({ top: window.innerHeight, behavior: reduce ? 'auto' : 'smooth' });
+      });
+    });
+  })();
+</script>
 </body>
 </html>

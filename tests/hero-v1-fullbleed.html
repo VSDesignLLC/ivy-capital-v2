@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="../" />
+<title>关于我们 · 常春藤资本 Ivy Capital — Hero V1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================ HERO V1 · 满版媒体版
+   子页面 hero 模板候选：满屏背景视频(pagebg) + 左下大标题 + 描述
+   + 底部居中向下引导竖线 + mono「了 解 更 多」。
+   只用现有 token，所有页面专属 class 以 .hv 前缀，避免污染共享组件。 */
+
+/* 这一版 hero 自己掌控背景视频可见度（不依赖滚动 JS 的 --pgop） */
+#pagebg{ --pgop:1; }
+
+.hv{
+  position:relative;
+  min-height:100vh;
+  /* 内容贴左下：rail 内侧对齐 */
+  padding:0 var(--page-x);
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  overflow:hidden;
+}
+
+/* 底部→中部的深色 scrim，保证左下文字在亮部视频上可读 */
+.hv__scrim{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:linear-gradient(
+    to top,
+    rgba(var(--c-ink-rgb),.82) 0%,
+    rgba(var(--c-ink-rgb),.62) 26%,
+    rgba(var(--c-ink-rgb),.30) 52%,
+    rgba(var(--c-ink-rgb),.08) 74%,
+    rgba(var(--c-ink-rgb),0) 100%
+  );
+}
+
+/* 四角图纸刻度 crop-mark，呼应 blueprint 气质（hairline，淡） */
+.hv__marks{ position:absolute; inset:0; z-index:1; pointer-events:none; }
+.hv__mark{ position:absolute; width:18px; height:18px; opacity:.5; }
+.hv__mark::before, .hv__mark::after{
+  content:""; position:absolute; background:rgba(var(--c-bg-rgb),.55);
+}
+.hv__mark::before{ left:50%; top:0; width:1px; height:100%; transform:translateX(-.5px); }
+.hv__mark::after{ top:50%; left:0; height:1px; width:100%; transform:translateY(-.5px); }
+.hv__mark.tl{ left:calc(var(--rail) - 9px); top:calc(96px); }
+.hv__mark.tr{ right:calc(var(--rail) - 9px); top:96px; }
+.hv__mark.bl{ left:calc(var(--rail) - 9px); bottom:140px; }
+.hv__mark.br{ right:calc(var(--rail) - 9px); bottom:140px; }
+
+/* 内容容器 */
+.hv__inner{
+  position:relative; z-index:2;
+  max-width:var(--maxw);
+  width:100%;
+  margin:0 auto;
+  padding-bottom:148px; /* 给底部竖线 + 「了解更多」让位 */
+}
+
+.hv__kick{
+  font-family:var(--ff-mono);
+  font-size:12px; font-weight:500;
+  letter-spacing:.26em; text-transform:uppercase;
+  color:var(--c-accent-2);
+  margin-bottom:26px;
+  display:flex; align-items:center; gap:14px;
+}
+.hv__kick::before{
+  content:""; width:34px; height:1px; background:var(--c-accent-2); opacity:.7;
+}
+
+.hv__title{
+  font-family:var(--ff-sc); font-weight:700;
+  font-size:118px; line-height:1.02; letter-spacing:-2px;
+  color:var(--c-bg);
+  text-shadow:0 2px 40px rgba(var(--c-ink-rgb),.45);
+}
+.hv__title .b{ color:var(--c-accent-2); } /* 蓝色高亮首字（品牌蓝，非红） */
+
+.hv__desc{
+  margin-top:34px;
+  max-width:680px;
+  font-family:var(--ff-sc); font-weight:400;
+  font-size:19px; line-height:34px; letter-spacing:-0.2px;
+  color:rgba(var(--c-bg-rgb),.86);
+}
+
+/* 底部居中：向下引导竖线 + 「了 解 更 多」 */
+.hv__scroll{
+  position:absolute; left:50%; bottom:46px; z-index:3;
+  transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:16px;
+  background:transparent; border:0; cursor:pointer;
+  -webkit-appearance:none; appearance:none;
+}
+.hv__scroll-label{
+  font-family:var(--ff-mono);
+  font-size:11px; font-weight:400;
+  letter-spacing:.5em; /* 「了 解 更 多」字距 */
+  text-indent:.5em;    /* 抵消末字多出的右侧字距，使整体视觉居中 */
+  text-transform:uppercase;
+  color:rgba(var(--c-bg-rgb),.78);
+}
+.hv__scroll-line{
+  width:1px; height:64px;
+  background:linear-gradient(to bottom, rgba(var(--c-bg-rgb),.7), rgba(var(--c-bg-rgb),.05));
+  transform-origin:top;
+  /* 缓慢 draw-in */
+  animation:hvDraw 1.6s var(--ease-soft) .4s both;
+}
+@keyframes hvDraw{
+  from{ transform:scaleY(0); opacity:0; }
+  to{ transform:scaleY(1); opacity:1; }
+}
+
+/* 入场：kick / title / desc 错峰浮起（自定义，自带 reduced-motion 兜底） */
+.hv__kick, .hv__title, .hv__desc{
+  opacity:0; transform:translateY(22px);
+  animation:hvRise .9s var(--ease-soft) both;
+}
+.hv__kick{ animation-delay:.15s; }
+.hv__title{ animation-delay:.30s; }
+.hv__desc{ animation-delay:.50s; }
+@keyframes hvRise{ to{ opacity:1; transform:none; } }
+
+@media (max-width:1100px){
+  .hv__title{ font-size:74px; letter-spacing:-1.2px; }
+  .hv__desc{ font-size:17px; line-height:31px; }
+  .hv__inner{ padding-bottom:120px; }
+  .hv__mark{ display:none; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hv__kick, .hv__title, .hv__desc{ opacity:1; transform:none; animation:none; }
+  .hv__scroll-line{ animation:none; transform:none; opacity:1; }
+}
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+</head>
+<body data-nav="about">
+
+<!-- GLOBAL fixed video background — V1 满版媒体即此 pagebg -->
+<video class="pagebg" id="pagebg" autoplay muted loop playsinline preload="auto">
+  <source src="assets/kling_20260612_作品_以上传图为首帧_整幅_4326_0.mp4" type="video/mp4" />
+</video>
+
+<div class="page">
+
+  <!-- FULL-HEIGHT SIDE RAILS -->
+  <div class="rails-top" id="rails" aria-hidden="true">
+    <div class="rail l"></div>
+    <div class="rail r"></div>
+  </div>
+
+  <!-- NAV (共享单一来源) -->
+  <site-nav></site-nav>
+
+  <!-- HERO V1 · 满版媒体 -->
+  <header class="hero hv">
+    <div class="hv__scrim" aria-hidden="true"></div>
+
+    <div class="hv__marks" aria-hidden="true">
+      <span class="hv__mark tl"></span>
+      <span class="hv__mark tr"></span>
+      <span class="hv__mark bl"></span>
+      <span class="hv__mark br"></span>
+    </div>
+
+    <div class="hv__inner">
+      <p class="hv__kick">About Ivy Capital</p>
+      <h1 class="hv__title"><span class="b">关于</span>我们</h1>
+      <p class="hv__desc">专注于前沿科技领域的早期投资机构，由 Facebook 首位中国籍研发经理王淮创立于 2014 年。目前管理十支基金，规模超过 140 亿元。</p>
+    </div>
+
+    <button class="hv__scroll" type="button" aria-label="向下浏览更多" id="hvScroll">
+      <span class="hv__scroll-line" aria-hidden="true"></span>
+      <span class="hv__scroll-label">了 解 更 多</span>
+    </button>
+  </header>
+
+</div>
+
+<script src="assets/js/site.js"></script>
+<script>
+  // 滚动引导：不用锚点（<base> 会改变 fragment 解析），用 JS 平滑滚动一屏。
+  (function(){
+    var btn = document.getElementById('hvScroll');
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+      window.scrollTo({ top: window.innerHeight, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  })();
+</script>
+</body>
+</html>

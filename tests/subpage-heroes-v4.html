@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="../" />
+<title>子页面 Hero · V4 中轴版 — 团队 / 被投企业 / 最新动态</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================ 子页面 HERO · V4 中轴版（内联，三页共用同一模板）
+   同一套 .hax 排版只写一份；团队/被投企业/最新动态三段堆叠，文字取自各页现有 html。
+   只用现有 token；页面专属 class 一律 .hax 前缀。 */
+
+.hax{
+  position:relative;
+  min-height:100vh;
+  display:flex; flex-direction:column; align-items:center;
+  padding:200px var(--page-x) 0;
+  overflow:hidden;
+  background:var(--c-bg);
+}
+/* 第二段起顶部不再留 nav 空间（nav 只在最顶部） */
+.hax + .hax{ padding-top:120px; border-top:1px solid var(--c-hairline); }
+
+/* 左上角小标识：标明这是哪一页（仅对比页用，落地时不带） */
+.shv-tag{
+  position:absolute; top:calc(var(--rail) + 16px); left:calc(var(--rail) + 4px); z-index:3;
+  font-family:var(--ff-mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted);
+}
+
+/* 极淡居中径向光晕，给纯米色一点纵深 */
+.hax__halo{
+  position:absolute; left:50%; top:46%; z-index:0; pointer-events:none;
+  width:min(1100px, 86vw); aspect-ratio:1/1; transform:translate(-50%,-50%);
+  background:radial-gradient(circle at center, var(--c-accent-wash) 0%, rgba(var(--c-accent-rgb),.018) 38%, rgba(var(--c-accent-rgb),0) 70%);
+}
+
+.hax__inner{
+  position:relative; z-index:2; width:100%; max-width:var(--maxw);
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+}
+
+/* label = 呼吸圆点 + 英文页名（复用 homepage hero eyebrow）。
+   .dot 本体/.caption 在 base.css，dot-halo 关键帧在 components.css；
+   呼吸光晕 .dot--live::before 仅 homepage 内联，这里按"浅底蓝色光晕"版复制。 */
+.hax__kick{ display:inline-flex; align-items:center; gap:10px; margin-bottom:42px; }
+.hax__kick .caption{ color:var(--c-accent); letter-spacing:.2em; }
+.hax__kick .dot--live{ position:relative; isolation:isolate; }
+.hax__kick .dot--live::before{
+  content:""; position:absolute; left:50%; top:50%; z-index:-1;
+  width:22px; height:22px; border-radius:50%; pointer-events:none;
+  transform:translate(-50%,-50%) scale(.55);
+  background:radial-gradient(circle, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.38) 36%, rgba(var(--c-accent-rgb),.14) 68%, rgba(var(--c-accent-rgb),0) 100%);
+  filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite;
+}
+
+/* Hero 主标题 = design system `display` token：Noto Sans SC Bold · 108/112/-0.64。混排一行 ital 英文小注 */
+.hax__title{
+  font-family:var(--ff-sc); font-weight:700;
+  font-size:108px; line-height:1.04; letter-spacing:-0.64px; color:var(--c-ink);
+}
+.hax__title .b{ color:var(--c-accent); }
+.hax__title .en{
+  display:block; margin-top:14px;
+  font-family:var(--ff-ital); font-style:italic; font-weight:400;
+  font-size:34px; line-height:1; letter-spacing:.2px; color:var(--c-muted);
+}
+
+/* 居中描述：收拢 max-width，slate 灰 */
+.hax__desc{
+  margin-top:38px; max-width:680px;
+  font-family:var(--ff-sc); font-weight:400;
+  font-size:18px; line-height:32px; letter-spacing:-0.2px; color:var(--c-slate);
+}
+
+/* ---- 核心：贯穿中轴 ---- */
+.hax__axis{
+  position:relative; z-index:2; margin-top:60px;
+  flex:1 0 auto; min-height:160px;
+  display:flex; flex-direction:column; align-items:center; width:100%;
+}
+.hax__axis-line{
+  flex:1 1 auto; width:1px;
+  background:linear-gradient(to bottom, var(--c-accent) 0%, rgba(var(--c-accent-rgb),.45) 40%, var(--c-accent-line) 100%);
+  transform-origin:top; transform:scaleY(1);
+  animation:haxDraw 1.7s var(--ease-soft) .45s both;
+}
+.hax__axis::before{
+  content:""; width:7px; height:7px; border-radius:50%;
+  background:var(--c-accent); flex:none; margin-bottom:-3px; z-index:1;
+  opacity:0; animation:haxDot .6s var(--ease) .4s both;
+}
+@keyframes haxDraw{ from{ transform:scaleY(0); opacity:0; } to{ transform:scaleY(1); opacity:1; } }
+@keyframes haxDot{ to{ opacity:1; } }
+
+/* 底部：中轴末端的「了 解 更 多」label（按钮，非锚点） */
+.hax__more{
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  padding:18px 0 40px; background:transparent; border:0; cursor:pointer;
+  -webkit-appearance:none; appearance:none;
+  opacity:0; animation:haxFade .8s var(--ease) 1.4s both;
+}
+.hax__more-cap{
+  font-family:var(--ff-mono); font-size:11px; font-weight:500;
+  letter-spacing:.5em; text-indent:.5em; text-transform:uppercase; color:var(--c-muted);
+  transition:color .3s var(--ease);
+}
+.hax__more:hover .hax__more-cap{ color:var(--c-accent); }
+.hax__more-arr{
+  width:9px; height:9px; border-right:1.5px solid var(--c-accent); border-bottom:1.5px solid var(--c-accent);
+  transform:rotate(45deg); transition:transform .3s var(--ease);
+}
+.hax__more:hover .hax__more-arr{ transform:rotate(45deg) translate(2px,2px); }
+@keyframes haxFade{ to{ opacity:1; } }
+
+/* 入场：kick / title / desc 错峰浮起 */
+.hax__kick, .hax__title, .hax__desc{ opacity:0; transform:translateY(20px); animation:haxRise .9s var(--ease-soft) both; }
+.hax__kick{ animation-delay:.12s; } .hax__title{ animation-delay:.26s; } .hax__desc{ animation-delay:.42s; }
+@keyframes haxRise{ to{ opacity:1; transform:none; } }
+
+@media (max-width:1100px){
+  .hax{ padding-top:150px; }
+  .hax__title{ font-size:64px; letter-spacing:-1.2px; }
+  .hax__title .en{ font-size:26px; }
+  .hax__desc{ font-size:16px; line-height:29px; }
+}
+@media (prefers-reduced-motion:reduce){
+  .hax__kick, .hax__title, .hax__desc, .hax__more{ opacity:1; transform:none; animation:none; }
+  .hax__axis-line{ animation:none; transform:none; opacity:1; }
+  .hax__axis::before{ animation:none; opacity:1; }
+}
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+</head>
+<body data-nav="team">
+
+<div class="page">
+
+  <div class="rails-top" id="rails" aria-hidden="true">
+    <div class="rail l"></div>
+    <div class="rail r"></div>
+  </div>
+
+  <!-- NAV (共享单一来源) -->
+  <site-nav></site-nav>
+
+  <!-- ===== 团队 ===== -->
+  <header class="hero hax">
+    <span class="shv-tag" aria-hidden="true">Page · 团队</span>
+    <div class="hax__halo" aria-hidden="true"></div>
+    <div class="hax__inner">
+      <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Team</span></p>
+      <h1 class="hax__title">团<span class="b">队</span><span class="en">Ivy Capital</span></h1>
+      <p class="hax__desc">我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以长期陪伴和深度连接，共同穿越技术创新与企业成长的周期。</p>
+    </div>
+    <div class="hax__axis" aria-hidden="true"><span class="hax__axis-line"></span></div>
+    <button class="hax__more" type="button" aria-label="向下浏览更多">
+      <span class="hax__more-arr" aria-hidden="true"></span>
+      <span class="hax__more-cap">了 解 更 多</span>
+    </button>
+  </header>
+
+  <!-- ===== 被投企业 ===== -->
+  <header class="hero hax">
+    <span class="shv-tag" aria-hidden="true">Page · 被投企业</span>
+    <div class="hax__halo" aria-hidden="true"></div>
+    <div class="hax__inner">
+      <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Portfolio</span></p>
+      <h1 class="hax__title">被投<span class="b">企业</span><span class="en">Ivy Capital</span></h1>
+      <p class="hax__desc">我们投资那些正在定义未来的创业者。从实验室到产业，从技术突破到商业落地，我们陪伴创新者跨越从 0 到 1、从 1 到 100 的成长旅程，共同创造长期价值。</p>
+    </div>
+    <div class="hax__axis" aria-hidden="true"><span class="hax__axis-line"></span></div>
+    <button class="hax__more" type="button" aria-label="向下浏览更多">
+      <span class="hax__more-arr" aria-hidden="true"></span>
+      <span class="hax__more-cap">了 解 更 多</span>
+    </button>
+  </header>
+
+  <!-- ===== 最新动态 ===== -->
+  <header class="hero hax">
+    <span class="shv-tag" aria-hidden="true">Page · 最新动态</span>
+    <div class="hax__halo" aria-hidden="true"></div>
+    <div class="hax__inner">
+      <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">News</span></p>
+      <h1 class="hax__title">最新<span class="b">动态</span><span class="en">Ivy Capital</span></h1>
+      <p class="hax__desc">这里记录着常春藤资本的最新投资动态、行业观察、品牌活动与生态合作，以及被投企业在技术创新、产品进展和商业化探索中的重要里程碑。</p>
+    </div>
+    <div class="hax__axis" aria-hidden="true"><span class="hax__axis-line"></span></div>
+    <button class="hax__more" type="button" aria-label="向下浏览更多">
+      <span class="hax__more-arr" aria-hidden="true"></span>
+      <span class="hax__more-cap">了 解 更 多</span>
+    </button>
+  </header>
+
+</div>
+
+<script src="assets/js/site.js"></script>
+<script>
+  // 「了解更多」滚动引导：不用锚点（<base> 会改变 fragment 解析），向下滚一屏。
+  (function(){
+    document.querySelectorAll('.hax__more').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+        window.scrollBy({ top: window.innerHeight, behavior: reduce ? 'auto' : 'smooth' });
+      });
+    });
+  })();
+</script>
+</body>
+</html>

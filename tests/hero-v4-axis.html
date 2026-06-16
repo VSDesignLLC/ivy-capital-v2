@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="../" />
+<title>关于我们 · 常春藤资本 Ivy Capital — Hero V4 中轴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================ HERO V4 · 中轴居中版
+   子页面 hero 模板候选：纯米色底、居中对称构图。
+   顶 mono kicker → 居中大标题(serif 混排 + 一处蓝高亮) → 居中描述。
+   核心元素 = 一条贯穿的竖直中轴 hairline，从标题下方一直落到视口最底部的
+   「了 解 更 多」，draw-in 从上往下，reduced-motion 静止。
+   只用现有 token；页面专属 class 一律 .hax 前缀，避免污染共享组件。 */
+
+.hax{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  /* 顶部留出 nav 空间，内容整体偏上集中，底部交给中轴线延伸 */
+  padding:200px var(--page-x) 0;
+  overflow:hidden;
+  background:var(--c-bg);
+}
+
+/* 极淡的居中径向光晕，给纯米色一点呼吸/纵深，不喧宾夺主 */
+.hax__halo{
+  position:absolute; left:50%; top:46%; z-index:0; pointer-events:none;
+  width:min(1100px, 86vw); aspect-ratio:1/1;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle at center,
+    var(--c-accent-wash) 0%,
+    rgba(var(--c-accent-rgb),.018) 38%,
+    rgba(var(--c-accent-rgb),0) 70%);
+}
+
+.hax__inner{
+  position:relative; z-index:2;
+  width:100%; max-width:var(--maxw);
+  display:flex; flex-direction:column; align-items:center;
+  text-align:center;
+}
+
+/* label = 呼吸圆点 + 英文 About（复用 homepage hero eyebrow）。
+   .dot 本体/.caption 在 base.css，dot-halo 关键帧在 components.css；
+   呼吸光晕 .dot--live::before 仅 homepage 内联，这里按"浅底蓝色光晕"版复制。 */
+.hax__kick{
+  display:inline-flex; align-items:center; gap:10px;
+  margin-bottom:42px;
+}
+.hax__kick .caption{ color:var(--c-accent); letter-spacing:.2em; }
+.hax__kick .dot--live{ position:relative; isolation:isolate; }
+.hax__kick .dot--live::before{
+  content:""; position:absolute; left:50%; top:50%; z-index:-1;
+  width:22px; height:22px; border-radius:50%; pointer-events:none;
+  transform:translate(-50%,-50%) scale(.55);
+  background:radial-gradient(circle, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.38) 36%, rgba(var(--c-accent-rgb),.14) 68%, rgba(var(--c-accent-rgb),0) 100%);
+  filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite;
+}
+
+/* Hero 主标题 = design system `display` token：Noto Sans SC Bold · 108/112/-0.64。
+   混排一行 serif/ital 英文小注 */
+.hax__title{
+  font-family:var(--ff-sc); font-weight:700;
+  font-size:108px; line-height:1.04; letter-spacing:-0.64px;
+  color:var(--c-ink);
+}
+.hax__title .b{ color:var(--c-accent); }
+.hax__title .en{
+  display:block; margin-top:14px;
+  font-family:var(--ff-ital); font-style:italic; font-weight:400;
+  font-size:34px; line-height:1; letter-spacing:.2px;
+  color:var(--c-muted);
+}
+
+/* 居中描述：收拢 max-width，slate 灰 */
+.hax__desc{
+  margin-top:38px;
+  max-width:620px;
+  font-family:var(--ff-sc); font-weight:400;
+  font-size:18px; line-height:32px; letter-spacing:-0.2px;
+  color:var(--c-slate);
+}
+
+/* ---- 核心：贯穿中轴 ----
+   从描述下方开始，flex 自动撑满，竖线落到底部 label。 */
+.hax__axis{
+  position:relative; z-index:2;
+  margin-top:60px;
+  flex:1 0 auto;            /* 吃掉剩余高度，把 label 顶到视口底 */
+  min-height:200px;
+  display:flex; flex-direction:column; align-items:center;
+  width:100%;
+}
+.hax__axis-line{
+  flex:1 1 auto; width:1px;
+  /* 主色由浓到淡，引导视线向下 */
+  background:linear-gradient(to bottom,
+    var(--c-accent) 0%,
+    rgba(var(--c-accent-rgb),.45) 40%,
+    var(--c-accent-line) 100%);
+  transform-origin:top; transform:scaleY(1);
+  animation:haxDraw 1.7s var(--ease-soft) .45s both;
+}
+/* 线顶端一个小节点，强调"轴"的起点 */
+.hax__axis::before{
+  content:""; width:7px; height:7px; border-radius:50%;
+  background:var(--c-accent); flex:none; margin-bottom:-3px; z-index:1;
+  opacity:0; animation:haxDot .6s var(--ease) .4s both;
+}
+@keyframes haxDraw{ from{ transform:scaleY(0); opacity:0; } to{ transform:scaleY(1); opacity:1; } }
+@keyframes haxDot{ to{ opacity:1; } }
+
+/* 底部：中轴末端的「了 解 更 多」label（按钮，非锚点） */
+.hax__more{
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  padding:18px 0 40px;
+  background:transparent; border:0; cursor:pointer;
+  -webkit-appearance:none; appearance:none;
+  opacity:0; animation:haxFade .8s var(--ease) 1.4s both;
+}
+.hax__more-cap{
+  font-family:var(--ff-mono);
+  font-size:11px; font-weight:500;
+  letter-spacing:.5em; text-indent:.5em;
+  text-transform:uppercase;
+  color:var(--c-muted);
+  transition:color .3s var(--ease);
+}
+.hax__more:hover .hax__more-cap{ color:var(--c-accent); }
+/* 末端小箭头（CSS 画的下指 chevron），随 hover 轻微下移 */
+.hax__more-arr{
+  width:9px; height:9px;
+  border-right:1.5px solid var(--c-accent);
+  border-bottom:1.5px solid var(--c-accent);
+  transform:rotate(45deg);
+  transition:transform .3s var(--ease);
+}
+.hax__more:hover .hax__more-arr{ transform:rotate(45deg) translate(2px,2px); }
+@keyframes haxFade{ to{ opacity:1; } }
+
+/* 入场：kick / title / desc 错峰浮起 */
+.hax__kick, .hax__title, .hax__desc{
+  opacity:0; transform:translateY(20px);
+  animation:haxRise .9s var(--ease-soft) both;
+}
+.hax__kick{ animation-delay:.12s; }
+.hax__title{ animation-delay:.26s; }
+.hax__desc{ animation-delay:.42s; }
+@keyframes haxRise{ to{ opacity:1; transform:none; } }
+
+@media (max-width:1100px){
+  .hax{ padding-top:150px; }
+  .hax__title{ font-size:64px; letter-spacing:-1.2px; }
+  .hax__title .en{ font-size:26px; }
+  .hax__desc{ font-size:16px; line-height:29px; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hax__kick, .hax__title, .hax__desc, .hax__more{ opacity:1; transform:none; animation:none; }
+  .hax__axis-line{ animation:none; transform:none; opacity:1; }
+  .hax__axis::before{ animation:none; opacity:1; }
+}
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+</head>
+<body data-nav="about">
+
+<div class="page">
+
+  <!-- FULL-HEIGHT SIDE RAILS -->
+  <div class="rails-top" id="rails" aria-hidden="true">
+    <div class="rail l"></div>
+    <div class="rail r"></div>
+  </div>
+
+  <!-- NAV (共享单一来源) -->
+  <site-nav></site-nav>
+
+  <!-- HERO V4 · 中轴居中版 -->
+  <header class="hero hax">
+    <div class="hax__halo" aria-hidden="true"></div>
+
+    <div class="hax__inner">
+      <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">About</span></p>
+      <h1 class="hax__title">
+        <span class="b">关于</span>我们
+        <span class="en">Ivy Capital</span>
+      </h1>
+      <p class="hax__desc">专注深科技领域的早期投资，秉持全球视野，致力于在全球范围内寻找并投资最优秀的科技企业</p>
+    </div>
+
+    <!-- 贯穿中轴：从标题下延伸到底部 label -->
+    <div class="hax__axis" aria-hidden="true">
+      <span class="hax__axis-line"></span>
+    </div>
+
+    <button class="hax__more" type="button" aria-label="向下浏览更多" id="haxMore">
+      <span class="hax__more-arr" aria-hidden="true"></span>
+      <span class="hax__more-cap">了 解 更 多</span>
+    </button>
+  </header>
+
+</div>
+
+<script src="assets/js/site.js"></script>
+<script>
+  // 滚动引导：不用锚点（<base> 会改变 fragment 解析），用 JS 平滑滚动一屏。
+  (function(){
+    var btn = document.getElementById('haxMore');
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+      window.scrollTo({ top: window.innerHeight, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  })();
+</script>
+</body>
+</html>

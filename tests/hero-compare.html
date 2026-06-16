@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hero 候选对比 · 4 版</title>
+<style>
+  :root{ --bar:#0d1b2a; --accent:#1849c6; --line:#d8d4c8; }
+  *{ box-sizing:border-box; margin:0; }
+  body{ font-family:"Geist Mono",ui-monospace,monospace; background:#e9e7e1; color:#0d1b2a; }
+
+  /* 顶部固定导航条：快速跳到某一版 */
+  .topbar{ position:fixed; top:0; left:0; right:0; z-index:50; display:flex; align-items:center; gap:18px;
+    padding:10px 20px; background:rgba(13,27,42,.92); backdrop-filter:blur(8px); color:#fff; font-size:12px; letter-spacing:.04em; }
+  .topbar b{ font-size:12px; letter-spacing:.16em; text-transform:uppercase; opacity:.7; font-weight:500; }
+  .topbar a{ color:#cdd6e6; text-decoration:none; padding:4px 10px; border:1px solid rgba(255,255,255,.18); border-radius:999px; transition:all .2s; }
+  .topbar a:hover{ color:#fff; border-color:#8db4ff; background:rgba(24,73,198,.35); }
+
+  .stack{ padding-top:42px; }
+  .variant{ position:relative; }
+  .vlabel{ position:sticky; top:42px; z-index:20; display:flex; align-items:baseline; gap:14px;
+    padding:9px 22px; background:#faf9f6; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .vlabel .tag{ font-size:12px; font-weight:700; letter-spacing:.1em; color:#fff; background:var(--accent); padding:3px 9px; border-radius:4px; }
+  .vlabel .name{ font-size:13px; font-weight:500; letter-spacing:.02em; }
+  .vlabel .note{ font-size:12px; color:#7a7e8a; }
+  .frame{ display:block; width:100%; height:100vh; border:0; background:#faf9f6; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <b>Hero 候选对比</b>
+  <a href="#v1">V1 满版媒体</a>
+  <a href="#v2">V2 蓝图浅色</a>
+  <a href="#v3">V3 左右分栏</a>
+  <a href="#v4">V4 中轴居中</a>
+</div>
+
+<div class="stack">
+
+  <section class="variant" id="v1">
+    <div class="vlabel"><span class="tag">V1</span><span class="name">满版媒体版</span><span class="note">满屏背景媒体 + 左下大标题 + 底部竖线引导（最贴参考）</span></div>
+    <iframe class="frame" src="hero-v1-fullbleed.html" loading="lazy" title="V1 满版媒体"></iframe>
+  </section>
+
+  <section class="variant" id="v2">
+    <div class="vlabel"><span class="tag">V2</span><span class="name">蓝图浅色版</span><span class="note">米色底 + 竖线网格 + 大 serif 标题（本系统原生·克制编辑风）</span></div>
+    <iframe class="frame" src="hero-v2-blueprint.html" loading="lazy" title="V2 蓝图浅色"></iframe>
+  </section>
+
+  <section class="variant" id="v3">
+    <div class="vlabel"><span class="tag">V3</span><span class="name">左右分栏版</span><span class="note">左标题+数据 / 右带角标媒体框（品牌米色 × 科技媒体桥接）</span></div>
+    <iframe class="frame" src="hero-v3-split.html" loading="lazy" title="V3 左右分栏"></iframe>
+  </section>
+
+  <section class="variant" id="v4">
+    <div class="vlabel"><span class="tag">V4</span><span class="name">中轴居中版</span><span class="note">居中标题 + 一条贯穿到底的中轴竖线作引导（极简/高端开篇）</span></div>
+    <iframe class="frame" src="hero-v4-axis.html" loading="lazy" title="V4 中轴居中"></iframe>
+  </section>
+
+</div>
+
+</body>
+</html>

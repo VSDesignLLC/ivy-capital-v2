@@ -16,14 +16,39 @@
    介绍文字取自飞书 Page4 (block 60)；企业名单逐条取自飞书 Portfolio 表。 */
 #portfolio{ padding-bottom:var(--gap); }
 
-/* HERO（仅文档 Page4 介绍文字） */
-.phero{ position:relative; padding:200px var(--page-x) 84px; }
-.phero__title{ font-family:var(--ff-serif); font-weight:500; font-size:44px; line-height:1.5; letter-spacing:-0.6px; color:var(--c-ink); max-width:22em; }
-.phero__title .b{ color:var(--c-accent); }
-.phero__count{ margin-top:26px; display:flex; gap:28px; align-items:baseline; }
-.phero__count .num{ font-family:var(--ff-sans); font-weight:500; font-size:40px; line-height:1; color:var(--c-ink); }
-.phero__count .num .u{ font-family:var(--ff-sc); font-size:20px; }
-.phero__count .lbl{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted); }
+/* HERO · V4 中轴版（design system display 标题 + 呼吸点 label + 贯穿中轴引导） */
+.hax{ position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:200px var(--page-x) 0; overflow:hidden; background:var(--c-bg); }
+.hax__halo{ position:absolute; left:50%; top:46%; z-index:0; pointer-events:none; width:min(1100px,86vw); aspect-ratio:1/1; transform:translate(-50%,-50%); background:radial-gradient(circle at center, var(--c-accent-wash) 0%, rgba(var(--c-accent-rgb),.018) 38%, rgba(var(--c-accent-rgb),0) 70%); }
+.hax__inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); display:flex; flex-direction:column; align-items:center; text-align:center; }
+/* label = 呼吸圆点 + 英文页名（复用 homepage hero eyebrow；.dot/.caption 在 base.css，dot-halo 在 components.css；浅底蓝光晕） */
+.hax__kick{ display:inline-flex; align-items:center; gap:10px; margin-bottom:42px; }
+.hax__kick .caption{ color:var(--c-accent); letter-spacing:.2em; }
+.hax__kick .dot--live{ position:relative; isolation:isolate; }
+.hax__kick .dot--live::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1; width:22px; height:22px; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%) scale(.55); background:radial-gradient(circle, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.38) 36%, rgba(var(--c-accent-rgb),.14) 68%, rgba(var(--c-accent-rgb),0) 100%); filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite; }
+/* Hero 主标题 = design system `display`：Noto Sans SC Bold · 108/112/-0.64 */
+.hax__title{ font-family:var(--ff-sc); font-weight:700; font-size:108px; line-height:1.04; letter-spacing:-0.64px; color:var(--c-ink); }
+.hax__title .b{ color:var(--c-accent); }
+.hax__title .en{ display:block; margin-top:14px; font-family:var(--ff-ital); font-style:italic; font-weight:400; font-size:34px; line-height:1; letter-spacing:.2px; color:var(--c-muted); }
+.hax__desc{ margin-top:38px; max-width:680px; font-family:var(--ff-sc); font-weight:400; font-size:18px; line-height:32px; letter-spacing:-0.2px; color:var(--c-slate); }
+.hax__axis{ position:relative; z-index:2; margin-top:60px; flex:1 0 auto; min-height:160px; display:flex; flex-direction:column; align-items:center; width:100%; }
+.hax__axis-line{ flex:1 1 auto; width:1px; background:linear-gradient(to bottom, var(--c-accent) 0%, rgba(var(--c-accent-rgb),.45) 40%, var(--c-accent-line) 100%); transform-origin:top; transform:scaleY(1); animation:haxDraw 1.7s var(--ease-soft) .45s both; }
+.hax__axis::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--c-accent); flex:none; margin-bottom:-3px; z-index:1; opacity:0; animation:haxDot .6s var(--ease) .4s both; }
+@keyframes haxDraw{ from{ transform:scaleY(0); opacity:0; } to{ transform:scaleY(1); opacity:1; } }
+@keyframes haxDot{ to{ opacity:1; } }
+.hax__more{ display:flex; flex-direction:column; align-items:center; gap:14px; padding:18px 0 40px; background:transparent; border:0; cursor:pointer; -webkit-appearance:none; appearance:none; opacity:0; animation:haxFade .8s var(--ease) 1.4s both; }
+.hax__more-cap{ font-family:var(--ff-mono); font-size:11px; font-weight:500; letter-spacing:.5em; text-indent:.5em; text-transform:uppercase; color:var(--c-muted); transition:color .3s var(--ease); }
+.hax__more:hover .hax__more-cap{ color:var(--c-accent); }
+.hax__more-arr{ width:9px; height:9px; border-right:1.5px solid var(--c-accent); border-bottom:1.5px solid var(--c-accent); transform:rotate(45deg); transition:transform .3s var(--ease); }
+.hax__more:hover .hax__more-arr{ transform:rotate(45deg) translate(2px,2px); }
+@keyframes haxFade{ to{ opacity:1; } }
+.hax__kick, .hax__title, .hax__desc{ opacity:0; transform:translateY(20px); animation:haxRise .9s var(--ease-soft) both; }
+.hax__kick{ animation-delay:.12s; } .hax__title{ animation-delay:.26s; } .hax__desc{ animation-delay:.42s; }
+@keyframes haxRise{ to{ opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce){
+  .hax__kick, .hax__title, .hax__desc, .hax__more{ opacity:1; transform:none; animation:none; }
+  .hax__axis-line{ animation:none; transform:none; opacity:1; }
+  .hax__axis::before{ animation:none; opacity:1; }
+}
 
 /* 企业网格 */
 .biz-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:54px; background:var(--c-grid); border:1px solid var(--c-grid); }
@@ -37,7 +62,10 @@
 .bcard__desc{ font-size:13px; line-height:20.5px; letter-spacing:-0.1px; color:var(--c-slate); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
 
 @media (max-width:1100px){
-  .phero{ padding-top:150px; } .phero__title{ font-size:34px; }
+  .hax{ padding-top:150px; }
+  .hax__title{ font-size:64px; letter-spacing:-1.2px; }
+  .hax__title .en{ font-size:26px; }
+  .hax__desc{ font-size:16px; line-height:29px; }
   .biz-grid{ grid-template-columns:repeat(2,1fr); }
 }
 @media (max-width:640px){ .biz-grid{ grid-template-columns:1fr; } }
@@ -56,13 +84,19 @@
 
   <site-nav></site-nav>
 
-  <!-- HERO — 仅文档 Page4 介绍文字 -->
-  <header class="phero" data-bgop="0.10">
-    <h1 class="phero__title">我们投资那些<span class="b">正在定义未来的创业者</span>。从实验室到产业，从技术突破到商业落地，我们陪伴创新者跨越从 0 到 1、从 1 到 100 的成长旅程，共同创造长期价值。</h1>
-    <div class="phero__count" data-reveal style="--d:120ms">
-      <span class="num">79<span class="u">+</span></span><span class="lbl">已投企业 Portfolio</span>
-      <span class="num">14<span class="u">家</span></span><span class="lbl">已上市 IPO</span>
+  <!-- HERO · V4 中轴版 -->
+  <header class="hero hax">
+    <div class="hax__halo" aria-hidden="true"></div>
+    <div class="hax__inner">
+      <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Portfolio</span></p>
+      <h1 class="hax__title">被投<span class="b">企业</span><span class="en">Ivy Capital</span></h1>
+      <p class="hax__desc">我们投资那些正在定义未来的创业者。从实验室到产业，从技术突破到商业落地，我们陪伴创新者跨越从 0 到 1、从 1 到 100 的成长旅程，共同创造长期价值。</p>
     </div>
+    <div class="hax__axis" aria-hidden="true"><span class="hax__axis-line"></span></div>
+    <button class="hax__more" type="button" aria-label="向下浏览更多">
+      <span class="hax__more-arr" aria-hidden="true"></span>
+      <span class="hax__more-cap">了 解 更 多</span>
+    </button>
   </header>
 
   <!-- 被投企业名单 -->
@@ -160,5 +194,16 @@
 </div>
 
 <script src="assets/js/site.js"></script>
+<script>
+  // 「了解更多」滚动引导：不用锚点（避免 fragment 问题），向下滚一屏。
+  (function(){
+    document.querySelectorAll('.hax__more').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+        window.scrollBy({ top: window.innerHeight, behavior: reduce ? 'auto' : 'smooth' });
+      });
+    });
+  })();
+</script>
 </body>
 </html>

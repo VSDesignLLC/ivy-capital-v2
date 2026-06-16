@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="../" />
+<title>关于我们 · Hero V3 左右分栏 · 常春藤资本 Ivy Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================ HERO V3 · 左右分栏
+   左栏:米色底大标题 + 描述。右栏:带图纸角标的媒体框(cover 视频)。
+   桥接品牌米色编辑气质 ↔ 参考图科技媒体感。页面专属前缀 hv3-。
+   仅用已有 token,无硬编码颜色 / 字号尺寸照设计系统量级延展。 */
+
+.hv3-hero{
+  position:relative;
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:5fr 7fr;       /* 左 5 : 右 7 */
+  align-items:center;
+  gap:var(--gap);
+  padding:170px var(--page-x) 96px;     /* top 越过 fixed nav(top14+56) */
+}
+
+/* ---------- 左栏:文字 ---------- */
+.hv3-col-l{ position:relative; max-width:540px; }
+
+.hv3-kicker{
+  display:flex; align-items:center; gap:12px;
+  margin-bottom:30px;
+}
+.hv3-kicker .hv3-rn{
+  font-family:var(--ff-ital); font-style:italic;
+  font-size:30px; line-height:1; letter-spacing:-0.4px;
+  color:var(--c-accent);
+}
+.hv3-kicker .hv3-lab{
+  font-family:var(--ff-mono); font-size:11px; line-height:16px;
+  letter-spacing:var(--tracking-caption); text-transform:uppercase;
+  color:var(--c-muted);
+}
+.hv3-kicker .hv3-line{
+  flex:1; height:0; border-top:1px solid var(--c-hairline);
+}
+
+.hv3-title{
+  font-family:var(--ff-serif); font-weight:600;
+  font-size:88px; line-height:1.02; letter-spacing:-1.4px;
+  color:var(--c-ink);
+}
+.hv3-title .b{ color:var(--c-accent); }
+
+.hv3-desc{
+  margin-top:34px;
+  font-size:18px; line-height:32px; letter-spacing:-0.2px;
+  color:var(--c-slate);
+  max-width:30em;
+}
+.hv3-desc .hl{ color:var(--c-ink); font-weight:500; }
+
+.hv3-meta{
+  margin-top:40px;
+  display:flex; gap:40px;
+}
+.hv3-meta__item{ display:flex; flex-direction:column; gap:6px; }
+.hv3-meta__num{
+  font-family:var(--ff-ital); font-style:italic;
+  font-size:44px; line-height:1; letter-spacing:-0.6px;
+  color:var(--c-accent);
+}
+.hv3-meta__lab{
+  font-family:var(--ff-mono); font-size:11px; line-height:16px;
+  letter-spacing:var(--tracking-caption); text-transform:uppercase;
+  color:var(--c-muted);
+}
+
+/* ---------- 右栏:媒体框 + 图纸角标 ---------- */
+.hv3-col-r{ position:relative; }
+
+.hv3-media{
+  position:relative;
+  aspect-ratio:4 / 3.2;
+  background:rgba(var(--c-ink-rgb),.04);
+  border:1px solid var(--c-hairline);
+  overflow:hidden;
+  isolation:isolate;
+}
+.hv3-media video{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+}
+/* 极淡蓝洗,把视频压进品牌色温,呼应 --c-accent-wash */
+.hv3-media::after{
+  content:""; position:absolute; inset:0; z-index:1;
+  background:linear-gradient(135deg,
+    var(--c-accent-wash) 0%,
+    rgba(var(--c-accent-rgb),0) 48%,
+    rgba(var(--c-bg-rgb),.10) 100%);
+  pointer-events:none;
+}
+
+/* 四角图纸刻度 — 浮在框外侧,蓝色 hairline,参考 .ecard .corner 写法 */
+.hv3-corner{ position:absolute; width:18px; height:18px; z-index:3; }
+.hv3-corner.tl{ left:-1px; top:-1px;
+  border-left:1px solid var(--c-accent); border-top:1px solid var(--c-accent); }
+.hv3-corner.tr{ right:-1px; top:-1px;
+  border-right:1px solid var(--c-accent); border-top:1px solid var(--c-accent); }
+.hv3-corner.bl{ left:-1px; bottom:-1px;
+  border-left:1px solid var(--c-accent); border-bottom:1px solid var(--c-accent); }
+.hv3-corner.br{ right:-1px; bottom:-1px;
+  border-right:1px solid var(--c-accent); border-bottom:1px solid var(--c-accent); }
+
+/* 媒体框顶部信息条:mono 小标 + 状态点 */
+.hv3-media__tag{
+  position:absolute; left:18px; top:16px; z-index:4;
+  display:flex; align-items:center; gap:9px;
+  font-family:var(--ff-mono); font-size:10px; line-height:15px;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--c-bg);
+  text-shadow:0 1px 8px rgba(var(--c-ink-rgb),.55);
+}
+.hv3-media__tag .pulse{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--c-accent-2);
+  box-shadow:0 0 0 0 rgba(141,180,255,.7);
+  animation:hv3-pulse 2.4s var(--ease) infinite;
+}
+
+/* 框内右下编号 */
+.hv3-media__no{
+  position:absolute; right:18px; bottom:14px; z-index:4;
+  font-family:var(--ff-mono); font-size:10px;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--c-bg);
+  text-shadow:0 1px 8px rgba(var(--c-ink-rgb),.55);
+}
+
+/* ---------- 底部居中:向下引导竖线 + 了解更多 ---------- */
+.hv3-scroll{
+  position:absolute; left:50%; bottom:34px; transform:translateX(-50%);
+  z-index:5;
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+}
+.hv3-scroll__lab{
+  font-family:var(--ff-mono); font-size:11px; line-height:16px;
+  letter-spacing:.42em; text-transform:uppercase;
+  color:var(--c-muted);
+  padding-left:.42em;       /* 抵消末字距,视觉居中 */
+}
+.hv3-scroll__line{
+  position:relative; width:1px; height:54px;
+  background:var(--c-hairline); overflow:hidden;
+}
+.hv3-scroll__line::after{
+  content:""; position:absolute; left:0; top:0;
+  width:1px; height:40%;
+  background:var(--c-accent);
+  animation:hv3-trace 2.2s var(--ease-io) infinite;
+}
+
+@keyframes hv3-pulse{
+  0%{ box-shadow:0 0 0 0 rgba(141,180,255,.7); }
+  70%{ box-shadow:0 0 0 7px rgba(141,180,255,0); }
+  100%{ box-shadow:0 0 0 0 rgba(141,180,255,0); }
+}
+@keyframes hv3-trace{
+  0%{ transform:translateY(-100%); }
+  60%,100%{ transform:translateY(250%); }
+}
+
+/* ---------- reduced-motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  .hv3-media__tag .pulse{ animation:none; }
+  .hv3-scroll__line::after{ animation:none; height:100%; opacity:.5; }
+}
+
+/* ---------- 窄屏安全 ---------- */
+@media (max-width:1180px){
+  .hv3-hero{ gap:64px; }
+  .hv3-title{ font-size:68px; }
+}
+@media (max-width:980px){
+  .hv3-hero{
+    grid-template-columns:1fr;
+    align-items:start;
+    gap:48px;
+    padding-top:150px;
+  }
+  .hv3-title{ font-size:56px; }
+  .hv3-media{ aspect-ratio:16 / 10; }
+  .hv3-scroll{ display:none; }
+}
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+</head>
+<body data-nav="about">
+
+<div class="page">
+
+  <!-- FULL-HEIGHT SIDE RAILS -->
+  <div class="rails-top" id="rails" aria-hidden="true">
+    <div class="rail l"></div>
+    <div class="rail r"></div>
+  </div>
+
+  <!-- NAV (共享单一来源) -->
+  <site-nav></site-nav>
+
+  <!-- HERO V3 · 左右分栏 -->
+  <header class="hv3-hero">
+
+    <!-- 左栏:文字 -->
+    <div class="hv3-col-l">
+      <div class="hv3-kicker" data-reveal>
+        <span class="hv3-rn">About</span>
+        <span class="hv3-line"></span>
+        <span class="hv3-lab">Ivy Capital</span>
+      </div>
+      <h1 class="hv3-title" data-reveal style="--d:80ms">关于<span class="b">我们</span></h1>
+      <p class="hv3-desc" data-reveal style="--d:160ms">
+        专注于前沿科技领域的早期投资机构，由 <span class="hl">Facebook 首位中国籍研发经理王淮</span>创立于 2014 年。目前管理十支基金，规模超过 140 亿元。
+      </p>
+      <div class="hv3-meta" data-reveal style="--d:240ms">
+        <div class="hv3-meta__item">
+          <span class="hv3-meta__num">10</span>
+          <span class="hv3-meta__lab">支基金 / Funds</span>
+        </div>
+        <div class="hv3-meta__item">
+          <span class="hv3-meta__num">140<span style="font-size:.6em">亿+</span></span>
+          <span class="hv3-meta__lab">管理规模 / AUM</span>
+        </div>
+        <div class="hv3-meta__item">
+          <span class="hv3-meta__num">2014</span>
+          <span class="hv3-meta__lab">创立 / Founded</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右栏:带图纸角标的媒体框 -->
+    <div class="hv3-col-r" data-reveal style="--d:200ms">
+      <div class="hv3-media">
+        <video autoplay muted loop playsinline preload="auto">
+          <source src="assets/kling_20260612_作品_以上传图为首帧_整幅_4326_0.mp4" type="video/mp4" />
+        </video>
+        <span class="hv3-media__tag"><span class="pulse"></span>Deep Tech · Live</span>
+        <span class="hv3-media__no">FIG. 01 / 数据流</span>
+      </div>
+      <span class="hv3-corner tl"></span>
+      <span class="hv3-corner tr"></span>
+      <span class="hv3-corner bl"></span>
+      <span class="hv3-corner br"></span>
+    </div>
+
+    <!-- 底部居中:向下引导竖线 + 了解更多 -->
+    <div class="hv3-scroll" aria-hidden="true">
+      <span class="hv3-scroll__lab">了 解 更 多</span>
+      <span class="hv3-scroll__line"></span>
+    </div>
+
+  </header>
+
+</div>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>
