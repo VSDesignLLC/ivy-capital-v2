@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>投资哲学 · Candidate B · 3D Flip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../assets/css/tokens.css" />
+<link rel="stylesheet" href="../../assets/css/base.css" />
+<link rel="stylesheet" href="../../assets/css/components.css" />
+<style>
+  body{ padding:80px; }
+  .variant-tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted); margin-bottom:64px; }
+  .phil{ max-width:1100px; margin:0 auto; display:flex; flex-direction:column; gap:22px; }
+
+  .phil-row{
+    perspective: 1600px;
+    height: 168px;
+  }
+  .flip{
+    position:relative; width:100%; height:100%;
+    transform-style: preserve-3d;
+    transition: transform .8s var(--ease-soft);
+    will-change: transform;
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .phil-row:hover .flip{ transform: rotateX(180deg); }
+  }
+
+  .face{
+    position:absolute; inset:0;
+    backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    border:1px solid var(--c-hairline);
+    display:flex; align-items:center;
+    padding:0 48px;
+  }
+
+  /* front */
+  .face.front{
+    background:var(--c-bg);
+    justify-content:space-between;
+  }
+  .front .titles{ display:flex; align-items:baseline; gap:24px; }
+  .front .cn{
+    font-family:var(--ff-serif); font-weight:500;
+    font-size:40px; letter-spacing:-0.03em; color:var(--c-ink);
+  }
+  .front .en{
+    font-family:var(--ff-ital); font-style:italic;
+    font-size:40px; letter-spacing:-0.01em; color:var(--c-accent);
+  }
+  .front .idx{
+    font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em;
+    color:var(--c-muted);
+  }
+
+  /* back */
+  .face.back{
+    background:var(--c-ink);
+    color:var(--c-bg);
+    transform: rotateX(180deg);
+    gap:32px;
+  }
+  .back .tag{
+    font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--c-accent-2);
+    writing-mode:vertical-rl; transform:rotate(180deg);
+    align-self:stretch; display:flex; align-items:center;
+    padding:18px 0;
+  }
+  .back .desc{
+    font-family:var(--ff-sc); font-size:17px; line-height:1.8;
+    color:rgba(var(--c-bg-rgb),.9); max-width:62ch;
+  }
+
+  @media (max-width:760px){
+    body{ padding:40px 24px; }
+    .phil-row{ height:200px; }
+    .face{ padding:0 24px; }
+    .front .cn,.front .en{ font-size:30px; }
+    .back .desc{ font-size:15px; }
+  }
+</style>
+<link rel="stylesheet" href="../../assets/css/motion.css" />
+</head>
+<body>
+  <div class="variant-tag">Candidate B — 3D Flip</div>
+  <div class="phil">
+
+    <div class="phil-row">
+      <div class="flip">
+        <div class="face front">
+          <div class="titles"><span class="cn">原则</span><span class="en">Integrity</span></div>
+          <span class="idx">01</span>
+        </div>
+        <div class="face back">
+          <span class="tag">Integrity</span>
+          <p class="desc">我们坚持以诚信与原则行事，真诚对待每一位创业者、投资人与合作伙伴，并建立长期可信赖的关系。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="phil-row">
+      <div class="flip">
+        <div class="face front">
+          <div class="titles"><span class="cn">愿景</span><span class="en">Vision</span></div>
+          <span class="idx">02</span>
+        </div>
+        <div class="face back">
+          <span class="tag">Vision</span>
+          <p class="desc">我们以远见投资未来，相信真正改变世界的技术，在最早期往往并不被多数人理解。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="phil-row">
+      <div class="flip">
+        <div class="face front">
+          <div class="titles"><span class="cn">初心</span><span class="en">Yearning</span></div>
+          <span class="idx">03</span>
+        </div>
+        <div class="face back">
+          <span class="tag">Yearning</span>
+          <p class="desc">我们因热爱和好奇而出发，相信人类对未知的探索、对科学的追求，以及创造未来的勇气。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>投资哲学 · Candidate C4 · Zoom / Slide-up Right</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../assets/css/tokens.css" />
+<link rel="stylesheet" href="../../assets/css/base.css" />
+<link rel="stylesheet" href="../../assets/css/components.css" />
+<style>
+  body{ padding:80px; }
+  .variant-tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted); margin-bottom:64px; }
+  .phil{ max-width:1100px; margin:0 auto; border-top:1px solid var(--c-hairline); }
+
+  .phil-row{
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid var(--c-hairline);
+    isolation:isolate;
+  }
+
+  /* dark image layer (Ken-Burns) — hidden + slightly zoomed at rest */
+  .phil-row::before{
+    content:"";
+    position:absolute; inset:0; z-index:-2;
+    background-image:
+      linear-gradient(90deg, rgba(var(--c-ink-rgb),.92) 0%, rgba(var(--c-ink-rgb),.78) 45%, rgba(var(--c-ink-rgb),.58) 100%),
+      url("../../assets/footer-%20HongKong.jpg");
+    background-size:cover; background-position:center 38%;
+    opacity:0;
+    transform:scale(1.08);
+    transform-origin:center;
+    transition: opacity .9s var(--ease), transform .9s var(--ease-soft);
+    will-change:opacity,transform;
+  }
+  /* faint brand-accent soft-light wash for tint */
+  .phil-row::after{
+    content:"";
+    position:absolute; inset:0; z-index:-1;
+    background:var(--c-accent);
+    mix-blend-mode:soft-light;
+    opacity:0;
+    transition: opacity .9s var(--ease);
+    pointer-events:none;
+  }
+
+  .row-inner{
+    position:relative;
+    display:flex; align-items:stretch;
+    gap:64px;
+    padding:48px 40px;
+    min-height:168px;
+  }
+
+  /* left: title anchored left + vertically centered */
+  .row-title{
+    display:flex; align-items:baseline; gap:20px;
+    flex:none; align-self:center;
+    transition: color .5s var(--ease);
+  }
+  .row-title .cn{
+    font-family:var(--ff-serif); font-weight:500;
+    font-size:36px; letter-spacing:-0.03em; color:var(--c-ink);
+    transition: color .5s var(--ease);
+  }
+  .row-title .en{
+    font-family:var(--ff-ital); font-style:italic;
+    font-size:32px; color:var(--c-accent);
+    transition: color .5s var(--ease);
+  }
+
+  /* right column: description pushed right, bottom-aligned, slides up */
+  .row-descwrap{
+    margin-left:auto; flex:0 1 46ch;
+    display:flex; align-items:flex-end; justify-content:flex-end;
+  }
+  .row-desc{
+    font-family:var(--ff-sc); font-size:16px; line-height:1.85;
+    color:var(--c-bg); text-align:left;
+    opacity:0; transform: translateY(28px);
+    transition: opacity .6s var(--ease), transform .7s var(--ease-soft);
+    transition-delay: .08s;
+  }
+
+  .row-idx{
+    position:absolute; top:18px; right:40px;
+    font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em;
+    color:var(--c-muted);
+    transition: color .5s var(--ease);
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .phil-row:hover::before{ opacity:1; transform:scale(1); }
+    .phil-row:hover::after{ opacity:.5; }
+    .phil-row:hover .row-title .cn{ color:var(--c-bg); }
+    .phil-row:hover .row-title .en{ color:var(--c-accent-2); }
+    .phil-row:hover .row-idx{ color:var(--c-accent-2); }
+    .phil-row:hover .row-desc{ opacity:1; transform:translateY(0); }
+  }
+
+  /* reduced-motion / no-hover fallback: static, no zoom/slide */
+  @media (prefers-reduced-motion: reduce){
+    .row-desc{ opacity:1; transform:none; color:var(--c-slate); }
+    .row-descwrap{ align-items:center; }
+  }
+
+  @media (max-width:760px){
+    body{ padding:40px 24px; }
+    .row-inner{ flex-wrap:wrap; gap:18px; padding:32px 22px; min-height:0; }
+    .row-title .cn{ font-size:28px; } .row-title .en{ font-size:24px; }
+    .row-descwrap{ flex-basis:100%; justify-content:flex-start; }
+    .row-idx{ display:none; }
+  }
+</style>
+<link rel="stylesheet" href="../../assets/css/motion.css" />
+</head>
+<body>
+  <div class="variant-tag">C4 — ZOOM · SLIDE-UP RIGHT</div>
+  <div class="phil">
+
+    <div class="phil-row">
+      <span class="row-idx">01</span>
+      <div class="row-inner">
+        <div class="row-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+        <div class="row-descwrap"><p class="row-desc">我们坚持以诚信与原则行事，真诚对待每一位创业者、投资人与合作伙伴，并建立长期可信赖的关系。</p></div>
+      </div>
+    </div>
+
+    <div class="phil-row">
+      <span class="row-idx">02</span>
+      <div class="row-inner">
+        <div class="row-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+        <div class="row-descwrap"><p class="row-desc">我们以远见投资未来，相信真正改变世界的技术，在最早期往往并不被多数人理解。</p></div>
+      </div>
+    </div>
+
+    <div class="phil-row">
+      <span class="row-idx">03</span>
+      <div class="row-inner">
+        <div class="row-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+        <div class="row-descwrap"><p class="row-desc">我们因热爱和好奇而出发，相信人类对未知的探索、对科学的追求，以及创造未来的勇气。</p></div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>投资哲学 · Candidate C · Image Reveal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../assets/css/tokens.css" />
+<link rel="stylesheet" href="../../assets/css/base.css" />
+<link rel="stylesheet" href="../../assets/css/components.css" />
+<style>
+  body{ padding:80px; }
+  .variant-tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted); margin-bottom:64px; }
+  .phil{ max-width:1100px; margin:0 auto; border-top:1px solid var(--c-hairline); }
+
+  .phil-row{
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid var(--c-hairline);
+    isolation:isolate;
+  }
+
+  /* dark image layer, hidden until hover */
+  .phil-row::before{
+    content:"";
+    position:absolute; inset:0; z-index:-1;
+    background-image: linear-gradient(90deg, rgba(13,27,42,.86), rgba(13,27,42,.62)), url("../../assets/footer%20bg.jpg");
+    background-size:cover; background-position:center;
+    opacity:0;
+    transition: opacity .6s var(--ease);
+  }
+
+  .row-inner{
+    position:relative;
+    display:flex; align-items:center;
+    gap:40px;
+    padding:40px 36px;
+    min-height:120px;
+  }
+
+  .row-title{
+    display:flex; align-items:baseline; gap:20px;
+    flex:none;
+    transition: color .5s var(--ease);
+  }
+  .row-title .cn{
+    font-family:var(--ff-serif); font-weight:500;
+    font-size:34px; letter-spacing:-0.03em; color:var(--c-ink);
+    transition: color .5s var(--ease);
+  }
+  .row-title .en{
+    font-family:var(--ff-ital); font-style:italic;
+    font-size:30px; color:var(--c-accent);
+    transition: color .5s var(--ease);
+  }
+
+  .row-desc{
+    font-family:var(--ff-sc); font-size:16px; line-height:1.8;
+    color:var(--c-bg); max-width:52ch;
+    opacity:0; transform: translateX(24px);
+    transition: opacity .55s var(--ease), transform .6s var(--ease-soft);
+    transition-delay: .05s;
+  }
+
+  .row-idx{
+    margin-left:auto; flex:none;
+    font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em;
+    color:var(--c-muted);
+    transition: color .5s var(--ease);
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .phil-row:hover::before{ opacity:1; }
+    .phil-row:hover .row-title .cn{ color:var(--c-bg); }
+    .phil-row:hover .row-title .en{ color:var(--c-accent-2); }
+    .phil-row:hover .row-idx{ color:var(--c-accent-2); }
+    .phil-row:hover .row-desc{ opacity:1; transform:translateX(0); }
+  }
+
+  /* reduced-motion / no-hover fallback: show desc statically below title */
+  @media (prefers-reduced-motion: reduce){
+    .row-desc{ opacity:1; transform:none; color:var(--c-slate); }
+    .row-inner{ flex-wrap:wrap; }
+  }
+
+  @media (max-width:760px){
+    body{ padding:40px 24px; }
+    .row-inner{ flex-wrap:wrap; padding:28px 20px; }
+    .row-title .cn{ font-size:26px; } .row-title .en{ font-size:22px; }
+    .row-idx{ display:none; }
+  }
+</style>
+<link rel="stylesheet" href="../../assets/css/motion.css" />
+</head>
+<body>
+  <div class="variant-tag">Candidate C — Image Reveal</div>
+  <div class="phil">
+
+    <div class="phil-row">
+      <div class="row-inner">
+        <div class="row-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+        <p class="row-desc">我们坚持以诚信与原则行事，真诚对待每一位创业者、投资人与合作伙伴，并建立长期可信赖的关系。</p>
+        <span class="row-idx">01</span>
+      </div>
+    </div>
+
+    <div class="phil-row">
+      <div class="row-inner">
+        <div class="row-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+        <p class="row-desc">我们以远见投资未来，相信真正改变世界的技术，在最早期往往并不被多数人理解。</p>
+        <span class="row-idx">02</span>
+      </div>
+    </div>
+
+    <div class="phil-row">
+      <div class="row-inner">
+        <div class="row-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+        <p class="row-desc">我们因热爱和好奇而出发，相信人类对未知的探索、对科学的追求，以及创造未来的勇气。</p>
+        <span class="row-idx">03</span>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

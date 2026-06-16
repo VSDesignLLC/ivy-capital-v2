@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>投资哲学 · Candidate A · Letter Zoom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../assets/css/tokens.css" />
+<link rel="stylesheet" href="../../assets/css/base.css" />
+<link rel="stylesheet" href="../../assets/css/components.css" />
+<style>
+  body{ padding:80px; }
+  .variant-tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted); margin-bottom:64px; }
+  .phil{ max-width:1100px; margin:0 auto; }
+
+  .phil-row{
+    position:relative;
+    display:grid;
+    grid-template-columns: minmax(280px, 0.9fr) 1.6fr;
+    gap:48px;
+    align-items:start;
+    padding:44px 0;
+    border-top:1px solid var(--c-hairline);
+  }
+  .phil-row:last-child{ border-bottom:1px solid var(--c-hairline); }
+
+  /* index number */
+  .phil-idx{
+    position:absolute; top:44px; right:0;
+    font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em;
+    color:var(--c-muted); opacity:.6;
+  }
+
+  .phil-head{ display:flex; flex-direction:column; gap:14px; }
+
+  .phil-en{
+    display:flex; align-items:baseline;
+    font-family:var(--ff-ital); font-style:italic;
+    font-size:54px; line-height:.95; color:var(--c-ink);
+    letter-spacing:-0.02em;
+  }
+  .phil-en .lead{
+    display:inline-block;
+    color:var(--c-accent);
+    transform-origin:left bottom;
+    transition: transform .55s var(--ease-soft), color .45s var(--ease);
+    will-change:transform;
+  }
+  .phil-en .rest{ transition: color .45s var(--ease); }
+
+  .phil-cn{
+    font-family:var(--ff-serif); font-weight:500;
+    font-size:26px; letter-spacing:-0.02em; color:var(--c-slate);
+  }
+
+  .phil-desc{
+    font-family:var(--ff-sc); font-size:16px; line-height:1.85;
+    color:var(--c-slate); max-width:46ch; padding-top:8px;
+    transition: color .45s var(--ease);
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .phil-row:hover .phil-en .lead{ transform: scale(2.05) translateY(0.06em); }
+    .phil-row:hover .phil-cn{ color:var(--c-ink); }
+    .phil-row:hover .phil-desc{ color:var(--c-ink); }
+  }
+  .phil-row:hover .phil-en .rest{ color:var(--c-accent); }
+
+  @media (max-width:760px){
+    body{ padding:40px 24px; }
+    .phil-row{ grid-template-columns:1fr; gap:20px; }
+    .phil-idx{ position:static; margin-bottom:4px; }
+  }
+</style>
+<link rel="stylesheet" href="../../assets/css/motion.css" />
+</head>
+<body>
+  <div class="variant-tag">Candidate A — Letter Zoom</div>
+  <div class="phil">
+
+    <div class="phil-row">
+      <span class="phil-idx">01</span>
+      <div class="phil-head">
+        <div class="phil-en"><span class="lead">I</span><span class="rest">ntegrity</span></div>
+        <div class="phil-cn">原则</div>
+      </div>
+      <p class="phil-desc">我们坚持以诚信与原则行事，真诚对待每一位创业者、投资人与合作伙伴，并建立长期可信赖的关系。</p>
+    </div>
+
+    <div class="phil-row">
+      <span class="phil-idx">02</span>
+      <div class="phil-head">
+        <div class="phil-en"><span class="lead">V</span><span class="rest">ision</span></div>
+        <div class="phil-cn">愿景</div>
+      </div>
+      <p class="phil-desc">我们以远见投资未来，相信真正改变世界的技术，在最早期往往并不被多数人理解。</p>
+    </div>
+
+    <div class="phil-row">
+      <span class="phil-idx">03</span>
+      <div class="phil-head">
+        <div class="phil-en"><span class="lead">Y</span><span class="rest">earning</span></div>
+        <div class="phil-cn">初心</div>
+      </div>
+      <p class="phil-desc">我们因热爱和好奇而出发，相信人类对未知的探索、对科学的追求，以及创造未来的勇气。</p>
+    </div>
+
+  </div>
+</body>
+</html>

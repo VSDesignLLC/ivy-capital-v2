@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>投资哲学 · C3 背景图实验</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../assets/css/tokens.css" />
+<link rel="stylesheet" href="../../assets/css/base.css" />
+<link rel="stylesheet" href="../../assets/css/components.css" />
+<style>
+  body{ padding:72px 80px 120px; }
+  .variant-tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted); margin-bottom:14px; }
+  .lede{ font-family:var(--ff-sc); font-size:14px; color:var(--c-slate); max-width:62ch; margin-bottom:64px; line-height:1.7; }
+
+  .blk{ max-width:1100px; margin:0 auto 96px; }
+  .blk__tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--c-accent); margin-bottom:18px; display:flex; gap:10px; align-items:baseline; }
+  .blk__tag .muted{ color:var(--c-muted); letter-spacing:.04em; text-transform:none; }
+
+  .phil{ border-top:1px solid var(--c-hairline); }
+  .phil-row{ position:relative; overflow:hidden; border-bottom:1px solid var(--c-hairline); isolation:isolate; }
+
+  /* image layer (image beneath, navy scrim on top) — opacity controlled by .is-open */
+  .phil-row::before{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background: var(--scrim), var(--img);
+    background-size: cover, cover; background-position:center, center;
+    background-blend-mode: var(--blend, normal);
+    opacity:0; transition: opacity .6s var(--ease);
+  }
+  .phil-row::after{
+    content:""; position:absolute; left:0; bottom:0; height:1px; width:100%;
+    background:linear-gradient(90deg, var(--c-accent-2), rgba(var(--c-accent-rgb),0));
+    transform:scaleX(0); transform-origin:left; opacity:0;
+    transition: transform .7s var(--ease-soft), opacity .5s var(--ease);
+  }
+
+  .row-inner{ position:relative; display:flex; align-items:flex-start; gap:clamp(48px,14vw,200px); padding:44px 40px; min-height:128px; }
+  .row-title{ display:flex; align-items:baseline; gap:20px; flex:none; padding-top:4px; }
+  .row-title .cn{ font-family:var(--ff-serif); font-weight:500; font-size:34px; letter-spacing:-0.03em; color:var(--c-ink); transition:color .5s var(--ease); }
+  .row-title .en{ font-family:var(--ff-ital); font-style:italic; font-size:30px; color:var(--c-accent); transition:color .5s var(--ease); }
+  .row-desc{ margin-left:auto; flex:1 1 auto; max-width:46ch; font-family:var(--ff-sc); font-size:16px; line-height:1.85; color:var(--c-bg); }
+  .row-desc .ln{ display:block; opacity:0; transform:translateY(14px); transition:opacity .5s var(--ease), transform .6s var(--ease-soft); }
+  .row-idx{ flex:none; padding-top:8px; font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; color:var(--c-muted); transition:color .5s var(--ease); }
+
+  /* ALWAYS-OPEN (lab compare): force revealed state so images can be judged without hovering */
+  .phil-row.is-open::before{ opacity:1; }
+  .phil-row.is-open::after{ opacity:1; transform:scaleX(1); }
+  .phil-row.is-open .row-title .cn{ color:var(--c-bg); }
+  .phil-row.is-open .row-title .en{ color:var(--c-accent-2); }
+  .phil-row.is-open .row-idx{ color:var(--c-accent-2); }
+  .phil-row.is-open .row-desc .ln{ opacity:1; transform:none; }
+
+  /* ---- per-image presets: image file + navy scrim tuned to keep white text legible ---- */
+  .bg-glass{
+    --img:url("../../assets/6f37462233738d56c4abe2e13e81f7d0.jpg");
+    --scrim:linear-gradient(105deg, rgba(13,27,42,.90) 0%, rgba(16,36,61,.70) 46%, rgba(10,23,38,.88) 100%);
+  }
+  .bg-ribbon{
+    --img:url("../../assets/78b82c81aa34155b565c2130bb2baa83.jpg");
+    --scrim:linear-gradient(105deg, rgba(13,27,42,.93) 0%, rgba(16,36,61,.82) 46%, rgba(10,23,38,.92) 100%);
+    --blend:multiply;
+  }
+  .bg-blinds{
+    --img:url("../../assets/0152e841ad830837e205ddfa63a5fdda.jpg");
+    --scrim:linear-gradient(105deg, rgba(13,27,42,.84) 0%, rgba(16,36,61,.58) 46%, rgba(10,23,38,.82) 100%);
+  }
+
+  @media (max-width:760px){
+    body{ padding:40px 24px 80px; }
+    .row-inner{ flex-wrap:wrap; gap:18px; padding:30px 22px; }
+    .row-title .cn{ font-size:26px; } .row-title .en{ font-size:22px; }
+    .row-desc{ margin-left:0; max-width:100%; }
+    .row-idx{ display:none; }
+  }
+</style>
+<link rel="stylesheet" href="../../assets/css/motion.css" />
+</head>
+<body>
+  <div class="variant-tag">C3 — 背景图实验 · 全部展开对比</div>
+  <p class="lede">沿用 C3 的行高与提行「读诗句」结构，只换 hover 后铺满的背景图。下面 4 组都是「常开」状态方便对比：前 3 组每组用一张图（铺满全部 3 行），第 4 组把 3 张图分别配 3 行（你说的「排在一起、各配不同图」）。白色丝带图用了较重的深蓝叠加（multiply）保证白字可读。</p>
+
+  <!-- Block 1: reeded glass -->
+  <div class="blk">
+    <div class="blk__tag">图 01 · Reeded Glass <span class="muted">磨砂玻璃 / 绿调，叠深蓝中和</span></div>
+    <div class="phil bg-glass">
+      <div class="phil-row is-open"><div class="row-inner"><span class="row-idx">01</span><div class="row-title"><span class="cn">原则</span><span class="en">Integrity</span></div><p class="row-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p></div></div>
+      <div class="phil-row is-open"><div class="row-inner"><span class="row-idx">02</span><div class="row-title"><span class="cn">愿景</span><span class="en">Vision</span></div><p class="row-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p></div></div>
+      <div class="phil-row is-open"><div class="row-inner"><span class="row-idx">03</span><div class="row-title"><span class="cn">初心</span><span class="en">Yearning</span></div><p class="row-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p></div></div>
+    </div>
+  </div>
+
+  <!-- Block 2: white ribbon -->
+  <div class="blk">
+    <div class="blk__tag">图 02 · White Ribbon <span class="muted">白色参数化丝带 / multiply 成深蓝脊线</span></div>
+    <div class="phil bg-ribbon">
+      <div class="phil-row is-open"><div class="row-inner"><span class="row-idx">01</span><div class="row-title"><span class="cn">原则</span><span class="en">Integrity</span></div><p class="row-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p></div></div>
+      <div class="phil-row is-open"><div class="row-inner"><span class="row-idx">02</span><div class="row-title"><span class="cn">愿景</span><span class="en">Vision</span></div><p class="row-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p></div></div>
+      <div class="phil-row is-open"><div class="row-inner"><span class="row-idx">03</span><div class="row-title"><span class="cn">初心</span><span class="en">Yearning</span></div><p class="row-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p></div></div>
+    </div>
+  </div>
+
+  <!-- Block 3: dark blinds -->
+  <div class="blk">
+    <div class="blk__tag">图 03 · Dark Blinds <span class="muted">深色百叶 / 暖橙微光，scrim 较轻让质感透出</span></div>
+    <div class="phil bg-blinds">
+      <div class="phil-row is-open"><div class="row-inner"><span class="row-idx">01</span><div class="row-title"><span class="cn">原则</span><span class="en">Integrity</span></div><p class="row-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p></div></div>
+      <div class="phil-row is-open"><div class="row-inner"><span class="row-idx">02</span><div class="row-title"><span class="cn">愿景</span><span class="en">Vision</span></div><p class="row-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p></div></div>
+      <div class="phil-row is-open"><div class="row-inner"><span class="row-idx">03</span><div class="row-title"><span class="cn">初心</span><span class="en">Yearning</span></div><p class="row-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p></div></div>
+    </div>
+  </div>
+
+  <!-- Block 4: mixed trio -->
+  <div class="blk">
+    <div class="blk__tag">图 04 · 混合 <span class="muted">三行各配一张图，看排在一起的效果</span></div>
+    <div class="phil">
+      <div class="phil-row is-open bg-glass"><div class="row-inner"><span class="row-idx">01</span><div class="row-title"><span class="cn">原则</span><span class="en">Integrity</span></div><p class="row-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p></div></div>
+      <div class="phil-row is-open bg-ribbon"><div class="row-inner"><span class="row-idx">02</span><div class="row-title"><span class="cn">愿景</span><span class="en">Vision</span></div><p class="row-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p></div></div>
+      <div class="phil-row is-open bg-blinds"><div class="row-inner"><span class="row-idx">03</span><div class="row-title"><span class="cn">初心</span><span class="en">Yearning</span></div><p class="row-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p></div></div>
+    </div>
+  </div>
+
+</body>
+</html>

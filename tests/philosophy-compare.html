@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>投资哲学 · 迭代汇总 Compare</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/tokens.css" />
+<link rel="stylesheet" href="../assets/css/base.css" />
+<style>
+  body{ background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); }
+  .wrap{ max-width:1280px; margin:0 auto; padding:72px 48px 140px; }
+
+  /* header */
+  .head{ border-bottom:1px solid var(--c-divider); padding-bottom:34px; margin-bottom:14px; }
+  .head__kick{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--c-accent); }
+  .head h1{ font-family:var(--ff-serif); font-weight:500; font-size:40px; letter-spacing:-0.5px; margin:14px 0 18px; }
+  .head p{ font-size:14px; line-height:1.8; color:var(--c-slate); max-width:78ch; }
+  .head p .b{ color:var(--c-accent); font-weight:500; }
+
+  /* thread map */
+  .thread{ display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; font-family:var(--ff-mono); font-size:11px; letter-spacing:.04em; }
+  .thread .step{ display:flex; align-items:center; gap:10px; }
+  .thread .pill{ border:1px solid var(--c-tag-line); border-radius:100px; padding:5px 12px; color:var(--c-slate); }
+  .thread .pill.win{ border-color:var(--c-accent); color:var(--c-accent); }
+  .thread .pill.final{ background:var(--c-accent); border-color:var(--c-accent); color:#fff; }
+  .thread .arr{ color:var(--c-muted); }
+
+  /* round heading */
+  .round{ margin-top:64px; }
+  .round__bar{ display:flex; align-items:baseline; gap:14px; border-top:1px solid var(--c-divider); padding-top:16px; margin-bottom:6px; }
+  .round__n{ font-family:var(--ff-ital); font-style:italic; font-size:30px; color:var(--c-accent); line-height:1; }
+  .round__t{ font-family:var(--ff-serif); font-weight:500; font-size:22px; letter-spacing:-0.3px; }
+  .round__note{ font-size:13px; color:var(--c-muted); margin:4px 0 26px; }
+
+  /* variant card */
+  .grid{ display:grid; grid-template-columns:1fr; gap:30px; }
+  .card{ border:1px solid var(--c-hairline); border-radius:4px; overflow:hidden; background:#fff; }
+  .card.pick{ border-color:var(--c-accent-line); box-shadow:0 1px 0 var(--c-accent-line), 0 24px 48px -34px rgba(var(--c-ink-rgb),.4); }
+  .card__hd{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:16px 20px; border-bottom:1px solid var(--c-hairline); background:linear-gradient(180deg, rgba(var(--c-bg-rgb),.6), rgba(var(--c-bg-rgb),0)); }
+  .card__id{ font-family:var(--ff-mono); font-size:12px; font-weight:600; letter-spacing:.08em; color:var(--c-ink); }
+  .badge{ font-family:var(--ff-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; border-radius:100px; padding:3px 9px; }
+  .badge.win{ color:var(--c-accent); border:1px solid var(--c-accent); }
+  .badge.final{ background:var(--c-accent); color:#fff; }
+  .badge.dropped{ color:var(--c-muted); border:1px solid var(--c-tag-line); }
+  .card__note{ flex:1 1 320px; font-size:12.5px; line-height:1.6; color:var(--c-slate); }
+  .card__note .b{ color:var(--c-accent); }
+  .card__open{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.06em; color:var(--c-muted); text-decoration:none; border:1px solid var(--c-tag-line); border-radius:100px; padding:5px 12px; transition:color .25s, border-color .25s; white-space:nowrap; }
+  .card__open:hover{ color:var(--c-accent); border-color:var(--c-accent); }
+  .frame{ width:100%; border:0; display:block; background:var(--c-bg); }
+  .hint{ font-family:var(--ff-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--c-muted); padding:8px 20px; border-top:1px dashed var(--c-hairline); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="head">
+      <div class="head__kick">About · §II 投资哲学 · 迭代汇总</div>
+      <h1>投资哲学 — 设计迭代全过程</h1>
+      <p>这一页把「投资哲学」section 的所有候选按迭代顺序收在一起,内嵌实时预览(<span class="b">每个框里可直接 hover 看动效</span>),方便回溯思路。决策链:三种概念 → 选「图片揭示」方向 → 从它衍生四版 → 选 C3(行高 + 提行的「读诗句」质感)→ 换背景图测试 → 选「混合配图」→ 终版。</p>
+      <div class="thread">
+        <div class="step"><span class="pill">R1: A / B / <b>C</b></span><span class="arr">→</span></div>
+        <div class="step"><span class="pill win">R2: C1 / C2 / C3✓ / C4</span><span class="arr">→</span></div>
+        <div class="step"><span class="pill win">R3: 背景图 → 混合✓</span><span class="arr">→</span></div>
+        <div class="step"><span class="pill final">★ 终版 C3-final</span></div>
+      </div>
+    </div>
+
+    <!-- ROUND 1 -->
+    <section class="round">
+      <div class="round__bar"><span class="round__n">I</span><span class="round__t">第一轮 · 三种概念</span></div>
+      <p class="round__note">大字母去掉后,探索 list 本身的排版 + 动效方向。结论:选 <b>C 图片揭示</b>(最电影感、最贴品牌图像质感)。</p>
+      <div class="grid">
+        <div class="card">
+          <div class="card__hd"><span class="card__id">A · 字母放大</span><span class="badge dropped">未选</span>
+            <span class="card__note">编辑感最强、文字常显;hover 时 EN 首字母放大成 accent 大字。稳但偏静。</span>
+            <a class="card__open" href="0616%20subpages/philosophy-A-letter-zoom.html" target="_blank">单独打开 ↗</a></div>
+          <iframe class="frame" src="0616%20subpages/philosophy-A-letter-zoom.html" height="560" loading="lazy"></iframe>
+        </div>
+        <div class="card">
+          <div class="card__hd"><span class="card__id">B · 立体翻转</span><span class="badge dropped">未选</span>
+            <span class="card__note">整行 3D 翻面:正面标题 → 背面深色面板 + 描述。惊喜感强,但翻转偏花哨。</span>
+            <a class="card__open" href="0616%20subpages/philosophy-B-flip.html" target="_blank">单独打开 ↗</a></div>
+          <iframe class="frame" src="0616%20subpages/philosophy-B-flip.html" height="560" loading="lazy"></iframe>
+        </div>
+        <div class="card pick">
+          <div class="card__hd"><span class="card__id">C · 图片揭示</span><span class="badge win">R1 选中 →</span>
+            <span class="card__note"><span class="b">入选方向。</span>hover 前只标题,hover 后深色图铺满 + 白字描述浮现。后续都从这里衍生。</span>
+            <a class="card__open" href="0616%20subpages/philosophy-C-reveal.html" target="_blank">单独打开 ↗</a></div>
+          <iframe class="frame" src="0616%20subpages/philosophy-C-reveal.html" height="560" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROUND 2 -->
+    <section class="round">
+      <div class="round__bar"><span class="round__n">II</span><span class="round__t">第二轮 · 从 C 衍生四版</span></div>
+      <p class="round__note">变动效 / 背景 / 布局,且描述文字统一右移。结论:选 <b>C3</b> —— 行更高、描述拆行,给人「读诗句」的质感。</p>
+      <div class="grid">
+        <div class="card">
+          <div class="card__hd"><span class="card__id">C1 · blur 右</span><span class="badge dropped">未选</span>
+            <span class="card__note">描述模糊→清晰淡入,右栏;navy 渐变(左深右浅)。最克制。</span>
+            <a class="card__open" href="0616%20subpages/philosophy-C1-blur-right.html" target="_blank">单独打开 ↗</a></div>
+          <iframe class="frame" src="0616%20subpages/philosophy-C1-blur-right.html" height="560" loading="lazy"></iframe>
+        </div>
+        <div class="card">
+          <div class="card__hd"><span class="card__id">C2 · wipe 右</span><span class="badge dropped">未选</span>
+            <span class="card__note">深色背景 clip-path 擦入;index 移到最左,描述右对齐。编辑式左右张力。</span>
+            <a class="card__open" href="0616%20subpages/philosophy-C2-wipe-right.html" target="_blank">单独打开 ↗</a></div>
+          <iframe class="frame" src="0616%20subpages/philosophy-C2-wipe-right.html" height="560" loading="lazy"></iframe>
+        </div>
+        <div class="card pick">
+          <div class="card__hd"><span class="card__id">C3 · 渐变逐行</span><span class="badge win">R2 选中 →</span>
+            <span class="card__note"><span class="b">入选。</span>无图,纯深蓝渐变 mesh;描述拆 3 行错峰上浮。行高 + 提行 = 读诗句质感(Vera 点名喜欢)。</span>
+            <a class="card__open" href="0616%20subpages/philosophy-C3-gradient-lines.html" target="_blank">单独打开 ↗</a></div>
+          <iframe class="frame" src="0616%20subpages/philosophy-C3-gradient-lines.html" height="600" loading="lazy"></iframe>
+        </div>
+        <div class="card">
+          <div class="card__hd"><span class="card__id">C4 · zoom 上滑</span><span class="badge dropped">未选</span>
+            <span class="card__note">背景 Ken-Burns 缓放 + 描述从底部上滑、右下对齐。最 cinematic。</span>
+            <a class="card__open" href="0616%20subpages/philosophy-C4-zoom-slideup.html" target="_blank">单独打开 ↗</a></div>
+          <iframe class="frame" src="0616%20subpages/philosophy-C4-zoom-slideup.html" height="560" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROUND 3 -->
+    <section class="round">
+      <div class="round__bar"><span class="round__n">III</span><span class="round__t">第三轮 · C3 换背景图</span></div>
+      <p class="round__note">在 C3 上试三张参考图(磨砂玻璃 / 白丝带 / 深色百叶),全部叠深蓝保白字可读。常开对比 + 混合版。结论:选 <b>混合</b>(三行各配一张)。</p>
+      <div class="grid">
+        <div class="card pick">
+          <div class="card__hd"><span class="card__id">C3 · 背景图实验室</span><span class="badge win">对比用</span>
+            <span class="card__note">4 组常开对比:玻璃 / 丝带 / 百叶 各铺满 + 混合版。Vera 选「<span class="b">混合</span>」。(此框较高,内部可滚动)</span>
+            <a class="card__open" href="0616%20subpages/philosophy-C3-bg-lab.html" target="_blank">单独打开 ↗</a></div>
+          <iframe class="frame" src="0616%20subpages/philosophy-C3-bg-lab.html" height="900" loading="lazy"></iframe>
+          <div class="hint">↑ 常开对比页 · 内部可滚动看全 4 组</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL -->
+    <section class="round">
+      <div class="round__bar"><span class="round__n">★</span><span class="round__t">终版 · C3-final(将落地 about §II)</span></div>
+      <p class="round__note">C3 的 hover 逐行揭示 + 混合配图:原则=磨砂玻璃竖纹 · 愿景=白丝带流动曲线 · 初心=深色百叶纵深。</p>
+      <div class="grid">
+        <div class="card pick">
+          <div class="card__hd"><span class="card__id">C3-final</span><span class="badge final">★ 终版</span>
+            <span class="card__note"><span class="b">最终方案。</span>静态只标题;hover 对应行铺满各自深蓝图,描述逐行浮现,底部 accent 线划过。hover 三行各看效果。</span>
+            <a class="card__open" href="philosophy-C3-final.html" target="_blank">单独打开 ↗</a></div>
+          <iframe class="frame" src="philosophy-C3-final.html" height="600" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
