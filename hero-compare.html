@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero 视频对比 / 切换 · 常春藤资本</title>
+<style>
+  :root{
+    --bg:#0e0f12; --panel:#16181d; --line:#2a2d35; --tile:#1d2027;
+    --txt:#e8eaed; --mut:#9aa0a8; --accent:#3b6cff; --good:#2ea043;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    background:var(--bg);color:var(--txt);
+    font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    display:flex;flex-direction:column;height:100vh;overflow:hidden;
+  }
+  header.bar{background:var(--panel);border-bottom:1px solid var(--line);padding:10px 14px;display:flex;flex-direction:column;gap:9px;flex:0 0 auto}
+  .row1{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .title{font-weight:600;font-size:15px}
+  .title small{color:var(--mut);font-weight:400;margin-left:8px}
+  .hint{color:var(--mut);font-size:12px}
+  kbd{background:#000;border:1px solid var(--line);border-radius:4px;padding:0 5px;font-size:11px;line-height:1.7}
+  .modes{margin-left:auto;display:flex;gap:6px}
+  button{font:inherit;cursor:pointer}
+  .modes button{border:1px solid var(--line);background:var(--tile);color:var(--mut);padding:6px 12px;border-radius:8px}
+  .modes button.active{color:#fff;border-color:var(--accent);background:#1b2540}
+  .tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+  .tab{flex:0 0 auto;border:1px solid var(--line);background:var(--tile);color:var(--txt);padding:6px 10px;border-radius:8px;display:flex;align-items:center;gap:7px;white-space:nowrap}
+  .tab.active{border-color:var(--accent);background:#1b2540;box-shadow:inset 0 0 0 1px var(--accent)}
+  .tab .id{font-weight:600}
+  .tab .sz{color:var(--mut);font-size:12px}
+  .badge{font-size:10px;padding:1px 6px;border-radius:999px;border:1px solid;white-space:nowrap}
+  .badge.pushed{color:var(--good);border-color:rgba(46,160,67,.5)}
+  .badge.local{color:var(--mut);border-color:var(--line)}
+  main{flex:1;min-height:0;position:relative}
+  .stage{position:absolute;inset:0;display:flex;flex-direction:column}
+  .meta{padding:7px 14px;color:var(--mut);font-size:12px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .meta a{color:var(--accent);text-decoration:none}
+  .meta a:hover{text-decoration:underline}
+  .stage iframe{flex:1;width:100%;border:0;background:#faf8f3}
+  .grid{position:absolute;inset:0;overflow:auto;padding:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;align-content:start}
+  .cell{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#000;position:relative;cursor:pointer}
+  .cell:hover{border-color:var(--accent)}
+  .cell video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#000}
+  .cell .cap{position:absolute;left:0;right:0;bottom:0;padding:8px 10px;display:flex;align-items:center;gap:8px;background:linear-gradient(transparent,rgba(0,0,0,.72))}
+  .cell .cap .id{font-weight:600}
+  .cell .cap .sz{color:#cfd3d8;font-size:12px}
+  .cell .go{position:absolute;top:8px;right:8px;font-size:11px;color:#fff;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:2px 7px;opacity:0;transition:.15s}
+  .cell:hover .go{opacity:1}
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="row1">
+    <span class="title">Hero 视频对比 / 切换<small>常春藤资本 · 7 个候选</small></span>
+    <span class="hint"><kbd>1</kbd>–<kbd>7</kbd> 选择 · <kbd>←</kbd> <kbd>→</kbd> 切换 · <kbd>G</kbd> 网格/单看</span>
+    <div class="modes">
+      <button id="mSwitch" class="active">切换 · 真实效果</button>
+      <button id="mGrid">网格 · 并排</button>
+    </div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+</header>
+<main>
+  <section class="stage" id="stage">
+    <div class="meta" id="meta"></div>
+    <iframe id="frame" title="hero preview" allow="autoplay"></iframe>
+  </section>
+  <section class="grid hidden" id="grid"></section>
+</main>
+<script>
+  const VARIANTS = [
+    {id:'3634', html:'homepage-ch.html',       video:'assets/kling_20260612_作品_以上传图为首帧_整幅_3634_0.mp4', size:'3.2MB',  pushed:true},
+    {id:'5012', html:'homepage-ch-5012.html',  video:'assets/kling_20260616_作品_以上传图为首帧_整幅_5012_0.mp4', size:'4.8MB',  pushed:true},
+    {id:'4701', html:'homepage-ch-4701.html',  video:'assets/kling_20260616_作品_16_9_cinem_4701_0.mp4',          size:'11.0MB', pushed:false},
+    {id:'5219', html:'homepage-ch-5219.html',  video:'assets/kling_20260616_作品_无缝循环_hero__5219_0.mp4',       size:'2.1MB',  pushed:false},
+    {id:'5332', html:'homepage-ch-5332.html',  video:'assets/kling_20260616_作品_无缝循环_hero__5332_0.mp4',       size:'6.1MB',  pushed:false},
+    {id:'5409', html:'homepage-ch-5409.html',  video:'assets/kling_20260616_作品_无缝循环_hero__5409_0.mp4',       size:'12.5MB', pushed:false},
+    {id:'5431', html:'homepage-ch-5431.html',  video:'assets/kling_20260616_作品_无缝循环_hero__5431_0.mp4',       size:'7.9MB',  pushed:false},
+  ];
+  let cur = 0;
+  const tabsEl=document.getElementById('tabs'), frame=document.getElementById('frame'),
+        meta=document.getElementById('meta'), gridEl=document.getElementById('grid'),
+        stage=document.getElementById('stage'),
+        mSwitch=document.getElementById('mSwitch'), mGrid=document.getElementById('mGrid');
+
+  VARIANTS.forEach((v,i)=>{
+    const b=document.createElement('button');
+    b.className='tab'+(i===0?' active':'');
+    b.innerHTML=`<span class="id">${v.id}</span><span class="sz">${v.size}</span>`+
+      `<span class="badge ${v.pushed?'pushed':'local'}">${v.pushed?'已推':'本地'}</span>`;
+    b.onclick=()=>{select(i);showSwitch();};
+    tabsEl.appendChild(b);
+  });
+
+  function select(i){
+    cur=(i+VARIANTS.length)%VARIANTS.length;
+    [...tabsEl.children].forEach((b,k)=>b.classList.toggle('active',k===cur));
+    const v=VARIANTS[cur];
+    if(frame.dataset.src!==v.html){frame.src=v.html;frame.dataset.src=v.html;}
+    meta.innerHTML=`<b>${v.id}</b> · <span>${v.html}</span> · ${v.size} · `+
+      `<span class="badge ${v.pushed?'pushed':'local'}">${v.pushed?'已推 GitHub':'仅本地'}</span> · `+
+      `<span>iframe = 该版完整首页（带文字叠加）</span> · `+
+      `<a href="${v.html}" target="_blank" rel="noopener">独立打开 ↗</a>`;
+  }
+  function showSwitch(){stage.classList.remove('hidden');gridEl.classList.add('hidden');mSwitch.classList.add('active');mGrid.classList.remove('active');}
+  function showGrid(){
+    if(!gridEl.dataset.built){buildGrid();gridEl.dataset.built='1';}
+    stage.classList.add('hidden');gridEl.classList.remove('hidden');mGrid.classList.add('active');mSwitch.classList.remove('active');
+  }
+  function buildGrid(){
+    VARIANTS.forEach((v,i)=>{
+      const c=document.createElement('div');c.className='cell';
+      c.innerHTML=`<video src="${v.video}" muted loop autoplay playsinline preload="metadata"></video>`+
+        `<span class="go">看真实效果 ↗</span>`+
+        `<div class="cap"><span class="id">${v.id}</span><span class="sz">${v.size}</span>`+
+        `<span class="badge ${v.pushed?'pushed':'local'}">${v.pushed?'已推':'本地'}</span></div>`;
+      c.onclick=()=>{select(i);showSwitch();};
+      gridEl.appendChild(c);
+    });
+  }
+  mSwitch.onclick=showSwitch;
+  mGrid.onclick=showGrid;
+  document.addEventListener('keydown',e=>{
+    if(/^[1-9]$/.test(e.key)){const n=+e.key-1;if(n<VARIANTS.length)select(n);}
+    else if(e.key==='ArrowRight')select(cur+1);
+    else if(e.key==='ArrowLeft')select(cur-1);
+    else if(e.key.toLowerCase()==='g'){gridEl.classList.contains('hidden')?showGrid():showSwitch();}
+  });
+  select(0);
+</script>
+</body>
+</html>
