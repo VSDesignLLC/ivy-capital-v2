@@ -20,6 +20,8 @@
 
 /* ---------- HERO · V4 中轴版（design system display 标题 + 呼吸点 label + 贯穿中轴引导） ---------- */
 .hax{ position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:200px var(--page-x) 0; overflow:hidden; background:var(--c-bg); }
+.hax__bg{ position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; }
+.hax__fade{ position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 45%, var(--cream-grad) 78%); }
 .hax__halo{ position:absolute; left:50%; top:46%; z-index:0; pointer-events:none; width:min(1100px,86vw); aspect-ratio:1/1; transform:translate(-50%,-50%); background:radial-gradient(circle at center, var(--c-accent-wash) 0%, rgba(var(--c-accent-rgb),.018) 38%, rgba(var(--c-accent-rgb),0) 70%); }
 .hax__inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); display:flex; flex-direction:column; align-items:center; text-align:center; }
 /* label = 呼吸圆点 + 英文页名（复用 homepage hero eyebrow；.dot/.caption 在 base.css，dot-halo 在 components.css；浅底蓝光晕） */
@@ -52,30 +54,24 @@
   .hax__axis::before{ animation:none; opacity:1; }
 }
 
-/* ---------- 最新动态 文章卡（placeholder 占位，待填公众号文章） ---------- */
+/* ---------- 最新动态 文章卡（V3 杂志式：封面在上 + 文字在下 · placeholder 占位） ---------- */
 .news-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:56px; }
-.ncard{ display:flex; flex-direction:column; isolation:isolate; }
-.ncard__cover{ position:relative; aspect-ratio:16/10; overflow:hidden; border:1px solid var(--c-hairline);
-  background:linear-gradient(150deg,#efece4 0%,#e6e2d8 100%);
+.clamp2{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.nc3{ display:flex; flex-direction:column; text-decoration:none; isolation:isolate; }
+.nc3__cover{ position:relative; aspect-ratio:16/10; overflow:hidden; border:1px solid var(--c-hairline);
   transition:transform .6s var(--ease-soft), box-shadow .6s var(--ease-soft), border-color .6s var(--ease-soft);
   box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),0), 0 36px 64px -30px rgba(var(--c-ink-rgb),0); }
-/* 图片占位图标：方框 + 圆 */
-.ncard__cover::after{ content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:48px; height:40px; border:2px solid rgba(var(--c-ink-rgb),.12); border-radius:5px; }
-.ncard__cover::before{ content:""; position:absolute; left:50%; top:54%; transform:translate(-50%,-50%); z-index:1; width:13px; height:13px; border-radius:50%; background:rgba(var(--c-ink-rgb),.11); }
-.ncard__corner{ position:absolute; width:13px; height:13px; opacity:.4; z-index:2; }
-.ncard__corner.tl{ left:11px; top:11px; border-left:1px solid var(--c-ink); border-top:1px solid var(--c-ink); }
-.ncard__corner.br{ right:11px; bottom:11px; border-right:1px solid var(--c-ink); border-bottom:1px solid var(--c-ink); }
-.ncard:hover .ncard__cover{ transform:translateY(-6px); border-color:var(--c-accent-line);
-  box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),.10), 0 14px 30px -14px rgba(var(--c-ink-rgb),.14), 0 36px 64px -30px rgba(var(--c-ink-rgb),.20); }
-.ncard__body{ padding-top:20px; display:flex; flex-direction:column; gap:12px; }
-.ncard__kick{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--c-muted); }
-.ncard__kick .cat{ color:var(--c-accent); }
-.ncard__title{ font-family:var(--ff-serif); font-weight:600; font-size:22px; line-height:30px; letter-spacing:-0.3px; color:var(--c-ink); }
-/* 摘要占位骨架（两条灰线，不编造文字） */
-.ncard__excerpt{ display:flex; flex-direction:column; gap:8px; margin-top:2px; }
-.ncard__excerpt span{ display:block; height:11px; border-radius:4px; background:rgba(var(--c-ink-rgb),.07); }
-.ncard__excerpt span:nth-child(2){ width:70%; }
-.ncard__more{ font-size:13px; letter-spacing:.01em; color:var(--c-accent); margin-top:6px; }
+.nc3__cover img{ width:100%; height:100%; object-fit:cover; transition:transform 1.1s var(--ease); }
+.nc3__cat{ position:absolute; top:14px; left:14px; z-index:2; padding:5px 11px; border-radius:100px;
+  background:rgba(var(--c-bg-rgb),.82); border:1px solid var(--c-accent-line); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);
+  font-family:var(--ff-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--c-accent); }
+.nc3:hover .nc3__cover{ transform:translateY(-6px); border-color:var(--c-accent-line);
+  box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),.10), 0 36px 64px -30px rgba(var(--c-ink-rgb),.20); }
+.nc3:hover .nc3__cover img{ transform:scale(1.06); }
+.nc3__body{ padding-top:18px; display:flex; flex-direction:column; gap:10px; }
+.nc3__date{ font-family:var(--ff-mono); font-size:12px; letter-spacing:.06em; color:var(--c-muted); }
+.nc3__title{ font-family:var(--ff-serif); font-weight:600; font-size:21px; line-height:30px; letter-spacing:-0.3px; color:var(--c-ink); }
+.nc3__more{ font-size:13px; color:var(--c-accent); margin-top:2px; }
 
 /* ---------- narrow safety ---------- */
 @media (max-width:1100px){
@@ -111,6 +107,8 @@
 
   <!-- NEWS HERO · V4 中轴版 -->
   <header class="hero hax">
+    <video class="hax__bg" autoplay muted loop playsinline preload="auto"><source src="assets/news-hero.mp4" type="video/mp4"></video>
+    <div class="hax__fade" aria-hidden="true"></div>
     <div class="hax__halo" aria-hidden="true"></div>
     <div class="hax__inner">
       <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">News</span></p>
@@ -126,19 +124,13 @@
 
   <!-- 最新动态 — placeholder 占位（文档未提供公众号文章） -->
   <section class="section" id="news" data-bgop="0.04">
-    <div class="sec-band left sec-anim">
-      <span class="rule top"></span><span class="rule bot"></span>
-      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
-        <span class="bt"><span class="cn">最新动态</span></span>
-      </div>
-    </div>
     <div class="news-grid">
-      <article class="ncard" data-reveal><div class="ncard__cover"><span class="ncard__corner tl"></span><span class="ncard__corner br"></span></div><div class="ncard__body"><span class="ncard__kick">2026.06 · <span class="cat">投资动态</span></span><h3 class="ncard__title">文章标题</h3><div class="ncard__excerpt"><span></span><span></span></div><span class="ncard__more">阅读全文 →</span></div></article>
-      <article class="ncard" data-reveal style="--d:80ms"><div class="ncard__cover"><span class="ncard__corner tl"></span><span class="ncard__corner br"></span></div><div class="ncard__body"><span class="ncard__kick">2026.05 · <span class="cat">行业观察</span></span><h3 class="ncard__title">文章标题</h3><div class="ncard__excerpt"><span></span><span></span></div><span class="ncard__more">阅读全文 →</span></div></article>
-      <article class="ncard" data-reveal style="--d:160ms"><div class="ncard__cover"><span class="ncard__corner tl"></span><span class="ncard__corner br"></span></div><div class="ncard__body"><span class="ncard__kick">2026.05 · <span class="cat">品牌活动</span></span><h3 class="ncard__title">文章标题</h3><div class="ncard__excerpt"><span></span><span></span></div><span class="ncard__more">阅读全文 →</span></div></article>
-      <article class="ncard" data-reveal><div class="ncard__cover"><span class="ncard__corner tl"></span><span class="ncard__corner br"></span></div><div class="ncard__body"><span class="ncard__kick">2026.04 · <span class="cat">生态合作</span></span><h3 class="ncard__title">文章标题</h3><div class="ncard__excerpt"><span></span><span></span></div><span class="ncard__more">阅读全文 →</span></div></article>
-      <article class="ncard" data-reveal style="--d:80ms"><div class="ncard__cover"><span class="ncard__corner tl"></span><span class="ncard__corner br"></span></div><div class="ncard__body"><span class="ncard__kick">2026.03 · <span class="cat">企业里程碑</span></span><h3 class="ncard__title">文章标题</h3><div class="ncard__excerpt"><span></span><span></span></div><span class="ncard__more">阅读全文 →</span></div></article>
-      <article class="ncard" data-reveal style="--d:160ms"><div class="ncard__cover"><span class="ncard__corner tl"></span><span class="ncard__corner br"></span></div><div class="ncard__body"><span class="ncard__kick">2026.03 · <span class="cat">投资动态</span></span><h3 class="ncard__title">文章标题</h3><div class="ncard__excerpt"><span></span><span></span></div><span class="ncard__more">阅读全文 →</span></div></article>
+      <a class="nc3" data-reveal href="https://mp.weixin.qq.com/s/wTHvlB4p7ZZr5fmB9C4cSA" target="_blank" rel="noopener"><div class="nc3__cover"><img src="assets/proj-3839.jpg" alt=""><span class="nc3__cat">Ivy Views</span></div><div class="nc3__body"><span class="nc3__date">2025.6.6</span><h3 class="nc3__title clamp2">读完互联网女皇Mary Meeker最新AI报告：三个观察、三个问题以及未来思考</h3><span class="nc3__more">阅读全文 →</span></div></a>
+      <a class="nc3" data-reveal style="--d:80ms" href="https://mp.weixin.qq.com/s/_fc41JGdOfV-5synX4OUNg" target="_blank" rel="noopener"><div class="nc3__cover"><img src="assets/proj-3840.jpg" alt=""><span class="nc3__cat">Ivy Views</span></div><div class="nc3__body"><span class="nc3__date">2025.6.18</span><h3 class="nc3__title clamp2">股权激励的智慧：“舍得分”不如“分得对”更重要</h3><span class="nc3__more">阅读全文 →</span></div></a>
+      <a class="nc3" data-reveal style="--d:160ms" href="https://mp.weixin.qq.com/s/9zyCf2-Qer0r2yg8Fox4Kg" target="_blank" rel="noopener"><div class="nc3__cover"><img src="assets/proj-3841.jpg" alt=""><span class="nc3__cat">Ivy Portfolio</span></div><div class="nc3__body"><span class="nc3__date">2025.6.25</span><h3 class="nc3__title clamp2">低空智能开创者星逻智能完成超亿元B+轮融资｜常春藤伙伴企业</h3><span class="nc3__more">阅读全文 →</span></div></a>
+      <a class="nc3" data-reveal href="https://mp.weixin.qq.com/s/Cp8hCoVxf4caJK-W-dvN5g" target="_blank" rel="noopener"><div class="nc3__cover"><img src="assets/proj-3842.jpg" alt=""><span class="nc3__cat">Ivy Views</span></div><div class="nc3__body"><span class="nc3__date">2025.7.3</span><h3 class="nc3__title clamp2">从 Meta 到小米：百镜大战，场景贴合度才是终极战场？</h3><span class="nc3__more">阅读全文 →</span></div></a>
+      <a class="nc3" data-reveal style="--d:80ms" href="https://mp.weixin.qq.com/s/b4Ts8BtvBa1tIZvdMAV7qQ" target="_blank" rel="noopener"><div class="nc3__cover"><img src="assets/proj-3843.jpg" alt=""><span class="nc3__cat">Ivy Views</span></div><div class="nc3__body"><span class="nc3__date">2025.7.10</span><h3 class="nc3__title clamp2">Ivy Views｜智元机器人收购上纬新材控制权的三点观察</h3><span class="nc3__more">阅读全文 →</span></div></a>
+      <a class="nc3" data-reveal style="--d:160ms" href="https://mp.weixin.qq.com/s/fkM6hZKFzDRk3IxCqbntJw" target="_blank" rel="noopener"><div class="nc3__cover"><img src="assets/proj-3844.jpg" alt=""><span class="nc3__cat">Ivy Portfolio</span></div><div class="nc3__body"><span class="nc3__date">2025.7.15</span><h3 class="nc3__title clamp2">机器人电子皮肤公司「杭州慧感」完成战略融资，推动柔性感知走向具身智能主航道｜Ivy Portfolio</h3><span class="nc3__more">阅读全文 →</span></div></a>
     </div>
   </section>
 

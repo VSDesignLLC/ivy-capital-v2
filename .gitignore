@@ -14,3 +14,9 @@ assets/kling-20260611-seamless-4125.mp4
 assets/kling-20260612-extra.mp4
 assets/kling-20260612-3634.mp4
 assets/kling-20260612-3648.mp4
+
+# 交付/暂存原始素材夹（大体积、含未选中版本，仅本地保留）
+assets/visual assets 0616/
+
+# 本地备份快照（仅本地保留，见 CLAUDE.md 备份约定）
+backup/
