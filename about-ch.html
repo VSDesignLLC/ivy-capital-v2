@@ -70,8 +70,10 @@
 #recognition .ticker{ padding-top:56px; }
 
 /* ---------- IV. 投后赋能 — image-top 卡，hover 整图铺满全卡 + 文字白磨砂托底（chrome 对齐 component .card） ---------- */
-.empower{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; align-items:stretch; margin-top:56px; }
-.ecard{ position:relative; display:flex; flex-direction:column; background:var(--c-bg);
+/* align-items:start + 统一 min-height：静态三卡等高；hover 时被 hover 的卡独自长高，
+   兄弟卡停在 min-height 不被拉伸 → 背景图不再随兄弟卡高度变化重裁（消除「联动放大」） */
+.empower{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; align-items:start; margin-top:56px; }
+.ecard{ position:relative; display:flex; flex-direction:column; min-height:520px; background:var(--c-bg);
   border:1px solid var(--c-hairline); overflow:hidden; isolation:isolate;
   transition:transform .75s var(--ease-soft), box-shadow .75s var(--ease-soft), border-color .75s var(--ease-soft);
   box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),0), 0 14px 30px -14px rgba(var(--c-ink-rgb),0), 0 36px 64px -30px rgba(var(--c-ink-rgb),0); }
