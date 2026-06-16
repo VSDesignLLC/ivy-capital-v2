@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nav 迭代候选 — 4 tab + active</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/tokens.css" />
+<link rel="stylesheet" href="../assets/css/base.css" />
+<link rel="stylesheet" href="../assets/css/components.css" />
+<style>
+  /* 仅本预览：把 nav 从 fixed 改 static 平铺展示，并给浅色背景看玻璃质感 */
+  body{ margin:0; background:linear-gradient(160deg,#e9e6dd,#f6f4ee 40%,#dfe6f2); min-height:100vh;
+        font-family:var(--ff-sc); padding:60px 80px; box-sizing:border-box; }
+  .stage{ position:relative; }
+  .stage .nav{ position:static; transform:none; margin:0 auto 14px; }
+  .label{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+          color:var(--c-muted); margin:38px 0 14px; }
+  .label:first-child{ margin-top:0; }
+</style>
+<link rel="stylesheet" href="../assets/css/motion.css" />
+</head>
+<body>
+
+  <div class="label">A · 首页态（无 tab 选中）</div>
+  <div class="stage">
+    <nav class="nav">
+      <div class="nav__logo"><a href="homepage-ch.html"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></a></div>
+      <div class="nav__links">
+        <a href="#" data-nav="about">关于我们</a><a href="#" data-nav="team">团队</a>
+        <a href="#" data-nav="portfolio">被投企业</a><a href="#" data-nav="news">最新动态</a>
+      </div>
+      <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+    </nav>
+  </div>
+
+  <div class="label">B · 「团队」页态（团队 tab 选中 / active）</div>
+  <div class="stage">
+    <nav class="nav">
+      <div class="nav__logo"><a href="homepage-ch.html"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></a></div>
+      <div class="nav__links">
+        <a href="#" data-nav="about">关于我们</a><a href="#" class="active" data-nav="team">团队</a>
+        <a href="#" data-nav="portfolio">被投企业</a><a href="#" data-nav="news">最新动态</a>
+      </div>
+      <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+    </nav>
+  </div>
+
+  <div class="label">C · 「被投企业」页态（演示另一个 tab active）</div>
+  <div class="stage">
+    <nav class="nav">
+      <div class="nav__logo"><a href="homepage-ch.html"><img src="../assets/logo.png" alt="Ivy Capital 常春藤资本" /></a></div>
+      <div class="nav__links">
+        <a href="#" data-nav="about">关于我们</a><a href="#" data-nav="team">团队</a>
+        <a href="#" class="active" data-nav="portfolio">被投企业</a><a href="#" data-nav="news">最新动态</a>
+      </div>
+      <div class="nav__lang"><span class="z">中</span><span class="sep">·</span><span class="en">EN</span></div>
+    </nav>
+  </div>
+
+</body>
+</html>
