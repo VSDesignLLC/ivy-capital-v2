@@ -58,27 +58,16 @@
   .hax__axis::before{ animation:none; opacity:1; }
 }
 
-/* ---------- 团队成员网格（占位骨架，待填真实资料） ---------- */
+/* ---------- 团队成员网格（pcard 磨砂卡 · V1 渐变常驻 + 36% 磨砂高度） ---------- */
 .team-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:56px; }
-.member{ display:flex; flex-direction:column; gap:18px; }
-.member__photo{ position:relative; aspect-ratio:4/5; overflow:hidden; isolation:isolate;
-  border:1px solid var(--c-hairline); background:linear-gradient(165deg,#efece4 0%,#e6e2d8 100%);
-  transition:transform .6s var(--ease-soft), box-shadow .6s var(--ease-soft), border-color .6s var(--ease-soft);
-  box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),0), 0 36px 64px -30px rgba(var(--c-ink-rgb),0); }
-/* 人形剪影占位：头（圆）+ 肩身（半圆） */
-.member__photo::before{ content:""; position:absolute; left:50%; top:30%; transform:translateX(-50%);
-  width:33%; aspect-ratio:1; border-radius:50%; background:rgba(var(--c-ink-rgb),.09); }
-.member__photo::after{ content:""; position:absolute; left:50%; bottom:-8%; transform:translateX(-50%);
-  width:64%; height:48%; border-radius:50% 50% 0 0; background:rgba(var(--c-ink-rgb),.09); }
-.member__corner{ position:absolute; width:13px; height:13px; opacity:.4; z-index:1; }
-.member__corner.tl{ left:11px; top:11px; border-left:1px solid var(--c-ink); border-top:1px solid var(--c-ink); }
-.member__corner.br{ right:11px; bottom:11px; border-right:1px solid var(--c-ink); border-bottom:1px solid var(--c-ink); }
-.member:hover .member__photo{ transform:translateY(-6px); border-color:var(--c-accent-line);
-  box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),.10), 0 14px 30px -14px rgba(var(--c-ink-rgb),.14), 0 36px 64px -30px rgba(var(--c-ink-rgb),.20); }
-.member__meta{ display:flex; flex-direction:column; gap:11px; padding-top:2px; }
-/* 姓名 / 职位（placeholder 占位文字，待填真实资料） */
-.member__name{ font-family:var(--ff-serif); font-weight:600; font-size:20px; line-height:26px; letter-spacing:-0.3px; color:var(--c-ink); }
-.member__role{ font-size:13px; line-height:19px; letter-spacing:.02em; color:var(--c-muted); }
+/* 沿用 components.css 的 .pcard（图 + plate 磨砂 + hover lift/zoom/reveal）；以下为团队版定制：
+   姓名+职位常显 + 底部常驻奶白渐变；磨砂 plate 高度收到 36%（贴合文字，仅 hover 时升起） */
+.team-grid .pcard__foot{ gap:4px; padding-top:60px;
+  background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 0%, rgba(var(--c-bg-rgb),.55) 42%, rgba(var(--c-bg-rgb),.96) 100%); }
+.team-grid .pcard:hover .pcard__foot{ gap:6px; }
+.team-grid .pcard__foot .t{ color:var(--c-ink); text-shadow:0 0 10px rgba(var(--c-bg-rgb),.7); }
+.team-grid .pcard__foot .d{ grid-template-rows:1fr; opacity:1; transform:none; color:var(--c-slate); }
+.team-grid .pcard__plate{ height:36%; }
 
 /* ---------- narrow safety ---------- */
 @media (max-width:1100px){
@@ -125,21 +114,21 @@
 
   <!-- 团队成员 — 占位骨架（文档未提供成员资料） -->
   <section class="section" id="team" data-bgop="0.04">
-    <div class="sec-band left sec-anim">
+    <div class="sec-band sec-anim">
       <span class="rule top"></span><span class="rule bot"></span>
       <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
         <span class="bt"><span class="cn">团队</span></span>
       </div>
     </div>
     <div class="team-grid">
-      <article class="member" data-reveal><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">创始合伙人</span></div></article>
-      <article class="member" data-reveal style="--d:70ms"><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">管理合伙人</span></div></article>
-      <article class="member" data-reveal style="--d:140ms"><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">合伙人</span></div></article>
-      <article class="member" data-reveal style="--d:210ms"><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">董事总经理</span></div></article>
-      <article class="member" data-reveal><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">投资总监</span></div></article>
-      <article class="member" data-reveal style="--d:70ms"><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">投资副总裁</span></div></article>
-      <article class="member" data-reveal style="--d:140ms"><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">投资经理</span></div></article>
-      <article class="member" data-reveal style="--d:210ms"><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">投资分析师</span></div></article>
+      <article class="pcard" data-reveal><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">创始合伙人</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:70ms"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">管理合伙人</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:140ms"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">合伙人</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:210ms"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">董事总经理</span></span></div></article>
+      <article class="pcard" data-reveal><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资总监</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:70ms"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资副总裁</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:140ms"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资经理</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:210ms"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资分析师</span></span></div></article>
     </div>
   </section>
 
