@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>被投企业 · 常春藤资本 Ivy Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================ 被投企业页专属布局
+   复用共享层组件 (sec-band/sec-box · rails · grid)。
+   介绍文字取自飞书 Page4 (block 60)；企业名单逐条取自飞书 Portfolio 表。 */
+#portfolio{ padding-bottom:var(--gap); }
+
+/* HERO（仅文档 Page4 介绍文字） */
+.phero{ position:relative; padding:200px var(--page-x) 84px; }
+.phero__title{ font-family:var(--ff-serif); font-weight:500; font-size:44px; line-height:1.5; letter-spacing:-0.6px; color:var(--c-ink); max-width:22em; }
+.phero__title .b{ color:var(--c-accent); }
+.phero__count{ margin-top:26px; display:flex; gap:28px; align-items:baseline; }
+.phero__count .num{ font-family:var(--ff-sans); font-weight:500; font-size:40px; line-height:1; color:var(--c-ink); }
+.phero__count .num .u{ font-family:var(--ff-sc); font-size:20px; }
+.phero__count .lbl{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted); }
+
+/* 企业网格 */
+.biz-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:54px; background:var(--c-grid); border:1px solid var(--c-grid); }
+.bcard{ position:relative; background:var(--c-bg); padding:28px 26px 30px; min-height:176px; display:flex; flex-direction:column; gap:13px; isolation:isolate; transition:background .5s var(--ease); }
+.bcard::before{ content:""; position:absolute; inset:0; z-index:-1; opacity:0; background:var(--c-accent-wash); transition:opacity .5s var(--ease); }
+.bcard:hover::before{ opacity:1; }
+.bcard__name{ font-family:var(--ff-serif); font-weight:600; font-size:21px; line-height:28px; letter-spacing:-0.3px; color:var(--c-ink); }
+.bcard__meta{ display:flex; align-items:center; gap:10px; min-height:18px; }
+.bcard__yr{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.05em; color:var(--c-muted); }
+.bcard__ipo{ font-family:var(--ff-mono); font-size:10px; letter-spacing:.1em; color:var(--c-accent); border:1px solid var(--c-accent-line); border-radius:100px; padding:2px 9px; }
+.bcard__desc{ font-size:13px; line-height:20.5px; letter-spacing:-0.1px; color:var(--c-slate); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+
+@media (max-width:1100px){
+  .phero{ padding-top:150px; } .phero__title{ font-size:34px; }
+  .biz-grid{ grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:640px){ .biz-grid{ grid-template-columns:1fr; } }
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+</head>
+<body>
+
+<video class="pagebg" id="pagebg" autoplay muted loop playsinline preload="auto">
+  <source src="assets/kling_20260612_作品_以上传图为首帧_整幅_4326_0.mp4" type="video/mp4" />
+</video>
+
+<div class="page">
+  <div class="rails-top" id="rails" aria-hidden="true"><div class="rail l"></div><div class="rail r"></div></div>
+
+  <site-nav></site-nav>
+
+  <!-- HERO — 仅文档 Page4 介绍文字 -->
+  <header class="phero" data-bgop="0.10">
+    <h1 class="phero__title">我们投资那些<span class="b">正在定义未来的创业者</span>。从实验室到产业，从技术突破到商业落地，我们陪伴创新者跨越从 0 到 1、从 1 到 100 的成长旅程，共同创造长期价值。</h1>
+    <div class="phero__count" data-reveal style="--d:120ms">
+      <span class="num">79<span class="u">+</span></span><span class="lbl">已投企业 Portfolio</span>
+      <span class="num">14<span class="u">家</span></span><span class="lbl">已上市 IPO</span>
+    </div>
+  </header>
+
+  <!-- 被投企业名单 -->
+  <section class="section" id="portfolio" data-bgop="0.04">
+    <div class="sec-band left sec-anim">
+      <span class="rule top"></span><span class="rule bot"></span>
+      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+        <span class="bt"><span class="cn">被投企业</span></span>
+      </div>
+    </div>
+    <div class="biz-grid">
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">来牟科技</h3><div class="bcard__meta"><span class="bcard__yr">2025</span></div><p class="bcard__desc">专注欧美市场的智能割草机器人公司</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">新研智材</h3><div class="bcard__meta"><span class="bcard__yr">2026</span></div><p class="bcard__desc">AI驱动半导体核心材料研发的技术先锋</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">曦望</h3><div class="bcard__meta"><span class="bcard__yr">2026</span></div><p class="bcard__desc">国内首家估值超百亿的纯推理GPU独角兽</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">镜识科技</h3><div class="bcard__meta"><span class="bcard__yr">2025</span></div><p class="bcard__desc">10m/s刷新四足与双足机器人速度纪录的AI足式机器人公司</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">大工无人机</h3><div class="bcard__meta"><span class="bcard__yr">2025</span></div><p class="bcard__desc">专注于工业无人机研发的国家高新技术企业，国内首个将系留无人机技术推向商业化的企业</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">慧感智能</h3><div class="bcard__meta"><span class="bcard__yr">2025</span></div><p class="bcard__desc">由院士团队创办，专注于AI增强的大面积柔性电子皮肤研发，为具身智能机器人构建“感知神经系统”</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">安弧科技</h3><div class="bcard__meta"><span class="bcard__yr">2025</span></div><p class="bcard__desc">专注于半导体静电卡盘（ESC）研发与生产的初创公司，致力于打破国外长期垄断，推动国产替代进程</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">普思影</h3><div class="bcard__meta"><span class="bcard__yr">2025</span></div><p class="bcard__desc">专注低液氦超导磁体技术，打破进口依赖的MRI国产替代先锋</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">云砺信息/票易通</h3><div class="bcard__meta"><span class="bcard__yr">2015</span></div><p class="bcard__desc">专业的供应链信息协同及增值税发票管理云平台解决方案提供商</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">韦尔股份</h3><div class="bcard__meta"><span class="bcard__yr">2014</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">国内领先、全球排名前列的Fabless半导体设计公司，国产高端图像传感器芯片的龙头企业</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">宏华数科</h3><div class="bcard__meta"><span class="bcard__yr">2024</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">以数码喷印技术为核心的科创板上市公司，国内领先、全球前三的数码喷印设备与综合解决方案提供商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">兆易创新</h3><div class="bcard__meta"><span class="bcard__yr">2018</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">国内存储与MCU双龙头半导体设计公司</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">中科蓝讯</h3><div class="bcard__meta"><span class="bcard__yr">2020</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">全球TWS耳机芯片出货量约30%的无线音频SoC龙头</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">杰华特</h3><div class="bcard__meta"><span class="bcard__yr">2019</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">虚拟IDM模拟芯片设计企业</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">翼菲智能</h3><div class="bcard__meta"><span class="bcard__yr">2015</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">深耕轻工业的工业机器人全品类提供商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">天下房仓</h3><div class="bcard__meta"><span class="bcard__yr">2015</span></div><p class="bcard__desc">国内领先的酒店及旅游行业独立第三方B2B供应链解决方案提供商</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">乐言科技</h3><div class="bcard__meta"><span class="bcard__yr">2017</span></div><p class="bcard__desc">AI驱动的电商SaaS智能服务领跑者</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">小派科技</h3><div class="bcard__meta"><span class="bcard__yr">2016</span></div><p class="bcard__desc">全球领先的高性能VR头显研发制造商</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">光粒科技</h3><div class="bcard__meta"><span class="bcard__yr">2018</span></div><p class="bcard__desc">专注AR智能运动眼镜的科技公司</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">洛丁森</h3><div class="bcard__meta"><span class="bcard__yr">2019</span></div><p class="bcard__desc">高精度工业传感器及仪器仪表专精特新小巨人企业</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">瑞识智能</h3><div class="bcard__meta"><span class="bcard__yr">2019</span></div><p class="bcard__desc">全球领先的VCSEL芯片及光学解决方案提供商</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">星逻智能</h3><div class="bcard__meta"><span class="bcard__yr">2020</span></div><p class="bcard__desc">专注无人机全自动运营的低空智能供应商</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">叠念信息（七云网络）</h3><div class="bcard__meta"><span class="bcard__yr">2020</span></div><p class="bcard__desc">软件定义网络及安全解决方案提供商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">镭明激光</h3><div class="bcard__meta"><span class="bcard__yr">2021</span></div><p class="bcard__desc">国家级专精特新“小巨人”企业</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">九纵智能</h3><div class="bcard__meta"><span class="bcard__yr">2021</span></div><p class="bcard__desc">覆盖半导体封装全制程的国产AOI检测设备领军企业</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">四维创智</h3><div class="bcard__meta"><span class="bcard__yr">2021</span></div><p class="bcard__desc">以AI+YAK为核心驱动力的国家级专精特新小巨人</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">芯诣电子</h3><div class="bcard__meta"><span class="bcard__yr">2022</span></div><p class="bcard__desc">国内唯一覆盖全领域芯片动态老化设备及解决方案的提供商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">时驾科技</h3><div class="bcard__meta"><span class="bcard__yr">2022</span></div><p class="bcard__desc">专注于空气悬架系统的自主研发与制造</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">星微科技</h3><div class="bcard__meta"><span class="bcard__yr">2023</span></div><p class="bcard__desc">半导体精密运动控制专家</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">霞智科技</h3><div class="bcard__meta"><span class="bcard__yr">2023</span></div><p class="bcard__desc">商用智能清洁的领航者</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">飒智智能</h3><div class="bcard__meta"><span class="bcard__yr">2023</span></div><p class="bcard__desc">智能移动共融机器人的先行者</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">西湖烟山</h3><div class="bcard__meta"><span class="bcard__yr">2025</span></div><p class="bcard__desc">全彩Micro LED芯片的领跑者</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">易路软件</h3><div class="bcard__meta"><span class="bcard__yr">2016</span></div><p class="bcard__desc">以薪酬为核心的一站式HR SaaS平台</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">药师帮</h3><div class="bcard__meta"><span class="bcard__yr">2015</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">中国院外医药产业最大的数字化综合服务平台</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">东软智睿</h3><div class="bcard__meta"><span class="bcard__yr">2020</span></div><p class="bcard__desc">中国精准肿瘤放疗技术与服务的引领者</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">新致软件</h3><div class="bcard__meta"><span class="bcard__yr">2012</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">国内领先的软件与AI数智化服务商</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">太美医疗</h3><div class="bcard__meta"><span class="bcard__yr">2018</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">生命科学产业数智化运营平台</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">格科微电子</h3><div class="bcard__meta"><span class="bcard__yr">2020</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">国内领先的CMOS图像传感器与显示驱动芯片厂商</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">每日互动</h3><div class="bcard__meta"><span class="bcard__yr">2016</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">专业的数据智能服务商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">青岛信芯</h3><div class="bcard__meta"><span class="bcard__yr">2019</span></div><p class="bcard__desc">电视显示时序控制芯片全球第一</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">墨库图文</h3><div class="bcard__meta"><span class="bcard__yr">2022</span></div><p class="bcard__desc">国内最大数码喷墨墨水供应商之一</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">季丰电子</h3><div class="bcard__meta"><span class="bcard__yr">2023</span></div><p class="bcard__desc">半导体一站式检测分析解决方案提供商</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">衡石科技</h3><div class="bcard__meta"><span class="bcard__yr">2020</span></div><p class="bcard__desc">国内领先的BI PaaS平台提供商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">舟谱数据</h3><div class="bcard__meta"><span class="bcard__yr">2019</span></div><p class="bcard__desc">快消流通行业数智服务领跑者</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">思岚科技</h3><div class="bcard__meta"><span class="bcard__yr">2015</span></div><p class="bcard__desc">领先的机器人感知与移动技术提供商</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">东犁文化</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">艾锐光电</h3><div class="bcard__meta"><span class="bcard__yr">2016</span></div><p class="bcard__desc">高速光芯片及解决方案提供商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">埃洛克航空</h3><div class="bcard__meta"><span class="bcard__yr">2018</span></div><p class="bcard__desc">城市数字孪生与三维高精度地图服务商</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">瀚巍创芯</h3><div class="bcard__meta"><span class="bcard__yr">2019</span></div><p class="bcard__desc">国内领先的低功耗UWB芯片设计企业</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">丰贺信息</h3><div class="bcard__meta"><span class="bcard__yr">2019</span></div><p class="bcard__desc">业财一体化数据智能服务商</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">嘉赛信息</h3><div class="bcard__meta"><span class="bcard__yr">2020</span></div><p class="bcard__desc">智能终端全场景安全与运营服务商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">晨灏科技（Alphalion）</h3><div class="bcard__meta"><span class="bcard__yr">2021</span></div><p class="bcard__desc">金融科技与美股交易软件服务商</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">蓝幸软件</h3><div class="bcard__meta"><span class="bcard__yr">2021</span></div><p class="bcard__desc">供应链端到端数字化决策平台</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">锘崴信息</h3><div class="bcard__meta"><span class="bcard__yr">2021</span></div><p class="bcard__desc">专业的隐私计算技术服务提供商</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">职行力</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">远眺科技（捷码）</h3><div class="bcard__meta"><span class="bcard__yr">2022</span></div><p class="bcard__desc">面向AIoT的低代码开发平台服务商</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">德固特</h3><div class="bcard__meta"><span class="bcard__yr">2013</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">节能环保装备提供商</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">鹰峰电子</h3><div class="bcard__meta"><span class="bcard__yr">2022</span></div><p class="bcard__desc">电力电子被动元器件国内领军企业</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">Scaleflux</h3><div class="bcard__meta"><span class="bcard__yr">2016</span></div><p class="bcard__desc">全球可计算存储概念的提出者和行业领导者</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">蘑菇财富</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">遇贤微电子</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">朱雀网络</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">百事通（法宝网）</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">凹凸租车（Atzuche）</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">Sentieon</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">东方网信</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">习游文化</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">亮牛半导体</h3><div class="bcard__meta"><span class="bcard__yr">2018</span></div><p class="bcard__desc">物联网高集成度Wi-Fi MCU芯片提供商</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">每步科技</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">雅观科技</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">数途信息</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">径卫视觉</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">仁力名才（MCHR）</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">聚啊信息（众企安链）</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">百特云享（宜构）</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">原圈科技</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">天天数链</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">壹药网</h3><div class="bcard__meta"><span class="bcard__yr">2013</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">科技赋能的医药健康平台</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">阜博</h3><div class="bcard__meta"><span class="bcard__yr">2013</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">数字内容资产保护与交易SaaS平台</p></article>
+    </div>
+  </section>
+
+  <site-footer></site-footer>
+</div>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

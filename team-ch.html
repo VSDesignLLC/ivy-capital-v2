@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>团队 · 常春藤资本 Ivy Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================ TEAM 页专属布局
+   复用共享层组件 (sec-band/sec-box · rails · grid)。
+   文案严格取自飞书《2026官网内容》Page3 团队（仅 block 57 介绍文字）；
+   团队成员资料文档未提供 → 成员卡用占位骨架，不编造姓名/职位。 */
+
+#team{ padding-bottom:var(--gap); }
+
+/* ---------- TEAM HERO（仅文档 Page3 介绍文字） ---------- */
+.thero{ position:relative; padding:200px var(--page-x) 92px; }
+.thero__title{ font-family:var(--ff-serif); font-weight:500; font-size:42px; line-height:1.5; letter-spacing:-0.6px; color:var(--c-ink); max-width:23em; }
+.thero__title .b{ color:var(--c-accent); }
+
+/* ---------- 团队成员网格（占位骨架，待填真实资料） ---------- */
+.team-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:56px; }
+.member{ display:flex; flex-direction:column; gap:18px; }
+.member__photo{ position:relative; aspect-ratio:4/5; overflow:hidden; isolation:isolate;
+  border:1px solid var(--c-hairline); background:linear-gradient(165deg,#efece4 0%,#e6e2d8 100%);
+  transition:transform .6s var(--ease-soft), box-shadow .6s var(--ease-soft), border-color .6s var(--ease-soft);
+  box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),0), 0 36px 64px -30px rgba(var(--c-ink-rgb),0); }
+/* 人形剪影占位：头（圆）+ 肩身（半圆） */
+.member__photo::before{ content:""; position:absolute; left:50%; top:30%; transform:translateX(-50%);
+  width:33%; aspect-ratio:1; border-radius:50%; background:rgba(var(--c-ink-rgb),.09); }
+.member__photo::after{ content:""; position:absolute; left:50%; bottom:-8%; transform:translateX(-50%);
+  width:64%; height:48%; border-radius:50% 50% 0 0; background:rgba(var(--c-ink-rgb),.09); }
+.member__corner{ position:absolute; width:13px; height:13px; opacity:.4; z-index:1; }
+.member__corner.tl{ left:11px; top:11px; border-left:1px solid var(--c-ink); border-top:1px solid var(--c-ink); }
+.member__corner.br{ right:11px; bottom:11px; border-right:1px solid var(--c-ink); border-bottom:1px solid var(--c-ink); }
+.member:hover .member__photo{ transform:translateY(-6px); border-color:var(--c-accent-line);
+  box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),.10), 0 14px 30px -14px rgba(var(--c-ink-rgb),.14), 0 36px 64px -30px rgba(var(--c-ink-rgb),.20); }
+.member__meta{ display:flex; flex-direction:column; gap:11px; padding-top:2px; }
+/* 姓名 / 职位（placeholder 占位文字，待填真实资料） */
+.member__name{ font-family:var(--ff-serif); font-weight:600; font-size:20px; line-height:26px; letter-spacing:-0.3px; color:var(--c-ink); }
+.member__role{ font-size:13px; line-height:19px; letter-spacing:.02em; color:var(--c-muted); }
+
+/* ---------- narrow safety ---------- */
+@media (max-width:1100px){
+  .thero{ padding-top:150px; }
+  .thero__title{ font-size:32px; }
+  .team-grid{ grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:640px){
+  .team-grid{ grid-template-columns:1fr; }
+}
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+</head>
+<body>
+
+<!-- GLOBAL fixed video background（与首页同源，团队页压得很淡） -->
+<video class="pagebg" id="pagebg" autoplay muted loop playsinline preload="auto">
+  <source src="assets/kling_20260612_作品_以上传图为首帧_整幅_4326_0.mp4" type="video/mp4" />
+</video>
+
+<div class="page">
+
+  <div class="rails-top" id="rails" aria-hidden="true">
+    <div class="rail l"></div>
+    <div class="rail r"></div>
+  </div>
+
+  <!-- NAV (共享单一来源) -->
+  <site-nav></site-nav>
+
+  <!-- TEAM HERO — 仅文档 Page3 介绍文字 -->
+  <header class="thero" data-bgop="0.10">
+    <h1 class="thero__title" data-reveal>我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以<span class="b">长期陪伴和深度连接</span>，共同穿越技术创新与企业成长的周期。</h1>
+  </header>
+
+  <!-- 团队成员 — 占位骨架（文档未提供成员资料） -->
+  <section class="section" id="team" data-bgop="0.04">
+    <div class="sec-band left sec-anim">
+      <span class="rule top"></span><span class="rule bot"></span>
+      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+        <span class="bt"><span class="cn">团队</span></span>
+      </div>
+    </div>
+    <div class="team-grid">
+      <article class="member" data-reveal><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">创始合伙人</span></div></article>
+      <article class="member" data-reveal style="--d:70ms"><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">管理合伙人</span></div></article>
+      <article class="member" data-reveal style="--d:140ms"><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">合伙人</span></div></article>
+      <article class="member" data-reveal style="--d:210ms"><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">董事总经理</span></div></article>
+      <article class="member" data-reveal><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">投资总监</span></div></article>
+      <article class="member" data-reveal style="--d:70ms"><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">投资副总裁</span></div></article>
+      <article class="member" data-reveal style="--d:140ms"><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">投资经理</span></div></article>
+      <article class="member" data-reveal style="--d:210ms"><div class="member__photo"><span class="member__corner tl"></span><span class="member__corner br"></span></div><div class="member__meta"><span class="member__name">成员姓名</span><span class="member__role">投资分析师</span></div></article>
+    </div>
+  </section>
+
+  <!-- FOOTER (共享单一来源) -->
+  <site-footer></site-footer>
+
+</div>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>
