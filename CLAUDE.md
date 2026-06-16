@@ -57,6 +57,20 @@
   以及去哪个 URL 看(`http://localhost:8765/homepage-ch.html`)。
 - 真实数据 / 真实效果拿不到就说"拉不到",不编造验证结论。
 
+## Git 协作(与队友共仓)
+
+- **分支按「文件夹」分,不按 session / 终端分**:同一个项目文件夹只有一套 git 状态和一套文件,
+  所有指向它的终端 / 编辑器 / Claude session 看到的是**同一个分支**。`git switch` 立即改整个
+  文件夹的文件,**与 push 无关**(push 只往远端同步)。
+- **同一文件夹下别让两个 session 同时改同一个文件**:磁盘是后写覆盖先写、无冲突提示。
+  多 session 并行时**分工改不同文件**,或同一时间只一个动手。需要真正隔离再用 `git worktree`。
+- **基于队友分支做迭代**:不要直接在队友分支上改。从远端分支开自己的新分支:
+  `git switch -c <我的分支> origin/<队友分支>`,然后 `git branch --unset-upstream`
+  防止普通 `git push` 误推到队友分支。第一次推送用 `git push -u origin <我的分支>`。
+- **想同步队友最新**:`git fetch origin`,需要时再 merge。
+- **落地到线上**:review 后把分支并进 `main`(推荐开 PR 留痕)。
+  并进 main 即触发 Vercel 自动部署,见下节。
+
 ## 部署(GitHub + Vercel,已配好)
 
 - **GitHub 仓库**:`VSDesignLLC/ivy-capital-v2`(组织下,**public** —— Vercel Hobby 套餐做
