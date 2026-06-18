@@ -7,16 +7,18 @@
 .vercel
 node_modules/
 
-# 未被 homepage 引用的大体积媒体（仅本地保留，不入库不部署）
-assets/about-flow.png
-assets/footer-bg-archive.png
-assets/kling-20260611-seamless-4125.mp4
-assets/kling-20260612-extra.mp4
-assets/kling-20260612-3634.mp4
-assets/kling-20260612-3648.mp4
-
-# 交付/暂存原始素材夹（大体积、含未选中版本，仅本地保留）
-assets/visual assets 0616/
+# ──────────────────────────────────────────────────────────────
+# assets/ 策略：默认忽略 assets/ 下所有「素材文件」（图片/视频/原始夹），
+# 只有人工挑选过、放进 assets/applied/ 的素材才入库 + 部署。
+# 例外（必须入库）：共享层代码 css/ js/，以及 README。
+# 注意：gitignore 不会移除「已被跟踪」的文件——现有已跟踪的图/视频仍在库、
+# 仍部署；待部署前把要用的搬进 assets/applied/、改完 HTML 引用后，再 git rm 旧的。
+# ──────────────────────────────────────────────────────────────
+assets/*
+!assets/applied/
+!assets/css/
+!assets/js/
+!assets/README.md
 
 # 本地备份快照（仅本地保留，见 CLAUDE.md 备份约定）
 backup/
