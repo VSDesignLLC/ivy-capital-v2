@@ -8,7 +8,9 @@ DESIGN-SYSTEM.backup-*.md
 
 # 设计系统 / 文档 / 工作区文件（不对外）
 design-system.html
+component-library.html
 DESIGN-SYSTEM.md
+COMPONENT-STANDARDS.md
 README.md
 CLAUDE.md
 tests/

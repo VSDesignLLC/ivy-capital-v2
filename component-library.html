@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>常春藤资本 · Component Library</title>
+
+<!-- ============================================================
+     共享层活预览 · 零样式复制
+     所有组件样式均来自下方 link 进来的 canonical CSS（assets/css/*）。
+     改了 canonical，这页自动跟着变。本页 <style> 只含页面 chrome，
+     不引入 site.js（避免 nav 滚动收起等副作用）。
+     ============================================================ -->
+
+<!-- 1) fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<!-- 2) canonical 共享层 — 顺序严格：tokens → base → components → 页面 chrome → motion(最后) -->
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+
+<style>
+/* ============================================================
+   PAGE CHROME ONLY — 组件取自 base.css / components.css（单一来源）。
+   此处仅页面骨架 + 几处「明确批准」的作用域覆盖（见注释）。
+   绝不改变 canonical 组件类的全局行为。
+   ============================================================ */
+
+/* —— 作用域覆盖 ① 因为不引 site.js，注入的 <site-footer> markup 带 data-reveal，
+      默认被 motion.css 隐藏（opacity:0）。这里强制显影，否则 footer 整块透明。 —— */
+[data-reveal]{ opacity:1 !important; transform:none !important; }
+
+/* —— 作用域覆盖 ② nav 是 position:fixed，给放 nav 的舞台改回 static（同 design-system.html）—— */
+.navstage .nav{ position:static; left:auto; top:auto; transform:none; width:100%; }
+
+/* —— 作用域覆盖 ③ .tags 默认 opacity:0 / grid-template-rows:0fr（hover 才展开）。
+      仅在原子预览盒 .atom-tags 内强制展开可见；不影响 .card 内的 .tags（仍保留 hover 效果）。 —— */
+.atom-tags .tags{ display:flex; gap:8px; opacity:1; transform:none; grid-template-rows:1fr; }
+
+/* ===== layout ===== */
+.cl-head{ border-bottom:1px solid var(--c-grid); padding:72px 64px 44px; position:relative; overflow:hidden; }
+.cl-head::before{ content:""; position:absolute; left:64px; top:0; bottom:0; width:1px; background:var(--c-grid); opacity:.5; }
+.cl-head::after{ content:""; position:absolute; right:64px; top:0; bottom:0; width:1px; background:var(--c-grid); opacity:.5; }
+.cl-kicker{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--c-accent); margin-bottom:18px; display:flex; gap:9px; align-items:center; }
+.cl-kicker .dot{ width:7px; height:7px; border-radius:3.5px; background:var(--c-accent); }
+.cl-title{ font-family:var(--ff-serif); font-weight:500; font-size:54px; line-height:1.1; letter-spacing:-1px; }
+.cl-title .ital{ font-family:var(--ff-ital); font-style:italic; color:var(--c-accent); }
+.cl-sub{ margin-top:16px; color:var(--c-slate); font-size:16px; line-height:1.7; max-width:760px; }
+.cl-sub code{ font-family:var(--ff-mono); font-size:13px; color:var(--c-accent); }
+.cl-meta{ margin-top:22px; display:flex; gap:24px; flex-wrap:wrap; font-family:var(--ff-mono); font-size:12px; color:var(--c-muted); letter-spacing:.04em; }
+
+/* ===== sticky TOC ===== */
+.toc{ position:sticky; top:0; z-index:50; height:56px; display:flex; align-items:center; gap:8px; overflow-x:auto;
+  padding:0 64px; background:rgba(var(--c-bg-rgb),.86); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--c-hairline); }
+.toc .lab{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--c-muted); margin-right:6px; white-space:nowrap; }
+.toc a{ font-family:var(--ff-mono); font-size:12px; color:var(--c-slate); padding:7px 14px; border:1px solid var(--c-hairline); border-radius:100px; white-space:nowrap; transition:color .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease); }
+.toc a:hover{ color:var(--c-accent); border-color:var(--c-accent-line); background:var(--c-accent-wash); }
+
+/* ===== tier section ===== */
+main{ padding:0 64px 120px; }
+.tier{ padding:64px 0 24px; border-bottom:1px solid var(--c-hairline); scroll-margin-top:72px; }
+.tier:last-of-type{ border-bottom:0; }
+.tier__head{ display:flex; align-items:baseline; gap:16px; margin-bottom:10px; flex-wrap:wrap; }
+.tier__no{ font-family:var(--ff-mono); font-size:13px; letter-spacing:.16em; color:var(--c-accent); }
+.tier__h{ font-family:var(--ff-serif); font-weight:500; font-size:32px; letter-spacing:-.5px; }
+.tier__en{ font-family:var(--ff-ital); font-style:italic; font-size:24px; color:var(--c-muted); }
+.tier__desc{ color:var(--c-muted); font-size:14px; line-height:1.7; max-width:760px; margin-bottom:20px; }
+
+/* ===== spec row ===== left = class handle + 描述 / right = live stage */
+.spec{ display:grid; grid-template-columns:minmax(260px,340px) 1fr; gap:56px; align-items:start;
+  padding:44px 0; border-top:1px solid var(--c-hairline); }
+.spec:first-of-type{ border-top:0; }
+.spec__class{ font-family:var(--ff-mono); font-size:21px; font-weight:500; color:var(--c-accent); letter-spacing:-.02em; word-break:break-word; }
+.spec__src{ font-family:var(--ff-mono); font-size:11px; color:var(--c-muted); letter-spacing:.04em; margin-top:5px; }
+.spec__desc{ font-size:14px; line-height:1.7; color:var(--c-slate); margin-top:14px; }
+.spec__meta{ margin-top:16px; display:flex; flex-direction:column; gap:7px; }
+.spec__meta .r{ display:grid; grid-template-columns:60px 1fr; gap:10px; font-size:12px; line-height:1.5; }
+.spec__meta .k{ font-family:var(--ff-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--c-accent); padding-top:2px; }
+.spec__meta .v{ color:var(--c-slate); }
+.spec__meta .v code{ font-family:var(--ff-mono); font-size:11px; color:var(--c-ink); background:var(--c-accent-wash); padding:1px 5px; border-radius:3px; }
+.hint{ display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-size:12px; color:var(--c-accent); font-family:var(--ff-mono); }
+
+/* ===== stage（渲染舞台）===== */
+.stage{ position:relative; min-height:170px; padding:40px; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:28px;
+  background:var(--c-bg); border:1px solid var(--c-hairline); border-radius:2px; }
+.stage--photo{ background:#cfd3da url("assets/footer-bg.jpg") center/cover; }
+.stage--dark{ background:linear-gradient(158deg,#16233d 0%,#0d1b2a 58%,#091324 100%); }
+.stage--bleed{ padding:0; align-items:stretch; justify-content:stretch; }
+.stage--bleed > *{ width:100%; }
+
+/* 原子预览：让 absolute 元素停在自然位置的小盒子 */
+.relbox{ position:relative; width:190px; height:120px; border:1px dashed var(--c-tag-line); background:var(--c-bg); }
+.relbox.dark{ background:#0d1b2a; border-color:rgba(255,255,255,.2); }
+
+footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-family:var(--ff-mono); font-size:12px; color:var(--c-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+
+/* ============================================================
+   组件规范重构新增 chrome（cl-/fam- 前缀，绝不污染 canonical 组件类）
+   ① 家族分组头（file-tree 缩进感）② 多变体子标签 ③ 双名句柄
+   ============================================================ */
+/* ③ 双名句柄：大号 .spec__class = 规范目标名；紧跟小号注解现行 canonical 名 */
+.spec__alias{ font-family:var(--ff-mono); font-size:12px; font-weight:400; letter-spacing:.02em; color:var(--c-muted); margin-left:10px; vertical-align:baseline; }
+.cl-branch{ font-family:var(--ff-mono); font-size:15px; font-weight:400; color:var(--c-accent); opacity:.7; margin-right:9px; }
+
+/* ① 家族分组头 + 成员归属（缩进）视觉 */
+.fam{ padding:8px 0 0; }
+.fam__head{ position:relative; padding:24px 26px; border:1px solid var(--c-accent-line); border-radius:3px; background:var(--c-accent-wash); }
+.fam__top{ display:flex; align-items:baseline; gap:13px; flex-wrap:wrap; }
+.fam__name{ font-family:var(--ff-mono); font-size:21px; font-weight:500; color:var(--c-accent); letter-spacing:-.01em; }
+.fam__label{ font-family:var(--ff-serif); font-weight:500; font-size:19px; color:var(--c-ink); }
+.fam__en{ font-family:var(--ff-ital); font-style:italic; font-size:16px; color:var(--c-muted); }
+.fam__note{ margin-top:12px; font-size:13px; line-height:1.75; color:var(--c-slate); max-width:780px; }
+.fam__note code{ font-family:var(--ff-mono); font-size:11px; color:var(--c-accent); background:rgba(var(--c-bg-rgb),.55); padding:1px 5px; border-radius:3px; }
+.fam__tree{ margin-top:18px; font-family:var(--ff-mono); font-size:12.5px; line-height:1.9; color:var(--c-slate); white-space:pre; overflow-x:auto; }
+.fam__tree b{ color:var(--c-accent); font-weight:500; }
+.fam__tree i{ color:var(--c-muted); font-style:normal; }
+.fam__members{ padding-left:32px; margin-top:2px; }
+
+/* ② 一个 stage 内多变体：每个变体实例 + 下方一行 caption 子标签 */
+.cl-var{ display:flex; flex-direction:column; align-items:center; gap:14px; }
+.cl-var__cap{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.05em; color:var(--c-muted); text-align:center; line-height:1.55; }
+.cl-var__cap code{ font-family:var(--ff-mono); color:var(--c-accent); background:var(--c-accent-wash); padding:1px 6px; border-radius:3px; }
+.cl-var__cap b{ color:var(--c-accent); font-weight:500; }
+.cl-var__note{ display:block; margin-top:5px; color:var(--c-muted); font-size:10px; letter-spacing:.02em; max-width:230px; }
+
+/* grid-overlay 预览容器：画出 rail 上下文，让竖线落点 = rail 间等分（chrome helper）*/
+.grid-demo{ position:relative; width:100%; height:200px; overflow:hidden; background:var(--c-bg); border:1px solid var(--c-hairline); border-radius:2px; }
+.grid-demo::before, .grid-demo::after{ content:""; position:absolute; top:0; bottom:0; width:1px; background:var(--c-grid); opacity:.5; z-index:1; }
+.grid-demo::before{ left:var(--rail); } .grid-demo::after{ right:var(--rail); }
+.grid-demo .rail-tag{ position:absolute; top:7px; font-family:var(--ff-mono); font-size:9.5px; letter-spacing:.08em; color:var(--c-muted); z-index:2; }
+</style>
+
+<!-- 3) motion.css 必须最后 load（覆盖前面的动画状态） -->
+<link rel="stylesheet" href="assets/css/motion.css" />
+
+<!-- 4) partials.js 同步加载于 <head>：解析到 <site-nav>/<site-footer> 即时升级注入。不引 site.js。 -->
+<script src="assets/js/partials.js"></script>
+</head>
+<body>
+
+<header class="cl-head">
+  <div class="cl-kicker"><span class="dot"></span>Component Library · 渲染自 canonical 共享层 · design-system.html 的姊妹页</div>
+  <div class="cl-title">常春藤资本 <span class="ital">Component Library</span></div>
+  <p class="cl-sub">站点全部可复用组件的「活预览页」。所有标记 link 同一套 canonical 共享层（<code>assets/css</code> + <code>assets/js</code>）渲染——<b>零样式复制</b>，改了 <code>components.css</code> / <code>base.css</code> / <code>tokens.css</code>，这页自动同步。本页按 <code>COMPONENT-STANDARDS.md</code> 规范组织：<b>四层分层</b>（原子 → 分子 → 复合 → 布局骨架）+ <b>家族前缀聚类</b>（如 <code>card-</code>）+ <b>一个组件一个条目、并列展示其全部变体 / 状态</b>。每条目给出类名引用句柄（含家族前缀，小字括注现行 canonical 名）、源文件、关键 token 与 hover 行为，舞台即为「看源码即范例」的实例。</p>
+  <div class="cl-meta"><span>SOURCE · assets/css/{tokens,base,components,motion}.css</span><span>NAV/FOOTER · assets/js/partials.js</span><span>SIBLING · design-system.html</span></div>
+</header>
+
+<nav class="toc">
+  <span class="lab">目录</span>
+  <a href="#tier0">0 · 原子 Atoms</a>
+  <a href="#tier1">1 · 分子 Molecules</a>
+  <a href="#tier2">2 · 复合 Composites</a>
+  <a href="#card-family">↳ Card 家族 card-*</a>
+  <a href="#tier3">3 · 布局骨架 Layout</a>
+</nav>
+
+<main>
+
+  <!-- ============================================================ TIER 0 -->
+  <section class="tier" id="tier0">
+    <div class="tier__head"><span class="tier__no">TIER 0</span><h2 class="tier__h">原子</h2><span class="tier__en">Atoms</span></div>
+    <p class="tier__desc">最小的不可再分单元：单个圆点（含呼吸变体）、标注文字、角标、标签、引言、章节标题。它们是分子与复合组件的构件，多数定义在 <code>base.css</code> 的结构原语层与 <code>components.css</code> 的局部类里。徽章（<code>__badge</code>）已归位至复合区的 <code>card-project</code> —— 它是项目卡的可选子元素，非独立原子。</p>
+
+    <!-- dot · dot--live（同一原子的静态 / 呼吸两态）-->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.dot · .dot--live</div>
+        <div class="spec__src">base.css · components.css（dot-halo）</div>
+        <div class="spec__desc">品牌蓝圆点，7×7、半径 3.5、<code>flex:none</code>。<b>三者厘清</b>：<code>.dot</code> = 静态原子；<code>@keyframes dot-halo</code> = 呼吸动画（motion 原语，<b>不是组件</b>、不单独上页）；<code>.dot--live</code> = <code>.dot</code> + 跑 dot-halo 的 halo <code>::before</code> 组成的<b>呼吸变体原子</b>，本应能独立渲染。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--c-accent</code> · <code>@keyframes dot-halo</code></span></div>
+          <div class="r"><span class="k">现状</span><span class="v">⚠ halo 配方<b>困在 <code>.btn .dot::before</code></b>（+ homepage 内联各一份），<code>.dot--live</code> 尚非共享原子 → 单独放<b>不会呼吸</b>，呼吸效果暂见分子区 <code>.btn</code>。</span></div>
+          <div class="r"><span class="k">R2</span><span class="v">把配方提到 <code>.dot--live::before</code> 单一来源、<code>.btn</code> 改组合 <code>class="dot dot--live"</code> —— 届时此处即可真实预览独立呼吸点。</span></div>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="cl-var">
+          <span class="dot"></span>
+          <div class="cl-var__cap"><code>.dot</code> · 静态原子<span class="cl-var__note">当前唯一能独立渲染的态</span></div>
+        </div>
+        <div class="cl-var">
+          <span class="dot" style="opacity:.45"></span>
+          <div class="cl-var__cap"><code>.dot--live</code> · 呼吸变体<span class="cl-var__note">暂不能独立预览（配方在 .btn）；R2 提取后于此真实呈现</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- .caption -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.caption</div>
+        <div class="spec__src">base.css</div>
+        <div class="spec__desc">eyebrow / 标注文字。11/16.5、大写、字距 <code>0.15em</code>、muted 灰。用于「第 N 期基金」「募集中」等小标。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--c-muted</code> · <code>--tracking-caption</code> .15em</span></div>
+        </div>
+      </div>
+      <div class="stage"><span class="caption">第六期基金 · 募集中</span></div>
+    </div>
+
+    <!-- .corner -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.corner .tl / .br</div>
+        <div class="spec__src">components.css</div>
+        <div class="spec__desc">图纸式直角角标，14×14、<code>position:absolute</code>、默认 ink 描边 opacity .4。装饰策略卡 / 奖项卡 / 章节框的对角。下方放进一个 <code>position:relative</code> 小盒，让 tl 停左上、br 停右下。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--c-ink</code> 描边（<code>.tc</code>/<code>.sec-box</code> 内覆盖为 accent）</span></div>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="relbox"><span class="corner tl"></span><span class="corner br"></span></div>
+      </div>
+    </div>
+
+    <!-- .tags -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.tags / .tags span</div>
+        <div class="spec__src">components.css</div>
+        <div class="spec__desc">标签胶囊组。胶囊 11/16.5、字距 .03em、<code>--c-tag-line</code> 描边、半径 100。生产里默认 <code>opacity:0 / grid-template-rows:0fr</code>，卡片 hover 才展开——此处在 <code>.atom-tags</code> 作用域内强制展开以便预览（不影响 <code>.card</code> 内的 hover 行为）。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--c-tag-line</code> · <code>--c-slate</code></span></div>
+          <div class="r"><span class="k">hover</span><span class="v">在 <code>.card:hover</code> 内 grid-rows 0fr→1fr 展开</span></div>
+        </div>
+      </div>
+      <div class="stage atom-tags">
+        <div class="tags"><div class="tags__inner"><span>基础模型</span><span>垂直应用</span><span>智能体</span></div></div>
+      </div>
+    </div>
+
+    <!-- .intro -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.intro</div>
+        <div class="spec__src">base.css</div>
+        <div class="spec__desc">section 引言正文。18/28、字距 -0.3、ink 色、最大宽 760。各 section 开篇的导语段落。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--c-ink</code> · max-width 760</span></div>
+        </div>
+      </div>
+      <div class="stage" style="justify-content:flex-start">
+        <p class="intro">常春藤资本专注深科技领域，重点关注人工智能、芯片半导体与智能制造，更相信人与技术长期积累所创造的价值。</p>
+      </div>
+    </div>
+
+    <!-- .sec-head -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.sec-head (.rn / .cn)</div>
+        <div class="spec__src">base.css</div>
+        <div class="spec__desc">章节标题原语：<code>.rn</code> 罗马数字（Instrument Serif 斜体 36）+ <code>.cn</code> 中文标题（Noto Serif SC 36 / -0.64），基线对齐、accent 蓝。复合进 <code>.sec-box</code> 用作带框标题；III. 章节单独左对齐内联。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--ff-ital</code> · <code>--ff-serif</code> · <code>--c-accent</code></span></div>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="sec-head"><span class="rn">II.</span><span class="cn">投资策略</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ TIER 1 -->
+  <section class="tier" id="tier1">
+    <div class="tier__head"><span class="tier__no">TIER 1</span><h2 class="tier__h">分子</h2><span class="tier__en">Molecules</span></div>
+    <p class="tier__desc">由原子组合而成、可独立使用的小部件：按钮、邮箱胶囊、社交圆钮、带框章节标题、跑马灯。玻璃质感组件放在图底 / navy 舞台上以显出折射。（地址卡 <code>.locard</code> 与奖项卡 <code>.tc</code> 均属卡片，已上移复合区 Card 家族，分别为 <code>card-location</code> / <code>card-award</code>。）</p>
+
+    <!-- .btn -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.btn（含 .dot）</div>
+        <div class="spec__src">components.css</div>
+        <div class="spec__desc">液态玻璃胶囊按钮，半径 999、18px、内含呼吸蓝点（dot-halo 光晕在此能动）。多层 inset 高光 + 蓝调描边环（::after mask）+ 镜面高光（::before）。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--c-accent</code> · <code>--c-accent-2</code> 描边环 · <code>--ease</code></span></div>
+          <div class="r"><span class="k">hover</span><span class="v">translateY -2px scale 1.015 · 蓝点放大发光 · 高光下滑</span></div>
+        </div>
+        <span class="hint">↑ hover 查看上浮 + 发光</span>
+      </div>
+      <div class="stage stage--photo">
+        <button class="btn"><span class="dot"></span>了解更多</button>
+      </div>
+    </div>
+
+    <!-- .mailpill -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.mailpill</div>
+        <div class="spec__src">components.css</div>
+        <div class="spec__desc">footer 邮箱玻璃胶囊。半径 999、半透明白 + blur、accent 蓝点 + 标签 + 邮箱地址，17px。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--c-accent</code>（.l）· <code>--c-ink</code>（.m）</span></div>
+          <div class="r"><span class="k">hover</span><span class="v">translateY -2px · 底色提亮</span></div>
+        </div>
+        <span class="hint">↑ hover 查看上浮</span>
+      </div>
+      <div class="stage stage--photo">
+        <a class="mailpill" href="#"><span class="dot"></span><span class="l">项目投递</span><span class="m">xxxx @ gmail.com</span></a>
+      </div>
+    </div>
+
+    <!-- .footer__social -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.footer__social a</div>
+        <div class="spec__src">components.css</div>
+        <div class="spec__desc">社交玻璃圆钮，56×56 圆形、半透明白 + 白描边 + blur，居中放 24px 图标（<code>.big</code> 放 30px）。微信 / 小红书 / LinkedIn。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">资源</span><span class="v"><code>assets/social-1~3.svg</code></span></div>
+          <div class="r"><span class="k">hover</span><span class="v">translateY -3px · 底色提亮</span></div>
+        </div>
+        <span class="hint">↑ hover 查看上浮</span>
+      </div>
+      <div class="stage stage--photo">
+        <div class="footer__social">
+          <a href="#"><img src="assets/social-1.svg" alt="微信"></a>
+          <a href="#" class="big"><img src="assets/social-2.svg" alt="小红书"></a>
+          <a href="#"><img src="assets/social-3.svg" alt="LinkedIn"></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- .sec-band / .sec-box -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.sec-band / .sec-box</div>
+        <div class="spec__src">base.css</div>
+        <div class="spec__desc">带框章节标题原语：满宽双横线（<code>.rule.top/.bot</code>）+ 居中蓝框（<code>.sec-box</code>，框线 accent .4）+ 对角蓝角标 + <code>.bt</code> 标题。注意 <code>.sec-band</code> 有负 margin（rail−page-x），故放在有内距的舞台里。<b>本预览不加 sec-anim</b>（避免被 motion.css 隐藏）。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--c-grid</code> 横线 · <code>--c-accent</code> 框/角标 · <code>--rail</code></span></div>
+          <div class="r"><span class="k">入场</span><span class="v">生产里加 <code>.sec-anim</code>：横线展开→框显影→角落位→文字浮起</span></div>
+        </div>
+      </div>
+      <div class="stage" style="padding:40px 64px">
+        <div class="sec-band" style="width:100%">
+          <span class="rule top"></span><span class="rule bot"></span>
+          <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+            <span class="bt"><span class="rn">IV.</span><span class="cn">荣誉奖项</span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- .marquee -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.marquee</div>
+        <div class="spec__src">components.css</div>
+        <div class="spec__desc">无缝横向跑马灯。左右内缩 <code>--rail</code>、上下网格横线、accent-wash 渐变底。<code>__track</code> translateX −50% 38s linear 循环（轨道内容需复制一份才无缝），hover 暂停。<code>.name</code> 名称 + <code>.dia</code> 菱形分隔。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--rail</code> · <code>--c-grid</code> · <code>--c-accent-wash</code></span></div>
+          <div class="r"><span class="k">hover</span><span class="v">animation-play-state paused</span></div>
+        </div>
+        <span class="hint">↑ hover 暂停滚动</span>
+      </div>
+      <div class="stage stage--bleed" style="align-items:center;min-height:auto">
+        <div class="marquee">
+          <div class="marquee__track">
+            <div class="marquee__item"><span class="name">芯片半导体</span><span class="dia">◆</span><span class="name">人工智能</span><span class="dia">◆</span><span class="name">智能制造</span><span class="dia">◆</span><span class="name">新材料</span><span class="dia">◆</span><span class="name">生命科学</span><span class="dia">◆</span></div>
+            <div class="marquee__item"><span class="name">芯片半导体</span><span class="dia">◆</span><span class="name">人工智能</span><span class="dia">◆</span><span class="name">智能制造</span><span class="dia">◆</span><span class="name">新材料</span><span class="dia">◆</span><span class="name">生命科学</span><span class="dia">◆</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================ TIER 2 -->
+  <section class="tier" id="tier2">
+    <div class="tier__head"><span class="tier__no">TIER 2</span><h2 class="tier__h">复合</h2><span class="tier__en">Composites</span></div>
+    <p class="tier__desc">由原子 + 分子拼装的完整功能块。先以 <b>Card 家族（<code>card-</code> 前缀）</b> 聚类四种卡片——策略 / 项目 / 奖项 / 地址，体现「文件树」式层级；再列其真实使用环境滚动奖项 ticker，以及全站统一注入的导航与页脚。nav / footer 用真实自定义元素 <code>&lt;site-nav&gt;</code> / <code>&lt;site-footer&gt;</code>（partials.js 单一来源）。</p>
+
+    <!-- ===== Card 家族 · card-* ===== -->
+    <div class="fam" id="card-family">
+      <div class="fam__head">
+        <div class="fam__top">
+          <span class="fam__name">card-</span>
+          <span class="fam__label">卡片家族</span>
+          <span class="fam__en">Card family</span>
+        </div>
+        <p class="fam__note">同属一类、解剖结构各异的卡片用统一前缀 <code>card-</code> 聚类（「文件树」式层级感）。<b>类名为规范目标名</b>；现行 canonical 仍用括注现名（如 <code>现 .pcard</code>），markup 仍按真实现名渲染——改名落地见 <code>COMPONENT-STANDARDS.md</code> 的 R3。</p>
+        <div class="fam__tree"><b>card-</b>                            <i>家族（卡片）</i>
+├─ <b>card-strategy</b>   (.card)          <i>投资方向 / 策略卡</i>
+├─ <b>card-project</b>    (.pcard)         <i>被投企业卡</i>
+│   ├─ __badge                     <i>可选徽章子元素</i>
+│   └─ --no-badge                  <i>无徽章变体</i>
+├─ <b>card-award</b>      (.ticker .tc)    <i>奖项文字卡</i>
+│   └─ __kick __quote __org __award
+└─ <b>card-location</b>   (.locard)        <i>地址定位卡 · hover 浮出天际线</i>
+    └─ --sh / --hk                 <i>城市纹理对位变体</i></div>
+      </div>
+
+      <div class="fam__members">
+
+        <!-- ├─ card-strategy（现 .card） -->
+        <div class="spec">
+          <div>
+            <div class="spec__class"><span class="cl-branch">├─</span>.card-strategy<span class="spec__alias">现 .card</span></div>
+            <div class="spec__src">components.css</div>
+            <div class="spec__desc">投资方向 / 策略卡，高 378。底图 + 常驻窄渐变带托标题 + 对角角标 + 序号/标签头。hover 上浮、描边变蓝、底图放大、白色渐变上爬、<code>.tags</code> 从 0fr 展开。</div>
+            <div class="spec__meta">
+              <div class="r"><span class="k">资源</span><span class="v"><code>assets/strategy-ai.png</code></span></div>
+              <div class="r"><span class="k">token</span><span class="v"><code>--c-hairline</code>→<code>--c-accent-line</code> · <code>--ease-soft</code></span></div>
+              <div class="r"><span class="k">hover</span><span class="v">translateY -6px · 渐变加深 · tags 展开 · 阴影显形</span></div>
+            </div>
+            <span class="hint">↑ hover 查看上浮 + tags 展开</span>
+          </div>
+          <div class="stage">
+            <div class="card" style="width:320px">
+              <img class="card__bg" src="assets/strategy-ai.png" alt="">
+              <div class="card__grad"></div>
+              <span class="corner tl"></span><span class="corner br"></span>
+              <div class="card__top"><span class="idx">// 01</span><span class="tag">AI</span></div>
+              <div class="card__foot">
+                <div class="card__title">AI <span class="b">软件及硬件</span></div>
+                <div class="tags"><div class="tags__inner"><span>基础模型</span><span>垂直应用</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ├─ card-project（现 .pcard）· 有 / 无徽章两态 -->
+        <div class="spec">
+          <div>
+            <div class="spec__class"><span class="cl-branch">├─</span>.card-project<span class="spec__alias">现 .pcard</span></div>
+            <div class="spec__src">components.css</div>
+            <div class="spec__desc">被投企业卡，正方 1:1。底图 + 标题 + 可选股票代码徽章（<code>__badge</code>）。hover 上浮、底部霜玻璃块（<code>__plate</code>）由下生长、描述（<code>.d</code>）从 0fr 展开。<b>一条目并列两态</b>：含 / 不含 <code>__badge</code> —— 徽章是可选子元素，由标记是否包含该元素控制（无徽章可加表意修饰符 <code>--no-badge</code> 微调布局），canonical 本就支持，无需改 CSS。</div>
+            <div class="spec__meta">
+              <div class="r"><span class="k">资源</span><span class="v"><code>assets/proj-3817.png</code></span></div>
+              <div class="r"><span class="k">子元素</span><span class="v"><code>__bg · __plate · __badge · __foot(.t/.d)</code></span></div>
+              <div class="r"><span class="k">hover</span><span class="v">霜玻璃块 clip-path 生长 · 描述展开</span></div>
+            </div>
+            <span class="hint">↑ hover 查看霜玻璃块生长</span>
+          </div>
+          <div class="stage">
+            <div class="cl-var">
+              <div class="pcard" style="width:240px">
+                <img class="pcard__bg" src="assets/proj-3817.png" alt="">
+                <div class="pcard__plate"></div>
+                <span class="pcard__badge">688728</span>
+                <div class="pcard__foot">
+                  <div class="t">格科微电子</div>
+                  <div class="d"><div class="d-inner">CMOS 图像传感器与显示驱动芯片设计</div></div>
+                </div>
+              </div>
+              <div class="cl-var__cap">有徽章 · 含 <code>__badge</code></div>
+            </div>
+            <div class="cl-var">
+              <div class="pcard" style="width:240px">
+                <img class="pcard__bg" src="assets/proj-3817.png" alt="">
+                <div class="pcard__plate"></div>
+                <div class="pcard__foot">
+                  <div class="t">格科微电子</div>
+                  <div class="d"><div class="d-inner">CMOS 图像传感器与显示驱动芯片设计</div></div>
+                </div>
+              </div>
+              <div class="cl-var__cap">无徽章 · <code>--no-badge</code><span class="cl-var__note">不写 __badge 子元素即可</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- └─ card-award（现 .ticker .tc · 建议并入，待定） -->
+        <div class="spec">
+          <div>
+            <div class="spec__class"><span class="cl-branch">├─</span>.card-award<span class="spec__alias">现 .ticker .tc</span></div>
+            <div class="spec__src">components.css</div>
+            <div class="spec__desc">奖项纯文字卡，340×200。默认浅奶白，hover 翻成 navy 渐变 + 巨型引号点亮。卡片特征明显（边框 / 角标 / hover 抬升），<b>已确认并入 card 家族为 <code>card-award</code></b>；现作用域在 <code>.ticker .tc</code>，改名时一并调整该后代选择器（R3）。单卡预览须包进 <code>.ticker &gt; __track &gt; __group</code>，并给 <code>__track</code> 加 <code>animation:none</code> 让它静止。</div>
+            <div class="spec__meta">
+              <div class="r"><span class="k">token</span><span class="v"><code>--c-accent</code> · <code>--c-accent-2</code> hover · <code>--ff-ital</code> 引号</span></div>
+              <div class="r"><span class="k">作用域</span><span class="v">现 <code>.ticker .tc</code>，真实使用环境见下方 <code>.ticker</code></span></div>
+              <div class="r"><span class="k">hover</span><span class="v">浅→深 navy 翻色 · 文字提亮 · 角标隐去</span></div>
+            </div>
+            <span class="hint">↑ hover 查看 navy 翻色</span>
+          </div>
+          <div class="stage">
+            <div class="ticker" style="padding:0">
+              <div class="ticker__track" style="animation:none">
+                <div class="ticker__group">
+                  <div class="tc"><span class="corner tl"></span><span class="corner br"></span>
+                    <div class="tc__top"><span class="tc__kick">Recognition</span><span class="tc__quote">”</span></div>
+                    <div class="tc__body"><div class="tc__org">甲子光年</div><div class="tc__award">年度硬科技投资机构</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- └─ card-location（现 .locard） -->
+        <div class="spec">
+          <div>
+            <div class="spec__class"><span class="cl-branch">└─</span>.card-location<span class="spec__alias">现 .locard</span></div>
+            <div class="spec__src">components.css</div>
+            <div class="spec__desc">地址定位卡，200×200（footer 用）。默认融入（纯文字 + 顶线），hover 浮出 blur→0 的城市天际线纹理 + 白色 scrim。<b>卡片的一种</b>，归入 card 家族为 <code>card-location</code>（现 <code>.locard</code>，改名见 R3）。<code>--sh</code> / <code>--hk</code> 调整城市纹理对位。</div>
+            <div class="spec__meta">
+              <div class="r"><span class="k">资源</span><span class="v"><code>footer-shanghai.jpg</code> · <code>footer-hongkong.jpg</code></span></div>
+              <div class="r"><span class="k">子元素</span><span class="v"><code>__tex · __scrim · .city · .addr</code></span></div>
+              <div class="r"><span class="k">hover</span><span class="v">纹理 + scrim opacity 0→1 · 描边显形</span></div>
+            </div>
+            <span class="hint">↑ hover 查看天际线浮出</span>
+          </div>
+          <div class="stage stage--photo">
+            <div class="locard locard--sh">
+              <img class="locard__tex" src="assets/footer-shanghai.jpg" alt=""><div class="locard__scrim"></div>
+              <div class="city">上海</div><div class="addr">长宁区番禺路381号<br>幸福里E座5楼</div>
+            </div>
+            <div class="locard locard--hk">
+              <img class="locard__tex" src="assets/footer-hongkong.jpg" alt=""><div class="locard__scrim"></div>
+              <div class="city">香港</div><div class="addr">中环花园道三号<br>冠君大厦10楼11室</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /fam__members -->
+    </div><!-- /fam (card-*) -->
+
+    <!-- .ticker -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.ticker<span class="spec__alias">含 card-award（现 .tc）</span></div>
+        <div class="spec__src">components.css</div>
+        <div class="spec__desc">奖项滚动容器。<code>__track</code> translateX −50% 44s linear 无缝循环（两组 <code>__group</code> 镜像复制），hover 暂停。每张 <code>card-award</code> 各自可 hover navy 翻色。这是 <code>card-award</code>（现 <code>.tc</code>）的真实使用环境。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--gap</code> 下内距 · <code>--c-accent-2</code></span></div>
+          <div class="r"><span class="k">hover</span><span class="v">轨道暂停 + 单卡翻色</span></div>
+        </div>
+        <span class="hint">↑ 自动滚动 · hover 暂停并翻色</span>
+      </div>
+      <div class="stage stage--bleed">
+        <div class="ticker" style="padding:32px 0">
+          <div class="ticker__track">
+            <div class="ticker__group">
+              <div class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Recognition</span><span class="tc__quote">”</span></div><div class="tc__body"><div class="tc__org">甲子光年</div><div class="tc__award">年度硬科技投资机构</div></div></div>
+              <div class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">”</span></div><div class="tc__body"><div class="tc__org">投中榜</div><div class="tc__award">年度最佳早期投资机构 TOP 30</div></div></div>
+              <div class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Ranking</span><span class="tc__quote">”</span></div><div class="tc__body"><div class="tc__org">清科创投</div><div class="tc__award">中国硬科技投资机构 TOP 50</div></div></div>
+            </div>
+            <div class="ticker__group" aria-hidden="true">
+              <div class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Recognition</span><span class="tc__quote">”</span></div><div class="tc__body"><div class="tc__org">甲子光年</div><div class="tc__award">年度硬科技投资机构</div></div></div>
+              <div class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">”</span></div><div class="tc__body"><div class="tc__org">投中榜</div><div class="tc__award">年度最佳早期投资机构 TOP 30</div></div></div>
+              <div class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Ranking</span><span class="tc__quote">”</span></div><div class="tc__body"><div class="tc__org">清科创投</div><div class="tc__award">中国硬科技投资机构 TOP 50</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- .nav -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.nav（&lt;site-nav&gt;）</div>
+        <div class="spec__src">components.css · partials.js</div>
+        <div class="spec__desc">浮动胶囊导航，满宽、高 56、液态玻璃 + 蓝调描边环。真实结构由 <code>&lt;site-nav&gt;</code> 注入（logo / 链接 / 语言切换）。生产里 <code>position:fixed</code> + 滚动收起（site.js 的 nav-tuck，本页不引）；舞台用 <code>.navstage</code> 作用域改回 static 以便预览。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--maxw</code> · <code>--page-x</code> · <code>--c-accent-2</code> 描边环</span></div>
+          <div class="r"><span class="k">hover</span><span class="v">链接下划线展开 · 当前页 <code>.active</code> 常亮</span></div>
+        </div>
+      </div>
+      <div class="stage stage--photo navstage" style="padding:40px">
+        <site-nav></site-nav>
+      </div>
+    </div>
+
+    <!-- .footer -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.footer（&lt;site-footer&gt;）</div>
+        <div class="spec__src">components.css · partials.js</div>
+        <div class="spec__desc">站点页脚全家族：双横线框 + 图底 + 标语 + 社交圆钮 + 双地址卡（locard）+ 分隔线 + logo + 双邮箱胶囊（mailpill）+ ICP。真实结构由 <code>&lt;site-footer&gt;</code> 注入。其 markup 带 <code>data-reveal</code>，因本页不引 site.js，已用作用域覆盖强制显影。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">资源</span><span class="v"><code>footer-bg.jpg</code> · 城市纹理 · social svg · logo</span></div>
+          <div class="r"><span class="k">组成</span><span class="v">locard · mailpill · footer__social · footer__slogan</span></div>
+        </div>
+        <span class="hint">↑ hover 地址卡 / 社交钮 / 邮箱胶囊各有微交互</span>
+      </div>
+      <div class="stage stage--bleed">
+        <site-footer></site-footer>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ TIER 3 -->
+  <section class="tier" id="tier3">
+    <div class="tier__head"><span class="tier__no">TIER 3</span><h2 class="tier__h">布局骨架</h2><span class="tier__en">Layout</span></div>
+    <p class="tier__desc">页面级结构原语，全部定义在 <code>base.css</code>。它们不是独立可见的 UI，而是承托内容的容器、网格与全屏背景层。蓝图竖线 / 导轨在生产里靠 site.js 滚动加 <code>.in</code> 才绘入，本页用手动加 <code>.in</code> + inline 高度做静态小 demo。</p>
+
+    <!-- .page -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.page</div>
+        <div class="spec__src">base.css</div>
+        <div class="spec__desc">最外层内容容器：宽 100%、最大 <code>--maxw 1760</code>、水平居中、<code>position:relative</code>（为网格 / 导轨提供定位上下文）。页面所有 header / section / footer 是它的直接子级，<code>z-index:1</code> 盖在网格与视频背景之上。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--maxw</code> 1760</span></div>
+        </div>
+      </div>
+      <div class="stage" style="align-items:stretch;padding:0">
+        <div style="position:relative;width:100%;padding:28px;background:repeating-linear-gradient(45deg,var(--c-accent-wash),var(--c-accent-wash) 10px,transparent 10px,transparent 20px)">
+          <div style="max-width:520px;margin:0 auto;background:var(--c-bg);border:1px solid var(--c-hairline);padding:24px;text-align:center;font-family:var(--ff-mono);font-size:12px;color:var(--c-slate)">.page · max-width 1760 居中容器<br><span style="color:var(--c-muted)">（条纹 = 视口溢出留白）</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- .grid-overlay .vline -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.grid-overlay .vline</div>
+        <div class="spec__src">base.css · motion.css</div>
+        <div class="spec__desc">蓝图装饰竖线层，<code>position:absolute inset:0</code>、<code>z-index:0</code>、不响应指针。每条 <code>.vline</code> 1px、<code>--c-grid</code>、opacity .34，落在卡片之间的「沟」上。<b>homepage 有两版</b>：策略区 3 栏 → <b>2 竖线</b>（sA/sB），项目区 4 栏 → <b>3 竖线</b>（p1/p2/p3）；切分法都是<b>把 rail 间宽度等分</b>（2 线落 1/3·2/3，3 线落 1/4·2/4·3/4）。motion.css 默认 <code>scaleY(0)</code>，父加 <code>.in</code> 绘入——下方两版均手动加 <code>.in</code> + inline 高度静态展示，淡线为 rail 上下文。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--c-grid</code> #B6BDCD · opacity .34</span></div>
+          <div class="r"><span class="k">绘入</span><span class="v">scaleY 0→1 · origin top · 1.4s（site.js 滚动触发）</span></div>
+        </div>
+      </div>
+      <div class="stage" style="flex-direction:column;align-items:stretch;gap:22px;padding:28px 0">
+        <div class="cl-var" style="width:100%">
+          <div class="grid-demo">
+            <span class="rail-tag" style="left:calc(var(--rail) + 5px)">rail</span>
+            <span class="rail-tag" style="right:calc(var(--rail) + 5px)">rail</span>
+            <div class="grid-overlay in">
+              <span class="vline" style="left:calc(var(--rail) + (100% - 2 * var(--rail)) / 3);height:200px"></span>
+              <span class="vline" style="left:calc(var(--rail) + (100% - 2 * var(--rail)) * 2 / 3);height:200px"></span>
+            </div>
+          </div>
+          <div class="cl-var__cap">2 竖线 · 策略区 3 栏 → 2 条沟<span class="cl-var__note">rail 间宽度 3 等分（1/3 · 2/3）· data-v sA / sB</span></div>
+        </div>
+        <div class="cl-var" style="width:100%">
+          <div class="grid-demo">
+            <span class="rail-tag" style="left:calc(var(--rail) + 5px)">rail</span>
+            <span class="rail-tag" style="right:calc(var(--rail) + 5px)">rail</span>
+            <div class="grid-overlay in">
+              <span class="vline" style="left:calc(var(--rail) + (100% - 2 * var(--rail)) / 4);height:200px"></span>
+              <span class="vline" style="left:calc(var(--rail) + (100% - 2 * var(--rail)) * 2 / 4);height:200px"></span>
+              <span class="vline" style="left:calc(var(--rail) + (100% - 2 * var(--rail)) * 3 / 4);height:200px"></span>
+            </div>
+          </div>
+          <div class="cl-var__cap">3 竖线 · 项目区 4 栏 → 3 条沟<span class="cl-var__note">rail 间宽度 4 等分（1/4 · 2/4 · 3/4）· data-v p1 / p2 / p3</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- .rails-top .rail -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.rails-top .rail.l / .r</div>
+        <div class="spec__src">base.css</div>
+        <div class="spec__desc">满高侧边导轨层，<code>z-index:90</code>（绘于 hero/footer 之上，只有 nav z100 盖得住）。左轨 <code>left:--rail</code>、右轨 <code>right:--rail</code>，1px、<code>--c-grid</code> opacity .55。默认 <code>opacity:0</code>，父加 <code>.in</code> 渐显——下方手动加 <code>.in</code> 展示。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--rail</code> 64 · <code>--c-grid</code> opacity .55</span></div>
+          <div class="r"><span class="k">渐显</span><span class="v">opacity 0→1 · 1.2s（site.js 触发）</span></div>
+        </div>
+      </div>
+      <div class="stage" style="padding:0">
+        <div style="position:relative;width:100%;height:220px;overflow:hidden">
+          <div class="rails-top in">
+            <span class="rail l"></span><span class="rail r"></span>
+          </div>
+          <span style="position:absolute;left:72px;top:10px;font-family:var(--ff-mono);font-size:10px;color:var(--c-muted)">left: --rail 64</span>
+          <span style="position:absolute;right:72px;top:10px;font-family:var(--ff-mono);font-size:10px;color:var(--c-muted)">right: --rail 64</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- .section -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.section</div>
+        <div class="spec__src">base.css</div>
+        <div class="spec__desc">区块外壳：左右内距 <code>--page-x 80</code>、<code>position:relative</code>。所有内容区块的水平留白基准，与 nav / footer 的胶囊宽度对齐。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--page-x</code> 80</span></div>
+        </div>
+      </div>
+      <div class="stage" style="padding:0">
+        <div class="section" style="width:100%;padding-top:24px;padding-bottom:24px;background:var(--c-accent-wash);outline:1px dashed var(--c-accent-line)">
+          <div style="background:var(--c-bg);border:1px solid var(--c-hairline);padding:20px;font-family:var(--ff-mono);font-size:12px;color:var(--c-slate);text-align:center">内容区 · 左右 padding = --page-x 80px</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- .pagebg -->
+    <div class="spec">
+      <div>
+        <div class="spec__class">.pagebg</div>
+        <div class="spec__src">base.css</div>
+        <div class="spec__desc">全屏固定背景视频层：<code>position:fixed inset:0</code>、<code>object-fit:cover</code>、<code>z-index:0</code>（夹在奶白 body 与内容 .page 之间）。透明度由 <code>--pgop</code> 驱动，site.js 按当前 section 设值、<code>.9s</code> 平滑过渡。本页仅文字说明，不放视频以免遮挡预览。</div>
+        <div class="spec__meta">
+          <div class="r"><span class="k">token</span><span class="v"><code>--pgop</code>（默认 0）· <code>--ease</code></span></div>
+          <div class="r"><span class="k">驱动</span><span class="v">site.js 的 bgop：滚动按 <code>data-bgop</code> 设 --pgop</span></div>
+        </div>
+      </div>
+      <div class="stage" style="font-family:var(--ff-mono);font-size:12px;color:var(--c-muted);text-align:center;line-height:1.8">
+        position:fixed · inset:0 · object-fit:cover<br>opacity:var(--pgop,0) · z-index:0<br><span style="color:var(--c-slate)">奶白 body → 视频(z0) → 内容 .page(z1)</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="cl-foot">
+  <span>常春藤资本 · IVY CAPITAL · COMPONENT LIBRARY</span>
+  <span>SOURCE · assets/css + assets/js（canonical 共享层）· 改 CSS 自动同步</span>
+</footer>
+
+</body>
+</html>
