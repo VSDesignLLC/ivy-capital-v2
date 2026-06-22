@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>投资哲学 · R4（M2 细化：色/背景领先 → 几何同步绽放）</title>
+<base href="../../../" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+  body{ background:var(--c-bg); color:var(--c-ink); padding:40px 0 160px; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 var(--page-x); }
+  .lead{ max-width:920px; margin:0 0 8px; }
+  .lead h1{ font-family:var(--ff-serif); font-weight:600; font-size:30px; letter-spacing:-.5px; margin:0 0 12px; }
+  .lead p{ font-size:14.5px; line-height:24px; color:var(--c-slate); margin:0 0 6px; }
+  .lead code{ font-family:var(--ff-mono); font-size:12.5px; background:rgba(var(--c-ink-rgb),.06); padding:2px 6px; border-radius:4px; }
+
+  .vsec{ margin-top:76px; }
+  .vhd{ display:flex; align-items:baseline; gap:14px; margin:0 0 4px; }
+  .vtag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-accent); background:var(--c-accent-wash); padding:4px 10px; border-radius:999px; }
+  .vt{ font-family:var(--ff-serif); font-weight:600; font-size:19px; }
+  .vnote{ font-size:13px; line-height:21px; color:var(--c-muted); max-width:920px; margin:0 0 18px; }
+  .vnote code{ font-family:var(--ff-mono); font-size:12px; background:rgba(var(--c-ink-rgb),.06); padding:1px 5px; border-radius:4px; }
+  .opt-cap{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.1em; color:var(--c-muted); margin:18px 0 6px; }
+
+  /* ============================================================
+     绽放基准(R3 锁定) + M2 细化编排
+       default = A1+C1(描述常显)  ·  hover = A3+C2 深底浅字 撑高
+       dot ④(呼吸+收紧)  ·  背景 = M2 ken-burns 缩放推入
+     编排:
+       领先(0s 起):背景淡入/缩放 + 文字与 dot 变色
+       同步(延迟 --lead 起,统一 .55s ease-io):
+            字号(标题&描述) + frame(min-height) + 下移(padding) + 行距
+       —— 字号与下移同一时序 → 「一步到位」不分两段
+     变量 --lead 控制"先改色/背景"的领先量(本节默认 .18s)
+     ============================================================ */
+  .pl{ border-top:1px solid var(--c-hairline); margin:0 calc(var(--rail) - var(--page-x)); --lead:.18s; }
+  .pl-row{ position:relative; overflow:hidden; isolation:isolate; border-bottom:1px solid var(--c-hairline); }
+
+  .pl-bg{ position:absolute; inset:0; z-index:-1; opacity:0; transform:scale(1.12);
+          transition:opacity .45s var(--ease), transform 1s var(--ease-io);
+          background:linear-gradient(rgba(var(--c-ink-rgb),.56),rgba(var(--c-ink-rgb),.64)), url('assets/proj-3832.jpg') center/cover; }
+
+  /* 几何:min-height(frame) + padding(下移) 同步,统一 .55s ease-io，延迟 --lead */
+  .pl-in{ display:grid; grid-template-columns:30% minmax(0,1fr) minmax(280px,36%); align-items:start;
+          gap:clamp(28px,5vw,72px); padding:26px 40px; min-height:96px;
+          transition:min-height .55s var(--ease-io) var(--lead), padding .55s var(--ease-io) var(--lead); }
+
+  /* dot ④:呼吸 + 收紧;变色领先(0s),放大随几何 */
+  .pl-dot{ justify-self:end; align-self:start; width:7px; height:7px; border-radius:50%; background:var(--c-accent);
+           margin-top:1.3em; margin-right:-40px; position:relative; isolation:isolate;
+           transition:background .4s var(--ease), transform .55s var(--ease-io) var(--lead), box-shadow .45s var(--ease); }
+  .pl-dot::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1; width:22px; height:22px; border-radius:50%; pointer-events:none;
+    transform:translate(-50%,-50%) scale(.55);
+    background:radial-gradient(circle, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.38) 36%, rgba(var(--c-accent-rgb),.14) 68%, rgba(var(--c-accent-rgb),0) 100%);
+    filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite; }
+
+  /* 标题:color 领先(.4s,0s 起) / font-size 随几何(.55s,延迟 --lead) */
+  .pl-title{ display:flex; align-items:baseline; gap:16px; padding-top:2px; }
+  .pl-title .cn{ font-family:var(--ff-serif); font-weight:500; font-size:26px; letter-spacing:-.025em; color:var(--c-ink);
+                 transition:color .4s var(--ease), font-size .55s var(--ease-io) var(--lead), letter-spacing .55s var(--ease-io) var(--lead); }
+  .pl-title .en{ font-family:var(--ff-ital); font-style:italic; font-size:22px; color:var(--c-accent);
+                 transition:color .4s var(--ease), font-size .55s var(--ease-io) var(--lead); }
+
+  /* 描述:color 领先 / font-size+line-height 随几何 / 行距(margin)随几何 */
+  .pl-desc{ font-family:var(--ff-sc); font-size:14px; line-height:1.5; letter-spacing:.01em; color:var(--c-slate); margin:0; padding-top:6px;
+            transition:color .4s var(--ease), font-size .55s var(--ease-io) var(--lead), line-height .55s var(--ease-io) var(--lead); }
+  .pl-desc .ln{ display:block; margin:0;
+                transition:color .4s var(--ease), margin .55s var(--ease-io) var(--lead); }
+
+  /* hover 终态 */
+  .pl-row:hover .pl-bg{ opacity:1; transform:scale(1); }
+  .pl-row:hover .pl-in{ min-height:300px; padding:52px 40px; }
+  .pl-row:hover .pl-dot{ transform:scale(1.5); background:var(--c-accent-2); box-shadow:0 0 10px rgba(var(--c-accent-rgb),.6); }
+  .pl-row:hover .pl-title .cn{ font-size:40px; letter-spacing:-.035em; color:var(--c-bg); }
+  .pl-row:hover .pl-title .en{ font-size:32px; color:var(--c-accent-2); }
+  .pl-row:hover .pl-desc{ font-size:16px; line-height:1.55; letter-spacing:.02em; color:rgba(var(--c-bg-rgb),.9); }
+  .pl-row:hover .pl-desc .ln{ margin:0 0 .85em; }
+  .pl-row:hover .pl-desc .ln:last-child{ margin-bottom:0; color:var(--c-bg); }
+
+  @media (max-width:860px){
+    .pl-in{ grid-template-columns:18px 1fr; gap:14px 16px; }
+    .pl-dot{ margin-right:0; }
+    .pl-desc{ grid-column:2; }
+  }
+
+  /* §T 领先量微调:覆写 --lead */
+  .axt .opt1{ --lead:0s; }
+  .axt .opt2{ --lead:.18s; }
+  .axt .opt3{ --lead:.35s; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="lead">
+      <h1>投资哲学 · R4 · M2 细化</h1>
+      <p>在绽放基准上细化 M2:① <strong>放大一步到位</strong>——标题&描述的字号、frame(行高)、下移(padding)、行距用<strong>同一时序</strong>(.55s ease-io),"变大"与"下移"合成一个动作,不分两段;② <strong>编排</strong>——<strong>先</strong>改背景(ken-burns 缩放推入)+ 文字/ dot 颜色(0s 起、较快),<strong>再</strong>让上述几何<strong>同步</strong>展开(延迟 <code>--lead</code> 起)。背景图 <code>proj-3832.jpg</code> 仅占位。<strong>移上鼠标看绽放。</strong></p>
+    </div>
+  </div>
+
+  <!-- §0 细化后的 M2(默认 lead .18s) -->
+  <section class="vsec">
+    <div class="wrap">
+      <div class="vhd"><span class="vtag">§0</span><span class="vt">M2 细化 · 整列(lead .18s)</span></div>
+      <p class="vnote">先暗底+文字转奶白,随即字号/行框/下移同步绽放,背景 ken-burns 缓推。three rows,逐行 hover 感受。</p>
+    </div>
+    <div class="wrap">
+      <div class="pl">
+        <div class="pl-row"><div class="pl-bg"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+            <p class="pl-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p>
+          </div></div>
+        <div class="pl-row"><div class="pl-bg"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+            <p class="pl-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p>
+          </div></div>
+        <div class="pl-row"><div class="pl-bg"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+            <p class="pl-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p>
+          </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §T 领先量微调 -->
+  <section class="vsec axt">
+    <div class="wrap">
+      <div class="vhd"><span class="vtag">§T</span><span class="vt">"先改色/背景" 领先量微调</span></div>
+      <p class="vnote">三档 <code>--lead</code>:0 = 全部同时;.18s = 色/背景略先(§0 默认);.35s = 色/背景明显先、几何后跟。挑你要的"先"的程度。</p>
+    </div>
+    <div class="wrap">
+      <p class="opt-cap">T1 · lead 0s（全部同时)</p>
+      <div class="pl"><div class="pl-row opt1"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+          <p class="pl-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">T2 · lead .18s（色/背景略先 = §0 默认)</p>
+      <div class="pl"><div class="pl-row opt2"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+          <p class="pl-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">T3 · lead .35s（色/背景明显先)</p>
+      <div class="pl"><div class="pl-row opt3"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+          <p class="pl-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p>
+        </div></div></div>
+    </div>
+  </section>
+
+</body>
+</html>

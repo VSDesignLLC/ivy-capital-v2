@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Team 人物卡 · 5列/6列 layout + corner 取代竖条</title>
+<base href="../../../" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+  body{ margin:0; background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); }
+  .cmp-head{ max-width:1280px; margin:0 auto; padding:40px 40px 8px; }
+  .cmp-head__tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--c-accent); margin-bottom:12px; }
+  .cmp-head__h1{ font-family:var(--ff-serif); font-weight:600; font-size:32px; letter-spacing:-0.02em; margin:0 0 12px; }
+  .cmp-head__sub{ font-size:14px; line-height:1.7; color:var(--c-slate); max-width:880px; margin:0; }
+  .cmp-head__sub b{ color:var(--c-ink); }
+  .cmp-label{ max-width:1280px; margin:40px auto 0; padding:0 40px; display:flex; align-items:baseline; gap:14px; }
+  .cmp-label .r{ font-family:var(--ff-mono); font-size:12px; letter-spacing:.12em; color:var(--c-accent); }
+  .cmp-label .t{ font-family:var(--ff-serif); font-weight:600; font-size:21px; }
+
+  .wrap{ padding:16px var(--page-x) 40px; }
+  .team-grid{ display:grid; gap:24px; }
+  .g5{ grid-template-columns:repeat(5,1fr); }
+  .g6{ grid-template-columns:repeat(6,1fr); }
+
+  /* ====== 人物卡 tcard:正方 photo(无 gradient) + 玻璃质感名牌矩形 ====== */
+  .tcard{ display:flex; flex-direction:column; background:var(--c-bg); border:1px solid var(--c-divider); overflow:hidden; cursor:pointer;
+    transition:transform .75s var(--ease-soft), box-shadow .75s var(--ease-soft), border-color .75s var(--ease-soft);
+    box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),0), 0 24px 50px -26px rgba(var(--c-ink-rgb),0); }
+  .tcard__photo{ position:relative; aspect-ratio:1/1; overflow:hidden; background:var(--c-ink); }
+  .tcard__photo img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; transition:transform 1.1s var(--ease); }
+
+  /* 名牌矩形 = 原 pcard__plate 玻璃质感 */
+  .tcard__plate{ position:relative; padding:20px 20px 22px;
+    background:linear-gradient(180deg, rgba(var(--c-bg-rgb),.62) 0%, rgba(var(--c-bg-rgb),.86) 55%, rgba(var(--c-bg-rgb),.97) 100%);
+    -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px); }
+  .tcard__plate::before{ content:""; position:absolute; left:0; right:0; top:0; height:1.5px;
+    background:linear-gradient(90deg, rgba(var(--c-accent-rgb),0), rgba(var(--c-accent-rgb),.5) 20%, rgba(var(--c-accent-rgb),.5) 80%, rgba(var(--c-accent-rgb),0)); }
+  .tcard__plate::after{ content:""; position:absolute; left:0; right:0; top:1.5px; height:1px;
+    background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.65) 30%, rgba(255,255,255,.65) 70%, rgba(255,255,255,0)); }
+
+  /* ★ 用 design-system 的 corner 元素取代竖条:accent L 角(同 .sec-box/.tc 语言),tl + br 框住名牌 */
+  .tcard__plate .corner{ position:absolute; width:13px; height:13px; opacity:.55; z-index:2; }
+  .tcard__plate .corner.tl{ left:10px; top:9px; border-left:1px solid var(--c-accent); border-top:1px solid var(--c-accent); }
+  .tcard__plate .corner.br{ right:10px; bottom:10px; border-right:1px solid var(--c-accent); border-bottom:1px solid var(--c-accent); }
+
+  .tcard__txt{ min-width:0; display:flex; flex-direction:column; gap:5px; }
+  .tcard__txt .t{ font-weight:700; font-size:22px; line-height:29px; letter-spacing:-0.2px; color:var(--c-ink); }
+  .tcard__txt .d{ font-size:13px; line-height:19.5px; color:var(--c-slate); }
+
+  .tcard:hover{ transform:translateY(-6px); border-color:var(--c-accent-line);
+    box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),.10), 0 24px 50px -26px rgba(var(--c-ink-rgb),.20); }
+  .tcard:hover .tcard__photo img{ transform:scale(1.06); }
+</style>
+</head>
+<body>
+
+  <div class="cmp-head">
+    <div class="cmp-head__tag">Team · member card — grid density (5 / 6 per row) + corner</div>
+    <h1 class="cmp-head__h1">人物卡 · 一行 5 个 / 6 个 layout + corner 取代竖条</h1>
+    <p class="cmp-head__sub">沿用上一版卡片（正方 photo + 玻璃质感名牌），两处变化：① 测<b>一行 5 个</b>与<b>一行 6 个</b>两种栅格密度（生产真实宽度）；② 把不符合组件语言的<b>蓝竖条</b>换成 design-system 的 <b>corner L 角</b>（与 <code>.sec-box</code>/<code>.tc</code> 同款 accent 角标，tl + br 框住名牌）。字体/字号/颜色仍与原 card 一致。</p>
+  </div>
+
+  <!-- 5 列 -->
+  <div class="cmp-label"><span class="r">5/row</span><span class="t">一行 5 个</span></div>
+  <div class="wrap">
+    <div class="team-grid g5">
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">创始合伙人</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">管理合伙人</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">合伙人</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">董事总经理</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">投资总监</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">投资副总裁</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">投资经理</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">投资分析师</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">投资董事</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">运营合伙人</span></div></div></article>
+    </div>
+  </div>
+
+  <!-- 6 列 -->
+  <div class="cmp-label"><span class="r">6/row</span><span class="t">一行 6 个</span></div>
+  <div class="wrap">
+    <div class="team-grid g6">
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">创始合伙人</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">管理合伙人</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">合伙人</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">董事总经理</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">投资总监</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">投资副总裁</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">投资经理</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">投资分析师</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">投资董事</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">运营合伙人</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">投资副总裁</span></div></div></article>
+      <article class="tcard"><div class="tcard__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="tcard__plate"><span class="corner tl"></span><span class="corner br"></span><div class="tcard__txt"><span class="t">成员姓名</span><span class="d">投资经理</span></div></div></article>
+    </div>
+  </div>
+
+  <div style="height:60px"></div>
+</body>
+</html>

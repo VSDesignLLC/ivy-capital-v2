@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Team Hero · 蓝标题 + I Value You 复用 + 线/球 size + desc 字号</title>
+<base href="../../../" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+  body{ margin:0; background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); }
+  .cmp-head{ max-width:1280px; margin:0 auto; padding:40px 40px 8px; }
+  .cmp-head__tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--c-accent); margin-bottom:12px; }
+  .cmp-head__h1{ font-family:var(--ff-serif); font-weight:600; font-size:32px; letter-spacing:-0.02em; margin:0 0 12px; }
+  .cmp-head__sub{ font-size:14px; line-height:1.7; color:var(--c-slate); max-width:860px; margin:0; }
+  .cmp-head__sub b{ color:var(--c-ink); }
+  .cmp-label{ max-width:1280px; margin:46px auto 0; padding:0 40px; display:flex; align-items:baseline; gap:14px; }
+  .cmp-label .r{ font-family:var(--ff-mono); font-size:12px; letter-spacing:.12em; color:var(--c-accent); }
+  .cmp-label .t{ font-family:var(--ff-serif); font-weight:600; font-size:21px; }
+  .cmp-tip{ max-width:1280px; margin:6px auto 0; padding:0 40px; font-size:13px; line-height:1.6; color:var(--c-muted); }
+  .col-cap{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--c-accent); text-align:center; padding:10px 0 0; }
+  .col-cap b{ color:var(--c-ink); }
+
+  /* ====== 团队 HERO（从 team-ch.html 复制 .hax 体系；demo 内缩小高度便于对比） ====== */
+  .hax{ position:relative; display:flex; flex-direction:column; align-items:center; padding:88px var(--page-x) 0; overflow:hidden; background:var(--c-bg); }
+  .hax__bg{ position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; }
+  .hax__fade{ position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 45%, var(--cream-grad) 78%); }
+  .hax__halo{ position:absolute; left:50%; top:40%; z-index:0; pointer-events:none; width:min(900px,86%); aspect-ratio:1/1; transform:translate(-50%,-50%); background:radial-gradient(circle at center, var(--c-accent-wash) 0%, rgba(var(--c-accent-rgb),.018) 38%, rgba(var(--c-accent-rgb),0) 70%); }
+  .hax__inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .hax__kick{ display:inline-flex; align-items:center; gap:10px; margin-bottom:36px; }
+  .hax__kick .caption{ color:var(--c-accent); letter-spacing:.2em; }
+  .hax__kick .dot--live{ position:relative; isolation:isolate; }
+  .hax__kick .dot--live::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1; width:22px; height:22px; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%) scale(.55); background:radial-gradient(circle, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.38) 36%, rgba(var(--c-accent-rgb),.14) 68%, rgba(var(--c-accent-rgb),0) 100%); filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite; }
+  /* 主标题：design system display；★ 基线改动：整体蓝色（不再 黑「团」+蓝「队」混用） */
+  .hax__title{ font-family:var(--ff-sc); font-weight:700; font-size:108px; line-height:1.04; letter-spacing:-0.64px; color:var(--c-accent); }
+  .hax__title .en{ display:block; margin-top:14px; font-family:var(--ff-ital); font-style:italic; font-weight:400; font-size:34px; line-height:1; letter-spacing:.2px; color:var(--c-muted); }
+  .hax__desc{ margin-top:34px; max-width:680px; font-family:var(--ff-sc); font-weight:400; font-size:18px; line-height:32px; letter-spacing:-0.2px; color:var(--c-slate); }
+
+  /* ====== ★ 复用 homepage 的 I Value You 组件（从 homepage-ch.html 复制）====== */
+  .hero__ivy{ display:flex; flex-direction:column; align-items:center; gap:15px; margin-top:46px; transition:opacity .5s var(--ease); }
+  .hero__ivy.armed{ opacity:0; }
+  .hero__ivy .ivy-t{ font-family:var(--ff-ital); font-style:italic; font-size:28.3px; line-height:31.2px; letter-spacing:-0.34px; color:var(--c-accent);
+    display:flex; align-items:baseline; justify-content:center; gap:20px; transition:gap .6s var(--ease); white-space:nowrap; }
+  .hero__ivy.open .ivy-t{ gap:10px; }
+  .ivy-t .w{ display:inline-flex; align-items:baseline; }
+  .ivy-t .cap{ display:inline-block; opacity:0; vertical-align:baseline; transform:scale(1.16); transform-origin:center bottom; transition:opacity .5s var(--ease), transform .55s var(--ease); }
+  .hero__ivy.acronym .cap{ opacity:1; }
+  .hero__ivy.settle .cap{ transform:scale(1); }
+  .ivy-t .rest{ display:inline-grid; grid-template-columns:0fr; transition:grid-template-columns .5s var(--ease); }
+  .ivy-t .rest > .rest-inner{ overflow:hidden; white-space:nowrap; }
+  .hero__ivy .ivy-t .ch{ opacity:0; filter:blur(7px); transition:opacity .5s var(--ease), filter .5s var(--ease); }
+  .hero__ivy.typed .rest{ grid-template-columns:1fr; }
+  .hero__ivy.typed .ivy-t .ch{ opacity:1; filter:blur(0); }
+  .hero__ivy .ivy-line{ position:relative; width:1px; height:110px; background:var(--c-grid); opacity:.7; }
+  .ivy-glow{ pointer-events:none; opacity:0; position:absolute; left:50%; top:0; width:4px; height:4px; margin-left:-2px; border-radius:50%; background:rgba(var(--c-accent-rgb),.92); box-shadow:0 0 6px 1px rgba(var(--c-accent-rgb),.45); }
+  .ivy-glow::before{ content:''; position:absolute; left:50%; bottom:4px; width:2px; height:42px; margin-left:-1px; background:linear-gradient(180deg, rgba(var(--c-accent-rgb),0) 0%, rgba(var(--c-accent-rgb),.4) 100%); filter:blur(.5px); }
+  .hero__ivy.resolved .ivy-glow{ animation:glowNodeC 2.5s var(--ease) infinite; }
+  @keyframes glowNodeC{ 0%{ transform:translateY(-6px); opacity:0; } 12%{ opacity:1; } 86%{ opacity:1; } 100%{ transform:translateY(112px); opacity:0; } }
+
+  /* —— G1-A：主页 size（110px 细灰线 + 4px 流动蓝球，原样）= 默认即是，无需覆盖 —— */
+  /* —— G1-B：团队 size（长蓝渐变线 + 7px 实心蓝球在顶端，静态）—— */
+  .v-team .ivy-line{ height:300px; opacity:1;
+    background:linear-gradient(to bottom, var(--c-accent) 0%, rgba(var(--c-accent-rgb),.45) 40%, var(--c-accent-line) 100%); }
+  .v-team .ivy-glow{ display:none; }   /* 团队版不用流动小球 */
+  .v-team .ivy-line::after{ content:''; position:absolute; left:50%; top:0; transform:translate(-50%,-50%);
+    width:7px; height:7px; border-radius:50%; background:var(--c-accent); }
+
+  /* —— desc 字号档位 —— */
+  .d18 .hax__desc{ font-size:18px; line-height:32px; }   /* 当前 */
+  .d20 .hax__desc{ font-size:20px; line-height:34px; }
+  .d22 .hax__desc{ font-size:22px; line-height:37px; }
+
+  /* —— 布局:layout 层(hero)绝不横向并列 → 每版纵向堆叠、占满生产宽度 —— */
+  .cmp-2, .cmp-3{ margin-top:8px; display:flex; flex-direction:column; gap:2px; background:rgba(var(--c-ink-rgb),.08); border-top:1px solid rgba(var(--c-ink-rgb),.08); }
+  .cmp-2 > .cell, .cmp-3 > .cell{ background:var(--c-bg); }
+  .cmp-2 .hax{ height:940px; }   /* G1:够高以完整显示团队版长线 */
+  .cmp-3 .hax{ height:720px; }   /* G2:desc 字号对比 */
+</style>
+</head>
+<body>
+
+  <div class="cmp-head">
+    <div class="cmp-head__tag">Team hero — title color · I Value You reuse · line/ball size · desc size</div>
+    <h1 class="cmp-head__h1">团队页 Hero · 蓝标题 + I Value You 复用 + 尺寸调试</h1>
+    <p class="cmp-head__sub"><b>基线（两组都已应用）</b>：① 大标题「团队」整体改<b>蓝色</b>（不再黑「团」+蓝「队」混用）；② 标题下方原「球+竖线」换成<b>复用主页的 I Value You 组件</b>（斜体蓝字 + 竖线 + 蓝球）。下面 G1 比线条/圆球尺寸，G2 比 description 字号。英文副标「Ivy Capital」已全部删除。</p>
+  </div>
+
+  <!-- G1 · 线条 + 圆球 size -->
+  <div class="cmp-label"><span class="r">G1</span><span class="t">I Value You 的「线条 + 圆球」尺寸：主页 size vs 团队 size</span></div>
+  <p class="cmp-tip">上 = A 沿用<b>主页尺寸</b>（110px 细灰线 + 4px 流动蓝球，精致克制）；下 = B 沿用<b>团队页尺寸</b>（约 300px 长蓝渐变线 + 7px 实心蓝球在顶端，贯穿引导更强）。两版均占满生产宽度，纵向堆叠（hero 属 layout 层，不横向并列）。</p>
+  <div class="cmp-2">
+    <div class="cell">
+      <div class="col-cap">A · 主页 size <b>（110px 线 / 4px 流动球）</b></div>
+      <header class="hero hax v-home d18">
+        <video class="hax__bg" autoplay muted loop playsinline preload="auto"><source src="assets/team-hero.mp4" type="video/mp4"></video>
+        <div class="hax__fade" aria-hidden="true"></div>
+        <div class="hax__halo" aria-hidden="true"></div>
+        <div class="hax__inner">
+          <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Team</span></p>
+          <h1 class="hax__title">团队</h1>
+          <p class="hax__desc">我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以长期陪伴和深度连接，共同穿越技术创新与企业成长的周期。</p>
+          <div class="hero__ivy open acronym settle typed resolved">
+            <span class="ivy-t">
+              <span class="w w-i"><span class="cap">I</span></span>
+              <span class="w w-v"><span class="cap">V</span><span class="rest"><span class="rest-inner"><span class="ch">a</span><span class="ch">l</span><span class="ch">u</span><span class="ch">e</span></span></span></span>
+              <span class="w w-y"><span class="cap">Y</span><span class="rest"><span class="rest-inner"><span class="ch">o</span><span class="ch">u</span></span></span></span>
+            </span>
+            <span class="ivy-line"><span class="ivy-glow"></span></span>
+          </div>
+        </div>
+      </header>
+    </div>
+    <div class="cell">
+      <div class="col-cap">B · 团队 size <b>（长蓝线 / 7px 实心球）</b></div>
+      <header class="hero hax v-team d18">
+        <video class="hax__bg" autoplay muted loop playsinline preload="auto"><source src="assets/team-hero.mp4" type="video/mp4"></video>
+        <div class="hax__fade" aria-hidden="true"></div>
+        <div class="hax__halo" aria-hidden="true"></div>
+        <div class="hax__inner">
+          <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Team</span></p>
+          <h1 class="hax__title">团队</h1>
+          <p class="hax__desc">我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以长期陪伴和深度连接，共同穿越技术创新与企业成长的周期。</p>
+          <div class="hero__ivy open acronym settle typed resolved">
+            <span class="ivy-t">
+              <span class="w w-i"><span class="cap">I</span></span>
+              <span class="w w-v"><span class="cap">V</span><span class="rest"><span class="rest-inner"><span class="ch">a</span><span class="ch">l</span><span class="ch">u</span><span class="ch">e</span></span></span></span>
+              <span class="w w-y"><span class="cap">Y</span><span class="rest"><span class="rest-inner"><span class="ch">o</span><span class="ch">u</span></span></span></span>
+            </span>
+            <span class="ivy-line"><span class="ivy-glow"></span></span>
+          </div>
+        </div>
+      </header>
+    </div>
+  </div>
+
+  <!-- G2 · description 字号 -->
+  <div class="cmp-label"><span class="r">G2</span><span class="t">description 字号（基线：蓝标题 + I Value You · 主页 size 线）</span></div>
+  <p class="cmp-tip">同样文案，三档字号对比：18px（当前）/ 20px / 22px。行高随字号等比放大。</p>
+  <div class="cmp-3">
+    <div class="cell">
+      <div class="col-cap">18px <b>当前</b></div>
+      <header class="hero hax v-home d18">
+        <div class="hax__halo" aria-hidden="true"></div>
+        <div class="hax__inner">
+          <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Team</span></p>
+          <h1 class="hax__title">团队</h1>
+          <p class="hax__desc">我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以长期陪伴和深度连接，共同穿越技术创新与企业成长的周期。</p>
+          <div class="hero__ivy open acronym settle typed resolved">
+            <span class="ivy-t">
+              <span class="w w-i"><span class="cap">I</span></span>
+              <span class="w w-v"><span class="cap">V</span><span class="rest"><span class="rest-inner"><span class="ch">a</span><span class="ch">l</span><span class="ch">u</span><span class="ch">e</span></span></span></span>
+              <span class="w w-y"><span class="cap">Y</span><span class="rest"><span class="rest-inner"><span class="ch">o</span><span class="ch">u</span></span></span></span>
+            </span>
+            <span class="ivy-line"><span class="ivy-glow"></span></span>
+          </div>
+        </div>
+      </header>
+    </div>
+    <div class="cell">
+      <div class="col-cap">20px</div>
+      <header class="hero hax v-home d20">
+        <div class="hax__halo" aria-hidden="true"></div>
+        <div class="hax__inner">
+          <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Team</span></p>
+          <h1 class="hax__title">团队</h1>
+          <p class="hax__desc">我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以长期陪伴和深度连接，共同穿越技术创新与企业成长的周期。</p>
+          <div class="hero__ivy open acronym settle typed resolved">
+            <span class="ivy-t">
+              <span class="w w-i"><span class="cap">I</span></span>
+              <span class="w w-v"><span class="cap">V</span><span class="rest"><span class="rest-inner"><span class="ch">a</span><span class="ch">l</span><span class="ch">u</span><span class="ch">e</span></span></span></span>
+              <span class="w w-y"><span class="cap">Y</span><span class="rest"><span class="rest-inner"><span class="ch">o</span><span class="ch">u</span></span></span></span>
+            </span>
+            <span class="ivy-line"><span class="ivy-glow"></span></span>
+          </div>
+        </div>
+      </header>
+    </div>
+    <div class="cell">
+      <div class="col-cap">22px</div>
+      <header class="hero hax v-home d22">
+        <div class="hax__halo" aria-hidden="true"></div>
+        <div class="hax__inner">
+          <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Team</span></p>
+          <h1 class="hax__title">团队</h1>
+          <p class="hax__desc">我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以长期陪伴和深度连接，共同穿越技术创新与企业成长的周期。</p>
+          <div class="hero__ivy open acronym settle typed resolved">
+            <span class="ivy-t">
+              <span class="w w-i"><span class="cap">I</span></span>
+              <span class="w w-v"><span class="cap">V</span><span class="rest"><span class="rest-inner"><span class="ch">a</span><span class="ch">l</span><span class="ch">u</span><span class="ch">e</span></span></span></span>
+              <span class="w w-y"><span class="cap">Y</span><span class="rest"><span class="rest-inner"><span class="ch">o</span><span class="ch">u</span></span></span></span>
+            </span>
+            <span class="ivy-line"><span class="ivy-glow"></span></span>
+          </div>
+        </div>
+      </header>
+    </div>
+  </div>
+
+  <div style="height:80px"></div>
+</body>
+</html>

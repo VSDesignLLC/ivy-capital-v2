@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>奖项 ticker · hover 暂停区对比</title>
+<base href="../../" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+  body{ background:var(--c-bg); color:var(--c-ink); padding:48px var(--page-x) 120px; }
+  .lead{ max-width:760px; margin:0 auto 8px; }
+  .lead h1{ font-family:var(--ff-serif); font-weight:600; font-size:30px; letter-spacing:-.5px; margin:0 0 14px; }
+  .lead p{ font-size:15px; line-height:24px; color:var(--c-slate); margin:0 0 8px; }
+  .lead code{ font-family:var(--ff-mono); font-size:12.5px; background:rgba(var(--c-ink-rgb),.06); padding:2px 6px; border-radius:4px; }
+
+  .case{ max-width:var(--maxw); margin:0 auto; padding-top:56px; }
+  .case__hd{ display:flex; align-items:baseline; gap:14px; margin-bottom:6px; }
+  .case__tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; padding:4px 10px; border-radius:999px; }
+  .case__tag.bad{ color:#b4231f; background:rgba(180,35,31,.10); }
+  .case__tag.good{ color:#1d7a3e; background:rgba(29,122,62,.12); }
+  .case__t{ font-family:var(--ff-serif); font-weight:600; font-size:20px; }
+  .case__note{ font-size:13.5px; line-height:22px; color:var(--c-muted); max-width:880px; margin:0 0 4px; }
+
+  /* live status badge */
+  .ticker-wrap{ position:relative; }
+  .badge{ position:absolute; right:0; top:14px; z-index:6; font-family:var(--ff-mono); font-size:12px; letter-spacing:.08em;
+          padding:6px 12px; border-radius:999px; border:1px solid var(--c-hairline); background:var(--c-bg); }
+  .badge.run{ color:#1d7a3e; }
+  .badge.pause{ color:#b4231f; }
+
+  /* ── 暂停触发区可视化(纯标注,pointer-events:none,不影响 hover) ── */
+  .zone{ position:absolute; left:0; right:0; z-index:0; pointer-events:none; }
+  .zone__lab{ position:absolute; left:8px; top:6px; font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; }
+
+  /* OLD: 触发区 = 整个 .ticker(含 padding-top:60 + padding-bottom:120) */
+  .old .ticker{ outline:1.5px dashed rgba(180,35,31,.55); outline-offset:0; }
+  .old .zone{ inset:0; background:repeating-linear-gradient(135deg, rgba(180,35,31,.05) 0 10px, rgba(180,35,31,.10) 10px 20px); }
+  .old .zone__lab{ color:#b4231f; }
+
+  /* NEW: 触发区 = 仅 track(卡片高度) */
+  .new .ticker__track{ outline:1.5px dashed rgba(29,122,62,.6); }
+  .new .zone__lab{ color:#1d7a3e; }
+
+  /* ── 行为覆写 ──
+     共享层默认: .ticker:hover .ticker__track{ paused }  → padding 也会触发
+     NEW 版要改成只有 track:hover 才暂停。用更高特异性精确控制: */
+  .new .ticker:hover .ticker__track{ animation-play-state:running; }        /* 容器 hover 不再暂停 */
+  .new .ticker:hover .ticker__track:hover{ animation-play-state:paused; }   /* 仅卡片band 暂停 */
+</style>
+</head>
+<body>
+
+  <div class="lead">
+    <h1>奖项 ticker · hover 暂停区对比</h1>
+    <p>问题:鼠标进到卡片<strong>上方 / 下方的空白</strong>就暂停了滚动,给人莫名卡顿感。根因 = 暂停 hover 挂在 <code>.ticker</code> 容器上,而容器带 <code>padding-top:60px</code> + <code>padding-bottom:120px</code>,这块 padding 也算进了 hover 触发区。</p>
+    <p>修法:把触发挪到 <code>.ticker__track</code>(高度正好 = 卡片高度,无 padding)。下面把触发区标了出来 —— 把鼠标在卡片<strong>上下空白</strong>来回移,看右上角 ▶/⏸ 状态。</p>
+  </div>
+
+  <!-- ░░░ 现状 ░░░ -->
+  <section class="case old">
+    <div class="case__hd">
+      <span class="case__tag bad">现状 / before</span>
+      <span class="case__t">触发区含上下 padding(60px + 120px)</span>
+    </div>
+    <p class="case__note">红色斜纹 = 当前会暂停的区域。注意卡片上方一条、下方一大条空白也在内 —— 鼠标飘过就停,这就是卡顿来源。</p>
+    <div class="ticker-wrap">
+      <span class="badge run" id="b-old">▶ 滚动中</span>
+      <div class="ticker" id="tk-old">
+        <div class="zone"><span class="zone__lab">↕ pause zone (整个 .ticker)</span></div>
+        <div class="ticker__track">
+          <div class="ticker__group">
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">清科</h3><p class="card-award__award">中国创业投资机构 50 强</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">投中</h3><p class="card-award__award">年度最佳创业投资机构 TOP100</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">融资中国</h3><p class="card-award__award">中国最佳创业投资机构 50 强</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">甲子光年</h3><p class="card-award__award">最佳硬科技投资机构 TOP30</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">LP 智库</h3><p class="card-award__award">「真金白银退出榜」VC 机构 TOP50</p></div></article>
+          </div>
+          <div class="ticker__group" aria-hidden="true">
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">清科</h3><p class="card-award__award">中国创业投资机构 50 强</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">投中</h3><p class="card-award__award">年度最佳创业投资机构 TOP100</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">融资中国</h3><p class="card-award__award">中国最佳创业投资机构 50 强</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">甲子光年</h3><p class="card-award__award">最佳硬科技投资机构 TOP30</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">LP 智库</h3><p class="card-award__award">「真金白银退出榜」VC 机构 TOP50</p></div></article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ 修复 ░░░ -->
+  <section class="case new">
+    <div class="case__hd">
+      <span class="case__tag good">修复 / after</span>
+      <span class="case__t">触发区 = 仅卡片高度(无上下 padding)</span>
+    </div>
+    <p class="case__note">绿色虚线框 = 暂停触发区,正好贴着卡片。鼠标在上下空白移动不再暂停,只有真正压到卡片上才停 —— 卡顿消失。落地 = 把 <code>components.css:141</code> 的 <code>.ticker:hover .ticker__track</code> 改成 <code>.ticker__track:hover</code>(一行)。</p>
+    <div class="ticker-wrap">
+      <span class="badge run" id="b-new">▶ 滚动中</span>
+      <div class="ticker" id="tk-new">
+        <div class="ticker__track">
+          <span class="zone__lab" style="position:absolute;left:8px;top:-18px;">↕ pause zone (仅 track)</span>
+          <div class="ticker__group">
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">清科</h3><p class="card-award__award">中国创业投资机构 50 强</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">投中</h3><p class="card-award__award">年度最佳创业投资机构 TOP100</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">融资中国</h3><p class="card-award__award">中国最佳创业投资机构 50 强</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">甲子光年</h3><p class="card-award__award">最佳硬科技投资机构 TOP30</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">LP 智库</h3><p class="card-award__award">「真金白银退出榜」VC 机构 TOP50</p></div></article>
+          </div>
+          <div class="ticker__group" aria-hidden="true">
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">清科</h3><p class="card-award__award">中国创业投资机构 50 强</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">投中</h3><p class="card-award__award">年度最佳创业投资机构 TOP100</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">融资中国</h3><p class="card-award__award">中国最佳创业投资机构 50 强</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">甲子光年</h3><p class="card-award__award">最佳硬科技投资机构 TOP30</p></div></article>
+            <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">LP 智库</h3><p class="card-award__award">「真金白银退出榜」VC 机构 TOP50</p></div></article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script>
+  function watch(tkId, badgeId){
+    var track = document.querySelector('#'+tkId+' .ticker__track');
+    var badge = document.getElementById(badgeId);
+    function tick(){
+      var st = getComputedStyle(track).animationPlayState;
+      var paused = (st === 'paused');
+      badge.textContent = paused ? '⏸ 已暂停' : '▶ 滚动中';
+      badge.className = 'badge ' + (paused ? 'pause' : 'run');
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  watch('tk-old','b-old');
+  watch('tk-new','b-new');
+</script>
+</body>
+</html>

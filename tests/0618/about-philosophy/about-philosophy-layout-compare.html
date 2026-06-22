@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>投资哲学 · 排版测试（字号 / dot 对位 / 诗句感 / 高度差）</title>
+<base href="../../../" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+  body{ background:var(--c-bg); color:var(--c-ink); padding:40px 0 140px; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 var(--page-x); }
+  .lead{ max-width:860px; margin:0 0 8px; }
+  .lead h1{ font-family:var(--ff-serif); font-weight:600; font-size:30px; letter-spacing:-.5px; margin:0 0 12px; }
+  .lead p{ font-size:14.5px; line-height:24px; color:var(--c-slate); margin:0 0 6px; }
+  .lead code{ font-family:var(--ff-mono); font-size:12.5px; background:rgba(var(--c-ink-rgb),.06); padding:2px 6px; border-radius:4px; }
+
+  .vsec{ margin-top:72px; }
+  .vhd{ display:flex; align-items:baseline; gap:14px; margin:0 0 4px; }
+  .vtag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-accent); background:var(--c-accent-wash); padding:4px 10px; border-radius:999px; }
+  .vt{ font-family:var(--ff-serif); font-weight:600; font-size:19px; }
+  .vnote{ font-size:13px; line-height:21px; color:var(--c-muted); max-width:900px; margin:0 0 18px; }
+  .vnote code{ font-family:var(--ff-mono); font-size:12px; background:rgba(var(--c-ink-rgb),.06); padding:1px 5px; border-radius:4px; }
+  .opt-cap{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.1em; color:var(--c-muted); margin:18px 0 6px; }
+
+  /* ============================================================
+     共享基底:3 栏哲学行 = [dot 右贴] · [中英名] · [诗句描述]
+     全部 default;hover 才铺占位背景图 + 撑高(motion)
+     背景图只是占位(proj-3832.jpg),本轮不测图
+     ============================================================ */
+  .pl{ border-top:1px solid var(--c-hairline); margin:0 calc(var(--rail) - var(--page-x)); }
+  .pl-row{ position:relative; overflow:hidden; isolation:isolate; border-bottom:1px solid var(--c-hairline); }
+  .pl-bg{ position:absolute; inset:0; z-index:-1; opacity:0; transform:scale(1.04);
+          transition:opacity .6s var(--ease), transform .9s var(--ease-soft);
+          background:linear-gradient(rgba(var(--c-bg-rgb),.55),rgba(var(--c-bg-rgb),.4)), url('assets/proj-3832.jpg') center/cover; }
+  .pl-in{ display:grid; grid-template-columns:30% minmax(0,1fr) minmax(260px,34%); align-items:start;
+          gap:clamp(24px,5vw,72px); padding:26px 40px; min-height:92px;
+          transition:min-height .55s var(--ease-soft), padding .55s var(--ease-soft); }
+  .pl-dot{ justify-self:end; margin-top:.55em; transition:transform .5s var(--ease), box-shadow .5s var(--ease); }
+  .pl-title{ display:flex; align-items:baseline; gap:16px; padding-top:2px; }
+  .pl-title .cn{ font-family:var(--ff-serif); font-weight:500; font-size:32px; letter-spacing:-.03em; color:var(--c-ink); }
+  .pl-title .en{ font-family:var(--ff-ital); font-style:italic; font-size:27px; color:var(--c-accent); }
+  .pl-desc{ font-family:var(--ff-sc); font-size:15px; line-height:1.8; color:var(--c-muted); margin:0; padding-top:6px; }
+  .pl-desc .ln{ display:block; }
+  .pl-row:hover .pl-bg{ opacity:1; transform:scale(1); }
+  .pl-row:hover .pl-in{ min-height:280px; padding:48px 40px; }
+  .pl-row:hover .pl-dot{ transform:scale(1.5); box-shadow:0 0 10px rgba(var(--c-accent-rgb),.5); }
+
+  @media (max-width:860px){
+    .pl-in{ grid-template-columns:18px 1fr; gap:14px 16px; }
+    .pl-desc{ grid-column:2; }
+    .pl-title .cn{ font-size:26px; } .pl-title .en{ font-size:22px; }
+  }
+
+  /* ===== §A 字号 ===== */
+  .ax-type .opt1 .pl-title .cn{ font-size:26px; letter-spacing:-.025em; }
+  .ax-type .opt1 .pl-title .en{ font-size:22px; }
+  .ax-type .opt1 .pl-desc{ font-size:14px; line-height:1.75; }
+  .ax-type .opt2 .pl-title .cn{ font-size:32px; letter-spacing:-.03em; }
+  .ax-type .opt2 .pl-title .en{ font-size:27px; }
+  .ax-type .opt2 .pl-desc{ font-size:15px; line-height:1.8; }
+  .ax-type .opt3 .pl-title .cn{ font-size:40px; letter-spacing:-.035em; }
+  .ax-type .opt3 .pl-title .en{ font-size:32px; }
+  .ax-type .opt3 .pl-desc{ font-size:16px; line-height:1.85; }
+
+  /* ===== §B dot 对位 (几何推算,基于 CN 32px / lh≈1.2) ===== */
+  .ax-dot .opt1 .pl-dot{ align-self:start; width:7px; height:7px; border-radius:3.5px; margin-top:.375em; }      /* dot 顶贴汉字顶 */
+  .ax-dot .opt2 .pl-dot{ align-self:start; width:9px; height:9px; border-radius:4.5px; margin-top:1.031em; }     /* dot 中心对标题中线 */
+  .ax-dot .opt3 .pl-dot{ align-self:start; width:7px; height:7px; border-radius:3.5px; margin-top:1.625em; }     /* dot 底贴基线 */
+
+  /* ===== §C 诗句感 ===== */
+  .ax-desc .opt1 .pl-desc{ line-height:1.5; letter-spacing:.01em; }
+  .ax-desc .opt1 .pl-desc .ln{ margin:0; }
+  .ax-desc .opt2 .pl-desc{ line-height:1.55; letter-spacing:.02em; }
+  .ax-desc .opt2 .pl-desc .ln{ margin:0 0 .85em; }
+  .ax-desc .opt2 .pl-desc .ln:last-child{ margin-bottom:0; color:var(--c-slate); }
+  .ax-desc .opt3 .pl-desc{ line-height:1.7; letter-spacing:.015em; }
+  .ax-desc .opt3 .pl-desc .ln{ margin:0 0 .35em; }
+  .ax-desc .opt3 .pl-desc .ln:nth-child(2){ padding-left:1.6em; }
+  .ax-desc .opt3 .pl-desc .ln:nth-child(3){ padding-left:3.2em; }
+  .ax-desc .opt3 .pl-desc .ln:last-child{ font-family:var(--ff-ital); font-style:italic; color:var(--c-slate); }
+
+  /* ===== §D 高度差 + motion ===== */
+  .ax-height .opt1 .pl-in{ min-height:96px; transition:min-height .45s var(--ease), padding .45s var(--ease); }
+  .ax-height .opt1:hover .pl-in{ min-height:190px; padding:34px 40px; }
+  .ax-height .opt2 .pl-in{ min-height:100px; transition:min-height .55s var(--ease-soft), padding .55s var(--ease-soft); }
+  .ax-height .opt2:hover .pl-in{ min-height:260px; padding:48px 40px; }
+  .ax-height .opt2 .pl-desc{ opacity:.45; transform:translateY(6px); transition:opacity .5s var(--ease-soft) .05s, transform .5s var(--ease-soft) .05s; }
+  .ax-height .opt2:hover .pl-desc{ opacity:1; transform:translateY(0); }
+  .ax-height .opt3 .pl-in{ min-height:110px; transition:min-height .7s var(--ease-io), padding .7s var(--ease-io); }
+  .ax-height .opt3:hover .pl-in{ min-height:320px; padding:56px 40px; }
+  .ax-height .opt3 .pl-desc{ overflow:hidden; }
+  .ax-height .opt3 .pl-desc .ln{ opacity:0; transform:translateY(10px); transition:opacity .5s var(--ease-soft), transform .55s var(--ease-soft); }
+  .ax-height .opt3:hover .pl-desc .ln{ opacity:1; transform:translateY(0); }
+  .ax-height .opt3:hover .pl-desc .ln:nth-child(1){ transition-delay:.12s; }
+  .ax-height .opt3:hover .pl-desc .ln:nth-child(2){ transition-delay:.24s; }
+  .ax-height .opt3:hover .pl-desc .ln:nth-child(3){ transition-delay:.36s; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="lead">
+      <h1>投资哲学 · 排版测试</h1>
+      <p>纯排版测试:背景图只用一张占位(<code>proj-3832.jpg</code>),本轮<strong>不测图</strong>。所有行<strong>都是 default 态</strong>,把鼠标移到任意一行即可感受 <strong>hover 展开 motion</strong>(铺图 + 撑高)。</p>
+      <p>四条轴各一节:<strong>§A 字号</strong> · <strong>§B dot 与文字高度的对位</strong> · <strong>§C 右侧描述的诗句感提行</strong> · <strong>§D hover↔default 高度差 + 动效</strong>。每节内纵向堆叠 3 个标注选项。token 全用我们自己的(<code>--ff-serif/--ff-ital</code>、<code>--c-accent</code>、<code>.dot</code>)。</p>
+    </div>
+  </div>
+
+  <!-- §0 基底整列:三行 default,可 hover 感受 motion -->
+  <section class="vsec ax-base">
+    <div class="wrap">
+      <div class="vhd"><span class="vtag">§0</span><span class="vt">基底整列(当前默认设定)</span></div>
+      <p class="vnote">三行真实哲学项的整列观感(基底设定:CN32/EN27、dot margin-top .55em、诗句直排、hover 撑到 280)。先看整体节奏,再到下面各轴微调。</p>
+    </div>
+    <div class="wrap">
+      <div class="pl">
+        <div class="pl-row"><div class="pl-bg"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+            <p class="pl-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p>
+          </div></div>
+        <div class="pl-row"><div class="pl-bg"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+            <p class="pl-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p>
+          </div></div>
+        <div class="pl-row"><div class="pl-bg"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+            <p class="pl-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p>
+          </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §A 字号 -->
+  <section class="vsec ax-type">
+    <div class="wrap">
+      <div class="vhd"><span class="vtag">§A</span><span class="vt">字号 type scale</span></div>
+      <p class="vnote">纵向测三档字号:紧凑 / 标准 / 放大。dot、高度、栅格、诗句提行均继承基底不动,仅覆写 CN / EN / desc 的 font-size 与配套字距行高。</p>
+    </div>
+    <div class="wrap">
+      <p class="opt-cap">A1 紧凑 · CN26 / EN22 / desc14</p>
+      <div class="pl"><div class="pl-row opt1"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+          <p class="pl-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">A2 标准 · CN32 / EN27 / desc15（= 基底）</p>
+      <div class="pl"><div class="pl-row opt2"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+          <p class="pl-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">A3 放大 · CN40 / EN32 / desc16</p>
+      <div class="pl"><div class="pl-row opt3"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+          <p class="pl-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p>
+        </div></div></div>
+    </div>
+  </section>
+
+  <!-- §B dot 对位 -->
+  <section class="vsec ax-dot">
+    <div class="wrap">
+      <div class="vhd"><span class="vtag">§B</span><span class="vt">dot 位置 × 文字高度</span></div>
+      <p class="vnote">左栏 dot 贴右缘已定,本轴只测它在垂直方向与 CN 标题的对位:B1 顶贴汉字顶、B2 中心对标题视觉中线(顺带放大到 9px)、B3 底贴基线落在字的下半。均几何推算定位。</p>
+    </div>
+    <div class="wrap">
+      <p class="opt-cap">B1 · dot 对齐字顶(cap-ish) · 7px</p>
+      <div class="pl"><div class="pl-row opt1"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+          <p class="pl-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">B2 · dot 居中标题行 · 9px</p>
+      <div class="pl"><div class="pl-row opt2"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+          <p class="pl-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">B3 · dot 对齐基线/视觉重心 · 7px</p>
+      <div class="pl"><div class="pl-row opt3"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+          <p class="pl-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p>
+        </div></div></div>
+    </div>
+  </section>
+
+  <!-- §C 诗句感 -->
+  <section class="vsec ax-desc">
+    <div class="wrap">
+      <div class="vhd"><span class="vtag">§C</span><span class="vt">description 诗句感</span></div>
+      <p class="vnote">右侧 description 三句分句各自成行,测怎样的行距 / 句间留白 / 缩进能让三行读起来像一首小诗。只覆写 <code>.pl-desc / .ln</code>。</p>
+    </div>
+    <div class="wrap">
+      <p class="opt-cap">C1 紧致诗行 · lh1.5 / 无句间距</p>
+      <div class="pl"><div class="pl-row opt1"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+          <p class="pl-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">C2 疏朗呼吸 · lh1.55 / 句间 .85em / 末句提色</p>
+      <div class="pl"><div class="pl-row opt2"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+          <p class="pl-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">C3 错落缩进 · 逐句递进悬挂 / 末句斜体强调</p>
+      <div class="pl"><div class="pl-row opt3"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+          <p class="pl-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p>
+        </div></div></div>
+    </div>
+  </section>
+
+  <!-- §D 高度差 + motion -->
+  <section class="vsec ax-height">
+    <div class="wrap">
+      <div class="vhd"><span class="vtag">§D</span><span class="vt">hover↔default 高度差 + motion</span></div>
+      <p class="vnote">三档对比鼠标移上去那一下的展开:default 行高与 hover 展开后行高的差值(约 2× / 2.5× / 2.9×),以及手感——缓动快慢、padding 同步撑开、描述是否伴随渐入。把鼠标移到任意一行即触发。</p>
+    </div>
+    <div class="wrap">
+      <p class="opt-cap">D1 温和 · 96→190 (~2×) · .45s 快·克制·desc 不变</p>
+      <div class="pl"><div class="pl-row opt1"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+          <p class="pl-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">D2 标准 · 100→260 (~2.5×) · .55s soft · desc 略收→完整渐入</p>
+      <div class="pl"><div class="pl-row opt2"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+          <p class="pl-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">D3 戏剧 · 110→320 (~2.9×) · .7s 慢·强缓动 · desc 逐行 stagger</p>
+      <div class="pl"><div class="pl-row opt3"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+          <p class="pl-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p>
+        </div></div></div>
+    </div>
+  </section>
+
+</body>
+</html>

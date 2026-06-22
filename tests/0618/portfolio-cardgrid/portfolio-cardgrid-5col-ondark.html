@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<base href="../../../" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Portfolio 5/行 · 新增变量：深底名称反色（保可读性）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================
+   测试页：Portfolio 名称墙 · 5/行 · 新增变量「深底名称反色」
+   基线已锁（沿用 portfolio-cardgrid-5col-namegap.html，本轮全部保留、不回退）:
+     · 默认态 = 居中衬线透明磨砂「名称墙」（名称居中、衬线 28px、卡片透明磨砂；无图/无 logo/无描述）。
+     · hover = 项目图淡入 + 底部满宽磨砂带升起（gap 14px）+ 中字描述居中于带高、全文不截。
+     · 名称 hover 时贴各自磨砂带顶边（底部锚定组，随带高追踪）。
+     · 5/行，卡片 1/1，永不出现 logo。
+   本轮唯一新增（Vera 反馈）:
+     当项目图「上半区」偏深时，hover 名称（深墨色）压在深图上看不清 → 自动反色。
+     · JS 用 <canvas> 采样项目图「上半区（约顶部 45%，hover 名称所在处）」平均亮度。
+     · 亮度低于阈值 → 给该卡加 .pcard--ondark。
+     · .pcard--ondark 只把「hover 名称」翻成浅色 + 暗投影；默认名称墙（压浅色磨砂卡）维持深色；
+       描述（在浅色磨砂带内）永不反色。
+     · 可用 <article ... data-tone="dark|light"> 手动覆盖自动判定（写回时钉死个别误判卡）。
+   ============================================================ */
+
+/* 全页背景视频（真实语境：让透明磨砂名称墙透出视频） */
+.pagevid{ position:fixed; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; opacity:.40; pointer-events:none; }
+
+body{ background:var(--c-bg); }
+.wrap{ position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:0 var(--page-x) 120px; }
+
+/* 顶部页头 */
+.testhead{ position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:120px var(--page-x) 8px; }
+.testhead h1{ font-family:var(--ff-serif); font-weight:600; font-size:38px; line-height:1.2; letter-spacing:-0.6px; color:var(--c-ink); }
+.testhead p{ margin-top:14px; max-width:880px; font-family:var(--ff-sc); font-size:16px; line-height:27px; color:var(--c-slate); }
+.testhead .hint{ margin-top:10px; font-family:var(--ff-mono); font-size:12px; letter-spacing:.04em; color:var(--c-muted); }
+
+/* ===== 名称墙网格（5/行）+ 锁定基线 ===== */
+.rgrid{ display:grid; gap:24px; grid-template-columns:repeat(5,1fr); margin-top:40px; }
+.rgrid .pcard{ cursor:default;
+  /* 锁定：透明磨砂底（透出视频） */
+  background:rgba(var(--c-bg-rgb),.30); border:1px solid rgba(var(--c-bg-rgb),.55);
+  -webkit-backdrop-filter:blur(16px) saturate(1.1); backdrop-filter:blur(16px) saturate(1.1); }
+/* 默认态：背景图隐藏，hover 才淡入（恒定揭示行为） */
+.rgrid .pcard__bg{ opacity:0; transition:opacity .7s var(--ease), transform 1.1s var(--ease); }
+.rgrid .pcard:hover .pcard__bg{ opacity:1; }
+/* 第二枚药丸「已上市」叠在年份 badge 下方 */
+.rgrid .pcard__badge--ipo{ top:46px; background:var(--c-accent); border-color:var(--c-accent); color:var(--c-bg); }
+
+/* ① 默认「名称墙」：整卡绝对居中，hover 时淡出（交叉淡入到组内 hover 名称） */
+.rgrid .pcard__name--wall{ position:absolute; inset:0; z-index:3;
+  display:flex; align-items:center; justify-content:center;
+  text-align:center; padding:0 20px; pointer-events:none;
+  opacity:1; transition:opacity .42s var(--ease); }
+.rgrid .pcard:hover .pcard__name--wall{ opacity:0; }
+
+/* ② 底部锚定组：名称 + 磨砂带作为一个 flex 列、贴底对齐。 */
+.rgrid .pcard__group{ position:absolute; inset:0; z-index:2;
+  display:flex; flex-direction:column; justify-content:flex-end; align-items:stretch;
+  pointer-events:none; }
+
+/* hover 名称：位于带的正上方，固定 gap 紧贴带顶；默认隐藏，hover 淡入。 */
+.rgrid .pcard__name{ flex:0 0 auto; margin:0 0 14px; padding:0 20px;
+  text-align:center; opacity:0; transition:opacity .42s var(--ease) .06s; }
+.rgrid .pcard:hover .pcard__name{ opacity:1; }
+.rgrid .pcard__name .t,
+.rgrid .pcard__name--wall .t{ font-family:var(--ff-serif); font-weight:600; font-size:28px; line-height:1.25; letter-spacing:-0.4px;
+  color:var(--c-ink); text-shadow:0 0 14px rgba(var(--c-bg-rgb),.85), 0 1px 3px rgba(var(--c-bg-rgb),.7); }
+.rgrid .pcard:hover .pcard__name .t{ text-shadow:0 0 16px rgba(var(--c-bg-rgb),.92), 0 1px 6px rgba(var(--c-bg-rgb),.8); }
+
+/* ★ 新增：深底反色 —— 仅 hover 名称翻浅，描述与默认名称墙不动。 */
+.rgrid .pcard--ondark:hover .pcard__name .t{
+  color:#fff;
+  text-shadow:0 1px 12px rgba(0,0,0,.55), 0 0 4px rgba(0,0,0,.45); }
+
+/* 磨砂带（foot）：底部满宽，内容驱动高度。 */
+.rgrid .pcard__foot{ position:relative; left:auto; right:auto; bottom:auto; top:auto; z-index:2;
+  flex:0 0 auto; width:100%;
+  min-height:40%; max-height:66%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:22px 22px 24px; text-align:center;
+  background:linear-gradient(180deg, rgba(var(--c-bg-rgb),.04) 0%, rgba(var(--c-bg-rgb),.46) 26%, rgba(var(--c-bg-rgb),.78) 60%, rgba(var(--c-bg-rgb),.97) 100%);
+  -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px);
+  clip-path:inset(100% 0 0 0); transition:clip-path .64s var(--ease-soft); }
+.rgrid .pcard:hover .pcard__foot{ clip-path:inset(0 0 0 0); }
+/* 带顶的双发丝高光线 */
+.rgrid .pcard__foot::before{ content:""; position:absolute; left:22px; right:22px; top:0; height:1.5px; border-radius:2px;
+  background:linear-gradient(90deg, rgba(var(--c-accent-rgb),0), rgba(var(--c-accent-rgb),.5) 20%, rgba(var(--c-accent-rgb),.5) 80%, rgba(var(--c-accent-rgb),0)); }
+.rgrid .pcard__foot::after{ content:""; position:absolute; left:22px; right:22px; top:1.5px; height:1px;
+  background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.65) 30%, rgba(255,255,255,.65) 70%, rgba(255,255,255,0)); }
+
+/* 描述：中字 14.5/22，全文不截，hover 淡入。描述永不反色（坐在浅色磨砂带内）。 */
+.rgrid .pcard__foot .d{ display:block; grid-template-rows:none; font-size:14.5px; line-height:22px;
+  color:var(--c-slate); text-align:center;
+  text-shadow:0 0 12px rgba(var(--c-bg-rgb),.9), 0 1px 4px rgba(var(--c-bg-rgb),.75);
+  opacity:0; transform:translateY(6px);
+  transition:opacity .45s var(--ease) .12s, transform .55s var(--ease-soft) .12s; }
+.rgrid .pcard:hover .pcard__foot .d{ grid-template-rows:none; opacity:1; transform:none; }
+.rgrid .pcard__foot .d > .d-inner{ display:block; overflow:visible; min-height:0; max-width:94%; margin:0 auto; }
+
+/* 窄屏兜底 */
+@media (max-width:1100px){ .rgrid{ grid-template-columns:repeat(3,1fr); } }
+@media (max-width:760px){ .rgrid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:480px){ .rgrid{ grid-template-columns:1fr; } }
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+</head>
+<body data-nav="portfolio">
+
+<video class="pagevid" autoplay muted loop playsinline preload="auto">
+  <source src="assets/0617/kling_20260617_VIDEO_无缝循环_hero__4945_0.mp4" type="video/mp4" />
+</video>
+
+<header class="testhead">
+  <h1>Portfolio 5/行 · 新增变量：深底名称反色（保可读性）</h1>
+  <p>hover 时名称浮在项目图上方；图偏深 → 名称自动转浅色 + 暗投影，图偏浅 → 维持深色；描述在浅色磨砂带内不变。自动按图片「上半区」亮度判定，可用 data-tone 手动覆盖。</p>
+  <p class="hint">hover 每张卡：看深图卡的名称是否变浅且清晰可读、浅图卡名称是否维持深色 · 控制台会打印每卡的采样亮度与判定结果</p>
+</header>
+
+<main class="wrap">
+  <div class="rgrid" id="grid"></div>
+</main>
+
+<script>
+/* ============================================================
+   深底反色：采样项目图「上半区」平均亮度判定明暗。
+   ON_DARK_THRESHOLD —— 单一可调常量：感知亮度（0–255）低于此值 → 判为「深底」→ 加 .pcard--ondark。
+   值越大越容易判深（更多卡反色）；值越小越保守。先取 128（中点），可按肉眼效果上下微调。
+   ============================================================ */
+var ON_DARK_THRESHOLD = 128;
+
+/* 只采样图片上半区的比例（hover 名称所在处；下半被磨砂带遮住，不参与判定） */
+var UPPER_REGION = 0.45;
+
+var COMPANIES = [
+  {n:"曦望",     img:"assets/proj-3820.png", y:"2026", ipo:false, d:"国内首家估值超百亿的纯推理GPU独角兽"},
+  {n:"来牟科技", img:"assets/proj-3817.png", y:"2025", ipo:false, d:"专注欧美市场的智能割草机器人公司"},
+  {n:"安弧科技", img:"assets/proj-3826.png", y:"2025", ipo:false, d:"专注于半导体静电卡盘（ESC）研发与生产的初创公司，致力于打破国外长期垄断，推动国产替代进程"},
+  {n:"韦尔股份", img:"assets/proj-3832.jpg", y:"2014", ipo:true,  d:"国内领先、全球排名前列的Fabless半导体设计公司，国产高端图像传感器芯片的龙头企业"},
+  {n:"兆易创新", img:"assets/proj-3834.jpg", y:"2018", ipo:true,  d:"国内存储与MCU双龙头半导体设计公司"}
+];
+
+/* tone:"" 自动判定 / "dark" 强制反色 / "light" 强制深色 —— 默认全部自动 */
+COMPANIES.forEach(function(c){ if(!('tone' in c)) c.tone = ""; });
+
+function cardHTML(c){
+  var ipo = c.ipo ? '<span class="pcard__badge pcard__badge--ipo">已上市</span>' : '';
+  var toneAttr = c.tone ? ' data-tone="' + c.tone + '"' : '';
+  return '<article class="pcard"' + toneAttr + '>' +
+           '<img class="pcard__bg" src="' + c.img + '" alt="" crossorigin="anonymous">' +
+           '<span class="pcard__badge">' + c.y + '</span>' + ipo +
+           '<div class="pcard__name--wall"><span class="t">' + c.n + '</span></div>' +
+           '<div class="pcard__group">' +
+             '<div class="pcard__name"><span class="t">' + c.n + '</span></div>' +
+             '<div class="pcard__foot">' +
+               '<span class="d"><span class="d-inner">' + c.d + '</span></span>' +
+             '</div>' +
+           '</div>' +
+         '</article>';
+}
+
+document.getElementById('grid').innerHTML = COMPANIES.map(cardHTML).join('');
+
+/* 采样一张已加载的 <img> 的「上半区」感知亮度（0–255），失败返回 null。 */
+function sampleUpperLuminance(img){
+  try{
+    var SW = 32; // 降采样宽度（足够估均值、快） —— 高度按 UPPER_REGION 比例取
+    var SH = Math.max(1, Math.round(SW * UPPER_REGION));
+    var cv = document.createElement('canvas');
+    cv.width = SW; cv.height = SH;
+    var ctx = cv.getContext('2d', { willReadFrequently:true });
+    // 只把原图的上半区（src 高度 * UPPER_REGION）绘进画布
+    var srcH = Math.max(1, Math.round(img.naturalHeight * UPPER_REGION));
+    ctx.drawImage(img, 0, 0, img.naturalWidth, srcH, 0, 0, SW, SH);
+    var data = ctx.getImageData(0, 0, SW, SH).data;
+    var sum = 0, count = 0;
+    for(var i=0; i<data.length; i+=4){
+      // 感知亮度 (Rec.601)
+      var lum = 0.299*data[i] + 0.587*data[i+1] + 0.114*data[i+2];
+      sum += lum; count++;
+    }
+    return count ? (sum / count) : null;
+  }catch(e){
+    console.warn('[ondark] 采样失败（可能 CORS 污染）:', e);
+    return null;
+  }
+}
+
+/* 对每张卡判定明暗。手动 data-tone 优先，否则采样图片上半区。 */
+function classifyCards(){
+  var cards = document.querySelectorAll('.rgrid .pcard');
+  cards.forEach(function(card){
+    var img  = card.querySelector('.pcard__bg');
+    var name = (card.querySelector('.pcard__name--wall .t') || {}).textContent || '?';
+    var tone = card.getAttribute('data-tone');
+
+    if(tone === 'dark'){
+      card.classList.add('pcard--ondark');
+      console.log('[ondark]', name, '→ 手动 data-tone=dark → 反色(浅名)');
+      return;
+    }
+    if(tone === 'light'){
+      card.classList.remove('pcard--ondark');
+      console.log('[ondark]', name, '→ 手动 data-tone=light → 维持深名');
+      return;
+    }
+
+    function decide(){
+      var lum = sampleUpperLuminance(img);
+      if(lum == null){
+        console.log('[ondark]', name, '→ 采样失败 → 维持默认深名');
+        return;
+      }
+      var isDark = lum < ON_DARK_THRESHOLD;
+      card.classList.toggle('pcard--ondark', isDark);
+      console.log('[ondark]', name, '→ 上半区亮度', lum.toFixed(1),
+        '/ 阈值', ON_DARK_THRESHOLD, '→', isDark ? '深底→反色(浅名)' : '浅底→维持深名');
+    }
+
+    if(img.complete && img.naturalWidth){
+      decide();
+    }else{
+      img.addEventListener('load', decide, { once:true });
+      img.addEventListener('error', function(){
+        console.warn('[ondark]', name, '→ 图片加载失败:', img.src);
+      }, { once:true });
+    }
+  });
+}
+
+classifyCards();
+</script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

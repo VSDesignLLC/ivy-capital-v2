@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<base href="../../../" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Portfolio 5/行 · 名称与磨砂带间距微调（短/中/最长 3 张代表卡）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================
+   测试页：Portfolio 名称墙 · 5/行 · 名称与磨砂带间距微调
+   基线已锁（恒定，本轮不动）:
+     · 默认态 = 居中衬线透明磨砂「名称墙」（名称居中、衬线 28px、卡片透明磨砂；无图/无 logo/无描述）。
+     · hover = 项目图淡入 + 底部满宽磨砂带升起 + 中字描述居中于带高、全文不截。
+     · 5/行，卡片 1/1，永不出现 logo。
+   本轮唯一改动（Vera 反馈）:
+     旧版 hover 名称落在固定锚点（≈top:17%），与磨砂带顶边的距离随带高变化 → 短描述卡的带矮、
+     名称却仍固定在高处，飘到卡片最上方、与带之间留巨大空隙，难看。
+   修正：名称 hover 时贴着「自己那张卡的磨砂带」顶边，间距小且一致（不随带高漂移）。
+     做法 = 名称 + 磨砂带组成「底部锚定组」（.pcard__group，flex 列、justify-content:flex-end）：
+       磨砂带按内容自适应高度，名称作为带的上方兄弟、用固定 margin 紧贴带顶 → 名称位置随带高自动追踪。
+       短带 → 名称低（紧贴矮带）；高带 → 名称高（紧贴高带）；三张卡的名称↔带间距视觉一致。
+     默认名称墙（居中）与 hover 名称用 opacity 交叉淡入淡出，避免硬跳。
+   gap（名称底 ↔ 带顶）取 14px。
+   本页只放 3 张代表卡（短 / 中 / 最长），仍按 5 列真实生产宽度铺前 3 格。
+   ============================================================ */
+
+/* 全页背景视频（真实语境：让透明磨砂名称墙透出视频） */
+.pagevid{ position:fixed; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; opacity:.40; pointer-events:none; }
+
+body{ background:var(--c-bg); }
+.wrap{ position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:0 var(--page-x) 120px; }
+
+/* 顶部页头 */
+.testhead{ position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:120px var(--page-x) 8px; }
+.testhead h1{ font-family:var(--ff-serif); font-weight:600; font-size:38px; line-height:1.2; letter-spacing:-0.6px; color:var(--c-ink); }
+.testhead p{ margin-top:14px; max-width:880px; font-family:var(--ff-sc); font-size:16px; line-height:27px; color:var(--c-slate); }
+.testhead .hint{ margin-top:10px; font-family:var(--ff-mono); font-size:12px; letter-spacing:.04em; color:var(--c-muted); }
+
+/* ===== 名称墙网格（5/行）+ 锁定基线 ===== */
+.rgrid{ display:grid; gap:24px; grid-template-columns:repeat(5,1fr); margin-top:40px; }
+.rgrid .pcard{ cursor:default;
+  /* 锁定：透明磨砂底（透出视频） */
+  background:rgba(var(--c-bg-rgb),.30); border:1px solid rgba(var(--c-bg-rgb),.55);
+  -webkit-backdrop-filter:blur(16px) saturate(1.1); backdrop-filter:blur(16px) saturate(1.1); }
+/* 默认态：背景图隐藏，hover 才淡入（恒定揭示行为） */
+.rgrid .pcard__bg{ opacity:0; transition:opacity .7s var(--ease), transform 1.1s var(--ease); }
+.rgrid .pcard:hover .pcard__bg{ opacity:1; }
+/* 第二枚药丸「已上市」叠在年份 badge 下方 */
+.rgrid .pcard__badge--ipo{ top:46px; background:var(--c-accent); border-color:var(--c-accent); color:var(--c-bg); }
+
+/* ① 默认「名称墙」：整卡绝对居中，hover 时淡出（交叉淡入到组内 hover 名称） */
+.rgrid .pcard__name--wall{ position:absolute; inset:0; z-index:3;
+  display:flex; align-items:center; justify-content:center;
+  text-align:center; padding:0 20px; pointer-events:none;
+  opacity:1; transition:opacity .42s var(--ease); }
+.rgrid .pcard:hover .pcard__name--wall{ opacity:0; }
+
+/* ② 底部锚定组：名称 + 磨砂带作为一个 flex 列、贴底对齐。
+   磨砂带按内容自适应高度；名称是带的上方兄弟、固定 gap 紧贴带顶 → 名称位置随带高自动追踪。 */
+.rgrid .pcard__group{ position:absolute; inset:0; z-index:2;
+  display:flex; flex-direction:column; justify-content:flex-end; align-items:stretch;
+  pointer-events:none; }
+
+/* hover 名称：位于带的正上方，固定 gap 紧贴带顶；默认隐藏，hover 淡入。 */
+.rgrid .pcard__name{ flex:0 0 auto; margin:0 0 14px; padding:0 20px;
+  text-align:center; opacity:0; transition:opacity .42s var(--ease) .06s; }
+.rgrid .pcard:hover .pcard__name{ opacity:1; }
+.rgrid .pcard__name .t,
+.rgrid .pcard__name--wall .t{ font-family:var(--ff-serif); font-weight:600; font-size:28px; line-height:1.25; letter-spacing:-0.4px;
+  color:var(--c-ink); text-shadow:0 0 14px rgba(var(--c-bg-rgb),.85), 0 1px 3px rgba(var(--c-bg-rgb),.7); }
+.rgrid .pcard:hover .pcard__name .t{ text-shadow:0 0 16px rgba(var(--c-bg-rgb),.92), 0 1px 6px rgba(var(--c-bg-rgb),.8); }
+
+/* 磨砂带（foot）：底部满宽，内容驱动高度。
+   min-height 40% → 短描述呼吸感；max-height 66% 封顶；描述在带内垂直居中、全文不截。 */
+.rgrid .pcard__foot{ position:relative; left:auto; right:auto; bottom:auto; top:auto; z-index:2;
+  flex:0 0 auto; width:100%;
+  min-height:40%; max-height:66%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:22px 22px 24px; text-align:center;
+  background:linear-gradient(180deg, rgba(var(--c-bg-rgb),.04) 0%, rgba(var(--c-bg-rgb),.46) 26%, rgba(var(--c-bg-rgb),.78) 60%, rgba(var(--c-bg-rgb),.97) 100%);
+  -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px);
+  clip-path:inset(100% 0 0 0); transition:clip-path .64s var(--ease-soft); }
+.rgrid .pcard:hover .pcard__foot{ clip-path:inset(0 0 0 0); }
+/* 带顶的双发丝高光线 */
+.rgrid .pcard__foot::before{ content:""; position:absolute; left:22px; right:22px; top:0; height:1.5px; border-radius:2px;
+  background:linear-gradient(90deg, rgba(var(--c-accent-rgb),0), rgba(var(--c-accent-rgb),.5) 20%, rgba(var(--c-accent-rgb),.5) 80%, rgba(var(--c-accent-rgb),0)); }
+.rgrid .pcard__foot::after{ content:""; position:absolute; left:22px; right:22px; top:1.5px; height:1px;
+  background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.65) 30%, rgba(255,255,255,.65) 70%, rgba(255,255,255,0)); }
+
+/* 描述：中字 14.5/22，全文不截（无 line-clamp / 无 max-height），hover 淡入。
+   覆盖 components.css 里 .pcard__foot .d 的 display:grid + grid-template-rows:0fr 旧收起机制 → 改回普通 block。 */
+.rgrid .pcard__foot .d{ display:block; grid-template-rows:none; font-size:14.5px; line-height:22px;
+  color:var(--c-slate); text-align:center;
+  text-shadow:0 0 12px rgba(var(--c-bg-rgb),.9), 0 1px 4px rgba(var(--c-bg-rgb),.75);
+  opacity:0; transform:translateY(6px);
+  transition:opacity .45s var(--ease) .12s, transform .55s var(--ease-soft) .12s; }
+.rgrid .pcard:hover .pcard__foot .d{ grid-template-rows:none; opacity:1; transform:none; }
+.rgrid .pcard__foot .d > .d-inner{ display:block; overflow:visible; min-height:0; max-width:94%; margin:0 auto; }
+
+/* 窄屏兜底 */
+@media (max-width:1100px){ .rgrid{ grid-template-columns:repeat(3,1fr); } }
+@media (max-width:760px){ .rgrid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:480px){ .rgrid{ grid-template-columns:1fr; } }
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+</head>
+<body data-nav="portfolio">
+
+<video class="pagevid" autoplay muted loop playsinline preload="auto">
+  <source src="assets/0617/kling_20260617_VIDEO_无缝循环_hero__4945_0.mp4" type="video/mp4" />
+</video>
+
+<header class="testhead">
+  <h1>Portfolio 5/行 · 名称与磨砂带间距微调（3 张代表卡：短/中/最长）</h1>
+  <p>修正：名称改为贴着各自磨砂带顶边、间距小且一致（gap 14px），短描述卡的名称不再飘到卡片最上方。名称与磨砂带组成「底部锚定组」，带按内容自适应高度，名称随带高自动追踪。</p>
+  <p class="hint">hover 三张卡对比：名称↔带间距是否一致 · 短卡（曦望）名称是否还偏高 · 仍按 5 列真实生产宽度铺前 3 格</p>
+</header>
+
+<main class="wrap">
+  <div class="rgrid" id="grid"></div>
+</main>
+
+<script>
+/* 仅 3 张代表卡：短 / 中 / 最长描述，做名称↔带间距一致性压力测试 */
+var COMPANIES = [
+  {n:"曦望", img:"assets/proj-3820.png", y:"2026", ipo:false, d:"国内首家估值超百亿的纯推理GPU独角兽"},
+  {n:"来牟科技", img:"assets/proj-3817.png", y:"2025", ipo:false, d:"专注欧美市场的智能割草机器人公司"},
+  {n:"安弧科技", img:"assets/proj-3826.png", y:"2025", ipo:false, d:"专注于半导体静电卡盘（ESC）研发与生产的初创公司，致力于打破国外长期垄断，推动国产替代进程"}
+];
+
+/* 名称墙（默认居中）+ 底部锚定组（hover 名称 + 磨砂带）。名称随带高自动追踪。 */
+function cardHTML(c){
+  var ipo = c.ipo ? '<span class="pcard__badge pcard__badge--ipo">已上市</span>' : '';
+  return '<article class="pcard">' +
+           '<img class="pcard__bg" src="' + c.img + '" alt="">' +
+           '<span class="pcard__badge">' + c.y + '</span>' + ipo +
+           '<div class="pcard__name--wall"><span class="t">' + c.n + '</span></div>' +
+           '<div class="pcard__group">' +
+             '<div class="pcard__name"><span class="t">' + c.n + '</span></div>' +
+             '<div class="pcard__foot">' +
+               '<span class="d"><span class="d-inner">' + c.d + '</span></span>' +
+             '</div>' +
+           '</div>' +
+         '</article>';
+}
+
+document.getElementById('grid').innerHTML = COMPANIES.map(cardHTML).join('');
+</script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

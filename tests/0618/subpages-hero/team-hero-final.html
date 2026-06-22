@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Team Hero · 选定版（第二档 M1 · 单运动圆点 · homepage 动效）</title>
+<base href="../../../" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+  body{ margin:0; background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); }
+
+  /* ★ 与生产一致:整屏高 + 200px 顶距(给固定 nav 留位) */
+  .hax{ position:relative; display:flex; flex-direction:column; align-items:center; padding:200px var(--page-x) 0; overflow:hidden; background:var(--c-bg); min-height:100vh; }
+  .hax__bg{ position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; }
+  .hax__fade{ position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 45%, var(--cream-grad) 78%); }
+  .hax__halo{ position:absolute; left:50%; top:40%; z-index:0; pointer-events:none; width:min(900px,86%); aspect-ratio:1/1; transform:translate(-50%,-50%); background:radial-gradient(circle at center, var(--c-accent-wash) 0%, rgba(var(--c-accent-rgb),.018) 38%, rgba(var(--c-accent-rgb),0) 70%); }
+  .hax__inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .hax__kick{ display:inline-flex; align-items:center; gap:10px; margin-bottom:36px; }
+  .hax__kick .caption{ color:var(--c-accent); letter-spacing:.2em; }
+  .hax__kick .dot--live{ position:relative; isolation:isolate; }
+  .hax__kick .dot--live::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1; width:22px; height:22px; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%) scale(.55); background:radial-gradient(circle, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.38) 36%, rgba(var(--c-accent-rgb),.14) 68%, rgba(var(--c-accent-rgb),0) 100%); filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite; }
+  /* 基线:标题整体蓝色;无英文副标 */
+  .hax__title{ font-family:var(--ff-sc); font-weight:700; font-size:108px; line-height:1.04; letter-spacing:-0.64px; color:var(--c-accent); }
+  /* 基线:desc 22px(已定) */
+  .hax__desc{ margin-top:34px; max-width:680px; font-family:var(--ff-sc); font-weight:400; font-size:22px; line-height:37px; letter-spacing:-0.2px; color:var(--c-slate); }
+
+  /* ====== I Value You 文字（复用主页组件，原样）====== */
+  .hero__ivy{ display:flex; flex-direction:column; align-items:center; gap:15px; margin-top:46px; }
+  .hero__ivy .ivy-t{ font-family:var(--ff-ital); font-style:italic; font-size:28.3px; line-height:31.2px; letter-spacing:-0.34px; color:var(--c-accent);
+    display:flex; align-items:baseline; justify-content:center; gap:10px; white-space:nowrap; }
+  .ivy-t .w{ display:inline-flex; align-items:baseline; }
+  .ivy-t .cap{ display:inline-block; vertical-align:baseline; }
+
+  /* ====== ★ 选定:第二档 M1 = 线 165 / 圆点 5px ====== */
+  /* ★ 圆点动效改用 homepage I Value You 的玩法:竖线上只有【一个运动的圆点】,没有常驻原点 */
+  .ivy-line{ position:relative; width:1px; height:165px;
+    background:linear-gradient(to bottom, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.18) 58%, rgba(var(--c-accent-rgb),0) 100%); }
+  .ivy-glow{ position:absolute; left:50%; top:0; width:5px; height:5px; margin-left:-2.5px; border-radius:50%; opacity:0;
+    background:rgba(var(--c-accent-rgb),.95); box-shadow:0 0 8px 2px rgba(var(--c-accent-rgb),.5); animation:flowDown 2.6s var(--ease) infinite; }
+  .ivy-glow::before{ content:''; position:absolute; left:50%; bottom:5px; width:2px; height:56px; margin-left:-1px;
+    background:linear-gradient(180deg, rgba(var(--c-accent-rgb),0) 0%, rgba(var(--c-accent-rgb),.4) 100%); filter:blur(.5px); }
+  /* homepage glowNodeC 同款:淡入→下行→淡出,循环;行程跟随线长(≈167px) */
+  @keyframes flowDown{ 0%{ transform:translateY(-4px); opacity:0; } 12%{ opacity:1; } 86%{ opacity:1; } 100%{ transform:translateY(167px); opacity:0; } }
+
+  /* 选定说明（滚到 hero 下方查看，不挡首屏） */
+  .spec{ max-width:1280px; margin:0 auto; padding:40px 40px 90px; font-size:14px; line-height:1.8; color:var(--c-slate); }
+  .spec b{ color:var(--c-ink); }
+  .spec .tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--c-accent); display:block; margin-bottom:10px; }
+</style>
+<script src="assets/js/partials.js"></script>
+</head>
+<body data-nav="team">
+
+  <!-- 固定 nav（生产组件 partials.js）；不加 site.js → 不收起,首屏即生产观感 -->
+  <site-nav></site-nav>
+
+  <header class="hero hax">
+    <video class="hax__bg" autoplay muted loop playsinline preload="auto"><source src="assets/team-hero.mp4" type="video/mp4"></video>
+    <div class="hax__fade" aria-hidden="true"></div>
+    <div class="hax__halo" aria-hidden="true"></div>
+    <div class="hax__inner">
+      <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Team</span></p>
+      <h1 class="hax__title">团队</h1>
+      <p class="hax__desc">我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以长期陪伴和深度连接，共同穿越技术创新与企业成长的周期。</p>
+      <div class="hero__ivy">
+        <span class="ivy-t"><span class="w"><span class="cap">I</span></span><span class="w"><span class="cap">Value</span></span><span class="w"><span class="cap">You</span></span></span>
+        <span class="ivy-line"><span class="ivy-glow"></span></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="spec">
+    <span class="tag">Team hero — 选定版 spec（待写回 team-ch.html）</span>
+    <b>已定：</b>① 大标题「团队」整体<b>蓝色</b>（去黑/蓝混用）；② 删除英文副标「Ivy Capital」；③ description = <b>22px / 行高 37</b>；
+    ④ 标题下方复用主页 <b>I Value You</b> 组件（斜体蓝字）；⑤ 线条 = <b>第二档 M1：线长 165px / 圆点 5px</b>；
+    ⑥ 圆点动效改用 <b>homepage I Value You 同款</b>——竖线上<b>只有一个运动的圆点</b>（淡入→下行→淡出循环），<b>不再有常驻原点</b>。
+    <br>页面高度、固定 nav 均与生产一致，便于核对位置。
+  </div>
+
+</body>
+</html>

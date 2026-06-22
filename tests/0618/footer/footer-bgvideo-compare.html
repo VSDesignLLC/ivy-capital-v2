@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Footer · 背景视频对比 + logo 缩小</title>
+<base href="../../../" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+  body{ margin:0; background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); }
+  /* 测试页说明条 */
+  .cmp-head{ max-width:1280px; margin:0 auto; padding:40px 40px 8px; }
+  .cmp-head__tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--c-accent); margin-bottom:12px; }
+  .cmp-head__h1{ font-family:var(--ff-serif); font-weight:600; font-size:32px; letter-spacing:-0.02em; margin:0 0 12px; }
+  .cmp-head__sub{ font-size:14px; line-height:1.7; color:var(--c-slate); max-width:780px; margin:0; }
+  .cmp-head__sub b{ color:var(--c-ink); }
+  .cmp-label{ max-width:1280px; margin:48px auto 0; padding:0 40px; display:flex; align-items:baseline; gap:14px; }
+  .cmp-label .r{ font-family:var(--ff-mono); font-size:12px; letter-spacing:.12em; color:var(--c-accent); }
+  .cmp-label .t{ font-family:var(--ff-serif); font-weight:600; font-size:21px; }
+  .cmp-label .f{ font-family:var(--ff-mono); font-size:11px; color:var(--c-muted); margin-left:auto; }
+  .cmp-block{ margin-top:14px; }
+
+  /* —— footer 背景图层换成 video（与 .footer__bg img 同样的 cover 处理）—— */
+  .footer__bg video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+  /* —— 左下角 logo 缩小：原 46px → 34px —— */
+  .footer__bottom .footer__logo img{ height:34px; }
+</style>
+</head>
+<body>
+
+  <div class="cmp-head">
+    <div class="cmp-head__tag">Footer · bg video — compare</div>
+    <h1 class="cmp-head__h1">页脚背景视频对比 + 左下 logo 缩小</h1>
+    <p class="cmp-head__sub">两处改动：① 左下角站点 logo 由 <b>46px → 34px</b>；② 把页脚背景图（footer-bg.jpg）换成<b>循环视频</b>，下面两版各试一个候选视频。其余结构 / 文案 / 地点卡 / 邮箱胶囊保持生产现状。视频 autoplay·muted·loop·cover 填满 rail 之间的背景区。</p>
+  </div>
+
+  <!-- V1 -->
+  <div class="cmp-label"><span class="r">V1</span><span class="t">候选视频 A</span><span class="f">kling_20260616_…5012_0.mp4</span></div>
+  <div class="cmp-block">
+  <footer class="footer">
+    <div class="footer__rule top"></div>
+    <div class="footer__bg">
+      <video autoplay muted loop playsinline preload="auto">
+        <source src="assets/0617/kling_20260616_作品_以上传图为首帧_整幅_5012_0.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div class="footer__left">
+          <div class="footer__slogan">一家以人为本的深科技投资机构，<br>与你共生、共韧、长青。</div>
+          <div class="footer__social">
+            <a href="#"><img src="assets/social-1.svg" alt="微信"></a>
+            <a href="#" class="big"><img src="assets/social-2.svg" alt="小红书"></a>
+            <a href="#"><img src="assets/social-3.svg" alt="LinkedIn"></a>
+          </div>
+        </div>
+        <div class="footer__locs">
+          <div class="locard locard--sh">
+            <img class="locard__tex" src="assets/footer-shanghai.jpg" alt=""><div class="locard__scrim"></div>
+            <div class="city">上海</div>
+            <div class="addr">长宁区番禺路381号<br>幸福里E座5楼</div>
+          </div>
+          <div class="locard locard--hk">
+            <img class="locard__tex" src="assets/footer-hongkong.jpg" alt=""><div class="locard__scrim"></div>
+            <div class="city">香港</div>
+            <div class="addr">中环花园道三号<br>冠君大厦10楼11室</div>
+          </div>
+        </div>
+      </div>
+      <hr class="footer__div">
+      <div class="footer__bottom">
+        <div class="footer__logo"><img src="assets/logo.png" alt="Ivy Capital 常春藤资本"></div>
+        <div class="footer__mails">
+          <a class="mailpill" href="#"><span class="dot"></span><span class="l">项目投递</span><span class="m">xxxx @ gmail.com</span></a>
+          <a class="mailpill" href="#"><span class="dot"></span><span class="l">工作机会</span><span class="m">xxxx @ gmail.com</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__rule bot"></div>
+    <div class="footer__icp"><span>沪ICP备 XXXXXXXX 号</span></div>
+  </footer>
+  </div>
+
+  <!-- V2 -->
+  <div class="cmp-label"><span class="r">V2</span><span class="t">候选视频 B</span><span class="f">kling_20260617_…5143_0.mp4</span></div>
+  <div class="cmp-block">
+  <footer class="footer">
+    <div class="footer__rule top"></div>
+    <div class="footer__bg">
+      <video autoplay muted loop playsinline preload="auto">
+        <source src="assets/0617/kling_20260617_VIDEO_无缝循环_hero__5143_0.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div class="footer__left">
+          <div class="footer__slogan">一家以人为本的深科技投资机构，<br>与你共生、共韧、长青。</div>
+          <div class="footer__social">
+            <a href="#"><img src="assets/social-1.svg" alt="微信"></a>
+            <a href="#" class="big"><img src="assets/social-2.svg" alt="小红书"></a>
+            <a href="#"><img src="assets/social-3.svg" alt="LinkedIn"></a>
+          </div>
+        </div>
+        <div class="footer__locs">
+          <div class="locard locard--sh">
+            <img class="locard__tex" src="assets/footer-shanghai.jpg" alt=""><div class="locard__scrim"></div>
+            <div class="city">上海</div>
+            <div class="addr">长宁区番禺路381号<br>幸福里E座5楼</div>
+          </div>
+          <div class="locard locard--hk">
+            <img class="locard__tex" src="assets/footer-hongkong.jpg" alt=""><div class="locard__scrim"></div>
+            <div class="city">香港</div>
+            <div class="addr">中环花园道三号<br>冠君大厦10楼11室</div>
+          </div>
+        </div>
+      </div>
+      <hr class="footer__div">
+      <div class="footer__bottom">
+        <div class="footer__logo"><img src="assets/logo.png" alt="Ivy Capital 常春藤资本"></div>
+        <div class="footer__mails">
+          <a class="mailpill" href="#"><span class="dot"></span><span class="l">项目投递</span><span class="m">xxxx @ gmail.com</span></a>
+          <a class="mailpill" href="#"><span class="dot"></span><span class="l">工作机会</span><span class="m">xxxx @ gmail.com</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__rule bot"></div>
+    <div class="footer__icp"><span>沪ICP备 XXXXXXXX 号</span></div>
+  </footer>
+  </div>
+
+  <div style="height:80px"></div>
+</body>
+</html>
