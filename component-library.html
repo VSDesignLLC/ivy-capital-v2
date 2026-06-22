@@ -40,6 +40,12 @@
       仅在原子预览盒 .atom-tags 内强制展开可见；不影响 .card-strategy 内的 .tags（仍保留 hover 效果）。 —— */
 .atom-tags .tags{ display:flex; gap:8px; opacity:1; transform:none; grid-template-rows:1fr; }
 
+/* —— 作用域覆盖 ④ <site-nav>/<site-footer> 默认 display:contents（base.css）。
+      .stage--bleed 的 > *{width:100%} 落在自定义元素上无效 → 真正的 <footer> 作为 flex
+      item 以 max-content 撑爆舞台、排版散开。这里仅在 bleed 舞台内把自定义元素改回 block
+      并占满舞台宽度（真实页 footer 在 .page 块流里宽度本就正常，不受影响）。 —— */
+.stage--bleed > site-nav, .stage--bleed > site-footer{ display:block; width:100%; }
+
 /* ===== layout ===== */
 .cl-head{ border-bottom:1px solid var(--c-grid); padding:72px 64px 44px; position:relative; overflow:hidden; }
 .cl-head::before{ content:""; position:absolute; left:64px; top:0; bottom:0; width:1px; background:var(--c-grid); opacity:.5; }
@@ -71,9 +77,13 @@ main{ padding:0 64px 120px; }
 .tier__desc{ color:var(--c-muted); font-size:14px; line-height:1.7; max-width:760px; margin-bottom:20px; }
 
 /* ===== spec row ===== left = class handle + 描述 / right = live stage */
-.spec{ display:grid; grid-template-columns:minmax(260px,340px) 1fr; gap:56px; align-items:start;
+.spec{ display:grid; grid-template-columns:minmax(260px,340px) minmax(0,1fr); gap:56px; align-items:start;
   padding:44px 0; border-top:1px solid var(--c-hairline); }
 .spec:first-of-type{ border-top:0; }
+/* 满宽 spec：layout 层全宽 composite（footer 等）描述在上、舞台在下占满宽度，
+   不挤进双栏（半宽下 footer__top 会把 slogan 挤到逐字折行——见 CLAUDE.md：composite 须满生产宽度）。 */
+.spec--full{ display:block; }
+.spec--full > div:first-child{ max-width:820px; margin-bottom:26px; }
 .spec__class{ font-family:var(--ff-mono); font-size:21px; font-weight:500; color:var(--c-accent); letter-spacing:-.02em; word-break:break-word; }
 .spec__src{ font-family:var(--ff-mono); font-size:11px; color:var(--c-muted); letter-spacing:.04em; margin-top:5px; }
 .spec__desc{ font-size:14px; line-height:1.7; color:var(--c-slate); margin-top:14px; }
@@ -615,14 +625,14 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
       </div>
     </div>
 
-    <!-- .footer -->
-    <div class="spec">
+    <!-- .footer · 满宽 layout composite -->
+    <div class="spec spec--full">
       <div>
         <div class="spec__class">.footer（&lt;site-footer&gt;）</div>
         <div class="spec__src">components.css · partials.js</div>
-        <div class="spec__desc">站点页脚全家族：双横线框 + 图底 + 标语 + 社交圆钮 + 双地址卡（card-location）+ 分隔线 + logo + 双邮箱胶囊（mailpill）+ ICP。真实结构由 <code>&lt;site-footer&gt;</code> 注入。其 markup 带 <code>data-reveal</code>，因本页不引 site.js，已用作用域覆盖强制显影。</div>
+        <div class="spec__desc">站点页脚全家族：双横线框 + 视频底 + 标语 + 社交圆钮 + 双地址卡（card-location）+ 分隔线 + logo + 双邮箱胶囊（mailpill）+ ICP。真实结构由 <code>&lt;site-footer&gt;</code> 注入。其 markup 带 <code>data-reveal</code>，因本页不引 site.js，已用作用域覆盖强制显影。<b>满宽展示</b>：footer 是 layout 层全宽 composite，半宽下 <code>footer__top</code> 会把标语挤到逐字折行，故此条目整行铺满。</div>
         <div class="spec__meta">
-          <div class="r"><span class="k">资源</span><span class="v"><code>footer-bg.jpg</code> · 城市纹理 · social svg · logo</span></div>
+          <div class="r"><span class="k">资源</span><span class="v">背景视频 B（无缝循环）· social svg · logo · 城市纹理（card-location hover）</span></div>
           <div class="r"><span class="k">组成</span><span class="v">card-location · mailpill · footer__social · footer__slogan</span></div>
         </div>
         <span class="hint">↑ hover 地址卡 / 社交钮 / 邮箱胶囊各有微交互</span>
