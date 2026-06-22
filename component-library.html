@@ -381,12 +381,15 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
           <span class="fam__label">卡片家族</span>
           <span class="fam__en">Card family</span>
         </div>
-        <p class="fam__note">同属一类、解剖结构各异的卡片用统一前缀 <code>card-</code> 聚类（「文件树」式层级感）。<b>R3 已落地</b>：canonical 与全部页面均已采用 <code>card-strategy / card-project / card-award / card-location</code> 规范名（详见 <code>COMPONENT-STANDARDS.md</code> §八 R3）。</p>
+        <p class="fam__note">同属一类、解剖结构各异的卡片用统一前缀 <code>card-</code> 聚类（「文件树」式层级感）。<b>R3 已落地</b>：canonical 与全部页面均已采用 <code>card-strategy / card-project / card-award / card-location</code> 规范名。<b>Pass 2 已落地</b>：新增 <code>card-member</code>（团队卡）与 <code>card-project--wall</code>（名称墙变体），子页 hero <code>.hax</code> 也已抽 canonical（详见 <code>COMPONENT-STANDARDS.md</code> §四.4 / §八）。</p>
         <div class="fam__tree"><b>card-</b>                            <i>家族（卡片）</i>
 ├─ <b>card-strategy</b>   (.card-strategy)          <i>投资方向 / 策略卡</i>
 ├─ <b>card-project</b>    (.card-project)         <i>被投企业卡</i>
 │   ├─ __badge                     <i>可选徽章子元素</i>
-│   └─ --no-badge                  <i>无徽章变体</i>
+│   ├─ --no-badge                  <i>无徽章变体</i>
+│   └─ --wall                      <i>名称墙变体（portfolio）· +--ondark 反色</i>
+├─ <b>card-member</b>     (.card-member)          <i>团队成员卡 · 正方 photo + 玻璃名牌</i>
+│   └─ __photo __plate(.corner) __txt(.t/.d)
 ├─ <b>card-award</b>      (.ticker .card-award)    <i>奖项文字卡</i>
 │   └─ __kick __quote __org __award
 └─ <b>card-location</b>   (.card-location)        <i>地址定位卡 · hover 浮出天际线</i>
@@ -458,6 +461,55 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
                 </div>
               </div>
               <div class="cl-var__cap">无徽章 · <code>--no-badge</code><span class="cl-var__note">不写 __badge 子元素即可</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ├─ card-project--wall · 名称墙变体 -->
+        <div class="spec">
+          <div>
+            <div class="spec__class"><span class="cl-branch">├─</span>.card-project--wall</div>
+            <div class="spec__src">components.css</div>
+            <div class="spec__desc">被投企业「名称墙」<b>变体</b>（portfolio）。同源于 <code>card-project</code>（共用 <code>__bg / __foot</code>），只是默认/hover 编排不同：默认整卡居中显示企业名（<code>__name--wall</code>，透明磨砂卡透出整页背景视频）；hover → 项目图淡入 + 底部满宽磨砂带（<code>__foot</code>）升起承全文描述 + 名称（<code>__name</code>）移到带顶上方 14px。深底卡再叠 <code>--ondark</code>（portfolio ondark JS 采样判定）让 hover 名称翻白。网格 <code>.rgrid</code> 属页面布局，留 portfolio 内联。</div>
+            <div class="spec__meta">
+              <div class="r"><span class="k">子元素</span><span class="v"><code>__bg · __name--wall · __group(__name) · __foot(.d)</code></span></div>
+              <div class="r"><span class="k">变体</span><span class="v"><code>--ondark</code> 深底名称翻白（JS 采样自动加）</span></div>
+              <div class="r"><span class="k">hover</span><span class="v">名称墙淡出 · 图淡入 · 磨砂带 clip 升起 · 描述揭示</span></div>
+            </div>
+            <span class="hint">↑ hover 查看图淡入 + 磨砂带升起</span>
+          </div>
+          <div class="stage" style="background:var(--c-ink)">
+            <div class="card-project card-project--wall" style="width:240px">
+              <img class="card-project__bg" src="assets/proj-3817.png" alt="">
+              <div class="card-project__name--wall"><span class="t">格科微电子</span></div>
+              <div class="card-project__group">
+                <div class="card-project__name"><span class="t">格科微电子</span></div>
+                <div class="card-project__foot"><span class="d"><span class="d-inner">CMOS 图像传感器与显示驱动芯片设计</span></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ├─ card-member · 团队成员卡 -->
+        <div class="spec">
+          <div>
+            <div class="spec__class"><span class="cl-branch">├─</span>.card-member</div>
+            <div class="spec__src">components.css</div>
+            <div class="spec__desc">团队成员卡。正方 photo（<code>__photo</code>，hover 微缩放）+ 玻璃名牌（<code>__plate</code>，顶部双线高光 + 蓝色 corner L 角，质感沿用 <code>card-project__plate</code> 语言）+ 姓名/职务（<code>__txt .t/.d</code>）。hover 上浮、描边变蓝、柔和投影显形。网格 <code>.team-grid</code>（5 列 + 响应式）属页面布局，留 team 内联。</div>
+            <div class="spec__meta">
+              <div class="r"><span class="k">资源</span><span class="v"><code>assets/team-placeholder.png</code></span></div>
+              <div class="r"><span class="k">子元素</span><span class="v"><code>__photo · __plate(.corner) · __txt(.t/.d)</code></span></div>
+              <div class="r"><span class="k">hover</span><span class="v">translateY -6px · 描边变蓝 · photo scale 1.06 · 阴影显形</span></div>
+            </div>
+            <span class="hint">↑ hover 查看上浮 + 照片缩放</span>
+          </div>
+          <div class="stage">
+            <div class="card-member" style="width:240px">
+              <div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div>
+              <div class="card-member__plate">
+                <span class="corner tl"></span><span class="corner br"></span>
+                <div class="card-member__txt"><span class="t">成员姓名</span><span class="d">创始合伙人</span></div>
+              </div>
             </div>
           </div>
         </div>

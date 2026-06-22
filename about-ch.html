@@ -17,44 +17,7 @@
 
 #directions, #philosophy, #empower{ padding-bottom:var(--gap); }
 
-/* ---------- HERO · 终版（display 蓝标题 + 呼吸点 label + I Value You 运动轴；.hax 为 4 子页共用，Pass 2 抽 canonical） ---------- */
-.hax{ position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:200px var(--page-x) 0; overflow:hidden; background:var(--c-bg); }
-.hax__bg{ position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; }
-.hax__fade{ position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 45%, var(--cream-grad) 78%); }
-.hax__halo{ position:absolute; left:50%; top:40%; z-index:0; pointer-events:none; width:min(900px,86%); aspect-ratio:1/1; transform:translate(-50%,-50%); background:radial-gradient(circle at center, var(--c-accent-wash) 0%, rgba(var(--c-accent-rgb),.018) 38%, rgba(var(--c-accent-rgb),0) 70%); }
-.hax__inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); display:flex; flex-direction:column; align-items:center; text-align:center; }
-/* label = 呼吸圆点 + 英文页名（.dot/.caption 在 base.css；.dot--live 呼吸光晕由 components.css 单一来源提供，markup 组合 class="dot dot--live"）*/
-.hax__kick{ display:inline-flex; align-items:center; gap:10px; margin-bottom:36px; }
-.hax__kick .caption{ color:var(--c-accent); letter-spacing:.2em; }
-/* 主标题 = display：Noto Sans SC Bold 108/-0.64，整体蓝色（无英文副标）*/
-.hax__title{ font-family:var(--ff-sc); font-weight:700; font-size:108px; line-height:1.04; letter-spacing:-0.64px; color:var(--c-accent); }
-.hax__desc{ margin-top:34px; max-width:680px; font-family:var(--ff-sc); font-weight:400; font-size:22px; line-height:37px; letter-spacing:-0.2px; color:var(--c-slate); }
-/* I Value You：复用主页同名组件的子页变体（静态 in-flow；竖线 165 + 单运动圆点 flowDown，无常驻点）*/
-.hero__ivy{ display:flex; flex-direction:column; align-items:center; gap:15px; margin-top:46px; }
-.hero__ivy .ivy-t{ font-family:var(--ff-ital); font-style:italic; font-size:28.3px; line-height:31.2px; letter-spacing:-0.34px; color:var(--c-accent);
-  display:flex; align-items:baseline; justify-content:center; gap:10px; white-space:nowrap; }
-.ivy-t .w{ display:inline-flex; align-items:baseline; }
-.ivy-t .cap{ display:inline-block; vertical-align:baseline; }
-.ivy-line{ position:relative; width:1px; height:165px;
-  background:linear-gradient(to bottom, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.18) 58%, rgba(var(--c-accent-rgb),0) 100%); }
-.ivy-glow{ position:absolute; left:50%; top:0; width:5px; height:5px; margin-left:-2.5px; border-radius:50%; opacity:0;
-  background:rgba(var(--c-accent-rgb),.95); box-shadow:0 0 8px 2px rgba(var(--c-accent-rgb),.5); animation:flowDown 2.6s var(--ease) infinite; }
-.ivy-glow::before{ content:''; position:absolute; left:50%; bottom:5px; width:2px; height:56px; margin-left:-1px;
-  background:linear-gradient(180deg, rgba(var(--c-accent-rgb),0) 0%, rgba(var(--c-accent-rgb),.4) 100%); filter:blur(.5px); }
-@keyframes flowDown{ 0%{ transform:translateY(-4px); opacity:0; } 12%{ opacity:1; } 86%{ opacity:1; } 100%{ transform:translateY(167px); opacity:0; } }
-/* 入场：kick/标题/desc 逐个上浮淡入（保留）*/
-.hax__kick, .hax__title, .hax__desc{ opacity:0; transform:translateY(20px); animation:haxRise .9s var(--ease-soft) both; }
-.hax__kick{ animation-delay:.12s; } .hax__title{ animation-delay:.26s; } .hax__desc{ animation-delay:.42s; }
-@keyframes haxRise{ to{ opacity:1; transform:none; } }
-@media (max-width:1100px){
-  .hax{ padding-top:150px; }
-  .hax__title{ font-size:64px; letter-spacing:-1.2px; }
-  .hax__desc{ font-size:18px; line-height:30px; }
-}
-@media (prefers-reduced-motion:reduce){
-  .hax__kick, .hax__title, .hax__desc{ opacity:1; transform:none; animation:none; }
-  .ivy-glow{ animation:none; opacity:0; }
-}
+/* HERO (.hax) → canonical: assets/css/components.css（子页通用，已抽出） */
 
 /* ---------- I. 投资方向 — 复用首页 .cards/.card-strategy 组件 + gutter 竖线 ---------- */
 .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; padding-top:56px; }
