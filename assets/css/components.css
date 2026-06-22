@@ -275,6 +275,21 @@
 .mailpill .m{ color:var(--c-ink); font-size:17px; line-height:1; }
 .footer__icp{ position:absolute; left:0; right:0; bottom:0; height:52px; z-index:3; display:flex; align-items:center; justify-content:flex-end; padding:0 104px; }
 .footer__icp span{ font-family:var(--ff-mono); font-size:11px; line-height:16.5px; letter-spacing:1.32px; color:rgba(var(--c-ink-rgb),.4); }
+/* footer 窄屏断点：默认 footer__top/__bottom 是横排 space-between；视口收窄时若不堆叠，
+   footer__top 会把标语挤到逐字折行。≤1024 竖向堆叠 + 收内边距，≤560 卡片/胶囊换行。 */
+@media (max-width:1024px){
+  .footer__inner{ padding:36px 56px 24px; gap:30px; }
+  .footer__top{ flex-direction:column; align-items:stretch; gap:32px; }
+  .footer__bottom{ flex-direction:column; align-items:flex-start; gap:22px; }
+  .footer__icp{ padding:0 56px; }
+}
+@media (max-width:560px){
+  .footer__inner{ padding:32px 24px 24px; }
+  .footer__icp{ padding:0 24px; }
+  .footer__locs{ flex-wrap:wrap; gap:14px; }
+  .footer__mails{ flex-wrap:wrap; gap:12px; }
+  .footer__slogan{ font-size:21px; line-height:38px; }
+}
 
 /* ---------- card-member · 团队成员卡（正方 photo + 玻璃名牌 corner L 角）----------
    card 家族成员；名牌玻璃质感沿用 card-project__plate 语言。
