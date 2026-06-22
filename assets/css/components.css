@@ -321,7 +321,7 @@
    display 蓝标题 + 呼吸点 label + “I Value You” 运动轴。
    ⚠ 首页 hero 是另一套 .hero__ivy(打字机动画 + glowNodeC)；本组件在
    components.css 里、加载早于页面内联 <style>，故子页 ivy 选择器一律
-   限定 .hax 作用域，避免裸选择器把属性泄漏到首页。.hax__*/flowDown/
+   限定 .hax 作用域，避免裸选择器把属性泄漏到首页。.hax__ 前缀、flowDown、
    haxRise 首页不使用，可裸放。
    ============================================================ */
 .hax{ position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:200px var(--page-x) 0; overflow:hidden; background:var(--c-bg); }

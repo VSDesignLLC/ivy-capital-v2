@@ -16,7 +16,7 @@
    文案严格取自飞书《2026官网内容》Page3 团队（仅 block 57 介绍文字）；
    团队成员资料文档未提供 → 成员卡用占位骨架，不编造姓名/职位。 */
 
-#team{ padding-bottom:var(--gap); }
+#team-ops{ padding-top:120px; padding-bottom:var(--gap); }
 
 /* HERO (.hax) → canonical: assets/css/components.css（子页通用，已抽出） */
 
@@ -77,7 +77,7 @@
 
 <!-- GLOBAL fixed video background（与首页同源，团队页压得很淡） -->
 <video class="pagebg" id="pagebg" autoplay muted loop playsinline preload="auto">
-  <source src="assets/kling_20260612_作品_以上传图为首帧_整幅_4326_0.mp4" type="video/mp4" />
+  <source src="assets/0617/kling_20260617_VIDEO_无缝循环_hero__5143_0.mp4" type="video/mp4" />
 </video>
 
 <div class="page">
@@ -91,7 +91,7 @@
   <site-nav></site-nav>
 
   <!-- TEAM HERO · V4 中轴版 -->
-  <header class="hero hax">
+  <header class="hero hax" data-bgop="0">
     <video class="hax__bg" autoplay muted loop playsinline preload="auto"><source src="assets/team-hero.mp4" type="video/mp4"></video>
     <div class="hax__fade" aria-hidden="true"></div>
     <div class="hax__halo" aria-hidden="true"></div>
@@ -106,23 +106,47 @@
     </div>
   </header>
 
-  <!-- 团队成员 — 占位骨架（文档未提供成员资料） -->
-  <section class="section" id="team" data-bgop="0.04">
+  <!-- 投资团队 -->
+  <section class="section bg-fade-top" id="team-invest" data-bgop="0.12">
     <div class="sec-band sec-anim">
       <span class="rule top"></span><span class="rule bot"></span>
       <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
-        <span class="bt"><span class="cn">团队</span></span>
+        <span class="bt"><span class="cn">投资团队</span></span>
       </div>
     </div>
     <div class="team-grid">
-      <article class="card-member" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">成员姓名</span><span class="d">创始合伙人</span></div></div></article>
-      <article class="card-member" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">成员姓名</span><span class="d">管理合伙人</span></div></div></article>
-      <article class="card-member" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:140ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">成员姓名</span><span class="d">合伙人</span></div></div></article>
-      <article class="card-member" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:210ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">成员姓名</span><span class="d">董事总经理</span></div></div></article>
-      <article class="card-member" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">成员姓名</span><span class="d">投资总监</span></div></div></article>
-      <article class="card-member" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">成员姓名</span><span class="d">投资副总裁</span></div></div></article>
-      <article class="card-member" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:140ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">成员姓名</span><span class="d">投资经理</span></div></div></article>
-      <article class="card-member" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:210ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">成员姓名</span><span class="d">投资分析师</span></div></div></article>
+      <article class="card-member" data-group="投资团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">翁吉义</span><span class="d">创始合伙人</span></div></div></article>
+      <article class="card-member" data-group="投资团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">路明</span><span class="d">高级合伙人</span></div></div></article>
+      <article class="card-member" data-group="投资团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:140ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">严恺</span><span class="d">合伙人</span></div></div></article>
+      <article class="card-member" data-group="投资团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:210ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">薛玉梁</span><span class="d">投资董事</span></div></div></article>
+      <article class="card-member" data-group="投资团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">张健</span><span class="d">投资总监</span></div></div></article>
+      <article class="card-member" data-group="投资团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">季翔</span><span class="d">投资总监</span></div></div></article>
+      <article class="card-member" data-group="投资团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:140ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">缪荣高</span><span class="d">高级投资经理</span></div></div></article>
+      <article class="card-member" data-group="投资团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:210ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">李政陶</span><span class="d">投资经理</span></div></div></article>
+      <article class="card-member" data-group="投资团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">范雪瑞</span><span class="d">合伙人</span></div></div></article>
+      <article class="card-member" data-group="投资团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">王颖</span><span class="d">高级合伙人</span></div></div></article>
+    </div>
+  </section>
+
+  <!-- 运营团队 -->
+  <section class="section" id="team-ops" data-bgop="0.12">
+    <div class="sec-band sec-anim">
+      <span class="rule top"></span><span class="rule bot"></span>
+      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+        <span class="bt"><span class="cn">运营团队</span></span>
+      </div>
+    </div>
+    <div class="team-grid">
+      <article class="card-member" data-group="运营团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">龚胜利</span><span class="d">COO</span></div></div></article>
+      <article class="card-member" data-group="运营团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">祁燕</span><span class="d">CFO</span></div></div></article>
+      <article class="card-member" data-group="运营团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:140ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">陈丹</span><span class="d">投后高级副总裁</span></div></div></article>
+      <article class="card-member" data-group="运营团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:210ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">张嘉洋</span><span class="d"></span></div></div></article>
+      <article class="card-member" data-group="运营团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">王天怡</span><span class="d">投后</span></div></div></article>
+      <article class="card-member" data-group="运营团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">史建霞</span><span class="d">基金运营</span></div></div></article>
+      <article class="card-member" data-group="运营团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:140ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">娄欣</span><span class="d">基金运营</span></div></div></article>
+      <article class="card-member" data-group="运营团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:210ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">刘海燕</span><span class="d">投资者关系</span></div></div></article>
+      <article class="card-member" data-group="运营团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">凌紫璇</span><span class="d">品牌公关与市场负责人</span></div></div></article>
+      <article class="card-member" data-group="运营团队" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">郭倩</span><span class="d">人力资源及行政副总裁</span></div></div></article>
     </div>
   </section>
 
@@ -134,7 +158,7 @@
     <div class="lb__card" id="lbCard">
       <div class="lb__photo"><img id="lbPhoto" src="" alt="" /></div>
       <div class="lb__panel">
-        <span class="lb__label">投资团队</span>
+        <span class="lb__label" id="lbLabel">投资团队</span>
         <div class="lb__body">
           <h2 class="lb__name" id="lbName"></h2>
           <div class="lb__role" id="lbRole"></div>
@@ -161,7 +185,8 @@
         photo = document.getElementById('lbPhoto'),
         nameEl = document.getElementById('lbName'),
         roleEl = document.getElementById('lbRole'),
-        bioEl  = document.getElementById('lbBio');
+        bioEl  = document.getElementById('lbBio'),
+        labelEl = document.getElementById('lbLabel');
     var cards = [].slice.call(document.querySelectorAll('.team-grid .card-member'));
     if(!cards.length) return;
     var members = cards.map(function(c){
@@ -172,7 +197,8 @@
         name: t ? t.textContent : '',
         role: d ? d.textContent : '',
         photo: bg ? bg.getAttribute('src') : '',
-        bio: c.getAttribute('data-bio') || ''
+        bio: c.getAttribute('data-bio') || '',
+        group: c.getAttribute('data-group') || ''
       };
     });
     var idx = 0;
@@ -181,7 +207,8 @@
       lb.style.setProperty('--y1', r.top + 'px');  lb.style.setProperty('--y2', r.bottom + 'px'); }
     function fill(i){ var m = members[i]; if(!m) return;
       photo.src = m.photo; photo.alt = m.name;
-      nameEl.textContent = m.name; roleEl.textContent = m.role; bioEl.textContent = m.bio; }
+      nameEl.textContent = m.name; roleEl.textContent = m.role; bioEl.textContent = m.bio;
+      if(labelEl && m.group) labelEl.textContent = m.group; }
     function open(i){ idx = i; fill(i); lb.classList.add('is-open'); lb.setAttribute('aria-hidden','false');
       document.body.style.overflow = 'hidden';
       requestAnimationFrame(function(){ requestAnimationFrame(layout); }); }
