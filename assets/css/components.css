@@ -68,6 +68,11 @@
 .nav__lang .z{ font-weight:700; font-size:11px; letter-spacing:.88px; color:#000; }
 .nav__lang .sep{ font-family:var(--ff-mono); font-weight:700; font-size:11px; color:rgba(0,0,0,.3); }
 .nav__lang .en{ font-family:var(--ff-mono); font-weight:700; font-size:11px; letter-spacing:.88px; color:rgba(0,0,0,.45); cursor:pointer; }
+.nav__lang a{ text-decoration:none; transition:color .2s; }
+.nav__lang a:hover{ color:#000; }
+/* 英文页：EN 高亮、中 淡化（中文页则相反，靠上面 .z/.en 基色） */
+html[lang="en"] .nav__lang .z{ color:rgba(0,0,0,.45); }
+html[lang="en"] .nav__lang .en{ color:#000; }
 
 @keyframes dot-halo{ 0%{ transform:translate(-50%,-50%) scale(.55); opacity:0; } 28%{ opacity:.92; } 100%{ transform:translate(-50%,-50%) scale(1.7); opacity:0; } }
 
