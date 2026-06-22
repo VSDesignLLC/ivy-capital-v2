@@ -17,99 +17,98 @@
 
 #directions, #philosophy, #empower{ padding-bottom:var(--gap); }
 
-/* ---------- HERO · V4 中轴版（design system display 标题 + 呼吸点 label + 贯穿中轴引导） ---------- */
+/* ---------- HERO · 终版（display 蓝标题 + 呼吸点 label + I Value You 运动轴；.hax 为 4 子页共用，Pass 2 抽 canonical） ---------- */
 .hax{ position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:200px var(--page-x) 0; overflow:hidden; background:var(--c-bg); }
 .hax__bg{ position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; }
 .hax__fade{ position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 45%, var(--cream-grad) 78%); }
-.hax__halo{ position:absolute; left:50%; top:46%; z-index:0; pointer-events:none; width:min(1100px,86vw); aspect-ratio:1/1; transform:translate(-50%,-50%); background:radial-gradient(circle at center, var(--c-accent-wash) 0%, rgba(var(--c-accent-rgb),.018) 38%, rgba(var(--c-accent-rgb),0) 70%); }
+.hax__halo{ position:absolute; left:50%; top:40%; z-index:0; pointer-events:none; width:min(900px,86%); aspect-ratio:1/1; transform:translate(-50%,-50%); background:radial-gradient(circle at center, var(--c-accent-wash) 0%, rgba(var(--c-accent-rgb),.018) 38%, rgba(var(--c-accent-rgb),0) 70%); }
 .hax__inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); display:flex; flex-direction:column; align-items:center; text-align:center; }
-/* label = 呼吸圆点 + 英文页名（复用 homepage hero eyebrow；.dot/.caption 在 base.css，dot-halo 在 components.css；浅底蓝光晕） */
-.hax__kick{ display:inline-flex; align-items:center; gap:10px; margin-bottom:42px; }
+/* label = 呼吸圆点 + 英文页名（.dot/.caption 在 base.css；.dot--live 呼吸光晕由 components.css 单一来源提供，markup 组合 class="dot dot--live"）*/
+.hax__kick{ display:inline-flex; align-items:center; gap:10px; margin-bottom:36px; }
 .hax__kick .caption{ color:var(--c-accent); letter-spacing:.2em; }
-/* .dot--live 呼吸光晕现由 components.css 单一来源提供（eyebrow markup 已组合 class="dot dot--live"）*/
-/* Hero 主标题 = design system `display`：Noto Sans SC Bold · 108/112/-0.64 */
-.hax__title{ font-family:var(--ff-sc); font-weight:700; font-size:108px; line-height:1.04; letter-spacing:-0.64px; color:var(--c-ink); }
-.hax__title .b{ color:var(--c-accent); }
-.hax__title .en{ display:block; margin-top:14px; font-family:var(--ff-ital); font-style:italic; font-weight:400; font-size:34px; line-height:1; letter-spacing:.2px; color:var(--c-muted); }
-.hax__desc{ margin-top:38px; max-width:680px; font-family:var(--ff-sc); font-weight:400; font-size:18px; line-height:32px; letter-spacing:-0.2px; color:var(--c-slate); }
-.hax__axis{ position:relative; z-index:2; margin-top:60px; flex:1 0 auto; min-height:160px; display:flex; flex-direction:column; align-items:center; width:100%; }
-.hax__axis-line{ flex:1 1 auto; width:1px; background:linear-gradient(to bottom, var(--c-accent) 0%, rgba(var(--c-accent-rgb),.45) 40%, var(--c-accent-line) 100%); transform-origin:top; transform:scaleY(1); animation:haxDraw 1.7s var(--ease-soft) .45s both; }
-.hax__axis::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--c-accent); flex:none; margin-bottom:-3px; z-index:1; opacity:0; animation:haxDot .6s var(--ease) .4s both; }
-@keyframes haxDraw{ from{ transform:scaleY(0); opacity:0; } to{ transform:scaleY(1); opacity:1; } }
-@keyframes haxDot{ to{ opacity:1; } }
-.hax__more{ display:flex; flex-direction:column; align-items:center; gap:14px; padding:18px 0 40px; background:transparent; border:0; cursor:pointer; -webkit-appearance:none; appearance:none; opacity:0; animation:haxFade .8s var(--ease) 1.4s both; }
-.hax__more-cap{ font-family:var(--ff-mono); font-size:11px; font-weight:500; letter-spacing:.5em; text-indent:.5em; text-transform:uppercase; color:var(--c-muted); transition:color .3s var(--ease); }
-.hax__more:hover .hax__more-cap{ color:var(--c-accent); }
-.hax__more-arr{ width:9px; height:9px; border-right:1.5px solid var(--c-accent); border-bottom:1.5px solid var(--c-accent); transform:rotate(45deg); transition:transform .3s var(--ease); }
-.hax__more:hover .hax__more-arr{ transform:rotate(45deg) translate(2px,2px); }
-@keyframes haxFade{ to{ opacity:1; } }
+/* 主标题 = display：Noto Sans SC Bold 108/-0.64，整体蓝色（无英文副标）*/
+.hax__title{ font-family:var(--ff-sc); font-weight:700; font-size:108px; line-height:1.04; letter-spacing:-0.64px; color:var(--c-accent); }
+.hax__desc{ margin-top:34px; max-width:680px; font-family:var(--ff-sc); font-weight:400; font-size:22px; line-height:37px; letter-spacing:-0.2px; color:var(--c-slate); }
+/* I Value You：复用主页同名组件的子页变体（静态 in-flow；竖线 165 + 单运动圆点 flowDown，无常驻点）*/
+.hero__ivy{ display:flex; flex-direction:column; align-items:center; gap:15px; margin-top:46px; }
+.hero__ivy .ivy-t{ font-family:var(--ff-ital); font-style:italic; font-size:28.3px; line-height:31.2px; letter-spacing:-0.34px; color:var(--c-accent);
+  display:flex; align-items:baseline; justify-content:center; gap:10px; white-space:nowrap; }
+.ivy-t .w{ display:inline-flex; align-items:baseline; }
+.ivy-t .cap{ display:inline-block; vertical-align:baseline; }
+.ivy-line{ position:relative; width:1px; height:165px;
+  background:linear-gradient(to bottom, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.18) 58%, rgba(var(--c-accent-rgb),0) 100%); }
+.ivy-glow{ position:absolute; left:50%; top:0; width:5px; height:5px; margin-left:-2.5px; border-radius:50%; opacity:0;
+  background:rgba(var(--c-accent-rgb),.95); box-shadow:0 0 8px 2px rgba(var(--c-accent-rgb),.5); animation:flowDown 2.6s var(--ease) infinite; }
+.ivy-glow::before{ content:''; position:absolute; left:50%; bottom:5px; width:2px; height:56px; margin-left:-1px;
+  background:linear-gradient(180deg, rgba(var(--c-accent-rgb),0) 0%, rgba(var(--c-accent-rgb),.4) 100%); filter:blur(.5px); }
+@keyframes flowDown{ 0%{ transform:translateY(-4px); opacity:0; } 12%{ opacity:1; } 86%{ opacity:1; } 100%{ transform:translateY(167px); opacity:0; } }
+/* 入场：kick/标题/desc 逐个上浮淡入（保留）*/
 .hax__kick, .hax__title, .hax__desc{ opacity:0; transform:translateY(20px); animation:haxRise .9s var(--ease-soft) both; }
 .hax__kick{ animation-delay:.12s; } .hax__title{ animation-delay:.26s; } .hax__desc{ animation-delay:.42s; }
 @keyframes haxRise{ to{ opacity:1; transform:none; } }
+@media (max-width:1100px){
+  .hax{ padding-top:150px; }
+  .hax__title{ font-size:64px; letter-spacing:-1.2px; }
+  .hax__desc{ font-size:18px; line-height:30px; }
+}
 @media (prefers-reduced-motion:reduce){
-  .hax__kick, .hax__title, .hax__desc, .hax__more{ opacity:1; transform:none; animation:none; }
-  .hax__axis-line{ animation:none; transform:none; opacity:1; }
-  .hax__axis::before{ animation:none; opacity:1; }
+  .hax__kick, .hax__title, .hax__desc{ opacity:1; transform:none; animation:none; }
+  .ivy-glow{ animation:none; opacity:0; }
 }
 
 /* ---------- I. 投资方向 — 复用首页 .cards/.card-strategy 组件 + gutter 竖线 ---------- */
 .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; padding-top:56px; }
 
-/* ---------- II. 投资哲学 · IVY — 整行 hover 揭示（C3 终版：混合图 + 逐行揭示） ---------- */
-/* 容器横向撑满到左右竖线(rail)，与标题横线(sec-band rule)等宽：同 .sec-band 的负 margin 外扩到 rail */
-.phil{ margin:40px calc(var(--rail) - var(--page-x)) 0; border-top:1px solid var(--c-hairline); }
-.phil-row{ position:relative; overflow:hidden; border-bottom:1px solid var(--c-hairline); isolation:isolate; }
-/* per-row 图在底 + 顶部 navy scrim，hover 前隐藏 */
-.phil-row::before{ content:""; position:absolute; inset:0; z-index:-1;
-  background:var(--scrim), var(--img); background-size:cover, cover; background-position:center, center;
-  background-blend-mode:var(--blend, normal); opacity:0; transition:opacity .6s var(--ease); }
-/* hover 时底部 accent 发丝线扫入 */
-.phil-row::after{ content:""; position:absolute; left:0; bottom:0; height:1px; width:100%;
-  background:linear-gradient(90deg, var(--c-accent-2), rgba(var(--c-accent-rgb),0));
-  transform:scaleX(0); transform-origin:left; opacity:0;
-  transition:transform .7s var(--ease-soft), opacity .5s var(--ease); }
-.phil .row-inner{ position:relative; display:flex; align-items:flex-start; gap:clamp(48px,14vw,200px); padding:44px 40px; min-height:128px; }
-.phil .row-title{ display:flex; align-items:baseline; gap:20px; flex:none; padding-top:4px; }
-.phil .row-title .cn{ font-family:var(--ff-serif); font-weight:500; font-size:34px; letter-spacing:-0.03em; color:var(--c-ink); transition:color .5s var(--ease); }
-.phil .row-title .en{ font-family:var(--ff-ital); font-style:italic; font-size:30px; color:var(--c-accent); transition:color .5s var(--ease); }
-/* 右栏：靠右、逐行揭示 */
-.phil .row-desc{ margin-left:auto; flex:1 1 auto; max-width:46ch; font-family:var(--ff-sc); font-size:16px; line-height:1.85; color:var(--c-bg); }
-.phil .row-desc .ln{ display:block; opacity:0; transform:translateY(14px); transition:opacity .5s var(--ease), transform .6s var(--ease-soft); }
-.phil .row-idx{ flex:none; padding-top:8px; font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; color:var(--c-muted); transition:color .5s var(--ease); }
-/* per-row 图片预设（navy scrim 调过，保证白字可读） */
-.phil-row.bg-glass{ --img:url("assets/philosophy-integrity.jpg");
-  --scrim:linear-gradient(105deg, rgba(13,27,42,.90) 0%, rgba(16,36,61,.70) 46%, rgba(10,23,38,.88) 100%); }
-.phil-row.bg-ribbon{ --img:url("assets/philosophy-vision.jpg");
-  --scrim:linear-gradient(105deg, rgba(13,27,42,.93) 0%, rgba(16,36,61,.82) 46%, rgba(10,23,38,.92) 100%); --blend:multiply; }
-.phil-row.bg-blinds{ --img:url("assets/philosophy-yearning.jpg");
-  --scrim:linear-gradient(105deg, rgba(13,27,42,.84) 0%, rgba(16,36,61,.58) 46%, rgba(10,23,38,.82) 100%); }
-@media (prefers-reduced-motion: no-preference){
-  .phil-row:hover::before{ opacity:1; }
-  .phil-row:hover::after{ opacity:1; transform:scaleX(1); }
-  .phil-row:hover .row-title .cn{ color:var(--c-bg); }
-  .phil-row:hover .row-title .en{ color:var(--c-accent-2); }
-  .phil-row:hover .row-idx{ color:var(--c-accent-2); }
-  .phil-row:hover .row-desc .ln{ opacity:1; transform:translateY(0); }
-  .phil-row:hover .row-desc .ln:nth-child(1){ transition-delay:.10s; }
-  .phil-row:hover .row-desc .ln:nth-child(2){ transition-delay:.18s; }
-  .phil-row:hover .row-desc .ln:nth-child(3){ transition-delay:.26s; }
+/* ---------- II. 投资哲学 · IVY — 整行 hover 绽放（终版：hero 视频三裂 crop + 浅色 L3 scrim + 绽放） ---------- */
+/* 容器横向撑满到左右竖线(rail)，与标题横线(sec-band rule)等宽。--lead = 色/背景领先几何的提前量 */
+.phil{ border-top:1px solid var(--c-hairline); margin:40px calc(var(--rail) - var(--page-x)) 0; --lead:.10s; }
+.phil-row{ position:relative; overflow:hidden; isolation:isolate; border-bottom:1px solid var(--c-hairline); }
+/* 视频背景层(z0)+ 浅色 L3 scrim(z1,::after)；内容 z2 */
+.phil-row .row-vid{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center center;
+  z-index:0; opacity:0; transform:scale(1.06);
+  transition:opacity .45s var(--ease), transform 1s var(--ease-io); pointer-events:none; }
+.phil-row::after{ content:""; position:absolute; inset:0; z-index:1; opacity:0; pointer-events:none;
+  transition:opacity .45s var(--ease);
+  background:linear-gradient(rgba(var(--c-bg-rgb),.52), rgba(var(--c-bg-rgb),.40)); }
+/* 三裂 crop：同一视频，各取上/中/下纵向区段 */
+.phil-row.crop-top .row-vid{ object-position:center 0%; }
+.phil-row.crop-mid .row-vid{ object-position:center 50%; }
+.phil-row.crop-bot .row-vid{ object-position:center 100%; }
+/* 三栏栅格；几何(min-height+padding)统一 .55s ease-io，延迟 --lead */
+.phil .row-inner{ position:relative; z-index:2;
+  display:grid; grid-template-columns:30% minmax(0,1fr) minmax(280px,36%); align-items:start;
+  gap:clamp(28px,5vw,72px); padding:26px 40px; min-height:96px;
+  transition:min-height .55s var(--ease-io) var(--lead), padding .55s var(--ease-io) var(--lead); }
+/* dot④：呼吸光晕复用 canonical .dot--live（单一来源）；此处只管 dot 本体的收紧(-40px)+ 对齐基线 + 放大随几何 */
+.phil .row-dot{ justify-self:end; align-self:start; width:7px; height:7px; border-radius:50%; background:var(--c-accent);
+  margin-top:1.3em; margin-right:-40px;
+  transition:background .4s var(--ease), transform .55s var(--ease-io) var(--lead), box-shadow .45s var(--ease); }
+/* 标题/描述：default A1+C1 → hover A3+C2；文字「保持深色」(浅底不翻色) */
+.phil .row-title{ display:flex; align-items:baseline; gap:16px; padding-top:2px; }
+.phil .row-title .cn{ font-family:var(--ff-serif); font-weight:500; font-size:26px; letter-spacing:-.025em; color:var(--c-ink);
+  transition:font-size .55s var(--ease-io) var(--lead), letter-spacing .55s var(--ease-io) var(--lead); }
+.phil .row-title .en{ font-family:var(--ff-ital); font-style:italic; font-size:22px; color:var(--c-accent);
+  transition:font-size .55s var(--ease-io) var(--lead); }
+.phil .row-desc{ font-family:var(--ff-sc); font-size:14px; line-height:1.5; letter-spacing:.01em; color:var(--c-slate); margin:0; padding-top:6px;
+  transition:font-size .55s var(--ease-io) var(--lead), line-height .55s var(--ease-io) var(--lead); }
+.phil .row-desc .ln{ display:block; margin:0; transition:margin .55s var(--ease-io) var(--lead); }
+/* hover 终态(仅指针设备；浅底深字：文字不翻色) */
+@media (hover:hover){
+  .phil-row:hover .row-vid{ opacity:1; transform:scale(1); }
+  .phil-row:hover::after{ opacity:1; }
+  .phil-row:hover .row-inner{ min-height:300px; padding:52px 40px; }
+  .phil-row:hover .row-dot{ transform:scale(1.5); box-shadow:0 0 10px rgba(var(--c-accent-rgb),.5); }
+  .phil-row:hover .row-title .cn{ font-size:40px; letter-spacing:-.035em; }
+  .phil-row:hover .row-title .en{ font-size:32px; }
+  .phil-row:hover .row-desc{ font-size:16px; line-height:1.55; letter-spacing:.02em; }
+  .phil-row:hover .row-desc .ln{ margin:0 0 .85em; }
+  .phil-row:hover .row-desc .ln:last-child{ margin-bottom:0; }
 }
-/* reduced-motion 兜底：静态全显、slate 文字（深色层关闭） */
-@media (prefers-reduced-motion: reduce){
-  .phil .row-desc{ color:var(--c-slate); }
-  .phil .row-desc .ln{ opacity:1; transform:none; }
-}
-/* 触屏无 hover 兜底：正文常显、slate 色（否则移动端看不到哲学正文） */
-@media (hover: none){
-  .phil .row-desc{ color:var(--c-slate); }
-  .phil .row-desc .ln{ opacity:1; transform:none; }
-}
-/* 窄屏：换行堆叠，隐藏 idx */
-@media (max-width:760px){
-  .phil .row-inner{ flex-wrap:wrap; gap:18px; padding:30px 22px; }
-  .phil .row-title .cn{ font-size:26px; } .phil .row-title .en{ font-size:22px; }
-  .phil .row-desc{ margin-left:0; max-width:100%; }
-  .phil .row-idx{ display:none; }
+/* 窄屏：两栏化，dot 归位，描述常显(default 即深字，触屏可读) */
+@media (max-width:860px){
+  .phil .row-inner{ grid-template-columns:18px 1fr; gap:14px 16px; }
+  .phil .row-dot{ margin-right:0; margin-top:.4em; }
+  .phil .row-desc{ grid-column:2; }
 }
 
 /* ---------- III. 行业认可 — 复用 .ticker / .card-award + 段落（同首页 .intro p-scroll） ---------- */
@@ -164,10 +163,6 @@
 
 /* ---------- narrow safety ---------- */
 @media (max-width:1100px){
-  .hax{ padding-top:150px; }
-  .hax__title{ font-size:64px; letter-spacing:-1.2px; }
-  .hax__title .en{ font-size:26px; }
-  .hax__desc{ font-size:16px; line-height:29px; }
   .cards, .empower{ grid-template-columns:1fr; }
   .empower{ max-width:560px; margin-inline:auto; }
 }
@@ -200,14 +195,13 @@
     <div class="hax__halo" aria-hidden="true"></div>
     <div class="hax__inner">
       <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">About</span></p>
-      <h1 class="hax__title">关于<span class="b">我们</span><span class="en">Ivy Capital</span></h1>
+      <h1 class="hax__title">关于我们</h1>
       <p class="hax__desc">专注深科技领域的早期投资，秉持全球视野，致力于在全球范围内寻找并投资最优秀的科技企业</p>
+      <div class="hero__ivy">
+        <span class="ivy-t"><span class="w"><span class="cap">I</span></span><span class="w"><span class="cap">Value</span></span><span class="w"><span class="cap">You</span></span></span>
+        <span class="ivy-line"><span class="ivy-glow"></span></span>
+      </div>
     </div>
-    <div class="hax__axis" aria-hidden="true"><span class="hax__axis-line"></span></div>
-    <button class="hax__more" type="button" aria-label="向下浏览更多">
-      <span class="hax__more-arr" aria-hidden="true"></span>
-      <span class="hax__more-cap">了 解 更 多</span>
-    </button>
   </header>
 
   <!-- I. 投资方向 -->
@@ -255,9 +249,10 @@
       </div>
     </div>
     <div class="phil">
-      <div class="phil-row bg-glass">
+      <div class="phil-row crop-top">
+        <video class="row-vid" muted loop playsinline preload="metadata"><source src="assets/0616/selected%20hero%20video/kling_20260616_%E4%BD%9C%E5%93%81_%E6%97%A0%E7%BC%9D%E5%BE%AA%E7%8E%AF_hero__5332_0.mp4" type="video/mp4"></video>
         <div class="row-inner">
-          <span class="row-idx">01</span>
+          <span class="dot dot--live row-dot"></span>
           <div class="row-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
           <p class="row-desc">
             <span class="ln">我们坚持以诚信与原则行事，</span>
@@ -266,9 +261,10 @@
           </p>
         </div>
       </div>
-      <div class="phil-row bg-ribbon">
+      <div class="phil-row crop-mid">
+        <video class="row-vid" muted loop playsinline preload="metadata"><source src="assets/0616/selected%20hero%20video/kling_20260616_%E4%BD%9C%E5%93%81_%E6%97%A0%E7%BC%9D%E5%BE%AA%E7%8E%AF_hero__5332_0.mp4" type="video/mp4"></video>
         <div class="row-inner">
-          <span class="row-idx">02</span>
+          <span class="dot dot--live row-dot"></span>
           <div class="row-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
           <p class="row-desc">
             <span class="ln">我们以远见投资未来，</span>
@@ -277,9 +273,10 @@
           </p>
         </div>
       </div>
-      <div class="phil-row bg-blinds">
+      <div class="phil-row crop-bot">
+        <video class="row-vid" muted loop playsinline preload="metadata"><source src="assets/0616/selected%20hero%20video/kling_20260616_%E4%BD%9C%E5%93%81_%E6%97%A0%E7%BC%9D%E5%BE%AA%E7%8E%AF_hero__5332_0.mp4" type="video/mp4"></video>
         <div class="row-inner">
-          <span class="row-idx">03</span>
+          <span class="dot dot--live row-dot"></span>
           <div class="row-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
           <p class="row-desc">
             <span class="ln">我们因热爱和好奇而出发，</span>
@@ -381,13 +378,13 @@
 
 <script src="assets/js/site.js"></script>
 <script>
-  // 「了解更多」滚动引导：不用锚点（避免 fragment 问题），向下滚一屏。
+  // II. 投资哲学：hero 视频 play-on-hover（仅悬停播放、离开暂停，省资源）
   (function(){
-    document.querySelectorAll('.hax__more').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-        window.scrollBy({ top: window.innerHeight, behavior: reduce ? 'auto' : 'smooth' });
-      });
+    document.querySelectorAll('.phil-row').forEach(function(row){
+      var v = row.querySelector('.row-vid');
+      if(!v) return;
+      row.addEventListener('mouseenter', function(){ try{ v.play(); }catch(e){} });
+      row.addEventListener('mouseleave', function(){ try{ v.pause(); }catch(e){} });
     });
   })();
 </script>

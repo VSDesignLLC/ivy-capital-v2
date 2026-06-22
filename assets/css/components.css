@@ -141,7 +141,7 @@
 
 .ticker{ position:relative; overflow:hidden; padding-top:60px; padding-bottom:var(--gap); }
 .ticker__track{ display:flex; gap:24px; width:max-content; animation:ticker 44s linear infinite; }
-.ticker:hover .ticker__track{ animation-play-state:paused; }
+.ticker__track:hover{ animation-play-state:paused; }
 .ticker__group{ display:flex; gap:24px; }
 /* 奖项 ticker 用纯文字卡 (F: A→B 翻色)，与「代表项目」图片卡区分 */
 .ticker .card-award{ position:relative; width:340px; flex:none; min-height:200px; padding:26px 28px; overflow:hidden;
@@ -176,6 +176,9 @@
 .footer__rule.top{ top:0; } .footer__rule.bot{ bottom:52px; }
 .footer__bg{ position:absolute; left:var(--rail); right:var(--rail); top:1px; bottom:53px; overflow:hidden; z-index:0; }
 .footer__bg img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+/* 背景视频 B：放大到屏宽 100vw（窗口仍是 .footer__bg 的 rail-clip，不动），60% 透明 */
+.footer__bg video{ position:absolute; top:0; bottom:0; left:50%; width:100vw; height:100%;
+  transform:translateX(-50%); object-fit:cover; object-position:center; opacity:.60; }
 .footer__inner{ position:relative; z-index:2; padding:40px 104px 24px; display:flex; flex-direction:column; gap:26px; }
 /* 上半行：左 标语+社交 / 右 两张正方卡 */
 .footer__top{ display:flex; align-items:flex-start; justify-content:space-between; gap:40px; }
@@ -206,7 +209,7 @@
 .footer__div{ height:1px; border:0; background:rgba(var(--c-ink-rgb),.12); width:100%; }
 /* 下半行：左 logo / 右 两个邮箱玻璃胶囊 */
 .footer__bottom{ display:flex; align-items:center; justify-content:space-between; gap:40px; }
-.footer__logo img{ height:46px; width:auto; }
+.footer__logo img{ height:34px; width:auto; }
 .footer__mails{ display:flex; gap:20px; }
 .mailpill{ display:inline-flex; gap:12px; align-items:center; padding:15px 30px; border-radius:999px;
   background:rgba(255,255,255,.45); border:1px solid rgba(255,255,255,.8); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
