@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="../../../" />
+<title>被投企业 · 常春藤资本 Ivy Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================ 被投企业页专属布局
+   复用共享层组件 (sec-band/sec-box · rails · grid)。
+   介绍文字取自飞书 Page4 (block 60)；企业名单逐条取自飞书 Portfolio 表。 */
+#portfolio{ padding-bottom:var(--gap); }
+
+/* HERO · V4 中轴版（design system display 标题 + 呼吸点 label + 贯穿中轴引导） */
+.hax{ position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:200px var(--page-x) 0; overflow:hidden; background:var(--c-bg); }
+.hax__bg{ position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; }
+.hax__fade{ position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 45%, var(--cream-grad) 78%); }
+.hax__halo{ position:absolute; left:50%; top:46%; z-index:0; pointer-events:none; width:min(1100px,86vw); aspect-ratio:1/1; transform:translate(-50%,-50%); background:radial-gradient(circle at center, var(--c-accent-wash) 0%, rgba(var(--c-accent-rgb),.018) 38%, rgba(var(--c-accent-rgb),0) 70%); }
+.hax__inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); display:flex; flex-direction:column; align-items:center; text-align:center; }
+/* label = 呼吸圆点 + 英文页名（复用 homepage hero eyebrow；.dot/.caption 在 base.css，dot-halo 在 components.css；浅底蓝光晕） */
+.hax__kick{ display:inline-flex; align-items:center; gap:10px; margin-bottom:42px; }
+.hax__kick .caption{ color:var(--c-accent); letter-spacing:.2em; }
+/* .dot--live 呼吸光晕现由 components.css 单一来源提供（eyebrow markup 已组合 class="dot dot--live"）*/
+/* Hero 主标题 = design system `display`：Noto Sans SC Bold · 108/112/-0.64 */
+.hax__title{ font-family:var(--ff-sc); font-weight:700; font-size:108px; line-height:1.04; letter-spacing:-0.64px; color:var(--c-ink); }
+.hax__title .b{ color:var(--c-accent); }
+.hax__title .en{ display:block; margin-top:14px; font-family:var(--ff-ital); font-style:italic; font-weight:400; font-size:34px; line-height:1; letter-spacing:.2px; color:var(--c-muted); }
+.hax__desc{ margin-top:38px; max-width:680px; font-family:var(--ff-sc); font-weight:400; font-size:18px; line-height:32px; letter-spacing:-0.2px; color:var(--c-slate); }
+.hax__axis{ position:relative; z-index:2; margin-top:60px; flex:1 0 auto; min-height:160px; display:flex; flex-direction:column; align-items:center; width:100%; }
+.hax__axis-line{ flex:1 1 auto; width:1px; background:linear-gradient(to bottom, var(--c-accent) 0%, rgba(var(--c-accent-rgb),.45) 40%, var(--c-accent-line) 100%); transform-origin:top; transform:scaleY(1); animation:haxDraw 1.7s var(--ease-soft) .45s both; }
+.hax__axis::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--c-accent); flex:none; margin-bottom:-3px; z-index:1; opacity:0; animation:haxDot .6s var(--ease) .4s both; }
+@keyframes haxDraw{ from{ transform:scaleY(0); opacity:0; } to{ transform:scaleY(1); opacity:1; } }
+@keyframes haxDot{ to{ opacity:1; } }
+.hax__more{ display:flex; flex-direction:column; align-items:center; gap:14px; padding:18px 0 40px; background:transparent; border:0; cursor:pointer; -webkit-appearance:none; appearance:none; opacity:0; animation:haxFade .8s var(--ease) 1.4s both; }
+.hax__more-cap{ font-family:var(--ff-mono); font-size:11px; font-weight:500; letter-spacing:.5em; text-indent:.5em; text-transform:uppercase; color:var(--c-muted); transition:color .3s var(--ease); }
+.hax__more:hover .hax__more-cap{ color:var(--c-accent); }
+.hax__more-arr{ width:9px; height:9px; border-right:1.5px solid var(--c-accent); border-bottom:1.5px solid var(--c-accent); transform:rotate(45deg); transition:transform .3s var(--ease); }
+.hax__more:hover .hax__more-arr{ transform:rotate(45deg) translate(2px,2px); }
+@keyframes haxFade{ to{ opacity:1; } }
+.hax__kick, .hax__title, .hax__desc{ opacity:0; transform:translateY(20px); animation:haxRise .9s var(--ease-soft) both; }
+.hax__kick{ animation-delay:.12s; } .hax__title{ animation-delay:.26s; } .hax__desc{ animation-delay:.42s; }
+@keyframes haxRise{ to{ opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce){
+  .hax__kick, .hax__title, .hax__desc, .hax__more{ opacity:1; transform:none; animation:none; }
+  .hax__axis-line{ animation:none; transform:none; opacity:1; }
+  .hax__axis::before{ animation:none; opacity:1; }
+}
+
+/* 企业网格 */
+.biz-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:54px; background:var(--c-grid); border:1px solid var(--c-grid); }
+.bcard{ position:relative; background:var(--c-bg); padding:28px 26px 30px; min-height:176px; display:flex; flex-direction:column; gap:13px; isolation:isolate; transition:background .5s var(--ease); }
+.bcard::before{ content:""; position:absolute; inset:0; z-index:-1; opacity:0; background:var(--c-accent-wash); transition:opacity .5s var(--ease); }
+.bcard:hover::before{ opacity:1; }
+.bcard__name{ font-family:var(--ff-serif); font-weight:600; font-size:21px; line-height:28px; letter-spacing:-0.3px; color:var(--c-ink); }
+.bcard__meta{ display:flex; align-items:center; gap:10px; min-height:18px; }
+.bcard__yr{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.05em; color:var(--c-muted); }
+.bcard__ipo{ font-family:var(--ff-mono); font-size:10px; letter-spacing:.1em; color:var(--c-accent); border:1px solid var(--c-accent-line); border-radius:100px; padding:2px 9px; }
+.bcard__desc{ font-size:13px; line-height:20.5px; letter-spacing:-0.1px; color:var(--c-slate); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+
+/* 头部 16 家 = 图片卡 4×4（复用 components .pcard：图 + plate 磨砂 + hover lift/zoom；
+   定制：底部常驻奶白渐变 + 名称常显 + 磨砂收到 36% + hover 时 logo 居中浮现） */
+.port-logos{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:54px; }
+.port-logos .pcard{ cursor:default; }
+.port-logos .pcard__foot{ gap:4px; padding-top:60px;
+  background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 0%, rgba(var(--c-bg-rgb),.55) 42%, rgba(var(--c-bg-rgb),.96) 100%); }
+.port-logos .pcard:hover .pcard__foot{ gap:6px; }
+.port-logos .pcard__foot .t{ color:var(--c-ink); text-shadow:0 0 10px rgba(var(--c-bg-rgb),.7); }
+.port-logos .pcard__foot .d{ grid-template-rows:1fr; opacity:1; transform:none; color:var(--c-slate); }
+.port-logos .pcard__foot .d .d-inner{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.port-logos .pcard__plate{ height:36%; }
+/* 第二枚药丸：已上市，叠在年份 badge 下方 */
+.port-logos .pcard__badge--ipo{ top:46px; background:var(--c-accent); border-color:var(--c-accent); color:var(--c-bg); }
+/* logo：静止隐藏，hover 时卡片正中淡入上展 */
+.port-logos .pcard__logo{ position:absolute; left:50%; top:42%; transform:translate(-50%,-56%); z-index:3;
+  opacity:0; pointer-events:none; transition:opacity .5s var(--ease), transform .6s var(--ease-soft); }
+.port-logos .pcard__logo img{ display:block; width:168px; height:auto; }
+.port-logos .pcard:hover .pcard__logo{ opacity:1; transform:translate(-50%,-50%); }
+
+@media (max-width:1100px){
+  .port-logos{ grid-template-columns:repeat(2,1fr); }
+  .hax{ padding-top:150px; }
+  .hax__title{ font-size:64px; letter-spacing:-1.2px; }
+  .hax__title .en{ font-size:26px; }
+  .hax__desc{ font-size:16px; line-height:29px; }
+  .biz-grid{ grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:640px){ .biz-grid{ grid-template-columns:1fr; } .port-logos{ grid-template-columns:1fr; } }
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+<style id="bgfade">
+  #portfolio{ position:relative; z-index:1; }
+  #portfolio > *{ position:relative; z-index:1; }
+  #portfolio::before{ content:""; position:absolute; left:0; right:0; top:0; height:480px; z-index:0; pointer-events:none;
+    background:linear-gradient(180deg, var(--c-bg) 0%, var(--c-bg) 8%, rgba(var(--c-bg-rgb),0) 100%); }
+</style>
+</head>
+<body data-nav="portfolio">
+
+<video class="pagebg" id="pagebg" autoplay muted loop playsinline preload="auto">
+  <source src="assets/0617/kling_20260617_VIDEO_无缝循环_hero__4945_0.mp4" type="video/mp4" />
+</video>
+
+<div class="page">
+  <div class="rails-top" id="rails" aria-hidden="true"><div class="rail l"></div><div class="rail r"></div></div>
+
+  <site-nav></site-nav>
+
+  <!-- HERO · V4 中轴版 -->
+  <header class="hero hax" data-bgop="0">
+    <video class="hax__bg" autoplay muted loop playsinline preload="auto"><source src="assets/portfolio-hero.mp4" type="video/mp4"></video>
+    <div class="hax__fade" aria-hidden="true"></div>
+    <div class="hax__halo" aria-hidden="true"></div>
+    <div class="hax__inner">
+      <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Portfolio</span></p>
+      <h1 class="hax__title">被投<span class="b">企业</span><span class="en">Ivy Capital</span></h1>
+      <p class="hax__desc">我们投资那些正在定义未来的创业者。从实验室到产业，从技术突破到商业落地，我们陪伴创新者跨越从 0 到 1、从 1 到 100 的成长旅程，共同创造长期价值。</p>
+    </div>
+    <div class="hax__axis" aria-hidden="true"><span class="hax__axis-line"></span></div>
+    <button class="hax__more" type="button" aria-label="向下浏览更多">
+      <span class="hax__more-arr" aria-hidden="true"></span>
+      <span class="hax__more-cap">了 解 更 多</span>
+    </button>
+  </header>
+
+  <!-- 被投企业名单 -->
+  <section class="section" id="portfolio" data-bgop="0.12">
+    <div class="port-logos">
+      <article class="pcard" data-reveal style="--d:0ms"><img class="pcard__bg" src="assets/proj-3817.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">来牟科技</span><span class="d"><span class="d-inner">专注欧美市场的智能割草机器人公司</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:70ms"><img class="pcard__bg" src="assets/proj-3819.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2026</span><div class="pcard__foot"><span class="t">新研智材</span><span class="d"><span class="d-inner">AI驱动半导体核心材料研发的技术先锋</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:140ms"><img class="pcard__bg" src="assets/proj-3820.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2026</span><div class="pcard__foot"><span class="t">曦望</span><span class="d"><span class="d-inner">国内首家估值超百亿的纯推理GPU独角兽</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:210ms"><img class="pcard__bg" src="assets/proj-3821.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">镜识科技</span><span class="d"><span class="d-inner">10m/s刷新四足与双足机器人速度纪录的AI足式机器人公司</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:0ms"><img class="pcard__bg" src="assets/proj-3824.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">大工无人机</span><span class="d"><span class="d-inner">专注于工业无人机研发的国家高新技术企业，国内首个将系留无人机技术推向商业化的企业</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:70ms"><img class="pcard__bg" src="assets/proj-3825.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">慧感智能</span><span class="d"><span class="d-inner">由院士团队创办，专注于AI增强的大面积柔性电子皮肤研发，为具身智能机器人构建“感知神经系统”</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:140ms"><img class="pcard__bg" src="assets/proj-3826.png" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">安弧科技</span><span class="d"><span class="d-inner">专注于半导体静电卡盘（ESC）研发与生产的初创公司，致力于打破国外长期垄断，推动国产替代进程</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:210ms"><img class="pcard__bg" src="assets/proj-3830.jpg" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2025</span><div class="pcard__foot"><span class="t">普思影</span><span class="d"><span class="d-inner">专注低液氦超导磁体技术，打破进口依赖的MRI国产替代先锋</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:0ms"><img class="pcard__bg" src="assets/proj-3831.jpg" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2015</span><div class="pcard__foot"><span class="t">云砺信息/票易通</span><span class="d"><span class="d-inner">专业的供应链信息协同及增值税发票管理云平台解决方案提供商</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:70ms"><img class="pcard__bg" src="assets/proj-3832.jpg" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2014</span><span class="pcard__badge pcard__badge--ipo">已上市</span><div class="pcard__foot"><span class="t">韦尔股份</span><span class="d"><span class="d-inner">国内领先、全球排名前列的Fabless半导体设计公司，国产高端图像传感器芯片的龙头企业</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:140ms"><img class="pcard__bg" src="assets/proj-3833.jpg" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2024</span><span class="pcard__badge pcard__badge--ipo">已上市</span><div class="pcard__foot"><span class="t">宏华数科</span><span class="d"><span class="d-inner">以数码喷印技术为核心的科创板上市公司，国内领先、全球前三的数码喷印设备与综合解决方案提供商</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:210ms"><img class="pcard__bg" src="assets/proj-3834.jpg" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2018</span><span class="pcard__badge pcard__badge--ipo">已上市</span><div class="pcard__foot"><span class="t">兆易创新</span><span class="d"><span class="d-inner">国内存储与MCU双龙头半导体设计公司</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:0ms"><img class="pcard__bg" src="assets/proj-3835.jpg" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2020</span><span class="pcard__badge pcard__badge--ipo">已上市</span><div class="pcard__foot"><span class="t">中科蓝讯</span><span class="d"><span class="d-inner">全球TWS耳机芯片出货量约30%的无线音频SoC龙头</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:70ms"><img class="pcard__bg" src="assets/proj-3836.jpg" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2019</span><span class="pcard__badge pcard__badge--ipo">已上市</span><div class="pcard__foot"><span class="t">杰华特</span><span class="d"><span class="d-inner">虚拟IDM模拟芯片设计企业</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:140ms"><img class="pcard__bg" src="assets/proj-3837.jpg" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2015</span><span class="pcard__badge pcard__badge--ipo">已上市</span><div class="pcard__foot"><span class="t">翼菲智能</span><span class="d"><span class="d-inner">深耕轻工业的工业机器人全品类提供商</span></span></div></article>
+      <article class="pcard" data-reveal style="--d:210ms"><img class="pcard__bg" src="assets/proj-3838.jpg" alt=""><div class="pcard__plate"></div><span class="pcard__logo"><img src="assets/logo-lymow.png" alt=""></span><span class="pcard__badge">2015</span><div class="pcard__foot"><span class="t">天下房仓</span><span class="d"><span class="d-inner">国内领先的酒店及旅游行业独立第三方B2B供应链解决方案提供商</span></span></div></article>
+    </div>
+    <div class="biz-grid">
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">乐言科技</h3><div class="bcard__meta"><span class="bcard__yr">2017</span></div><p class="bcard__desc">AI驱动的电商SaaS智能服务领跑者</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">小派科技</h3><div class="bcard__meta"><span class="bcard__yr">2016</span></div><p class="bcard__desc">全球领先的高性能VR头显研发制造商</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">光粒科技</h3><div class="bcard__meta"><span class="bcard__yr">2018</span></div><p class="bcard__desc">专注AR智能运动眼镜的科技公司</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">洛丁森</h3><div class="bcard__meta"><span class="bcard__yr">2019</span></div><p class="bcard__desc">高精度工业传感器及仪器仪表专精特新小巨人企业</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">瑞识智能</h3><div class="bcard__meta"><span class="bcard__yr">2019</span></div><p class="bcard__desc">全球领先的VCSEL芯片及光学解决方案提供商</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">星逻智能</h3><div class="bcard__meta"><span class="bcard__yr">2020</span></div><p class="bcard__desc">专注无人机全自动运营的低空智能供应商</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">叠念信息（七云网络）</h3><div class="bcard__meta"><span class="bcard__yr">2020</span></div><p class="bcard__desc">软件定义网络及安全解决方案提供商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">镭明激光</h3><div class="bcard__meta"><span class="bcard__yr">2021</span></div><p class="bcard__desc">国家级专精特新“小巨人”企业</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">九纵智能</h3><div class="bcard__meta"><span class="bcard__yr">2021</span></div><p class="bcard__desc">覆盖半导体封装全制程的国产AOI检测设备领军企业</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">四维创智</h3><div class="bcard__meta"><span class="bcard__yr">2021</span></div><p class="bcard__desc">以AI+YAK为核心驱动力的国家级专精特新小巨人</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">芯诣电子</h3><div class="bcard__meta"><span class="bcard__yr">2022</span></div><p class="bcard__desc">国内唯一覆盖全领域芯片动态老化设备及解决方案的提供商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">时驾科技</h3><div class="bcard__meta"><span class="bcard__yr">2022</span></div><p class="bcard__desc">专注于空气悬架系统的自主研发与制造</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">星微科技</h3><div class="bcard__meta"><span class="bcard__yr">2023</span></div><p class="bcard__desc">半导体精密运动控制专家</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">霞智科技</h3><div class="bcard__meta"><span class="bcard__yr">2023</span></div><p class="bcard__desc">商用智能清洁的领航者</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">飒智智能</h3><div class="bcard__meta"><span class="bcard__yr">2023</span></div><p class="bcard__desc">智能移动共融机器人的先行者</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">西湖烟山</h3><div class="bcard__meta"><span class="bcard__yr">2025</span></div><p class="bcard__desc">全彩Micro LED芯片的领跑者</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">易路软件</h3><div class="bcard__meta"><span class="bcard__yr">2016</span></div><p class="bcard__desc">以薪酬为核心的一站式HR SaaS平台</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">药师帮</h3><div class="bcard__meta"><span class="bcard__yr">2015</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">中国院外医药产业最大的数字化综合服务平台</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">东软智睿</h3><div class="bcard__meta"><span class="bcard__yr">2020</span></div><p class="bcard__desc">中国精准肿瘤放疗技术与服务的引领者</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">新致软件</h3><div class="bcard__meta"><span class="bcard__yr">2012</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">国内领先的软件与AI数智化服务商</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">太美医疗</h3><div class="bcard__meta"><span class="bcard__yr">2018</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">生命科学产业数智化运营平台</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">格科微电子</h3><div class="bcard__meta"><span class="bcard__yr">2020</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">国内领先的CMOS图像传感器与显示驱动芯片厂商</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">每日互动</h3><div class="bcard__meta"><span class="bcard__yr">2016</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">专业的数据智能服务商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">青岛信芯</h3><div class="bcard__meta"><span class="bcard__yr">2019</span></div><p class="bcard__desc">电视显示时序控制芯片全球第一</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">墨库图文</h3><div class="bcard__meta"><span class="bcard__yr">2022</span></div><p class="bcard__desc">国内最大数码喷墨墨水供应商之一</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">季丰电子</h3><div class="bcard__meta"><span class="bcard__yr">2023</span></div><p class="bcard__desc">半导体一站式检测分析解决方案提供商</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">衡石科技</h3><div class="bcard__meta"><span class="bcard__yr">2020</span></div><p class="bcard__desc">国内领先的BI PaaS平台提供商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">舟谱数据</h3><div class="bcard__meta"><span class="bcard__yr">2019</span></div><p class="bcard__desc">快消流通行业数智服务领跑者</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">思岚科技</h3><div class="bcard__meta"><span class="bcard__yr">2015</span></div><p class="bcard__desc">领先的机器人感知与移动技术提供商</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">东犁文化</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">艾锐光电</h3><div class="bcard__meta"><span class="bcard__yr">2016</span></div><p class="bcard__desc">高速光芯片及解决方案提供商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">埃洛克航空</h3><div class="bcard__meta"><span class="bcard__yr">2018</span></div><p class="bcard__desc">城市数字孪生与三维高精度地图服务商</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">瀚巍创芯</h3><div class="bcard__meta"><span class="bcard__yr">2019</span></div><p class="bcard__desc">国内领先的低功耗UWB芯片设计企业</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">丰贺信息</h3><div class="bcard__meta"><span class="bcard__yr">2019</span></div><p class="bcard__desc">业财一体化数据智能服务商</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">嘉赛信息</h3><div class="bcard__meta"><span class="bcard__yr">2020</span></div><p class="bcard__desc">智能终端全场景安全与运营服务商</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">晨灏科技（Alphalion）</h3><div class="bcard__meta"><span class="bcard__yr">2021</span></div><p class="bcard__desc">金融科技与美股交易软件服务商</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">蓝幸软件</h3><div class="bcard__meta"><span class="bcard__yr">2021</span></div><p class="bcard__desc">供应链端到端数字化决策平台</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">锘崴信息</h3><div class="bcard__meta"><span class="bcard__yr">2021</span></div><p class="bcard__desc">专业的隐私计算技术服务提供商</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">职行力</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">远眺科技（捷码）</h3><div class="bcard__meta"><span class="bcard__yr">2022</span></div><p class="bcard__desc">面向AIoT的低代码开发平台服务商</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">德固特</h3><div class="bcard__meta"><span class="bcard__yr">2013</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">节能环保装备提供商</p></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">鹰峰电子</h3><div class="bcard__meta"><span class="bcard__yr">2022</span></div><p class="bcard__desc">电力电子被动元器件国内领军企业</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">Scaleflux</h3><div class="bcard__meta"><span class="bcard__yr">2016</span></div><p class="bcard__desc">全球可计算存储概念的提出者和行业领导者</p></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">蘑菇财富</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">遇贤微电子</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">朱雀网络</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">百事通（法宝网）</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">凹凸租车（Atzuche）</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">Sentieon</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">东方网信</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">习游文化</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">亮牛半导体</h3><div class="bcard__meta"><span class="bcard__yr">2018</span></div><p class="bcard__desc">物联网高集成度Wi-Fi MCU芯片提供商</p></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">每步科技</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">雅观科技</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">数途信息</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">径卫视觉</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">仁力名才（MCHR）</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">聚啊信息（众企安链）</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">百特云享（宜构）</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:210ms"><h3 class="bcard__name">原圈科技</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:0ms"><h3 class="bcard__name">天天数链</h3><div class="bcard__meta"></div></article>
+      <article class="bcard" data-reveal style="--d:70ms"><h3 class="bcard__name">壹药网</h3><div class="bcard__meta"><span class="bcard__yr">2013</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">科技赋能的医药健康平台</p></article>
+      <article class="bcard" data-reveal style="--d:140ms"><h3 class="bcard__name">阜博</h3><div class="bcard__meta"><span class="bcard__yr">2013</span><span class="bcard__ipo">已上市</span></div><p class="bcard__desc">数字内容资产保护与交易SaaS平台</p></article>
+    </div>
+  </section>
+
+  <site-footer></site-footer>
+</div>
+
+<script src="assets/js/site.js"></script>
+<script>
+  // 「了解更多」滚动引导：不用锚点（避免 fragment 问题），向下滚一屏。
+  (function(){
+    document.querySelectorAll('.hax__more').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+        window.scrollBy({ top: window.innerHeight, behavior: reduce ? 'auto' : 'smooth' });
+      });
+    });
+  })();
+</script>
+<!-- BG opacity 测试控制台 --><style>#bgop-ctl{position:fixed;right:18px;bottom:18px;z-index:99999;display:flex;gap:6px;align-items:center;background:rgba(13,27,42,.86);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:9px 11px;border-radius:12px;font-family:Geist Mono,monospace;font-size:11.5px;color:#fff;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}#bgop-ctl .lbl{opacity:.6;margin-right:2px}#bgop-ctl button{font:inherit;color:#cdd6e6;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);padding:5px 9px;border-radius:8px;cursor:pointer}#bgop-ctl button:hover{background:rgba(255,255,255,.16)}#bgop-ctl button.on{background:#2f6bff;border-color:#2f6bff;color:#fff}</style><div id="bgop-ctl"><span class="lbl">BG 透明度</span><button data-s="P" class="on">提案 0.12</button><button data-s="A">备选 0.20</button></div><script>window.BGCFG={map:{hero:'.hero.hax',portfolio:'#portfolio'},schemes:{P:{hero:0,portfolio:0.12},A:{hero:0,portfolio:0.2}}};</script><script>(function(){var cfg=window.BGCFG,bg=document.getElementById('pagebg');var map={};Object.keys(cfg.map).forEach(function(k){map[k]=document.querySelector(cfg.map[k]);});
+function curKey(){var mid=innerHeight/2,k=null;Object.keys(map).forEach(function(n){var el=map[n];if(!el)return;var r=el.getBoundingClientRect();if(r.top<=mid&&r.bottom>=mid)k=n;});return k;}
+function apply(name){var s=cfg.schemes[name];Object.keys(map).forEach(function(n){if(map[n]&&s[n]!=null)map[n].setAttribute('data-bgop',s[n]);});var c=curKey();if(bg&&c!=null&&s[c]!=null)bg.style.setProperty('--pgop',s[c]);var b=document.querySelectorAll('#bgop-ctl button');for(var i=0;i<b.length;i++){b[i].classList.toggle('on',b[i].getAttribute('data-s')===name);}}
+document.querySelectorAll('#bgop-ctl button').forEach(function(b){b.addEventListener('click',function(){apply(b.getAttribute('data-s'));});});apply('P');})();</script>
+</body>
+</html>

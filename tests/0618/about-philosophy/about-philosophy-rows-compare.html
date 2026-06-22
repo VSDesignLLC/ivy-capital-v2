@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>投资哲学 · 三栏行 hover 展开（含背景图）对比</title>
+<base href="../../../" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+  body{ background:var(--c-bg); color:var(--c-ink); padding:40px 0 120px; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 var(--page-x); }
+  .lead{ max-width:820px; margin:0 0 8px; }
+  .lead h1{ font-family:var(--ff-serif); font-weight:600; font-size:30px; letter-spacing:-.5px; margin:0 0 12px; }
+  .lead p{ font-size:14.5px; line-height:24px; color:var(--c-slate); margin:0 0 6px; }
+  .lead code{ font-family:var(--ff-mono); font-size:12.5px; background:rgba(var(--c-ink-rgb),.06); padding:2px 6px; border-radius:4px; }
+
+  .vsec{ margin-top:72px; }
+  .vhd{ display:flex; align-items:baseline; gap:14px; margin:0 0 4px; }
+  .vtag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-accent); background:var(--c-accent-wash); padding:4px 10px; border-radius:999px; }
+  .vt{ font-family:var(--ff-serif); font-weight:600; font-size:19px; }
+  .vnote{ font-size:13px; line-height:21px; color:var(--c-muted); max-width:900px; margin:0 0 18px; }
+
+  /* ============================================================
+     共享行布局：3 栏 = [dot 右贴] · [中英名] · [描述]
+     default 紧凑；hover/.is-open → 整行背景图铺满 + 高度涨 ~2.6×
+     ============================================================ */
+  .pl{ border-top:1px solid var(--c-hairline);
+       margin:0 calc(var(--rail) - var(--page-x)); }      /* 同生产：撑到左右竖线 */
+  .pl-row{ position:relative; overflow:hidden; isolation:isolate;
+           border-bottom:1px solid var(--c-hairline); }
+  .pl-row__bg{ position:absolute; inset:0; z-index:-1; opacity:0;
+               background-position:center; background-size:cover; background-repeat:no-repeat;
+               transition:opacity .6s var(--ease), transform .9s var(--ease-soft); transform:scale(1.04); }
+
+  .pl-in{ display:grid; grid-template-columns:30% minmax(0,1fr) minmax(260px,34%);
+          align-items:start; gap:clamp(24px,5vw,72px);
+          padding:26px 40px; min-height:92px;
+          transition:min-height .55s var(--ease-soft), padding .55s var(--ease-soft); }
+
+  /* 左栏：dot 贴最右 */
+  .pl-dot{ justify-self:end; margin-top:.55em;
+           transition:transform .5s var(--ease), box-shadow .5s var(--ease); }
+
+  /* 中栏：中英名 */
+  .pl-title{ display:flex; align-items:baseline; gap:16px; padding-top:2px; }
+  .pl-title .cn{ font-family:var(--ff-serif); font-weight:500; font-size:32px; letter-spacing:-.03em;
+                 color:var(--c-ink); transition:color .5s var(--ease); }
+  .pl-title .en{ font-family:var(--ff-ital); font-style:italic; font-size:27px; color:var(--c-accent);
+                 transition:color .5s var(--ease); }
+
+  /* 右栏：描述（default 夹 2 行、muted；展开后全文） */
+  .pl-desc{ font-family:var(--ff-sc); font-size:15px; line-height:1.8; color:var(--c-muted);
+            margin:0; padding-top:6px;
+            display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden;
+            transition:color .5s var(--ease); }
+
+  /* 展开态（hover 或 .is-open 示意） */
+  .pl-row:is(:hover,.is-open) .pl-row__bg{ opacity:1; transform:scale(1); }
+  .pl-row:is(:hover,.is-open) .pl-in{ min-height:280px; padding-top:48px; padding-bottom:48px; }
+  .pl-row:is(:hover,.is-open) .pl-desc{ -webkit-line-clamp:99; }
+  .pl-row:is(:hover,.is-open) .pl-dot{ transform:scale(1.5); box-shadow:0 0 10px rgba(var(--c-accent-rgb),.5); }
+
+  /* ===== V1：亮 scrim + 深字（最贴参考图：亮图+深字） ===== */
+  .pv1 .pl-row__bg{ background-image:linear-gradient(rgba(var(--c-bg-rgb),.58), rgba(var(--c-bg-rgb),.40)), var(--img); }
+  .pv1 .pl-row:is(:hover,.is-open) .pl-title .cn{ color:var(--c-ink); }
+  .pv1 .pl-row:is(:hover,.is-open) .pl-title .en{ color:var(--c-accent); }
+  .pv1 .pl-row:is(:hover,.is-open) .pl-desc{ color:var(--c-slate); }
+
+  /* ===== V2：深 scrim + 奶白字（对比更强，同现行生产气质） ===== */
+  .pv2 .pl-row__bg{ background-image:linear-gradient(rgba(var(--c-ink-rgb),.56), rgba(var(--c-ink-rgb),.64)), var(--img); }
+  .pv2 .pl-row:is(:hover,.is-open) .pl-title .cn{ color:var(--c-bg); }
+  .pv2 .pl-row:is(:hover,.is-open) .pl-title .en{ color:var(--c-accent-2); }
+  .pv2 .pl-row:is(:hover,.is-open) .pl-desc{ color:rgba(var(--c-bg-rgb),.85); }
+  .pv2 .pl-row:is(:hover,.is-open) .pl-dot{ background:var(--c-accent-2); box-shadow:0 0 10px rgba(var(--c-accent-rgb),.6); }
+
+  /* ===== V3：图从左侧主导、右侧渐隐到奶白 → 描述区永远干净可读；dot 不变 ===== */
+  .pv3 .pl-row__bg{ background-position:left center;
+      background-image:linear-gradient(90deg, rgba(var(--c-bg-rgb),.15) 0%, rgba(var(--c-bg-rgb),.45) 52%, rgba(var(--c-bg-rgb),.96) 80%), var(--img); }
+  .pv3 .pl-row:is(:hover,.is-open) .pl-title .cn{ color:var(--c-ink); }
+  .pv3 .pl-row:is(:hover,.is-open) .pl-title .en{ color:var(--c-accent); }
+  .pv3 .pl-row:is(:hover,.is-open) .pl-desc{ color:var(--c-slate); }
+
+  /* 触屏兜底：无 hover 时描述常显（否则移动端只剩 2 行夹断） */
+  @media (hover:none){
+    .pl-desc{ -webkit-line-clamp:99; color:var(--c-slate); }
+  }
+  @media (max-width:860px){
+    .pl-in{ grid-template-columns:18px 1fr; gap:14px 16px; }
+    .pl-desc{ grid-column:2; }
+    .pl-title .cn{ font-size:26px; } .pl-title .en{ font-size:22px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="lead">
+      <h1>投资哲学 · 三栏行 + hover 整行背景图展开</h1>
+      <p>排版照 Image #2:每行 <strong>左 dot · 中中英名 · 右描述</strong> 三栏。default 紧凑 + 描述夹 2 行;<strong>hover</strong> 时整行铺满背景图、高度涨到约 <strong>2.6×</strong>、描述全显。每版<strong>第一行默认展开</strong>作示意,鼠标滑到 2/3 行可看真实交互。</p>
+      <p>差异点:哲学图是<strong>亮白抽象</strong>(同参考图),所以 V1 用<strong>亮 scrim+深字</strong>最贴;V2 试<strong>深 scrim+奶白字</strong>(现行生产气质);V3 让<strong>图左侧主导、右侧渐隐</strong>保描述区干净。token 全用我们自己的:<code>--ff-serif/--ff-ital</code>、<code>--c-accent</code>、<code>.dot</code>。</p>
+    </div>
+  </div>
+
+  <!-- V1 -->
+  <section class="vsec pv1">
+    <div class="wrap">
+      <div class="vhd"><span class="vtag">V1</span><span class="vt">亮 scrim + 深字（最贴参考）</span></div>
+      <p class="vnote">背景图压一层奶白半透明 → 亮图上深字依然清楚,接近 Image #2 的观感。</p>
+    </div>
+    <div class="wrap">
+      <div class="pl">
+        <div class="pl-row is-open"><div class="pl-row__bg" style="--img:url('assets/philosophy-integrity.jpg')"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+            <p class="pl-desc">我们坚持以诚信与原则行事，真诚对待每一位创业者、投资人与合作伙伴，并建立长期可信赖的关系。</p>
+          </div></div>
+        <div class="pl-row"><div class="pl-row__bg" style="--img:url('assets/philosophy-vision.jpg')"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+            <p class="pl-desc">我们以远见投资未来，相信真正改变世界的技术，在最早期往往并不被多数人理解。</p>
+          </div></div>
+        <div class="pl-row"><div class="pl-row__bg" style="--img:url('assets/philosophy-yearning.jpg')"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+            <p class="pl-desc">我们因热爱和好奇而出发，相信人类对未知的探索、对科学的追求，以及创造未来的勇气。</p>
+          </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- V2 -->
+  <section class="vsec pv2">
+    <div class="wrap">
+      <div class="vhd"><span class="vtag">V2</span><span class="vt">深 scrim + 奶白字（对比强）</span></div>
+      <p class="vnote">背景图压一层深蓝 → 文字翻奶白、英文翻浅蓝,对比更强;气质同现行生产 C3,但在亮图上靠 scrim 兜可读性。</p>
+    </div>
+    <div class="wrap">
+      <div class="pl">
+        <div class="pl-row is-open"><div class="pl-row__bg" style="--img:url('assets/philosophy-integrity.jpg')"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+            <p class="pl-desc">我们坚持以诚信与原则行事，真诚对待每一位创业者、投资人与合作伙伴，并建立长期可信赖的关系。</p>
+          </div></div>
+        <div class="pl-row"><div class="pl-row__bg" style="--img:url('assets/philosophy-vision.jpg')"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+            <p class="pl-desc">我们以远见投资未来，相信真正改变世界的技术，在最早期往往并不被多数人理解。</p>
+          </div></div>
+        <div class="pl-row"><div class="pl-row__bg" style="--img:url('assets/philosophy-yearning.jpg')"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+            <p class="pl-desc">我们因热爱和好奇而出发，相信人类对未知的探索、对科学的追求，以及创造未来的勇气。</p>
+          </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- V3 -->
+  <section class="vsec pv3">
+    <div class="wrap">
+      <div class="vhd"><span class="vtag">V3</span><span class="vt">图左侧主导 · 右侧渐隐保描述</span></div>
+      <p class="vnote">背景图从左铺、到右侧渐隐成奶白 → 标题压在图上、描述区始终在干净底上,可读性最稳。</p>
+    </div>
+    <div class="wrap">
+      <div class="pl">
+        <div class="pl-row is-open"><div class="pl-row__bg" style="--img:url('assets/philosophy-integrity.jpg')"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+            <p class="pl-desc">我们坚持以诚信与原则行事，真诚对待每一位创业者、投资人与合作伙伴，并建立长期可信赖的关系。</p>
+          </div></div>
+        <div class="pl-row"><div class="pl-row__bg" style="--img:url('assets/philosophy-vision.jpg')"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+            <p class="pl-desc">我们以远见投资未来，相信真正改变世界的技术，在最早期往往并不被多数人理解。</p>
+          </div></div>
+        <div class="pl-row"><div class="pl-row__bg" style="--img:url('assets/philosophy-yearning.jpg')"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+            <p class="pl-desc">我们因热爱和好奇而出发，相信人类对未知的探索、对科学的追求，以及创造未来的勇气。</p>
+          </div></div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

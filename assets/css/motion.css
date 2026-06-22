@@ -33,15 +33,15 @@
   .intro[data-reveal], .about__p[data-reveal]{ transform:none; }
   .sec-anim .rule{ transform:none; } .sec-anim .sec-box, .sec-box.sec-anim{ opacity:1; }
   .sec-anim .corner, .sec-anim .bt{ opacity:1; transform:none; }
-  .dot--live::before, .btn .dot::before{ animation:none; opacity:.38; transform:translate(-50%,-50%) scale(1.15); }
+  .dot--live::before{ animation:none; opacity:.38; transform:translate(-50%,-50%) scale(1.15); }
   .hero__ivy.armed{ opacity:1; }
   .hero__ivy .cap{ opacity:1; transform:none; }
   .hero__ivy .ivy-t .ch{ opacity:1; filter:none; }
   .hero__ivy .ivy-t .rest{ grid-template-columns:1fr; }
-  .card__foot{ gap:14px; } .tags{ grid-template-rows:1fr; opacity:1; transform:none; }
-  .pcard__plate{ clip-path:inset(0 0 0 0); } .pcard__foot{ gap:5px; }
-  .pcard__foot .d{ grid-template-rows:1fr; opacity:1; transform:none; }
-  .pcard__foot .t{ text-shadow:0 0 20px rgba(var(--c-bg-rgb),0), 0 0 7px rgba(var(--c-bg-rgb),0); }
+  .card-strategy__foot{ gap:14px; } .tags{ grid-template-rows:1fr; opacity:1; transform:none; }
+  .card-project__plate{ clip-path:inset(0 0 0 0); } .card-project__foot{ gap:5px; }
+  .card-project__foot .d{ grid-template-rows:1fr; opacity:1; transform:none; }
+  .card-project__foot .t{ text-shadow:0 0 20px rgba(var(--c-bg-rgb),0), 0 0 7px rgba(var(--c-bg-rgb),0); }
   *{ transition:none !important; }
 }
 

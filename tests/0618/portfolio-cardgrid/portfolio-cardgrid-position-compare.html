@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<base href="../../../" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Portfolio 名称墙 · 默认态 字体/位置/底色对比</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================
+   测试页：Portfolio 公司卡「名称墙」重设计
+   默认态 = 干净名称墙（无图、无 logo、无描述，只有公司名 + 底色）
+   hover  = 项目背景图淡入 + 描述展开（复用 components.css .pcard 基础行为，恒定）
+   本页对比：默认名称墙的 字体/字号 × 位置 × 底色 6 种组合，纵向堆叠满宽。
+   ============================================================ */
+
+/* 全页背景视频（真实语境：让透明磨砂版透出视频） */
+.pagevid{ position:fixed; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; opacity:.40; pointer-events:none; }
+
+body{ background:var(--c-bg); }
+.wrap{ position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:0 var(--page-x) 120px; }
+
+/* 顶部页头 */
+.testhead{ position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:120px var(--page-x) 8px; }
+.testhead h1{ font-family:var(--ff-serif); font-weight:600; font-size:38px; line-height:1.2; letter-spacing:-0.6px; color:var(--c-ink); }
+.testhead p{ margin-top:14px; max-width:760px; font-family:var(--ff-sc); font-size:16px; line-height:27px; color:var(--c-slate); }
+.testhead .hint{ margin-top:10px; font-family:var(--ff-mono); font-size:12px; letter-spacing:.04em; color:var(--c-muted); }
+
+/* 每段变体标题条 */
+.vhead{ display:flex; align-items:baseline; gap:14px; margin:64px 0 22px; padding-bottom:14px; border-bottom:1px solid var(--c-grid); }
+.vhead .vletter{ font-family:var(--ff-ital); font-style:italic; font-size:40px; line-height:1; color:var(--c-accent); }
+.vhead .vlabel{ font-family:var(--ff-serif); font-weight:600; font-size:22px; letter-spacing:-0.3px; color:var(--c-ink); }
+.vhead .vbadge{ font-family:var(--ff-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--c-accent);
+  border:1px solid var(--c-accent-line); border-radius:100px; padding:3px 11px; background:rgba(var(--c-bg-rgb),.6); }
+
+/* ===== 名称墙网格基础（所有变体共用，scope 在 .nw 下，不碰生产 .port-logos）===== */
+.nw{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+.nw .pcard{ cursor:default; }
+/* 默认态：背景图隐藏，hover 才淡入（图片淡入 = 恒定 hover 行为之一） */
+.nw .pcard__bg{ opacity:0; transition:opacity .7s var(--ease), transform 1.1s var(--ease); }
+.nw .pcard:hover .pcard__bg{ opacity:1; }
+/* base 已处理：plate 默认 clip 隐藏、hover 展开；.d 描述默认隐藏、hover 展开。此处不重复。 */
+/* 第二枚药丸「已上市」：叠在年份 badge 下方（components.css 未含此偏移，故在 .nw 重声明） */
+.nw .pcard__badge--ipo{ top:46px; background:var(--c-accent); border-color:var(--c-accent); color:var(--c-bg); }
+
+/* ---- 底色 A：奶白实底（读作实心名牌，视频只从网格缝隙透出）---- */
+.nw-a .pcard, .nw-b .pcard, .nw-c .pcard, .nw-d .pcard{
+  background:var(--c-bg); border:1px solid var(--c-divider); }
+/* ---- 底色 B：透明磨砂（透出全页视频，读作磨砂玻璃名称墙）---- */
+.nw-e .pcard, .nw-f .pcard{
+  background:rgba(var(--c-bg-rgb),.30); border:1px solid rgba(var(--c-bg-rgb),.55);
+  -webkit-backdrop-filter:blur(16px) saturate(1.1); backdrop-filter:blur(16px) saturate(1.1); }
+
+/* ---- 位置：居中（A/C/E）---- 名称在卡片正中；hover 时描述在其正下方居中展开 */
+.nw-a .pcard__foot, .nw-c .pcard__foot, .nw-e .pcard__foot{
+  inset:0; padding:26px; align-items:center; justify-content:center; text-align:center; }
+.nw-a .pcard__foot .d, .nw-c .pcard__foot .d, .nw-e .pcard__foot .d{ text-align:center; }
+.nw-a .pcard__foot .d-inner, .nw-c .pcard__foot .d-inner,
+.nw-e .pcard__foot .d-inner{ max-width:84%; margin:0 auto; }
+
+/* ---- 位置：左下角（B/D/F）---- base .pcard__foot 已是 bottom-left 左对齐，沿用 */
+.nw-b .pcard__foot, .nw-d .pcard__foot, .nw-f .pcard__foot{ padding:26px; }
+
+/* ---- 字体/字号 ---- */
+/* 衬线大字（A/B/E/F） */
+.nw-a .pcard__foot .t, .nw-b .pcard__foot .t,
+.nw-e .pcard__foot .t, .nw-f .pcard__foot .t{
+  font-family:var(--ff-serif); font-weight:600; font-size:28px; line-height:1.25; letter-spacing:-0.4px; }
+/* 无衬线中字（C/D） */
+.nw-c .pcard__foot .t, .nw-d .pcard__foot .t{
+  font-family:var(--ff-sc); font-weight:700; font-size:21px; line-height:1.3; letter-spacing:-0.2px; }
+
+/* 默认名称颜色（实底 = ink；磨砂 = ink，靠 backdrop 提升对比） */
+.nw .pcard__foot .t{ color:var(--c-ink); }
+.nw-e .pcard__foot .t, .nw-f .pcard__foot .t{
+  text-shadow:0 0 14px rgba(var(--c-bg-rgb),.85), 0 1px 3px rgba(var(--c-bg-rgb),.7); }
+
+/* hover：图片淡入后，名称/描述需保持可读 → 保留文字光晕（不让 base 把 shadow 收没） */
+.nw .pcard:hover .pcard__foot .t{
+  color:var(--c-ink); text-shadow:0 0 16px rgba(var(--c-bg-rgb),.92), 0 1px 6px rgba(var(--c-bg-rgb),.8); }
+/* 居中变体的描述在图上方区域（plate 只覆盖底部），补一层文字光晕保可读 */
+.nw-a .pcard:hover .pcard__foot .d, .nw-c .pcard:hover .pcard__foot .d,
+.nw-e .pcard:hover .pcard__foot .d{ color:var(--c-slate);
+  text-shadow:0 0 12px rgba(var(--c-bg-rgb),.9), 0 1px 4px rgba(var(--c-bg-rgb),.75); }
+
+/* 描述字号略收，名称墙更克制 */
+.nw .pcard__foot .d{ font-size:13px; line-height:19.5px; }
+.nw .pcard__foot .d-inner{ display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+
+@media (max-width:1100px){ .nw{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:640px){ .nw{ grid-template-columns:1fr; } }
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+</head>
+<body data-nav="portfolio">
+
+<video class="pagevid" autoplay muted loop playsinline preload="auto">
+  <source src="assets/0617/kling_20260617_VIDEO_无缝循环_hero__4945_0.mp4" type="video/mp4" />
+</video>
+
+<header class="testhead">
+  <h1>Portfolio 名称墙 · 默认态 字体/位置/底色对比</h1>
+  <p>默认态 = 干净「名称墙」：无背景图、无 logo、无描述，只有公司名落在底色上。鼠标 hover 时，项目背景图淡入 + 描述展开（复用原磨砂 plate，所有变体恒定）。请只评判默认态的字体/字号 × 位置 × 底色组合。</p>
+  <p class="hint">6 个变体纵向堆叠，每个占满生产宽度（4 列网格，16 家公司）· hover 任一卡片看恒定揭示行为</p>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <div class="vhead"><span class="vletter">A</span><span class="vlabel">居中 · 衬线大字 · 奶白实底</span><span class="vbadge">center / serif / cream</span></div>
+    <div class="nw nw-a" id="grid-a"></div>
+  </section>
+
+  <section>
+    <div class="vhead"><span class="vletter">B</span><span class="vlabel">左下角 · 衬线大字 · 奶白实底</span><span class="vbadge">bottom-left / serif / cream</span></div>
+    <div class="nw nw-b" id="grid-b"></div>
+  </section>
+
+  <section>
+    <div class="vhead"><span class="vletter">C</span><span class="vlabel">居中 · 无衬线中字 · 奶白实底</span><span class="vbadge">center / sans / cream</span></div>
+    <div class="nw nw-c" id="grid-c"></div>
+  </section>
+
+  <section>
+    <div class="vhead"><span class="vletter">D</span><span class="vlabel">左下角 · 无衬线中字 · 奶白实底</span><span class="vbadge">bottom-left / sans / cream</span></div>
+    <div class="nw nw-d" id="grid-d"></div>
+  </section>
+
+  <section>
+    <div class="vhead"><span class="vletter">E</span><span class="vlabel">居中 · 衬线大字 · 透明磨砂（透出视频）</span><span class="vbadge">center / serif / frosted</span></div>
+    <div class="nw nw-e" id="grid-e"></div>
+  </section>
+
+  <section>
+    <div class="vhead"><span class="vletter">F</span><span class="vlabel">左下角 · 衬线大字 · 透明磨砂</span><span class="vbadge">bottom-left / serif / frosted</span></div>
+    <div class="nw nw-f" id="grid-f"></div>
+  </section>
+
+</main>
+
+<script>
+/* 16 家真实公司 — 渲染进 6 个网格（无 logo markup） */
+var COMPANIES = [
+  {n:"来牟科技", img:"assets/proj-3817.png", y:"2025", ipo:false, d:"专注欧美市场的智能割草机器人公司"},
+  {n:"新研智材", img:"assets/proj-3819.png", y:"2026", ipo:false, d:"AI驱动半导体核心材料研发的技术先锋"},
+  {n:"曦望", img:"assets/proj-3820.png", y:"2026", ipo:false, d:"国内首家估值超百亿的纯推理GPU独角兽"},
+  {n:"镜识科技", img:"assets/proj-3821.png", y:"2025", ipo:false, d:"10m/s刷新四足与双足机器人速度纪录的AI足式机器人公司"},
+  {n:"大工无人机", img:"assets/proj-3824.png", y:"2025", ipo:false, d:"专注于工业无人机研发的国家高新技术企业，国内首个将系留无人机技术推向商业化的企业"},
+  {n:"慧感智能", img:"assets/proj-3825.png", y:"2025", ipo:false, d:"由院士团队创办，专注于AI增强的大面积柔性电子皮肤研发，为具身智能机器人构建“感知神经系统”"},
+  {n:"安弧科技", img:"assets/proj-3826.png", y:"2025", ipo:false, d:"专注于半导体静电卡盘（ESC）研发与生产的初创公司，致力于打破国外长期垄断，推动国产替代进程"},
+  {n:"普思影", img:"assets/proj-3830.jpg", y:"2025", ipo:false, d:"专注低液氦超导磁体技术，打破进口依赖的MRI国产替代先锋"},
+  {n:"云砺信息/票易通", img:"assets/proj-3831.jpg", y:"2015", ipo:false, d:"专业的供应链信息协同及增值税发票管理云平台解决方案提供商"},
+  {n:"韦尔股份", img:"assets/proj-3832.jpg", y:"2014", ipo:true, d:"国内领先、全球排名前列的Fabless半导体设计公司，国产高端图像传感器芯片的龙头企业"},
+  {n:"宏华数科", img:"assets/proj-3833.jpg", y:"2024", ipo:true, d:"以数码喷印技术为核心的科创板上市公司，国内领先、全球前三的数码喷印设备与综合解决方案提供商"},
+  {n:"兆易创新", img:"assets/proj-3834.jpg", y:"2018", ipo:true, d:"国内存储与MCU双龙头半导体设计公司"},
+  {n:"中科蓝讯", img:"assets/proj-3835.jpg", y:"2020", ipo:true, d:"全球TWS耳机芯片出货量约30%的无线音频SoC龙头"},
+  {n:"杰华特", img:"assets/proj-3836.jpg", y:"2019", ipo:true, d:"虚拟IDM模拟芯片设计企业"},
+  {n:"翼菲智能", img:"assets/proj-3837.jpg", y:"2015", ipo:true, d:"深耕轻工业的工业机器人全品类提供商"},
+  {n:"天下房仓", img:"assets/proj-3838.jpg", y:"2015", ipo:false, d:"国内领先的酒店及旅游行业独立第三方B2B供应链解决方案提供商"}
+];
+
+function cardHTML(c){
+  var ipo = c.ipo ? '<span class="pcard__badge pcard__badge--ipo">已上市</span>' : '';
+  return '<article class="pcard">' +
+           '<img class="pcard__bg" src="' + c.img + '" alt="">' +
+           '<div class="pcard__plate"></div>' +
+           '<span class="pcard__badge">' + c.y + '</span>' + ipo +
+           '<div class="pcard__foot">' +
+             '<span class="t">' + c.n + '</span>' +
+             '<span class="d"><span class="d-inner">' + c.d + '</span></span>' +
+           '</div>' +
+         '</article>';
+}
+
+var html = COMPANIES.map(cardHTML).join('');
+['a','b','c','d','e','f'].forEach(function(k){
+  document.getElementById('grid-' + k).innerHTML = html;
+});
+</script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

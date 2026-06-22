@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ivy Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================ HERO */
+.hero{ position:relative; height:1024px; overflow:hidden; }
+.hero__img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+.hero__grad{ position:absolute; inset:0; background:linear-gradient(90deg, var(--cream-grad) 2.7%, rgba(var(--c-bg-rgb),.6) 30.7%, rgba(var(--c-bg-rgb),0) 54.5%); }
+.hero__fade{ position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 45%, var(--cream-grad) 78%); }
+.hero__eyebrow{ position:absolute; top:97px; left:100px; right:64px; display:flex; justify-content:space-between; align-items:flex-start; }
+.hero__eyebrow .left{ display:flex; gap:9px; align-items:center; }
+.hero__eyebrow .left .caption{ letter-spacing:.2em; }
+.hero__eyebrow .left .yr{ font-family:var(--ff-ital); font-style:italic; font-size:14px; line-height:21px; color:var(--c-muted); }
+.hero__eyebrow .left .city{ font-family:var(--ff-mono); font-size:11px; line-height:16.5px; color:var(--c-muted); letter-spacing:.05em; }
+.hero__eyebrow .right{ display:flex; gap:8px; align-items:center; }
+.hero__eyebrow .right .caption{ color:var(--c-accent); letter-spacing:.2em; }
+.hero__heading{ position:absolute; left:80px; top:371px; display:flex; flex-direction:column; gap:40px; }
+.hero__title{ font-weight:700; font-size:108px; line-height:112.32px; letter-spacing:-0.64px; color:var(--c-ink); }
+.hero__title .b{ color:var(--c-accent); }
+.hero__sub{ font-size:34px; line-height:44px; letter-spacing:-0.4px; color:var(--c-slate); }
+.hero__sub .b{ color:var(--c-accent); }
+.hero__ivy{ position:absolute; left:0; right:0; top:807px; display:flex; flex-direction:column; align-items:center; gap:15px; }
+.hero__ivy .ivy-t{ font-family:var(--ff-ital); font-style:italic; font-size:28.3px; line-height:31.2px; letter-spacing:-0.34px; color:var(--c-accent); }
+.hero__ivy .ivy-line{ width:1px; height:110px; background:var(--c-grid); opacity:.7; }
+
+/* HERO eyebrow dot — 呼吸光晕现由 components.css 单一来源（.dot--live + .dot--live--on-dark 白光）提供 */
+
+
+/* HERO headline — per-character left→right reveal (T2-A) */
+.hero__heading .ch{ display:inline-block; white-space:pre; will-change:transform,opacity,filter; opacity:0; transform:translateY(0.4em); filter:blur(4px); }
+.hero__heading.play .ch{ animation:headline-in .56s var(--ease) both; animation-delay:var(--delay); }
+@keyframes headline-in{ from{ opacity:0; transform:translateY(0.4em); filter:blur(4px); } to{ opacity:1; transform:translateY(0); filter:blur(0); } }
+
+/* BREATHER 引言 — 复用 hero headline 的逐字显影（滚动触发，见脚本） */
+.quote p .ch{ display:inline-block; white-space:pre; will-change:transform,opacity,filter; opacity:0; transform:translateY(0.4em); filter:blur(4px); }
+.quote p.play .ch{ animation:headline-in .56s var(--ease) both; animation-delay:var(--delay); }
+
+/* HERO "I Value You" choreography — 版本C 精致混排 (T4-C) */
+.hero__ivy{ transition:opacity .5s var(--ease); }
+.hero__ivy.armed{ opacity:0; }
+.hero__ivy .ivy-t{ display:flex; align-items:baseline; justify-content:center; gap:20px; transition:gap .6s var(--ease); white-space:nowrap; }
+.hero__ivy.open .ivy-t{ gap:10px; }
+.ivy-t .w{ display:inline-flex; align-items:baseline; }
+.ivy-t .cap{ display:inline-block; opacity:0; vertical-align:baseline; transform:scale(1.16); transform-origin:center bottom; transition:opacity .5s var(--ease), transform .55s var(--ease); }
+.hero__ivy.acronym .cap{ opacity:1; }
+.hero__ivy.settle .cap{ transform:scale(1); }
+.w-i .cap{ transition-delay:0s } .w-v .cap{ transition-delay:.1s } .w-y .cap{ transition-delay:.2s }
+.ivy-t .rest{ display:inline-grid; grid-template-columns:0fr; transition:grid-template-columns .5s var(--ease); }
+.ivy-t .rest > .rest-inner{ overflow:hidden; white-space:nowrap; }
+.hero__ivy .ivy-t .ch{ opacity:0; filter:blur(7px); transition:opacity .5s var(--ease), filter .5s var(--ease); }
+.hero__ivy.typed .rest{ grid-template-columns:1fr; }
+.hero__ivy.typed .ivy-t .ch{ opacity:1; filter:blur(0); }
+.rest-inner .ch:nth-child(1){ transition-delay:.05s } .rest-inner .ch:nth-child(2){ transition-delay:.13s } .rest-inner .ch:nth-child(3){ transition-delay:.21s } .rest-inner .ch:nth-child(4){ transition-delay:.29s }
+.hero__ivy .ivy-line{ position:relative; }
+.ivy-glow{ pointer-events:none; opacity:0; position:absolute; left:50%; top:0; width:4px; height:4px; margin-left:-2px; border-radius:50%; background:rgba(var(--c-accent-rgb),.92); box-shadow:0 0 6px 1px rgba(var(--c-accent-rgb),.45); }
+.ivy-glow::before{ content:''; position:absolute; left:50%; bottom:4px; width:2px; height:42px; margin-left:-1px; background:linear-gradient(180deg, rgba(var(--c-accent-rgb),0) 0%, rgba(var(--c-accent-rgb),.4) 100%); filter:blur(.5px); }
+.hero__ivy.resolved .ivy-glow{ animation:glowNodeC 2.5s var(--ease) infinite; }
+@keyframes glowNodeC{ 0%{ transform:translateY(-6px); opacity:0; } 12%{ opacity:1; } 86%{ opacity:1; } 100%{ transform:translateY(112px); opacity:0; } }
+
+/* ABOUT — blueprint grid (版本A): title box = center third, right edge LOCKED to the 2/3 divider */
+#about{ padding:0 var(--rail) var(--gap); }   /* rail-to-rail; 120 bottom = section rhythm */
+.agrid{ display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:64px auto; }
+.agrid .band{ grid-column:1 / -1; grid-row:1; position:relative; z-index:1; }
+.agrid .band .rule{ position:absolute; left:0; right:0; height:0; border-top:1px solid var(--c-grid); }
+.agrid .band .rule.top{ top:0; } .agrid .band .rule.bot{ bottom:0; }
+.agrid .sec-box{ grid-column:2; grid-row:1; z-index:2; }   /* center third; width = 1fr = 1/3 */
+.about__left{ grid-column:1 / 3; grid-row:2; min-width:0; display:flex; flex-direction:column; gap:40px; padding:80px 56px 0 16px; }
+.about__left .btn{ align-self:flex-start; }
+.about__p{ font-size:18px; line-height:28px; letter-spacing:-0.3px; color:var(--c-ink); max-width:46em; }
+.about__p .b{ color:var(--c-accent); }
+.about__imgwrap{ height:270px; overflow:hidden; position:relative; }
+.about__imgwrap img, .about__imgwrap video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.8; }
+.about__stats{ grid-column:3; grid-row:2; --stat-pad:48px; border-left:1px solid var(--c-grid);
+  padding:40px 0 6px var(--stat-pad); display:flex; flex-direction:column; justify-content:space-between; gap:24px; }
+.about__stats .stat{ position:relative; display:flex; flex-direction:column; gap:14px; }
+.about__stats .lbl{ font-size:11px; line-height:16.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted); }
+.about__stats .num{ font-family:var(--ff-sans); font-weight:500; font-size:64px; line-height:64px; letter-spacing:-1.92px; color:var(--c-ink); white-space:nowrap; }
+.about__stats .num .cn{ font-family:var(--ff-sc); font-weight:500; }
+
+/* STRATEGY */
+.strategy__intro{ padding-top:40px; }
+.strategy__sub{ font-family:var(--ff-mono); font-size:13px; letter-spacing:.08em; color:var(--c-accent); margin:0 0 14px; }
+.cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; padding-top:56px; padding-bottom:var(--gap); }
+
+.marquee-wrap{ padding-bottom:var(--gap); }
+
+/* PROJECTS */
+.proj__head{ display:flex; align-items:flex-end; justify-content:space-between; gap:40px; }
+.proj__head .lead{ flex:1; display:flex; flex-direction:column; gap:40px; }
+.proj__grid{ display:flex; flex-direction:column; gap:24px; padding-top:60px; padding-bottom:var(--gap); }
+.proj__row{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+
+/* QUOTE / breather — left aligned */
+.quote{ padding:0 var(--page-x) var(--gap); display:flex; justify-content:flex-start; }
+.quote p{ font-family:var(--ff-serif); font-weight:400; font-size:34px; line-height:45.9px; letter-spacing:-0.34px; color:var(--c-ink); text-align:left; }
+
+/* AWARDS — auto ticker */
+.awards__lead{ display:flex; align-items:flex-end; justify-content:space-between; padding-top:60px; gap:40px; }
+.awards__lead .intro{ flex:1; }
+  /* 首页首屏：从纯白washin显现（仅首次加载，pointer 不拦截，弱动效偏好下不显示） */
+  .hero__reveal{ position:fixed; inset:0; background:#fff; z-index:9999; pointer-events:none;
+    animation:heroWhiteIn 1.15s ease forwards; }
+  @keyframes heroWhiteIn{ 0%{opacity:1} 100%{opacity:0; visibility:hidden} }
+  @media (prefers-reduced-motion:reduce){ .hero__reveal{ display:none; } }
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+</head>
+<body>
+
+<!-- 首屏白场显现遮罩（首次加载淡出，揭开 hero） -->
+<div class="hero__reveal" aria-hidden="true"></div>
+
+<!-- GLOBAL fixed video background (奶白底之上 / 内容之下；opacity 随 scroll 变化) -->
+<video class="pagebg" id="pagebg" autoplay muted loop playsinline preload="auto">
+  <source src="assets/0617/kling_20260617_VIDEO_无缝循环_hero__4945_0.mp4" type="video/mp4" />
+</video>
+
+<div class="page">
+
+  <!-- GLOBAL BLUEPRINT GRID (partial verticals; sit BEHIND content) -->
+  <div class="grid-overlay" id="grid" aria-hidden="true">
+    <div class="vline" data-v="sA"></div>
+    <div class="vline" data-v="sB"></div>
+    <div class="vline" data-v="p1"></div>
+    <div class="vline" data-v="p2"></div>
+    <div class="vline" data-v="p3"></div>
+  </div>
+
+  <!-- FULL-HEIGHT SIDE RAILS — drawn above hero & footer; only nav covers them -->
+  <div class="rails-top" id="rails" aria-hidden="true">
+    <div class="rail l"></div>
+    <div class="rail r"></div>
+  </div>
+
+  <!-- NAV -->
+  <site-nav></site-nav>
+
+  <!-- HERO -->
+  <header class="hero" data-bgop="0">
+    <video class="hero__img" autoplay muted loop playsinline preload="auto" poster="assets/hero-flow.png">
+      <source src="assets/0617/kling_20260617_VIDEO_无缝循环_hero__5689_0.mp4" type="video/mp4" />
+    </video>
+    <div class="hero__grad"></div>
+    <div class="hero__fade"></div>
+    <div class="hero__eyebrow">
+      <div class="left" data-reveal>
+        <span class="caption">Established</span><span class="yr">2007</span><span class="city">· Shanghai · Hong Kong</span>
+      </div>
+      <div class="right" data-reveal style="--d:120ms"><span class="dot dot--live dot--live--on-dark"></span><span class="caption">Fund VI · Now Raising</span></div>
+    </div>
+    <div class="hero__heading">
+      <h1 class="hero__title" aria-label="Ivy Capital"><span class="b">Ivy</span> Capital</h1>
+      <p class="hero__sub" aria-label="A people-centered deep-tech investment firm — growing alongside you in symbiosis, resilience, and enduring strength.">A people-centered deep-tech investment firm —<br>growing alongside you in symbiosis, resilience, and <span class="b">enduring strength</span>.</p>
+    </div>
+    <div class="hero__ivy armed" data-v="c">
+      <span class="ivy-t">
+        <span class="w w-i"><span class="cap">I</span></span>
+        <span class="w w-v"><span class="cap">V</span><span class="rest"><span class="rest-inner"><span class="ch">a</span><span class="ch">l</span><span class="ch">u</span><span class="ch">e</span></span></span></span>
+        <span class="w w-y"><span class="cap">Y</span><span class="rest"><span class="rest-inner"><span class="ch">o</span><span class="ch">u</span></span></span></span>
+      </span>
+      <span class="ivy-line"><span class="ivy-glow"></span></span>
+    </div>
+  </header>
+
+  <!-- ABOUT (I.) -->
+  <section class="section" id="about" data-bgop="0.20">
+    <div class="agrid">
+      <div class="band sec-anim">
+        <span class="rule top"></span><span class="rule bot"></span>
+      </div>
+      <div class="sec-box sec-anim"><span class="corner tl"></span><span class="corner br"></span>
+        <span class="bt"><span class="rn">I.</span><span class="cn">About Us</span></span>
+      </div>
+      <div class="about__left">
+        <p class="about__p p-scroll">Founded in 2007 and headquartered in Shanghai, Ivy Capital is among China&rsquo;s first <span class="b">market-oriented</span> venture capital firms. Across multiple market cycles, we have remained driven by in-depth research and industry insight, seeking out entrepreneurs with the capability, ambition, and resilience to unlock vast market value.<br><br>Ivy operates both a primary-market platform, &ldquo;Ivy Capital,&rdquo; and a secondary-market platform, &ldquo;Ivy Fund,&rdquo; with combined assets under management exceeding RMB 24 billion. We have invested in and accompanied more than 150 technology companies over the long term, 23 of which have gone public.</p>
+        <a class="btn glass-ring" href="#" data-reveal style="--d:120ms"><span class="dot dot--live"></span>Learn More</a>
+        <div class="about__imgwrap" data-reveal style="--d:160ms"><video src="assets/about-intro.mp4" autoplay muted playsinline preload="auto"></video></div>
+      </div>
+      <div class="about__stats" data-reveal style="--d:120ms">
+        <div class="stat"><span class="lbl">Founded</span><span class="num" data-count="2007">2007</span></div>
+        <div class="stat"><span class="lbl">AUM</span><span class="num">RMB&nbsp;<span data-count="24">24</span>B+</span></div>
+        <div class="stat"><span class="lbl">Investments</span><span class="num"><span data-count="200">200</span>+</span></div>
+        <div class="stat"><span class="lbl">IPOs</span><span class="num" data-count="23">23</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRATEGY (II.) — heading box LEFT -->
+  <section class="section" id="strategy" data-bgop="0.12">
+    <div class="sec-band left sec-anim">
+      <span class="rule top"></span><span class="rule bot"></span>
+      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+        <span class="bt"><span class="rn">ii.</span><span class="cn">Investment Strategy</span></span>
+      </div>
+    </div>
+    <div class="strategy__intro"><p class="strategy__sub">// A Deep-Tech Fund Built on Long-Termism</p><p class="intro p-scroll">Ivy Capital focuses on deep tech, with particular emphasis on AI (software and hardware), chips and semiconductors, and intelligent manufacturing &mdash; continually seeking teams that command durable technological barriers and lasting industrial value. We invest primarily at the early stage, from angel through growth rounds, with a commitment to long-term partnership and continued follow-on backing.</p></div>
+    <div class="cards">
+      <article class="card-strategy" data-reveal>
+        <img class="card-strategy__bg" src="assets/strategy-ai.png" alt="" /><div class="card-strategy__grad"></div>
+        <span class="corner tl"></span><span class="corner br"></span>
+        <div class="card-strategy__top"><span class="idx">// 01</span><span class="tag">AI</span></div>
+        <div class="card-strategy__foot"><h3 class="card-strategy__title">AI&nbsp;&nbsp;<span class="b">Software &amp; Hardware</span></h3>
+          <div class="tags"><div class="tags__inner"><span>Foundation Models</span><span>Vertical Applications</span><span>On-Device Hardware</span></div></div></div>
+      </article>
+      <article class="card-strategy" data-reveal style="--d:90ms">
+        <img class="card-strategy__bg" src="assets/strategy-chip.png" alt="" /><div class="card-strategy__grad"></div>
+        <span class="corner tl"></span><span class="corner br"></span>
+        <div class="card-strategy__top"><span class="idx">// 02</span><span class="tag">Chips &amp; Semiconductors</span></div>
+        <div class="card-strategy__foot"><h3 class="card-strategy__title">Chips &amp;&nbsp;<span class="b">Semiconductors</span></h3>
+          <div class="tags"><div class="tags__inner"><span>Compute</span><span>Sensing</span><span>Materials</span></div></div></div>
+      </article>
+      <article class="card-strategy" data-reveal style="--d:180ms">
+        <img class="card-strategy__bg" src="assets/strategy-manufacturing.png" alt="" /><div class="card-strategy__grad"></div>
+        <span class="corner tl"></span><span class="corner br"></span>
+        <div class="card-strategy__top"><span class="idx">// 03</span><span class="tag">Intelligent Manufacturing</span></div>
+        <div class="card-strategy__foot"><h3 class="card-strategy__title">Intelligent&nbsp;<span class="b">Manufacturing</span></h3>
+          <div class="tags"><div class="tags__inner"><span>Robotics</span><span>Automation</span><span>Embodied Intelligence</span></div></div></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee">
+      <div class="marquee__track">
+        <div class="marquee__item">
+          <span class="name">Will Semiconductor</span><span class="dia">◆</span><span class="name">GigaDevice</span><span class="dia">◆</span><span class="name">JoulWatt</span><span class="dia">◆</span>
+          <span class="name">Doright</span><span class="dia">◆</span><span class="name">YSB</span><span class="dia">◆</span><span class="name">GalaxyCore</span><span class="dia">◆</span>
+          <span class="name">Taimei</span><span class="dia">◆</span><span class="name">Robot Phoenix</span><span class="dia">◆</span><span class="name">RAYSEES</span><span class="dia">◆</span>
+          <span class="name">XForcePlus</span><span class="dia">◆</span><span class="name">Leyan</span><span class="dia">◆</span>
+        </div>
+        <div class="marquee__item" aria-hidden="true">
+          <span class="name">Will Semiconductor</span><span class="dia">◆</span><span class="name">GigaDevice</span><span class="dia">◆</span><span class="name">JoulWatt</span><span class="dia">◆</span>
+          <span class="name">Doright</span><span class="dia">◆</span><span class="name">YSB</span><span class="dia">◆</span><span class="name">GalaxyCore</span><span class="dia">◆</span>
+          <span class="name">Taimei</span><span class="dia">◆</span><span class="name">Robot Phoenix</span><span class="dia">◆</span><span class="name">RAYSEES</span><span class="dia">◆</span>
+          <span class="name">XForcePlus</span><span class="dia">◆</span><span class="name">Leyan</span><span class="dia">◆</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS (III.) -->
+  <section class="section" id="projects" data-bgop="0.20">
+    <div class="proj__head">
+      <div class="lead">
+        <div class="sec-head" data-reveal><span class="rn">iii.</span><span class="cn">Portfolio Highlights</span></div>
+        <p class="intro p-scroll" style="--d:80ms">Ivy Capital has always held to long-termism, focusing on deep technology and industrial innovation, and continually seeking out and accompanying entrepreneurs and scientist-led teams of enduring value. Over the past two decades, we have walked alongside these companies from their earliest days &mdash; through technological breakthrough, industrial deployment, and global expansion.</p>
+      </div>
+      <a class="btn glass-ring" href="#" data-reveal style="--d:120ms"><span class="dot dot--live"></span>View All</a>
+    </div>
+    <div class="proj__grid">
+      <div class="proj__row">
+        <article class="card-project" data-reveal><img class="card-project__bg" src="assets/current/glass-v1/04486c28ba9beef02fba18ed50f17196.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">688728</span><div class="card-project__foot"><span class="t">GalaxyCore</span><span class="d"><span class="d-inner">A leading domestic provider of CMOS image sensors and display driver chips.</span></span></div></article>
+        <article class="card-project" data-reveal style="--d:70ms"><img class="card-project__bg" src="assets/current/glass-v1/175083b5ee803e03555861285d9df3d7.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">300950</span><div class="card-project__foot"><span class="t">Doright</span><span class="d"><span class="d-inner">A provider of energy-efficient and environmental-protection equipment.</span></span></div></article>
+        <article class="card-project" data-reveal style="--d:140ms"><img class="card-project__bg" src="assets/current/glass-v1/proj-3826.png" alt=""><div class="card-project__plate"></div><span class="card-project__badge">02576</span><div class="card-project__foot"><span class="t">Taimei</span><span class="d"><span class="d-inner">A digital-intelligence operating platform for the life-sciences industry.</span></span></div></article>
+        <article class="card-project" data-reveal style="--d:210ms"><img class="card-project__bg" src="assets/current/glass-v1/4c4efba321b9e0f476103d72c36f2e1d.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">6871.HK</span><div class="card-project__foot"><span class="t">Robot Phoenix</span><span class="d"><span class="d-inner">A full-category industrial-robotics provider rooted in light industry.</span></span></div></article>
+      </div>
+      <div class="proj__row">
+        <article class="card-project" data-reveal><img class="card-project__bg" src="assets/current/glass-v1/74f2a93d67cd495fc2666aef248bab15.jpg" alt="" style="object-position:50% 20%"><div class="card-project__plate"></div><span class="card-project__badge">603501</span><div class="card-project__foot"><span class="t">Will Semiconductor</span><span class="d"><span class="d-inner">A leading domestic, globally top-ranked fabless semiconductor design company and the national champion in high-end image-sensor chips.</span></span></div></article>
+        <article class="card-project" data-reveal style="--d:70ms"><img class="card-project__bg" src="assets/current/glass-v1/8f50f4795974bb70fbe37f6c9c39d405.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">603986</span><div class="card-project__foot"><span class="t">GigaDevice</span><span class="d"><span class="d-inner">A dual-leader semiconductor design company across memory and MCUs.</span></span></div></article>
+        <article class="card-project" data-reveal style="--d:140ms"><img class="card-project__bg" src="assets/current/glass-v1/proj-3831.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">688141</span><div class="card-project__foot"><span class="t">JoulWatt</span><span class="d"><span class="d-inner">A virtual-IDM analog chip design company.</span></span></div></article>
+        <article class="card-project" data-reveal style="--d:210ms"><img class="card-project__bg" src="assets/current/glass-v1/ec00d6e8653f0bd74dee220d8e4f0a51.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">09885</span><div class="card-project__foot"><span class="t">YSB</span><span class="d"><span class="d-inner">China&rsquo;s largest digital integrated-services platform for the out-of-hospital pharmaceutical industry.</span></span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE / breather -->
+  <section class="quote" data-bgop="0.40"><p aria-label="We do not merely invest in companies — we believe in the value created when people and technology compound over time.">We do not merely invest in companies &mdash;<br>we believe in the value created when people and technology compound over time.</p></section>
+
+  <!-- AWARDS (IV.) — auto ticker -->
+  <section class="section" id="awards" data-bgop="0.12">
+    <div class="sec-band sec-anim">
+      <span class="rule top"></span><span class="rule bot"></span>
+      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+        <span class="bt"><span class="rn">iv.</span><span class="cn">Awards</span></span>
+      </div>
+    </div>
+    <div class="awards__lead">
+      <p class="intro p-scroll">Ivy Capital has always held to long-termism, focusing on deep technology and industrial innovation, and continually seeking out and accompanying entrepreneurs and scientist-led teams of enduring value. Over the past two decades, we have walked alongside these companies from their earliest days &mdash; through technological breakthrough, industrial deployment, and global expansion.</p>
+      <a class="btn glass-ring" href="#" data-reveal style="--d:120ms"><span class="dot dot--live"></span>View All</a>
+    </div>
+    <div class="ticker">
+      <div class="ticker__track">
+        <div class="ticker__group">
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">Zero2IPO</h3><p class="card-award__award">China Venture Capital Top 50</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">ChinaVenture</h3><p class="card-award__award">Annual Best Venture Capital Firms TOP 100</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">China Financing</h3><p class="card-award__award">China&rsquo;s Best Venture Capital Firms Top 50</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">Jiazi Lightyear</h3><p class="card-award__award">Top 30 Hard-Tech Investment Firms</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">LP Think Tank</h3><p class="card-award__award">&ldquo;Real-Returns Exit Ranking&rdquo; — Top 50 VC Firms</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">Shanghai Equity Investment Association</h3><p class="card-award__award">Best in Exits</p></div></article>
+        </div>
+        <div class="ticker__group" aria-hidden="true">
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">Zero2IPO</h3><p class="card-award__award">China Venture Capital Top 50</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">ChinaVenture</h3><p class="card-award__award">Annual Best Venture Capital Firms TOP 100</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">China Financing</h3><p class="card-award__award">China&rsquo;s Best Venture Capital Firms Top 50</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">Jiazi Lightyear</h3><p class="card-award__award">Top 30 Hard-Tech Investment Firms</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">LP Think Tank</h3><p class="card-award__award">&ldquo;Real-Returns Exit Ranking&rdquo; — Top 50 VC Firms</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">Shanghai Equity Investment Association</h3><p class="card-award__award">Best in Exits</p></div></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <site-footer></site-footer>
+
+</div>
+
+<script src="assets/js/site.js"></script>
+<script>
+(function(){
+  var g=document.getElementById('grid');
+  if(g){ var gio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ g.classList.add('in'); gio.disconnect(); } }); },{threshold:0.01}); gio.observe(document.getElementById('about')); }
+
+  /* ---------- BLUEPRINT GRID: vertical lines anchored to horizontal dividers ---------- */
+  var page=document.querySelector('.page');
+  function px(n){ return n.getBoundingClientRect(); }
+  function rel(el){ var r=px(el), p=px(page); return {top:r.top-p.top, bottom:r.bottom-p.top, left:r.left-p.left, right:r.right-p.left}; }
+  function gutter(a,b){ var ra=rel(a), rb=rel(b); return (ra.right+rb.left)/2; }
+
+  function layoutGrid(){
+    var about=document.querySelector('#about .band');
+    var cards=document.querySelectorAll('#strategy .card-strategy');
+    var marq=document.querySelector('.marquee');
+    var projRow=document.querySelectorAll('#projects .proj__row:first-child .card-project');
+    var awards=document.querySelector('#awards .sec-band');
+    if(!about||cards.length<3||!marq||projRow.length<4||!awards) return;
+
+    var aboutBot=rel(about).bottom;
+    var stratTop=rel(cards[0]).top;
+    var marqTop=rel(marq).top, marqBot=rel(marq).bottom;
+    var awardsTop=rel(awards).top;
+
+    // strategy gutters (3-col → 2 lines): sA runs from about heading bottom; sB from strategy cards top — both to marquee top
+    var sA=gutter(cards[1],cards[2]);   // x ≈ 940 (right gutter)
+    var sB=gutter(cards[0],cards[1]);   // x ≈ 499 (left gutter)
+    // projects gutters (4-col → 3 lines): marquee bottom → awards top (through breather)
+    var p1=gutter(projRow[0],projRow[1]);
+    var p2=gutter(projRow[1],projRow[2]);
+    var p3=gutter(projRow[2],projRow[3]);
+
+    function set(name,x,top,bottom){
+      var el=document.querySelector('.vline[data-v="'+name+'"]');
+      if(!el)return; el.style.left=x+'px'; el.style.top=top+'px'; el.style.height=Math.max(0,bottom-top)+'px';
+    }
+    set('sA', sA, aboutBot, marqTop);
+    set('sB', sB, stratTop, marqTop);
+    set('p1', p1, marqBot, awardsTop);
+    set('p2', p2, marqBot, awardsTop);
+    set('p3', p3, marqBot, awardsTop);
+  }
+  var raf; function relayout(){ cancelAnimationFrame(raf); raf=requestAnimationFrame(layoutGrid); }
+  window.addEventListener('load', function(){ layoutGrid(); setTimeout(layoutGrid,300); });
+  window.addEventListener('resize', relayout, {passive:true});
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){ setTimeout(layoutGrid,50); });
+  layoutGrid();
+
+  var RM=matchMedia('(prefers-reduced-motion:reduce)');
+
+  /* ---------- HERO video (T1-A): autoplay, pause for reduced-motion ---------- */
+  document.querySelectorAll('video.hero__img').forEach(function(v){
+    if(RM.matches){ try{ v.removeAttribute('autoplay'); v.pause(); v.currentTime=0; }catch(e){} }
+    else { var p=v.play(); if(p&&p.catch) p.catch(function(){}); }
+  });
+
+  /* ---------- HERO headline (T2-A): split into chars, cascade L→R on load ---------- */
+  (function(){
+    var heading=document.querySelector('.hero__heading'); if(!heading||RM.matches) return;
+    var TITLE_STAGGER=52, SUB_GAP=95, SUB_STAGGER=18;
+    function split(el){
+      var out=[];
+      (function walk(node,blue){
+        Array.prototype.slice.call(node.childNodes).forEach(function(n){
+          if(n.nodeType===3){
+            var t=n.textContent, frag=document.createDocumentFragment();
+            for(var i=0;i<t.length;i++){ var c=t[i];
+              if(c===' '||c==='\n'||c==='\r'||c==='\t'){ frag.appendChild(document.createTextNode(c)); continue; }
+              var s=document.createElement('span'); s.className='ch'+(blue?' b':''); s.setAttribute('aria-hidden','true'); s.textContent=c;
+              frag.appendChild(s); out.push(s);
+            }
+            node.replaceChild(frag,n);
+          } else if(n.nodeType===1){ if(n.tagName==='BR') return; walk(n, blue||n.classList.contains('b')); }
+        });
+      })(el,false);
+      return out;
+    }
+    var titleChars=split(heading.querySelector('.hero__title'));
+    var subChars=split(heading.querySelector('.hero__sub'));
+    titleChars.forEach(function(s,i){ s.style.setProperty('--delay',(i*TITLE_STAGGER)+'ms'); });
+    var off=titleChars.length*TITLE_STAGGER+SUB_GAP;
+    subChars.forEach(function(s,j){ s.style.setProperty('--delay',(off+j*SUB_STAGGER)+'ms'); });
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ heading.classList.add('play'); }); });
+  })();
+
+  /* ---------- BREATHER 引言：复用 hero headline 的逐字显影，滚动进入视口时播放 ---------- */
+  (function(){
+    var p=document.querySelector('.quote p'); if(!p||RM.matches) return;
+    var STAGGER=48;
+    function split(el){
+      var out=[];
+      (function walk(node){
+        Array.prototype.slice.call(node.childNodes).forEach(function(n){
+          if(n.nodeType===3){
+            var t=n.textContent, frag=document.createDocumentFragment();
+            for(var i=0;i<t.length;i++){ var c=t[i];
+              if(c===' '||c==='\n'||c==='\r'||c==='\t'){ frag.appendChild(document.createTextNode(c)); continue; }
+              var s=document.createElement('span'); s.className='ch'; s.setAttribute('aria-hidden','true'); s.textContent=c;
+              frag.appendChild(s); out.push(s);
+            }
+            node.replaceChild(frag,n);
+          } else if(n.nodeType===1){ if(n.tagName==='BR') return; walk(n); }
+        });
+      })(el);
+      return out;
+    }
+    var chars=split(p);
+    chars.forEach(function(s,i){ s.style.setProperty('--delay',(i*STAGGER)+'ms'); });
+    var qio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ p.classList.add('play'); qio.disconnect(); } }); }, { threshold:0, rootMargin:'0px 0px -25% 0px' });
+    qio.observe(p);
+  })();
+
+  /* ---------- HERO "I Value You" (T4-C): play when in viewport, reset when out ---------- */
+  (function(){
+    var ivy=document.querySelector('.hero__ivy'); if(!ivy) return;
+    function after(tk,ms,fn){ setTimeout(function(){ if(ivy._token===tk) fn(); }, ms); }
+    function reset(){ ivy._token=(ivy._token||0)+1; ivy.classList.remove('acronym','open','settle','typed','resolved'); ivy.classList.add('armed'); }
+    function seqC(tk){ after(tk,820,function(){ ivy.classList.add('settle','open'); after(tk,300,function(){ ivy.classList.add('typed'); after(tk,860,function(){ ivy.classList.add('resolved'); }); }); }); }
+    function play(){ reset(); var tk=ivy._token; requestAnimationFrame(function(){ requestAnimationFrame(function(){ if(ivy._token!==tk) return; ivy.classList.remove('armed'); ivy.classList.add('acronym'); seqC(tk); }); }); }
+    if(RM.matches){ ivy.classList.remove('armed'); ivy.classList.add('acronym','settle','open','typed','resolved'); return; }
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){
+      if(e.isIntersecting){ if(!ivy._playing){ ivy._playing=true; play(); } }
+      else { ivy._playing=false; reset(); }
+    }); },{ threshold:0.4 });
+    io.observe(ivy);
+  })();
+})();
+</script>
+</body>
+</html>

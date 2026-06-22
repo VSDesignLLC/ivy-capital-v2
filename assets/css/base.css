@@ -48,6 +48,14 @@ a{color:inherit;text-decoration:none}
 /* ============================================================ SECTION shells */
 .section{ padding:0 var(--page-x); position:relative; }
 
+/* hero→内容 交界过渡：首个内容段顶部叠 奶白→透明 竖向渐变，盖住 #pagebg 但被内容压住，
+   消除 hero 底部不透明奶白 与 下方视频 的硬接缝。挂在 hero 下面第一个 section 上即可。 */
+.bg-fade-top{ position:relative; z-index:1; }
+.bg-fade-top > *{ position:relative; z-index:1; }
+.bg-fade-top::before{ content:""; position:absolute; left:0; right:0; top:0; height:480px;
+  z-index:0; pointer-events:none;
+  background:linear-gradient(180deg, var(--c-bg) 0%, var(--c-bg) 8%, rgba(var(--c-bg-rgb),0) 100%); }
+
 /* ============================================================
    GLOBAL VIDEO BACKGROUND — fixed, behind all content.
    奶白 body = 最底层；视频 z:0 夹在中间；内容 .page z:1 盖其上。

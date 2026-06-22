@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Team Hero · I Value You 线条长度 + 原点大小（4 档 · 全动效）</title>
+<base href="../../../" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+  body{ margin:0; background:var(--c-bg); color:var(--c-ink); font-family:var(--ff-sc); }
+  .cmp-head{ max-width:1280px; margin:0 auto; padding:120px 40px 8px; }   /* 120 顶距让说明文字避开固定 nav */
+  .cmp-head__tag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--c-accent); margin-bottom:12px; }
+  .cmp-head__h1{ font-family:var(--ff-serif); font-weight:600; font-size:32px; letter-spacing:-0.02em; margin:0 0 12px; }
+  .cmp-head__sub{ font-size:14px; line-height:1.7; color:var(--c-slate); max-width:880px; margin:0; }
+  .cmp-head__sub b{ color:var(--c-ink); }
+  .col-cap{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--c-accent); text-align:center; padding:12px 0 0; }
+  .col-cap b{ color:var(--c-ink); }
+  .stack{ margin-top:14px; display:flex; flex-direction:column; gap:2px; background:rgba(var(--c-ink-rgb),.08); border-top:1px solid rgba(var(--c-ink-rgb),.08); }
+  .stack > .cell{ background:var(--c-bg); }
+
+  /* ====== 团队 HERO（.hax 体系；demo 高度统一便于纵向对比；hero=layout 层 → 不横向并列）====== */
+  /* ★ 与生产一致:整屏高 + 200px 顶距(给 nav 留位) */
+  .hax{ position:relative; display:flex; flex-direction:column; align-items:center; padding:200px var(--page-x) 0; overflow:hidden; background:var(--c-bg); min-height:100vh; }
+  .hax__bg{ position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; }
+  .hax__fade{ position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 45%, var(--cream-grad) 78%); }
+  .hax__halo{ position:absolute; left:50%; top:40%; z-index:0; pointer-events:none; width:min(900px,86%); aspect-ratio:1/1; transform:translate(-50%,-50%); background:radial-gradient(circle at center, var(--c-accent-wash) 0%, rgba(var(--c-accent-rgb),.018) 38%, rgba(var(--c-accent-rgb),0) 70%); }
+  .hax__inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .hax__kick{ display:inline-flex; align-items:center; gap:10px; margin-bottom:36px; }
+  .hax__kick .caption{ color:var(--c-accent); letter-spacing:.2em; }
+  .hax__kick .dot--live{ position:relative; isolation:isolate; }
+  .hax__kick .dot--live::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1; width:22px; height:22px; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%) scale(.55); background:radial-gradient(circle, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.38) 36%, rgba(var(--c-accent-rgb),.14) 68%, rgba(var(--c-accent-rgb),0) 100%); filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite; }
+  /* 基线:标题整体蓝色;无英文副标 */
+  .hax__title{ font-family:var(--ff-sc); font-weight:700; font-size:108px; line-height:1.04; letter-spacing:-0.64px; color:var(--c-accent); }
+  /* 基线:desc 22px(已定) */
+  .hax__desc{ margin-top:34px; max-width:680px; font-family:var(--ff-sc); font-weight:400; font-size:22px; line-height:37px; letter-spacing:-0.2px; color:var(--c-slate); }
+
+  /* ====== I Value You 文字（复用主页组件，原样）====== */
+  .hero__ivy{ display:flex; flex-direction:column; align-items:center; gap:15px; margin-top:46px; }
+  .hero__ivy .ivy-t{ font-family:var(--ff-ital); font-style:italic; font-size:28.3px; line-height:31.2px; letter-spacing:-0.34px; color:var(--c-accent);
+    display:flex; align-items:baseline; justify-content:center; gap:10px; white-space:nowrap; }
+  .ivy-t .w{ display:inline-flex; align-items:baseline; }
+  .ivy-t .cap{ display:inline-block; vertical-align:baseline; }
+
+  /* ====== ★ 参数化的「线条 + 原点 + 从上到下流光」(4 档共用一套，靠变量缩放) ====== */
+  /* 变量:--len 线长 · --dot 原点直径 · --tail 流光尾长 · --travel 流光行程 */
+  .ivy-line{ position:relative; width:1px; height:var(--len,110px);
+    background:linear-gradient(to bottom, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.18) 58%, rgba(var(--c-accent-rgb),0) 100%); }
+  /* 原点 = 顶端常驻圆球（这就是要比的「原点大小」） */
+  .ivy-dot{ position:absolute; left:50%; top:0; transform:translate(-50%,-50%); width:var(--dot,4px); height:var(--dot,4px); border-radius:50%; background:var(--c-accent); box-shadow:0 0 6px 1px rgba(var(--c-accent-rgb),.4); }
+  /* 流光节点 = 从上到下的动效 */
+  .ivy-glow{ position:absolute; left:50%; top:0; width:var(--dot,4px); height:var(--dot,4px); margin-left:calc(var(--dot,4px) / -2); border-radius:50%; opacity:0;
+    background:rgba(var(--c-accent-rgb),.95); box-shadow:0 0 8px 2px rgba(var(--c-accent-rgb),.5); animation:flowDown 2.6s var(--ease) infinite; }
+  .ivy-glow::before{ content:''; position:absolute; left:50%; bottom:var(--dot,4px); width:2px; height:var(--tail,42px); margin-left:-1px;
+    background:linear-gradient(180deg, rgba(var(--c-accent-rgb),0) 0%, rgba(var(--c-accent-rgb),.4) 100%); filter:blur(.5px); }
+  @keyframes flowDown{ 0%{ transform:translateY(-4px); opacity:0; } 12%{ opacity:1; } 86%{ opacity:1; } 100%{ transform:translateY(var(--travel,112px)); opacity:0; } }
+
+  /* —— 4 档尺寸 —— */
+  .ax-a  { --len:110px; --dot:4px; --tail:42px; --travel:112px; }  /* 主页 size（端点） */
+  .ax-m1 { --len:165px; --dot:5px; --tail:56px; --travel:167px; }  /* 中间 1 */
+  .ax-m2 { --len:230px; --dot:6px; --tail:70px; --travel:232px; }  /* 中间 2 */
+  .ax-b  { --len:300px; --dot:7px; --tail:84px; --travel:302px; }  /* 团队 size（端点） */
+</style>
+<script src="assets/js/partials.js"></script>
+</head>
+<body data-nav="team">
+
+  <!-- 固定 nav（生产组件，单一来源 partials.js）；不加 site.js → 不收起，始终可见便于判断位置 -->
+  <site-nav></site-nav>
+
+  <div class="cmp-head">
+    <div class="cmp-head__tag">Team hero — I Value You axis: line length × dot size (animated)</div>
+    <h1 class="cmp-head__h1">I Value You 线条长度 + 原点大小 · 4 档对比</h1>
+    <p class="cmp-head__sub"><b>已定基线</b>：标题蓝色、无英文副标、description = <b>22px</b>、I Value You 文字复用主页组件。本轮只比<b>线条长度 + 原点大小</b>，<b>四档都带「从上到下」流光动效</b>（含原本无动效的团队大号版）。A / B 为已看过的两端点，M1 / M2 是<b>夹在中间的两档新尺寸</b>。线条统一用淡蓝渐变轨道（如需改回灰色可再说）。</p>
+  </div>
+
+  <div class="stack">
+    <div class="cell">
+      <div class="col-cap">A · 主页 size <b>（线 110 / 原点 4px）· 端点</b></div>
+      <header class="hero hax ax-a">
+        <video class="hax__bg" autoplay muted loop playsinline preload="auto"><source src="assets/team-hero.mp4" type="video/mp4"></video>
+        <div class="hax__fade" aria-hidden="true"></div>
+        <div class="hax__halo" aria-hidden="true"></div>
+        <div class="hax__inner">
+          <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Team</span></p>
+          <h1 class="hax__title">团队</h1>
+          <p class="hax__desc">我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以长期陪伴和深度连接，共同穿越技术创新与企业成长的周期。</p>
+          <div class="hero__ivy">
+            <span class="ivy-t"><span class="w"><span class="cap">I</span></span><span class="w"><span class="cap">Value</span></span><span class="w"><span class="cap">You</span></span></span>
+            <span class="ivy-line"><span class="ivy-dot"></span><span class="ivy-glow"></span></span>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <div class="cell">
+      <div class="col-cap">M1 · 中间 1 <b>（线 165 / 原点 5px）· 新</b></div>
+      <header class="hero hax ax-m1">
+        <video class="hax__bg" autoplay muted loop playsinline preload="auto"><source src="assets/team-hero.mp4" type="video/mp4"></video>
+        <div class="hax__fade" aria-hidden="true"></div>
+        <div class="hax__halo" aria-hidden="true"></div>
+        <div class="hax__inner">
+          <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Team</span></p>
+          <h1 class="hax__title">团队</h1>
+          <p class="hax__desc">我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以长期陪伴和深度连接，共同穿越技术创新与企业成长的周期。</p>
+          <div class="hero__ivy">
+            <span class="ivy-t"><span class="w"><span class="cap">I</span></span><span class="w"><span class="cap">Value</span></span><span class="w"><span class="cap">You</span></span></span>
+            <span class="ivy-line"><span class="ivy-dot"></span><span class="ivy-glow"></span></span>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <div class="cell">
+      <div class="col-cap">M2 · 中间 2 <b>（线 230 / 原点 6px）· 新</b></div>
+      <header class="hero hax ax-m2">
+        <video class="hax__bg" autoplay muted loop playsinline preload="auto"><source src="assets/team-hero.mp4" type="video/mp4"></video>
+        <div class="hax__fade" aria-hidden="true"></div>
+        <div class="hax__halo" aria-hidden="true"></div>
+        <div class="hax__inner">
+          <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Team</span></p>
+          <h1 class="hax__title">团队</h1>
+          <p class="hax__desc">我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以长期陪伴和深度连接，共同穿越技术创新与企业成长的周期。</p>
+          <div class="hero__ivy">
+            <span class="ivy-t"><span class="w"><span class="cap">I</span></span><span class="w"><span class="cap">Value</span></span><span class="w"><span class="cap">You</span></span></span>
+            <span class="ivy-line"><span class="ivy-dot"></span><span class="ivy-glow"></span></span>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <div class="cell">
+      <div class="col-cap">B · 团队 size <b>（线 300 / 原点 7px）· 端点 · 现已加动效</b></div>
+      <header class="hero hax ax-b">
+        <video class="hax__bg" autoplay muted loop playsinline preload="auto"><source src="assets/team-hero.mp4" type="video/mp4"></video>
+        <div class="hax__fade" aria-hidden="true"></div>
+        <div class="hax__halo" aria-hidden="true"></div>
+        <div class="hax__inner">
+          <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Team</span></p>
+          <h1 class="hax__title">团队</h1>
+          <p class="hax__desc">我们的团队来自投资、科技、产业与全球创新生态一线。除了提供资本支持，我们更关注创业者在每个关键节点面临的挑战与选择，以长期陪伴和深度连接，共同穿越技术创新与企业成长的周期。</p>
+          <div class="hero__ivy">
+            <span class="ivy-t"><span class="w"><span class="cap">I</span></span><span class="w"><span class="cap">Value</span></span><span class="w"><span class="cap">You</span></span></span>
+            <span class="ivy-line"><span class="ivy-dot"></span><span class="ivy-glow"></span></span>
+          </div>
+        </div>
+      </header>
+    </div>
+  </div>
+
+  <div style="height:80px"></div>
+</body>
+</html>

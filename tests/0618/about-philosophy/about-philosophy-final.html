@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>投资哲学 · FINAL（浅色 · L3 · hero 视频三裂 crop · 绽放）</title>
+<base href="../../../" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+  body{ background:var(--c-bg); color:var(--c-ink); padding:40px 0 160px; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 var(--page-x); }
+  .lead{ max-width:920px; margin:0 0 24px; }
+  .lead h1{ font-family:var(--ff-serif); font-weight:600; font-size:28px; letter-spacing:-.5px; margin:0 0 10px; }
+  .lead p{ font-size:14px; line-height:23px; color:var(--c-slate); margin:0; }
+  .lead code{ font-family:var(--ff-mono); font-size:12px; background:rgba(var(--c-ink-rgb),.06); padding:1px 5px; border-radius:4px; }
+
+  /* ============================================================
+     投资哲学 · 终版（写回 about-ch.html 的 .phil 块时整段替换）
+     沿用生产类名:.phil / .phil-row / .row-inner / .row-title(.cn/.en) / .row-desc(.ln)
+     变化 vs 旧生产:
+       · .row-idx(序号) → .row-dot(dot④:呼吸 dot-halo + 收紧 -40px + 对齐基线)
+       · 布局 flex → grid 三栏(dot · 中英名 · 描述)
+       · 背景 ::before 静图 → <video class="row-vid"> hero 视频(play-on-hover)
+       · 浅色 L3 scrim(::after,奶白 .52/.40)+ 文字「保持深色」(不翻奶白)
+       · 绽放:default A1+C1(描述常显)→ hover A3+C2;色/背景领先 .10s → 几何 .55s ease-io 同步
+       · 三裂 crop:三行共用同一视频,object-position 取 上/中/下,hover 画面各异
+       · 删除旧 .phil-row::after 底线等多余规则
+     ============================================================ */
+  .phil{ border-top:1px solid var(--c-hairline); margin:40px calc(var(--rail) - var(--page-x)) 0; --lead:.10s; }
+  .phil-row{ position:relative; overflow:hidden; isolation:isolate; border-bottom:1px solid var(--c-hairline); }
+
+  /* 视频背景层(z0)+ 浅色 L3 scrim(z1,::after);内容 z2 */
+  .phil-row .row-vid{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center center;
+    z-index:0; opacity:0; transform:scale(1.06);
+    transition:opacity .45s var(--ease), transform 1s var(--ease-io); pointer-events:none; }
+  .phil-row::after{ content:""; position:absolute; inset:0; z-index:1; opacity:0; pointer-events:none;
+    transition:opacity .45s var(--ease);
+    background:linear-gradient(rgba(var(--c-bg-rgb),.52), rgba(var(--c-bg-rgb),.40)); }
+
+  /* 三裂 crop:同一视频,各取上/中/下纵向区段 */
+  .phil-row.crop-top .row-vid{ object-position:center 0%; }
+  .phil-row.crop-mid .row-vid{ object-position:center 50%; }
+  .phil-row.crop-bot .row-vid{ object-position:center 100%; }
+
+  /* 三栏栅格;几何(frame+下移)统一 .55s ease-io,延迟 --lead */
+  .phil .row-inner{ position:relative; z-index:2;
+    display:grid; grid-template-columns:30% minmax(0,1fr) minmax(280px,36%); align-items:start;
+    gap:clamp(28px,5vw,72px); padding:26px 40px; min-height:96px;
+    transition:min-height .55s var(--ease-io) var(--lead), padding .55s var(--ease-io) var(--lead); }
+
+  /* dot④:呼吸(dot-halo)+ 收紧(-40px)+ 对齐基线;放大随几何 */
+  .phil .row-dot{ justify-self:end; align-self:start; width:7px; height:7px; border-radius:50%; background:var(--c-accent);
+    margin-top:1.3em; margin-right:-40px; position:relative; isolation:isolate;
+    transition:background .4s var(--ease), transform .55s var(--ease-io) var(--lead), box-shadow .45s var(--ease); }
+  .phil .row-dot::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1; width:22px; height:22px; border-radius:50%; pointer-events:none;
+    transform:translate(-50%,-50%) scale(.55);
+    background:radial-gradient(circle, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.38) 36%, rgba(var(--c-accent-rgb),.14) 68%, rgba(var(--c-accent-rgb),0) 100%);
+    filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite; }
+
+  /* 标题/描述:default A1+C1 → hover A3+C2;文字「保持深色」(浅底) */
+  .phil .row-title{ display:flex; align-items:baseline; gap:16px; padding-top:2px; }
+  .phil .row-title .cn{ font-family:var(--ff-serif); font-weight:500; font-size:26px; letter-spacing:-.025em; color:var(--c-ink);
+    transition:font-size .55s var(--ease-io) var(--lead), letter-spacing .55s var(--ease-io) var(--lead); }
+  .phil .row-title .en{ font-family:var(--ff-ital); font-style:italic; font-size:22px; color:var(--c-accent);
+    transition:font-size .55s var(--ease-io) var(--lead); }
+  .phil .row-desc{ font-family:var(--ff-sc); font-size:14px; line-height:1.5; letter-spacing:.01em; color:var(--c-slate); margin:0; padding-top:6px;
+    transition:font-size .55s var(--ease-io) var(--lead), line-height .55s var(--ease-io) var(--lead); }
+  .phil .row-desc .ln{ display:block; margin:0; transition:margin .55s var(--ease-io) var(--lead); }
+
+  /* hover 终态(仅指针设备;浅底深字:文字不翻色) */
+  @media (hover:hover){
+    .phil-row:hover .row-vid{ opacity:1; transform:scale(1); }
+    .phil-row:hover::after{ opacity:1; }
+    .phil-row:hover .row-inner{ min-height:300px; padding:52px 40px; }
+    .phil-row:hover .row-dot{ transform:scale(1.5); box-shadow:0 0 10px rgba(var(--c-accent-rgb),.5); }
+    .phil-row:hover .row-title .cn{ font-size:40px; letter-spacing:-.035em; }
+    .phil-row:hover .row-title .en{ font-size:32px; }
+    .phil-row:hover .row-desc{ font-size:16px; line-height:1.55; letter-spacing:.02em; }
+    .phil-row:hover .row-desc .ln{ margin:0 0 .85em; }
+    .phil-row:hover .row-desc .ln:last-child{ margin-bottom:0; }
+  }
+
+  /* 窄屏:两栏化,dot 归位,描述常显(default 即深字,触屏可读) */
+  @media (max-width:860px){
+    .phil .row-inner{ grid-template-columns:18px 1fr; gap:14px 16px; }
+    .phil .row-dot{ margin-right:0; margin-top:.4em; }
+    .phil .row-desc{ grid-column:2; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="lead">
+      <h1>投资哲学 · 终版</h1>
+      <p>锁定:浅色 + L3 中 scrim · hero 视频背景(<code>5332</code>,play-on-hover)· 三裂 crop(原则=上 / 愿景=中 / 初心=下)· 绽放(default A1+C1 描述常显 → hover A3+C2,文字保持深色)· dot④ 呼吸+收紧 · 色/背景领先 .10s → 几何 .55s 同步。逐行 hover 体验。</p>
+    </div>
+  </div>
+
+  <section class="wrap">
+    <div class="phil">
+      <div class="phil-row crop-top">
+        <video class="row-vid" muted loop playsinline preload="metadata"><source src="assets/0616/selected%20hero%20video/kling_20260616_%E4%BD%9C%E5%93%81_%E6%97%A0%E7%BC%9D%E5%BE%AA%E7%8E%AF_hero__5332_0.mp4" type="video/mp4"></video>
+        <div class="row-inner">
+          <span class="dot row-dot"></span>
+          <div class="row-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+          <p class="row-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p>
+        </div>
+      </div>
+      <div class="phil-row crop-mid">
+        <video class="row-vid" muted loop playsinline preload="metadata"><source src="assets/0616/selected%20hero%20video/kling_20260616_%E4%BD%9C%E5%93%81_%E6%97%A0%E7%BC%9D%E5%BE%AA%E7%8E%AF_hero__5332_0.mp4" type="video/mp4"></video>
+        <div class="row-inner">
+          <span class="dot row-dot"></span>
+          <div class="row-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+          <p class="row-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p>
+        </div>
+      </div>
+      <div class="phil-row crop-bot">
+        <video class="row-vid" muted loop playsinline preload="metadata"><source src="assets/0616/selected%20hero%20video/kling_20260616_%E4%BD%9C%E5%93%81_%E6%97%A0%E7%BC%9D%E5%BE%AA%E7%8E%AF_hero__5332_0.mp4" type="video/mp4"></video>
+        <div class="row-inner">
+          <span class="dot row-dot"></span>
+          <div class="row-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+          <p class="row-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // play-on-hover:仅悬停播放,离开暂停(省资源)。写回时这段挂到 site.js 或页面专属脚本。
+    document.querySelectorAll('.phil-row').forEach(function(row){
+      var v = row.querySelector('.row-vid');
+      if(!v) return;
+      row.addEventListener('mouseenter', function(){ try{ v.play(); }catch(e){} });
+      row.addEventListener('mouseleave', function(){ try{ v.pause(); }catch(e){} });
+    });
+  </script>
+</body>
+</html>

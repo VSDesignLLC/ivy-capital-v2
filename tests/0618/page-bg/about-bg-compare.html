@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="../../../" />
+<title>关于我们 · 常春藤资本 Ivy Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================ ABOUT 页专属布局
+   复用共享层组件 (sec-band/sec-box · ticker/tc · rails · grid)。
+   文案严格取自飞书《2026官网内容》Page2 关于我们，未增删自创文字。 */
+
+#directions, #philosophy, #empower{ padding-bottom:var(--gap); }
+
+/* ---------- HERO · V4 中轴版（design system display 标题 + 呼吸点 label + 贯穿中轴引导） ---------- */
+.hax{ position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:200px var(--page-x) 0; overflow:hidden; background:var(--c-bg); }
+.hax__bg{ position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; }
+.hax__fade{ position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 45%, var(--cream-grad) 78%); }
+.hax__halo{ position:absolute; left:50%; top:46%; z-index:0; pointer-events:none; width:min(1100px,86vw); aspect-ratio:1/1; transform:translate(-50%,-50%); background:radial-gradient(circle at center, var(--c-accent-wash) 0%, rgba(var(--c-accent-rgb),.018) 38%, rgba(var(--c-accent-rgb),0) 70%); }
+.hax__inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); display:flex; flex-direction:column; align-items:center; text-align:center; }
+/* label = 呼吸圆点 + 英文页名（复用 homepage hero eyebrow；.dot/.caption 在 base.css，dot-halo 在 components.css；浅底蓝光晕） */
+.hax__kick{ display:inline-flex; align-items:center; gap:10px; margin-bottom:42px; }
+.hax__kick .caption{ color:var(--c-accent); letter-spacing:.2em; }
+/* .dot--live 呼吸光晕现由 components.css 单一来源提供（eyebrow markup 已组合 class="dot dot--live"）*/
+/* Hero 主标题 = design system `display`：Noto Sans SC Bold · 108/112/-0.64 */
+.hax__title{ font-family:var(--ff-sc); font-weight:700; font-size:108px; line-height:1.04; letter-spacing:-0.64px; color:var(--c-ink); }
+.hax__title .b{ color:var(--c-accent); }
+.hax__title .en{ display:block; margin-top:14px; font-family:var(--ff-ital); font-style:italic; font-weight:400; font-size:34px; line-height:1; letter-spacing:.2px; color:var(--c-muted); }
+.hax__desc{ margin-top:38px; max-width:680px; font-family:var(--ff-sc); font-weight:400; font-size:18px; line-height:32px; letter-spacing:-0.2px; color:var(--c-slate); }
+.hax__axis{ position:relative; z-index:2; margin-top:60px; flex:1 0 auto; min-height:160px; display:flex; flex-direction:column; align-items:center; width:100%; }
+.hax__axis-line{ flex:1 1 auto; width:1px; background:linear-gradient(to bottom, var(--c-accent) 0%, rgba(var(--c-accent-rgb),.45) 40%, var(--c-accent-line) 100%); transform-origin:top; transform:scaleY(1); animation:haxDraw 1.7s var(--ease-soft) .45s both; }
+.hax__axis::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--c-accent); flex:none; margin-bottom:-3px; z-index:1; opacity:0; animation:haxDot .6s var(--ease) .4s both; }
+@keyframes haxDraw{ from{ transform:scaleY(0); opacity:0; } to{ transform:scaleY(1); opacity:1; } }
+@keyframes haxDot{ to{ opacity:1; } }
+.hax__more{ display:flex; flex-direction:column; align-items:center; gap:14px; padding:18px 0 40px; background:transparent; border:0; cursor:pointer; -webkit-appearance:none; appearance:none; opacity:0; animation:haxFade .8s var(--ease) 1.4s both; }
+.hax__more-cap{ font-family:var(--ff-mono); font-size:11px; font-weight:500; letter-spacing:.5em; text-indent:.5em; text-transform:uppercase; color:var(--c-muted); transition:color .3s var(--ease); }
+.hax__more:hover .hax__more-cap{ color:var(--c-accent); }
+.hax__more-arr{ width:9px; height:9px; border-right:1.5px solid var(--c-accent); border-bottom:1.5px solid var(--c-accent); transform:rotate(45deg); transition:transform .3s var(--ease); }
+.hax__more:hover .hax__more-arr{ transform:rotate(45deg) translate(2px,2px); }
+@keyframes haxFade{ to{ opacity:1; } }
+.hax__kick, .hax__title, .hax__desc{ opacity:0; transform:translateY(20px); animation:haxRise .9s var(--ease-soft) both; }
+.hax__kick{ animation-delay:.12s; } .hax__title{ animation-delay:.26s; } .hax__desc{ animation-delay:.42s; }
+@keyframes haxRise{ to{ opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce){
+  .hax__kick, .hax__title, .hax__desc, .hax__more{ opacity:1; transform:none; animation:none; }
+  .hax__axis-line{ animation:none; transform:none; opacity:1; }
+  .hax__axis::before{ animation:none; opacity:1; }
+}
+
+/* ---------- I. 投资方向 — 复用首页 .cards/.card 组件 + gutter 竖线 ---------- */
+.cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; padding-top:56px; }
+
+/* ---------- II. 投资哲学 · IVY — 整行 hover 揭示（C3 终版：混合图 + 逐行揭示） ---------- */
+/* 容器横向撑满到左右竖线(rail)，与标题横线(sec-band rule)等宽：同 .sec-band 的负 margin 外扩到 rail */
+.phil{ margin:40px calc(var(--rail) - var(--page-x)) 0; border-top:1px solid var(--c-hairline); }
+.phil-row{ position:relative; overflow:hidden; border-bottom:1px solid var(--c-hairline); isolation:isolate; }
+/* per-row 图在底 + 顶部 navy scrim，hover 前隐藏 */
+.phil-row::before{ content:""; position:absolute; inset:0; z-index:-1;
+  background:var(--scrim), var(--img); background-size:cover, cover; background-position:center, center;
+  background-blend-mode:var(--blend, normal); opacity:0; transition:opacity .6s var(--ease); }
+/* hover 时底部 accent 发丝线扫入 */
+.phil-row::after{ content:""; position:absolute; left:0; bottom:0; height:1px; width:100%;
+  background:linear-gradient(90deg, var(--c-accent-2), rgba(var(--c-accent-rgb),0));
+  transform:scaleX(0); transform-origin:left; opacity:0;
+  transition:transform .7s var(--ease-soft), opacity .5s var(--ease); }
+.phil .row-inner{ position:relative; display:flex; align-items:flex-start; gap:clamp(48px,14vw,200px); padding:44px 40px; min-height:128px; }
+.phil .row-title{ display:flex; align-items:baseline; gap:20px; flex:none; padding-top:4px; }
+.phil .row-title .cn{ font-family:var(--ff-serif); font-weight:500; font-size:34px; letter-spacing:-0.03em; color:var(--c-ink); transition:color .5s var(--ease); }
+.phil .row-title .en{ font-family:var(--ff-ital); font-style:italic; font-size:30px; color:var(--c-accent); transition:color .5s var(--ease); }
+/* 右栏：靠右、逐行揭示 */
+.phil .row-desc{ margin-left:auto; flex:1 1 auto; max-width:46ch; font-family:var(--ff-sc); font-size:16px; line-height:1.85; color:var(--c-bg); }
+.phil .row-desc .ln{ display:block; opacity:0; transform:translateY(14px); transition:opacity .5s var(--ease), transform .6s var(--ease-soft); }
+.phil .row-idx{ flex:none; padding-top:8px; font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; color:var(--c-muted); transition:color .5s var(--ease); }
+/* per-row 图片预设（navy scrim 调过，保证白字可读） */
+.phil-row.bg-glass{ --img:url("assets/philosophy-integrity.jpg");
+  --scrim:linear-gradient(105deg, rgba(13,27,42,.90) 0%, rgba(16,36,61,.70) 46%, rgba(10,23,38,.88) 100%); }
+.phil-row.bg-ribbon{ --img:url("assets/philosophy-vision.jpg");
+  --scrim:linear-gradient(105deg, rgba(13,27,42,.93) 0%, rgba(16,36,61,.82) 46%, rgba(10,23,38,.92) 100%); --blend:multiply; }
+.phil-row.bg-blinds{ --img:url("assets/philosophy-yearning.jpg");
+  --scrim:linear-gradient(105deg, rgba(13,27,42,.84) 0%, rgba(16,36,61,.58) 46%, rgba(10,23,38,.82) 100%); }
+@media (prefers-reduced-motion: no-preference){
+  .phil-row:hover::before{ opacity:1; }
+  .phil-row:hover::after{ opacity:1; transform:scaleX(1); }
+  .phil-row:hover .row-title .cn{ color:var(--c-bg); }
+  .phil-row:hover .row-title .en{ color:var(--c-accent-2); }
+  .phil-row:hover .row-idx{ color:var(--c-accent-2); }
+  .phil-row:hover .row-desc .ln{ opacity:1; transform:translateY(0); }
+  .phil-row:hover .row-desc .ln:nth-child(1){ transition-delay:.10s; }
+  .phil-row:hover .row-desc .ln:nth-child(2){ transition-delay:.18s; }
+  .phil-row:hover .row-desc .ln:nth-child(3){ transition-delay:.26s; }
+}
+/* reduced-motion 兜底：静态全显、slate 文字（深色层关闭） */
+@media (prefers-reduced-motion: reduce){
+  .phil .row-desc{ color:var(--c-slate); }
+  .phil .row-desc .ln{ opacity:1; transform:none; }
+}
+/* 触屏无 hover 兜底：正文常显、slate 色（否则移动端看不到哲学正文） */
+@media (hover: none){
+  .phil .row-desc{ color:var(--c-slate); }
+  .phil .row-desc .ln{ opacity:1; transform:none; }
+}
+/* 窄屏：换行堆叠，隐藏 idx */
+@media (max-width:760px){
+  .phil .row-inner{ flex-wrap:wrap; gap:18px; padding:30px 22px; }
+  .phil .row-title .cn{ font-size:26px; } .phil .row-title .en{ font-size:22px; }
+  .phil .row-desc{ margin-left:0; max-width:100%; }
+  .phil .row-idx{ display:none; }
+}
+
+/* ---------- III. 行业认可 — 复用 .ticker / .tc + 段落（同首页 .intro p-scroll） ---------- */
+.recog-intro{ padding-top:40px; }
+#recognition .ticker{ padding-top:56px; }
+
+/* ---------- IV. 投后赋能 — image-top 卡，hover 整图铺满全卡 + 文字白磨砂托底（chrome 对齐 component .card） ---------- */
+/* align-items:start + 统一 min-height：静态三卡等高；hover 时被 hover 的卡独自长高，
+   兄弟卡停在 min-height 不被拉伸 → 背景图不再随兄弟卡高度变化重裁（消除「联动放大」） */
+.empower{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; align-items:start; margin-top:56px; }
+.ecard{ position:relative; display:flex; flex-direction:column; min-height:520px; background:var(--c-bg);
+  border:1px solid var(--c-hairline); overflow:hidden; isolation:isolate;
+  transition:transform .75s var(--ease-soft), box-shadow .75s var(--ease-soft), border-color .75s var(--ease-soft);
+  box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),0), 0 14px 30px -14px rgba(var(--c-ink-rgb),0), 0 36px 64px -30px rgba(var(--c-ink-rgb),0); }
+.ecard:hover{ transform:translateY(-6px); border-color:var(--c-accent-line);
+  box-shadow:0 4px 10px -6px rgba(var(--c-ink-rgb),.10), 0 14px 30px -14px rgba(var(--c-ink-rgb),.14), 0 36px 64px -30px rgba(var(--c-ink-rgb),.20); }
+/* 全卡图片背景层（常驻，下半被 cream 阅读块盖住 → 常态呈「图在上」） */
+.ecard__bg{ position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; transition:transform 1.1s var(--ease); }
+.ecard:hover .ecard__bg{ transform:scale(1.06); }
+/* 顶部 230px 透明占位露出背景图；cream 渐隐衔接缝在 hover 时淡出，让整图连续 */
+.ecard__media{ position:relative; z-index:1; height:230px; overflow:hidden; flex:none; }
+.ecard__media::after{ content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(var(--c-ink-rgb),.18) 0%, rgba(var(--c-ink-rgb),0) 38%,
+    rgba(var(--c-bg-rgb),0) 72%, rgba(var(--c-bg-rgb),1) 100%); transition:opacity .6s var(--ease-soft); }
+.ecard:hover .ecard__media::after{ opacity:0; }
+/* idx 与角标的位置关系对齐 homepage .card：角标 12px、// 01 退到 30px 内容线 */
+.ecard__idx{ position:absolute; left:30px; top:30px; z-index:3; font-family:var(--ff-mono);
+  font-size:12px; letter-spacing:.12em; color:#fff; text-shadow:0 1px 6px rgba(var(--c-ink-rgb),.5); }
+.ecard .corner{ position:absolute; width:14px; height:14px; opacity:.4; z-index:2; }
+.ecard .corner.tl{ left:12px; top:12px; border-left:1px solid var(--c-ink); border-top:1px solid var(--c-ink); }
+.ecard .corner.br{ right:12px; bottom:12px; border-right:1px solid var(--c-ink); border-bottom:1px solid var(--c-ink); }
+/* 阅读块：常态实心 cream；hover → 白色半透明磨砂托底（顶端柔化），露背景图同时保证文字可读 */
+.ecard__body{ position:relative; z-index:1; flex:1; display:flex; flex-direction:column; padding:26px 30px 30px;
+  background:var(--c-bg); -webkit-backdrop-filter:blur(0px); backdrop-filter:blur(0px);
+  transition:background .6s var(--ease-soft), -webkit-backdrop-filter .6s var(--ease-soft), backdrop-filter .6s var(--ease-soft); }
+.ecard:hover .ecard__body{ background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.64) 40px, rgba(255,255,255,.66) 100%);
+  -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px); }
+.ecard__rule{ width:34px; height:2px; background:var(--c-accent); margin-bottom:18px; flex:none;
+  transition:width .55s var(--ease-soft), box-shadow .55s var(--ease-soft); }
+.ecard:hover .ecard__rule{ width:64px; box-shadow:0 0 0 0.5px var(--c-accent), 0 1px 10px -2px var(--c-accent); }
+.ecard__title{ font-family:var(--ff-serif); font-weight:500; font-size:25px; line-height:1.32; letter-spacing:-.01em; color:var(--c-ink); margin-bottom:16px; }
+.ecard__title .q{ color:var(--c-accent); }
+.ecard__desc{ font-family:var(--ff-sc); font-size:14.5px; line-height:1.85; color:var(--c-slate); letter-spacing:.005em; }
+/* 隐藏「查看案例 →」标签：hover 以 grid-rows 优雅展开 */
+.ecard__meta{ margin-top:auto; display:grid; grid-template-rows:0fr; opacity:0; transform:translateY(8px); padding-top:0;
+  transition:grid-template-rows .55s var(--ease-soft), opacity .45s var(--ease) .04s, transform .55s var(--ease-soft), padding-top .55s var(--ease-soft); }
+.ecard:hover .ecard__meta{ grid-template-rows:1fr; opacity:1; transform:translateY(0); padding-top:20px; }
+.ecard__meta-inner{ overflow:hidden; min-height:0; }
+.ecard__more{ display:inline-flex; align-items:center; gap:7px; font-family:var(--ff-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--c-accent); }
+.ecard__more .arr{ transition:transform .55s var(--ease-soft); }
+.ecard:hover .ecard__more .arr{ transform:translateX(4px); }
+
+/* ---------- narrow safety ---------- */
+@media (max-width:1100px){
+  .hax{ padding-top:150px; }
+  .hax__title{ font-size:64px; letter-spacing:-1.2px; }
+  .hax__title .en{ font-size:26px; }
+  .hax__desc{ font-size:16px; line-height:29px; }
+  .cards, .empower{ grid-template-columns:1fr; }
+  .empower{ max-width:560px; margin-inline:auto; }
+}
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+<style id="bgfade">
+  #directions{ position:relative; z-index:1; }
+  #directions > *{ position:relative; z-index:1; }
+  #directions::before{ content:""; position:absolute; left:0; right:0; top:0; height:480px; z-index:0; pointer-events:none;
+    background:linear-gradient(180deg, var(--c-bg) 0%, var(--c-bg) 8%, rgba(var(--c-bg-rgb),0) 100%); }
+</style>
+</head>
+<body data-nav="about">
+
+<!-- GLOBAL fixed video background（与首页同源，关于页压得很淡，偏阅读） -->
+<video class="pagebg" id="pagebg" autoplay muted loop playsinline preload="auto">
+  <source src="assets/0617/kling_20260617_VIDEO_无缝循环_hero__4945_0.mp4" type="video/mp4" />
+</video>
+
+<div class="page">
+
+  <!-- FULL-HEIGHT SIDE RAILS -->
+  <div class="rails-top" id="rails" aria-hidden="true">
+    <div class="rail l"></div>
+    <div class="rail r"></div>
+  </div>
+
+  <!-- NAV (共享单一来源) -->
+  <site-nav></site-nav>
+
+  <!-- ABOUT HERO · V4 中轴版 -->
+  <header class="hero hax" data-bgop="0">
+    <video class="hax__bg" autoplay muted loop playsinline preload="auto"><source src="assets/about-hero.mp4" type="video/mp4"></video>
+    <div class="hax__fade" aria-hidden="true"></div>
+    <div class="hax__halo" aria-hidden="true"></div>
+    <div class="hax__inner">
+      <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">About</span></p>
+      <h1 class="hax__title">关于<span class="b">我们</span><span class="en">Ivy Capital</span></h1>
+      <p class="hax__desc">专注深科技领域的早期投资，秉持全球视野，致力于在全球范围内寻找并投资最优秀的科技企业</p>
+    </div>
+    <div class="hax__axis" aria-hidden="true"><span class="hax__axis-line"></span></div>
+    <button class="hax__more" type="button" aria-label="向下浏览更多">
+      <span class="hax__more-arr" aria-hidden="true"></span>
+      <span class="hax__more-cap">了 解 更 多</span>
+    </button>
+  </header>
+
+  <!-- I. 投资方向 -->
+  <section class="section" id="directions" data-bgop="0.20">
+    <div class="sec-band sec-anim">
+      <span class="rule top"></span><span class="rule bot"></span>
+      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+        <span class="bt"><span class="rn">I.</span><span class="cn">投资方向</span></span>
+      </div>
+    </div>
+    <div class="grid-overlay" id="dirgrid" aria-hidden="true">
+      <span class="vline" data-v="d1"></span><span class="vline" data-v="d2"></span>
+    </div>
+    <div class="cards">
+      <article class="card" data-reveal>
+        <img class="card__bg" src="assets/strategy-flow.png" alt="" /><div class="card__grad"></div>
+        <span class="corner tl"></span><span class="corner br"></span>
+        <div class="card__top"><span class="idx">// 01</span><span class="tag">AI</span></div>
+        <div class="card__foot"><h3 class="card__title">AI&nbsp;&nbsp;<span class="b">软件及硬件</span></h3>
+          <div class="tags"><div class="tags__inner"><span>基础模型</span><span>垂直应用</span><span>端侧硬件</span></div></div></div>
+      </article>
+      <article class="card" data-reveal style="--d:90ms">
+        <img class="card__bg" src="assets/strategy-flow.png" alt="" /><div class="card__grad"></div>
+        <span class="corner tl"></span><span class="corner br"></span>
+        <div class="card__top"><span class="idx">// 02</span><span class="tag">芯片半导体</span></div>
+        <div class="card__foot"><h3 class="card__title">芯片与<span class="b">半导体</span></h3>
+          <div class="tags"><div class="tags__inner"><span>算力</span><span>传感</span><span>材料</span></div></div></div>
+      </article>
+      <article class="card" data-reveal style="--d:180ms">
+        <img class="card__bg" src="assets/strategy-flow.png" alt="" /><div class="card__grad"></div>
+        <span class="corner tl"></span><span class="corner br"></span>
+        <div class="card__top"><span class="idx">// 03</span><span class="tag">智能制造</span></div>
+        <div class="card__foot"><h3 class="card__title">智能<span class="b">制造</span></h3>
+          <div class="tags"><div class="tags__inner"><span>机器人</span><span>自动化</span><span>具身智能</span></div></div></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- II. 投资哲学 -->
+  <section class="section" id="philosophy" data-bgop="0.40">
+    <div class="sec-band left sec-anim">
+      <span class="rule top"></span><span class="rule bot"></span>
+      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+        <span class="bt"><span class="rn">ii.</span><span class="cn">投资哲学</span></span>
+      </div>
+    </div>
+    <div class="phil">
+      <div class="phil-row bg-glass">
+        <div class="row-inner">
+          <span class="row-idx">01</span>
+          <div class="row-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+          <p class="row-desc">
+            <span class="ln">我们坚持以诚信与原则行事，</span>
+            <span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span>
+            <span class="ln">并建立长期可信赖的关系。</span>
+          </p>
+        </div>
+      </div>
+      <div class="phil-row bg-ribbon">
+        <div class="row-inner">
+          <span class="row-idx">02</span>
+          <div class="row-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+          <p class="row-desc">
+            <span class="ln">我们以远见投资未来，</span>
+            <span class="ln">相信真正改变世界的技术，</span>
+            <span class="ln">在最早期往往并不被多数人理解。</span>
+          </p>
+        </div>
+      </div>
+      <div class="phil-row bg-blinds">
+        <div class="row-inner">
+          <span class="row-idx">03</span>
+          <div class="row-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+          <p class="row-desc">
+            <span class="ln">我们因热爱和好奇而出发，</span>
+            <span class="ln">相信人类对未知的探索、对科学的追求，</span>
+            <span class="ln">以及创造未来的勇气。</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- III. 行业认可 -->
+  <section class="section" id="recognition" data-bgop="0.12">
+    <div class="sec-band sec-anim">
+      <span class="rule top"></span><span class="rule bot"></span>
+      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+        <span class="bt"><span class="rn">iii.</span><span class="cn">行业认可</span></span>
+      </div>
+    </div>
+    <div class="recog-intro"><p class="intro p-scroll">自成立以来，常春藤资本连续多年获得“清科中国创业投资机构50强”、“投中最佳创业投资机构TOP100”、“融资中国年度中国最佳创业投资机构50强”、“LP智库‘真金白银退出榜’VC机构TOP50”、“甲子光年最佳硬科技投资机构TOP30”等行业的认可。</p></div>
+    <div class="ticker">
+      <div class="ticker__track">
+        <div class="ticker__group">
+          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">清科</h3><p class="tc__award">中国创业投资机构50强</p></div></article>
+          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">投中</h3><p class="tc__award">最佳创业投资机构TOP100</p></div></article>
+          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">融资中国</h3><p class="tc__award">年度中国最佳创业投资机构50强</p></div></article>
+          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">LP智库</h3><p class="tc__award">“真金白银退出榜”VC机构TOP50</p></div></article>
+          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">甲子光年</h3><p class="tc__award">最佳硬科技投资机构TOP30</p></div></article>
+        </div>
+        <div class="ticker__group" aria-hidden="true">
+          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">清科</h3><p class="tc__award">中国创业投资机构50强</p></div></article>
+          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">投中</h3><p class="tc__award">最佳创业投资机构TOP100</p></div></article>
+          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">融资中国</h3><p class="tc__award">年度中国最佳创业投资机构50强</p></div></article>
+          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">LP智库</h3><p class="tc__award">“真金白银退出榜”VC机构TOP50</p></div></article>
+          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">甲子光年</h3><p class="tc__award">最佳硬科技投资机构TOP30</p></div></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IV. 投后赋能 -->
+  <section class="section" id="empower" data-bgop="0.20">
+    <div class="sec-band left sec-anim">
+      <span class="rule top"></span><span class="rule bot"></span>
+      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+        <span class="bt"><span class="rn">iv.</span><span class="cn">投后赋能</span></span>
+      </div>
+    </div>
+    <div class="empower">
+      <article class="ecard" data-reveal>
+        <img class="ecard__bg" src="assets/strategy-flow.png" alt="" />
+        <span class="corner tl"></span><span class="corner br"></span>
+        <span class="ecard__idx">// 01</span>
+        <div class="ecard__media"></div>
+        <div class="ecard__body">
+          <div class="ecard__rule"></div>
+          <h3 class="ecard__title">顶配的<span class="q">“智囊后援”</span></h3>
+          <p class="ecard__desc">我们长期构建由成功企业家、科学家、资深投资人与顶级智库学者组成的 CXO Network。我们不只提供董事会里的建议，更将一群这群真正打过仗、投过船、在科技前沿的CXO带到你身边，在企业发展的关键阶段，这个“外部大脑”将为创始人提供跨维度的深度咨询，让创业不再是一个人的独行。</p>
+          <div class="ecard__meta"><div class="ecard__meta-inner">
+            <span class="ecard__more">查看案例<span class="arr">→</span></span>
+          </div></div>
+        </div>
+      </article>
+      <article class="ecard" data-reveal style="--d:90ms">
+        <img class="ecard__bg" src="assets/footer-shanghai.jpg" alt="" />
+        <span class="corner tl"></span><span class="corner br"></span>
+        <span class="ecard__idx">// 02</span>
+        <div class="ecard__media"></div>
+        <div class="ecard__body">
+          <div class="ecard__rule"></div>
+          <h3 class="ecard__title">深度的<span class="q">“生态共振”</span></h3>
+          <p class="ecard__desc">除了资金支持，我们长期帮助被投企业对接产业链上下游、核心客户、上市公司与关键合作伙伴。依托常春藤横跨一级与二级市场的长期积累，以及丰富的产业生态资源，我们也持续推动被投企业之间产生协同与合作，让技术真正走向产业落地。</p>
+          <div class="ecard__meta"><div class="ecard__meta-inner">
+            <span class="ecard__more">查看案例<span class="arr">→</span></span>
+          </div></div>
+        </div>
+      </article>
+      <article class="ecard" data-reveal style="--d:180ms">
+        <img class="ecard__bg" src="assets/footer-hongkong.jpg" alt="" />
+        <span class="corner tl"></span><span class="corner br"></span>
+        <span class="ecard__idx">// 03</span>
+        <div class="ecard__media"></div>
+        <div class="ecard__body">
+          <div class="ecard__rule"></div>
+          <h3 class="ecard__title">创业者的<span class="q">“伴跑者”</span></h3>
+          <p class="ecard__desc">很多时候我们是创业者的心理医生，这背后是我们对创业中孤独与低谷的深刻共情。当你深夜沮丧、甚至想放弃时，我们愿意成为那个随时接起电话、带上一瓶酒坐下来倾听的人。我们理解创业的艰难，所以不止陪你赢，更在你最难的时候，给你毫无保留的托底与信念。</p>
+          <div class="ecard__meta"><div class="ecard__meta-inner">
+            <span class="ecard__more">查看案例<span class="arr">→</span></span>
+          </div></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- FOOTER (共享单一来源) -->
+  <site-footer></site-footer>
+
+</div>
+
+<script src="assets/js/site.js"></script>
+<script>
+  // 「了解更多」滚动引导：不用锚点（避免 fragment 问题），向下滚一屏。
+  (function(){
+    document.querySelectorAll('.hax__more').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+        window.scrollBy({ top: window.innerHeight, behavior: reduce ? 'auto' : 'smooth' });
+      });
+    });
+  })();
+</script>
+<script>
+/* I. 投资方向：在 3 张卡的两个 gutter 居中画竖线，线高=卡高（复用首页 gutter 逻辑的本地版） */
+(function(){
+  var sec=document.getElementById('directions'); if(!sec) return;
+  var cards=sec.querySelectorAll('.card'), lines=sec.querySelectorAll('#dirgrid .vline');
+  if(cards.length<3 || lines.length<2) return;
+  function layout(){
+    var sb=sec.getBoundingClientRect();
+    var c0=cards[0].getBoundingClientRect(), c1=cards[1].getBoundingClientRect(), c2=cards[2].getBoundingClientRect();
+    var top=c0.top-sb.top, h=c0.height;
+    function set(el,x){ el.style.left=(x-sb.left)+'px'; el.style.top=top+'px'; el.style.height=h+'px'; }
+    set(lines[0], (c0.right+c1.left)/2);
+    set(lines[1], (c1.right+c2.left)/2);
+  }
+  window.addEventListener('load', layout, {passive:true});
+  window.addEventListener('resize', layout, {passive:true});
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  layout();
+})();
+</script>
+<!-- BG opacity 测试控制台 --><style>#bgop-ctl{position:fixed;right:18px;bottom:18px;z-index:99999;display:flex;gap:6px;align-items:center;background:rgba(13,27,42,.86);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:9px 11px;border-radius:12px;font-family:Geist Mono,monospace;font-size:11.5px;color:#fff;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}#bgop-ctl .lbl{opacity:.6;margin-right:2px}#bgop-ctl button{font:inherit;color:#cdd6e6;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);padding:5px 9px;border-radius:8px;cursor:pointer}#bgop-ctl button:hover{background:rgba(255,255,255,.16)}#bgop-ctl button.on{background:#2f6bff;border-color:#2f6bff;color:#fff}</style><div id="bgop-ctl"><span class="lbl">BG 透明度</span><button data-s="P" class="on">提案 phil.40</button><button data-s="A">备选 phil.20</button></div><script>window.BGCFG={map:{hero:'.hero.hax',directions:'#directions',philosophy:'#philosophy',recognition:'#recognition',empower:'#empower'},schemes:{P:{hero:0,directions:0.2,philosophy:0.4,recognition:0.12,empower:0.2},A:{hero:0,directions:0.2,philosophy:0.2,recognition:0.12,empower:0.2}}};</script><script>(function(){var cfg=window.BGCFG,bg=document.getElementById('pagebg');var map={};Object.keys(cfg.map).forEach(function(k){map[k]=document.querySelector(cfg.map[k]);});
+function curKey(){var mid=innerHeight/2,k=null;Object.keys(map).forEach(function(n){var el=map[n];if(!el)return;var r=el.getBoundingClientRect();if(r.top<=mid&&r.bottom>=mid)k=n;});return k;}
+function apply(name){var s=cfg.schemes[name];Object.keys(map).forEach(function(n){if(map[n]&&s[n]!=null)map[n].setAttribute('data-bgop',s[n]);});var c=curKey();if(bg&&c!=null&&s[c]!=null)bg.style.setProperty('--pgop',s[c]);var b=document.querySelectorAll('#bgop-ctl button');for(var i=0;i<b.length;i++){b[i].classList.toggle('on',b[i].getAttribute('data-s')===name);}}
+document.querySelectorAll('#bgop-ctl button').forEach(function(b){b.addEventListener('click',function(){apply(b.getAttribute('data-s'));});});apply('P');})();</script>
+</body>
+</html>

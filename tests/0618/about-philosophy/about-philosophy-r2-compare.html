@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>投资哲学 · R2（锁定组合 + dot 细化 + hover 可读性）</title>
+<base href="../../../" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+  body{ background:var(--c-bg); color:var(--c-ink); padding:40px 0 160px; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 var(--page-x); }
+  .lead{ max-width:880px; margin:0 0 8px; }
+  .lead h1{ font-family:var(--ff-serif); font-weight:600; font-size:30px; letter-spacing:-.5px; margin:0 0 12px; }
+  .lead p{ font-size:14.5px; line-height:24px; color:var(--c-slate); margin:0 0 6px; }
+  .lead code{ font-family:var(--ff-mono); font-size:12.5px; background:rgba(var(--c-ink-rgb),.06); padding:2px 6px; border-radius:4px; }
+
+  .vsec{ margin-top:76px; }
+  .vhd{ display:flex; align-items:baseline; gap:14px; margin:0 0 4px; }
+  .vtag{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-accent); background:var(--c-accent-wash); padding:4px 10px; border-radius:999px; }
+  .vt{ font-family:var(--ff-serif); font-weight:600; font-size:19px; }
+  .vnote{ font-size:13px; line-height:21px; color:var(--c-muted); max-width:920px; margin:0 0 18px; }
+  .vnote code{ font-family:var(--ff-mono); font-size:12px; background:rgba(var(--c-ink-rgb),.06); padding:1px 5px; border-radius:4px; }
+  .opt-cap{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.1em; color:var(--c-muted); margin:18px 0 6px; }
+
+  /* ============================================================
+     锁定组合基底 = A3(字号) + B3(dot 基线) + C2(疏朗呼吸) + D3(2.9× / stagger)
+     default = dot + 大标题(描述默认收起);hover → 铺图 + 撑高 + 描述逐行渐入
+     背景图 proj-3832.jpg 仅占位
+     ============================================================ */
+  .pl{ border-top:1px solid var(--c-hairline); margin:0 calc(var(--rail) - var(--page-x)); }
+  .pl-row{ position:relative; overflow:hidden; isolation:isolate; border-bottom:1px solid var(--c-hairline); }
+  .pl-bg{ position:absolute; inset:0; z-index:-1; opacity:0; transform:scale(1.06);
+          transition:opacity .7s var(--ease-io), transform .9s var(--ease-io);
+          background:linear-gradient(rgba(var(--c-bg-rgb),.55),rgba(var(--c-bg-rgb),.42)), url('assets/proj-3832.jpg') center/cover; }
+  .pl-in{ display:grid; grid-template-columns:30% minmax(0,1fr) minmax(280px,36%); align-items:start;
+          gap:clamp(28px,5vw,72px); padding:30px 40px; min-height:110px;
+          transition:min-height .7s var(--ease-io), padding .7s var(--ease-io); }
+
+  /* B3 dot：对齐基线(CN40)，7px */
+  .pl-dot{ justify-self:end; align-self:start; width:7px; height:7px; border-radius:50%; background:var(--c-accent);
+           margin-top:2em; transition:transform .5s var(--ease), box-shadow .5s var(--ease), background .5s var(--ease); }
+
+  /* A3 字号 */
+  .pl-title{ display:flex; align-items:baseline; gap:16px; padding-top:2px; }
+  .pl-title .cn{ font-family:var(--ff-serif); font-weight:500; font-size:40px; letter-spacing:-.035em; color:var(--c-ink); transition:color .5s var(--ease); }
+  .pl-title .en{ font-family:var(--ff-ital); font-style:italic; font-size:32px; color:var(--c-accent); transition:color .5s var(--ease); }
+
+  /* C2 疏朗呼吸 + D3 stagger(描述默认收起，hover 逐行渐入) */
+  .pl-desc{ font-family:var(--ff-sc); font-size:16px; line-height:1.55; letter-spacing:.02em; color:var(--c-slate); margin:0; padding-top:8px; }
+  .pl-desc .ln{ display:block; margin:0 0 .85em; opacity:0; transform:translateY(10px);
+                transition:opacity .5s var(--ease-soft), transform .55s var(--ease-soft); }
+  .pl-desc .ln:last-child{ margin-bottom:0; }
+
+  .pl-row:hover .pl-bg{ opacity:1; transform:scale(1); }
+  .pl-row:hover .pl-in{ min-height:320px; padding:56px 40px; }
+  .pl-row:hover .pl-dot{ transform:scale(1.5); box-shadow:0 0 10px rgba(var(--c-accent-rgb),.5); }
+  .pl-row:hover .pl-desc .ln{ opacity:1; transform:translateY(0); }
+  .pl-row:hover .pl-desc .ln:nth-child(1){ transition-delay:.12s; }
+  .pl-row:hover .pl-desc .ln:nth-child(2){ transition-delay:.24s; }
+  .pl-row:hover .pl-desc .ln:nth-child(3){ transition-delay:.36s; }
+
+  @media (max-width:860px){
+    .pl-in{ grid-template-columns:18px 1fr; gap:14px 16px; }
+    .pl-desc{ grid-column:2; }
+    .pl-title .cn{ font-size:30px; } .pl-title .en{ font-size:24px; }
+  }
+
+  /* ============================================================
+     §B′ dot 细化（覆写 .pl-dot）
+     ============================================================ */
+  /* opt2 呼吸感：复用全局 dot-halo keyframe，加 ::before 蓝色光晕 */
+  .axd .opt2 .pl-dot{ position:relative; isolation:isolate; }
+  .axd .opt2 .pl-dot::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1;
+    width:22px; height:22px; border-radius:50%; pointer-events:none;
+    transform:translate(-50%,-50%) scale(.55);
+    background:radial-gradient(circle, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.38) 36%, rgba(var(--c-accent-rgb),.14) 68%, rgba(var(--c-accent-rgb),0) 100%);
+    filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite; }
+
+  /* opt3 收紧 dot↔标题间距：dot 负 margin-right 向标题靠拢(72→~32px) */
+  .axd .opt3 .pl-dot{ margin-right:-40px; }
+
+  /* opt4 呼吸 + 收紧 */
+  .axd .opt4 .pl-dot{ position:relative; isolation:isolate; margin-right:-40px; }
+  .axd .opt4 .pl-dot::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1;
+    width:22px; height:22px; border-radius:50%; pointer-events:none;
+    transform:translate(-50%,-50%) scale(.55);
+    background:radial-gradient(circle, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.38) 36%, rgba(var(--c-accent-rgb),.14) 68%, rgba(var(--c-accent-rgb),0) 100%);
+    filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite; }
+
+  /* ============================================================
+     §E hover 动效 × 文字可读性（覆写 .pl-bg + hover 文字色）
+     ============================================================ */
+  /* E1 浅底深字 · 淡入(无缩放) */
+  .axe .opt1 .pl-bg{ transform:none;
+    background:linear-gradient(rgba(var(--c-bg-rgb),.62),rgba(var(--c-bg-rgb),.5)), url('assets/proj-3832.jpg') center/cover; }
+
+  /* E2 深底浅字 · 淡入(无缩放) */
+  .axe .opt2 .pl-bg{ transform:none;
+    background:linear-gradient(rgba(var(--c-ink-rgb),.56),rgba(var(--c-ink-rgb),.64)), url('assets/proj-3832.jpg') center/cover; }
+  .axe .opt2:hover .pl-title .cn{ color:var(--c-bg); }
+  .axe .opt2:hover .pl-title .en{ color:var(--c-accent-2); }
+  .axe .opt2:hover .pl-desc{ color:rgba(var(--c-bg-rgb),.9); }
+  .axe .opt2:hover .pl-dot{ background:var(--c-accent-2); box-shadow:0 0 10px rgba(var(--c-accent-rgb),.6); }
+
+  /* E3 浅底深字 · 缩放推入(ken-burns，更慢) */
+  .axe .opt3 .pl-bg{ transform:scale(1.14);
+    transition:opacity .7s var(--ease-io), transform 1.2s var(--ease-io);
+    background:linear-gradient(rgba(var(--c-bg-rgb),.6),rgba(var(--c-bg-rgb),.48)), url('assets/proj-3832.jpg') center/cover; }
+
+  /* E4 深底浅字 · 下沿重渐变(文字处更暗，保可读) + 轻缩放 */
+  .axe .opt4 .pl-bg{ transform:scale(1.08);
+    background:linear-gradient(to bottom, rgba(var(--c-ink-rgb),.34) 0%, rgba(var(--c-ink-rgb),.5) 48%, rgba(var(--c-ink-rgb),.74) 100%), url('assets/proj-3832.jpg') center/cover; }
+  .axe .opt4:hover .pl-title .cn{ color:var(--c-bg); }
+  .axe .opt4:hover .pl-title .en{ color:var(--c-accent-2); }
+  .axe .opt4:hover .pl-desc{ color:rgba(var(--c-bg-rgb),.92); }
+  .axe .opt4:hover .pl-dot{ background:var(--c-accent-2); box-shadow:0 0 10px rgba(var(--c-accent-rgb),.6); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="lead">
+      <h1>投资哲学 · R2</h1>
+      <p>锁定组合:<strong>A3 放大字号</strong>(CN40/EN32/desc16) + <strong>B3 dot 对齐基线</strong> + <strong>C2 疏朗呼吸描述</strong> + <strong>D3 戏剧展开</strong>(2.9× / .7s / 逐行 stagger)。default 只有 dot+大标题(描述收起),hover 才铺图、撑高、描述逐行渐入。背景图 <code>proj-3832.jpg</code> 仅占位。</p>
+      <p>本轮细化:<strong>§B′</strong> dot 四式(基础 / 呼吸感 / 收紧间距 / 呼吸+收紧);<strong>§E</strong> hover 动效 × 文字在背景上的可读性(浅底深字 / 深底浅字 / 浅底缩放 / 深底下沿渐变)。把鼠标移到任意行感受。</p>
+    </div>
+  </div>
+
+  <!-- §0 锁定组合 -->
+  <section class="vsec">
+    <div class="wrap">
+      <div class="vhd"><span class="vtag">§0</span><span class="vt">选定组合(基准)</span></div>
+      <p class="vnote">A3+B3+C2+D3 的整列观感。default 极简(dot+大标题),hover 逐行绽放。注意:因选了 D3,<strong>描述默认是收起的</strong>,只有 hover 才出现——若你想 default 也露出诗句,需在下一轮把它改回半显。</p>
+    </div>
+    <div class="wrap">
+      <div class="pl">
+        <div class="pl-row"><div class="pl-bg"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+            <p class="pl-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p>
+          </div></div>
+        <div class="pl-row"><div class="pl-bg"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+            <p class="pl-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p>
+          </div></div>
+        <div class="pl-row"><div class="pl-bg"></div>
+          <div class="pl-in"><span class="dot pl-dot"></span>
+            <div class="pl-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+            <p class="pl-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p>
+          </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §B′ dot 细化 -->
+  <section class="vsec axd">
+    <div class="wrap">
+      <div class="vhd"><span class="vtag">§B′</span><span class="vt">dot 细化</span></div>
+      <p class="vnote">在锁定组合上测 dot 四式:① 基础(对齐基线 7px)② 呼吸感(复用全局 <code>dot-halo</code> 蓝色光晕)③ 收紧 dot↔标题间距(72→~32px)④ 呼吸+收紧。</p>
+    </div>
+    <div class="wrap">
+      <p class="opt-cap">① 基础 · 对齐基线 · 7px · gap 72</p>
+      <div class="pl"><div class="pl-row opt1"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+          <p class="pl-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">② 呼吸感 · dot-halo 蓝色光晕</p>
+      <div class="pl"><div class="pl-row opt2"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+          <p class="pl-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">③ 收紧间距 · dot 向标题靠拢(~32px)</p>
+      <div class="pl"><div class="pl-row opt3"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+          <p class="pl-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">④ 呼吸 + 收紧</p>
+      <div class="pl"><div class="pl-row opt4"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+          <p class="pl-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p>
+        </div></div></div>
+    </div>
+  </section>
+
+  <!-- §E hover 动效 × 可读性 -->
+  <section class="vsec axe">
+    <div class="wrap">
+      <div class="vhd"><span class="vtag">§E</span><span class="vt">hover 动效 × 文字可读性</span></div>
+      <p class="vnote">同一锁定组合,测 hover 后文字压在背景图上的可读性 + 不同动效:① 浅底深字·淡入 ② 深底浅字·淡入 ③ 浅底深字·缩放推入(ken-burns)④ 深底浅字·下沿重渐变(文字处更暗,最稳可读)。<strong>务必 hover 才看得到效果。</strong></p>
+    </div>
+    <div class="wrap">
+      <p class="opt-cap">① 浅底深字 · 淡入</p>
+      <div class="pl"><div class="pl-row opt1"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+          <p class="pl-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">② 深底浅字 · 淡入</p>
+      <div class="pl"><div class="pl-row opt2"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
+          <p class="pl-desc"><span class="ln">我们以远见投资未来，</span><span class="ln">相信真正改变世界的技术，</span><span class="ln">在最早期往往并不被多数人理解。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">③ 浅底深字 · 缩放推入(ken-burns)</p>
+      <div class="pl"><div class="pl-row opt3"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
+          <p class="pl-desc"><span class="ln">我们因热爱和好奇而出发，</span><span class="ln">相信人类对未知的探索、对科学的追求，</span><span class="ln">以及创造未来的勇气。</span></p>
+        </div></div></div>
+
+      <p class="opt-cap">④ 深底浅字 · 下沿重渐变</p>
+      <div class="pl"><div class="pl-row opt4"><div class="pl-bg"></div>
+        <div class="pl-in"><span class="dot pl-dot"></span>
+          <div class="pl-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
+          <p class="pl-desc"><span class="ln">我们坚持以诚信与原则行事，</span><span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span><span class="ln">并建立长期可信赖的关系。</span></p>
+        </div></div></div>
+    </div>
+  </section>
+
+</body>
+</html>

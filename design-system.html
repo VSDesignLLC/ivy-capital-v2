@@ -190,7 +190,7 @@ footer.ds-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
       <div class="sp"><span class="lab"><b>8</b> · gap 社交/标签</span><div class="bar" style="width:8px"></div></div>
       <div class="sp"><span class="lab"><b>12</b> · 内间距</span><div class="bar" style="width:12px"></div></div>
       <div class="sp"><span class="lab"><b>16</b> · 卡片内距</span><div class="bar" style="width:16px"></div></div>
-      <div class="sp"><span class="lab"><b>24</b> · gap 卡片 / pcard 内距</span><div class="bar" style="width:24px"></div></div>
+      <div class="sp"><span class="lab"><b>24</b> · gap 卡片 / card-project 内距</span><div class="bar" style="width:24px"></div></div>
       <div class="sp"><span class="lab"><b>40</b> · gap 策略卡 / nav 链接</span><div class="bar" style="width:40px"></div></div>
       <div class="sp"><span class="lab"><b>64</b> · <code>--rail</code> 导轨 / 标题带高</span><div class="bar" style="width:64px"></div></div>
       <div class="sp"><span class="lab"><b>80</b> · <code>--page-x</code> 内容留白</span><div class="bar" style="width:80px"></div></div>
@@ -223,21 +223,21 @@ footer.ds-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
     <div class="sec-h"><span class="sec-no">v.</span><h2>组件 Components</h2></div>
     <p class="sec-desc">真实组件实例（含 hover），取值与 <code>homepage-ch.html</code> 一致。鼠标悬停按钮 / 卡片可验证微交互。玻璃组件放在图底舞台上以显出质感。</p>
     <div class="comp-grid">
-      <div class="comp"><div class="stage"><button class="btn"><span class="dot"></span>了解更多</button></div><div class="cap"><b>.btn</b> · 液态玻璃胶囊 18px · 呼吸蓝点 · hover 上浮发光</div></div>
+      <div class="comp"><div class="stage"><button class="btn glass-ring"><span class="dot dot--live"></span>了解更多</button></div><div class="cap"><b>.btn</b> · 液态玻璃胶囊 18px · 呼吸蓝点 · hover 上浮发光</div></div>
       <div class="comp"><div class="stage"><div class="tags"><span>基础模型</span><span>垂直应用</span></div></div><div class="cap"><b>.tags</b> · 标签胶囊 · 11px / .03em</div></div>
       <div class="comp"><div class="stage"><span class="badge">688728</span></div><div class="cap"><b>.badge</b> · 股票代码徽章 · 10px</div></div>
       <div class="comp"><div class="stage"><div class="statc"><span class="lbl">管理规模</span><span class="num">240<span class="cn">亿</span></span></div></div><div class="cap"><b>.stat</b> · Geist 64 + 标签</div></div>
       <div class="comp"><div class="stage stage--photo"><div class="social"><a href="#"><img src="assets/social-1.svg" alt=""></a><a href="#" class="big"><img src="assets/social-2.svg" alt=""></a><a href="#"><img src="assets/social-3.svg" alt=""></a></div></div><div class="cap"><b>.social</b> · 玻璃圆钮 56 · hover 上浮</div></div>
-      <div class="comp"><div class="stage stage--photo"><div class="locard"><img class="locard__tex" src="assets/footer-shanghai.jpg" alt=""><div class="locard__scrim"></div><div class="city">上海</div><div class="addr">长宁区番禺路381号<br>幸福里E座5楼</div></div></div><div class="cap"><b>.locard</b> · footer B5 地址卡 · hover 浮出天际线</div></div>
+      <div class="comp"><div class="stage stage--photo"><div class="card-location"><img class="card-location__tex" src="assets/footer-shanghai.jpg" alt=""><div class="card-location__scrim"></div><div class="city">上海</div><div class="addr">长宁区番禺路381号<br>幸福里E座5楼</div></div></div><div class="cap"><b>.card-location</b> · footer B5 地址卡 · hover 浮出天际线</div></div>
       <div class="comp"><div class="stage stage--photo"><a class="mailpill" href="#"><span class="dot"></span><span class="l">项目投递</span><span class="m">xxxx @ gmail.com</span></a></div><div class="cap"><b>.mailpill</b> · footer 邮箱玻璃胶囊 · 17px</div></div>
     </div>
 
     <div class="comp" style="margin-top:28px"><div class="stage stage--hero navstage" style="padding:44px 40px"><site-nav></site-nav></div><div class="cap"><b>.nav</b> · V5 浮动胶囊 56（真组件，<code>&lt;site-nav&gt;</code> 注入）· 液态玻璃 + 蓝调描边环 · 滚动收起/出现</div></div>
 
     <div class="showcase" style="margin-top:28px">
-      <div class="comp" style="width:auto"><div class="stage"><div class="card" style="width:300px"><img class="card__bg" src="assets/strategy-flow.png" alt=""><div class="card__grad"></div><span class="corner tl"></span><span class="corner br"></span><div class="card__top"><span class="idx">// 01</span><span class="tag">AI</span></div><div class="card__foot"><div class="card__title">AI <span class="b">软件及硬件</span></div><div class="tags"><div class="tags__inner"><span>基础模型</span><span>垂直应用</span></div></div></div></div></div><div class="cap"><b>.card</b> · 策略卡 378（真组件）· 流体底 + 角标 · hover 上浮变蓝 + tags 展开</div></div>
-      <div class="comp" style="width:auto"><div class="stage"><div class="pcard"><img class="pcard__bg" src="assets/proj-3817.png" alt=""><div class="pcard__plate"></div><span class="pcard__badge">688728</span><div class="pcard__foot"><div class="t">格科微电子</div><div class="d"><div class="d-inner">CMOS 图像传感器与显示驱动</div></div></div></div></div><div class="cap"><b>.pcard</b> · 项目卡 正方 · hover 霜玻璃块生长 + 描述展开</div></div>
-      <div class="comp" style="width:auto"><div class="stage"><div class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Recognition</span><span class="tc__quote">”</span></div><div class="tc__body"><div class="tc__org">甲子光年</div><div class="tc__award">年度硬科技投资机构</div></div></div></div><div class="cap"><b>.tc</b> · 奖项文字卡 340 · hover 浅→深 navy 翻色</div></div>
+      <div class="comp" style="width:auto"><div class="stage"><div class="card-strategy" style="width:300px"><img class="card-strategy__bg" src="assets/strategy-flow.png" alt=""><div class="card-strategy__grad"></div><span class="corner tl"></span><span class="corner br"></span><div class="card-strategy__top"><span class="idx">// 01</span><span class="tag">AI</span></div><div class="card-strategy__foot"><div class="card-strategy__title">AI <span class="b">软件及硬件</span></div><div class="tags"><div class="tags__inner"><span>基础模型</span><span>垂直应用</span></div></div></div></div></div><div class="cap"><b>.card-strategy</b> · 策略卡 378（真组件）· 流体底 + 角标 · hover 上浮变蓝 + tags 展开</div></div>
+      <div class="comp" style="width:auto"><div class="stage"><div class="card-project"><img class="card-project__bg" src="assets/proj-3817.png" alt=""><div class="card-project__plate"></div><span class="card-project__badge">688728</span><div class="card-project__foot"><div class="t">格科微电子</div><div class="d"><div class="d-inner">CMOS 图像传感器与显示驱动</div></div></div></div></div><div class="cap"><b>.card-project</b> · 项目卡 正方 · hover 霜玻璃块生长 + 描述展开</div></div>
+      <div class="comp" style="width:auto"><div class="stage"><div class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Recognition</span><span class="card-award__quote">”</span></div><div class="card-award__body"><div class="card-award__org">甲子光年</div><div class="card-award__award">年度硬科技投资机构</div></div></div></div><div class="cap"><b>.tc</b> · 奖项文字卡 340 · hover 浅→深 navy 翻色</div></div>
     </div>
   </section>
 
