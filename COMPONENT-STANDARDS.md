@@ -84,6 +84,7 @@ dot
 - `dot--live` = **变体**：在 dot 上叠加 `dot-halo` 呼吸光晕。解剖结构相同、只多了动效 → 判定为变体，用 `--live`。
 - **三者厘清（dot / dot-halo / dot--live）**：`.dot` = 静态原子；`@keyframes dot-halo` = 呼吸动画 keyframes（motion 原语，**不是组件**、不单独上页）；`.dot--live` = `.dot` + halo `::before` 组成的**呼吸变体原子**，应能**独立渲染**。一句话：`dot-halo` 是「怎么呼吸」，`dot--live` 是「会呼吸的点」。
 - **单一来源约束**：呼吸光晕的配方（`::before` + `dot-halo`）**只定义一次**，落在 `dot--live::before`（`components.css`）。`btn` 内的呼吸点改为**组合** `class="dot dot--live"`，不再在 `.btn .dot::before` 另写一份。→ 改一次呼吸点，btn / hero / 未来的 card 全同步。
+- **深浅双变体（R2a audit 发现）**：halo 在浅底用蓝核、深底（homepage hero 视频）用白核 → `.dot--live`（默认蓝，单一来源）+ `.dot--live--on-dark`（仅覆盖光晕背景为白）。是「同源 + 变体调色」范例，未破坏单一来源。
 - **组件库呈现**：`dot` 与 `dot--live` 同一条目并排两态。⚠️ 现状 halo 困在 `.btn .dot::before`，`.dot--live` 单独放**不会呼吸**——故**不能借按钮冒充原子预览**；须 R2 把配方提到 `.dot--live::before` 后才真正可独立预览（在此之前库里只诚实展示静态 `.dot` + 标注）。
 
 ### 4.2 `card-project__badge` = 可选元素，带/不带两态
@@ -138,7 +139,9 @@ dot
 
 1. **R0 · 现已完成**：`component-library.html` 四层全覆盖活预览（基线）。
 2. **R1 · 库内对齐（仅改预览页）**：按 §六 把 dot/dot--live、card-project 有/无徽章并条目；标注家族前缀；不动 canonical。**先做、低风险**。
-3. **R2 · 配方去重（改共享层 + 各页标记）**：提取 `.glass`/`.glass-ring`/`.dot--live`，组件改组合。**行为保持型重构**，用组件库 + 五个生产页逐组件截图回归。
+3. **R2 · 配方去重（改共享层 + 各页标记）**：
+   - **R2a · dot--live 单一来源（✅ 已完成 2026-06-22）**：halo 提到 `components.css` 的 `.dot--live::before`（+ 深底变体 `.dot--live--on-dark` 把光晕核心改白），删除 `.btn .dot::before`；homepage 与 4 子页移除内联 fork，btn / eyebrow 改组合 `class="dot dot--live"`。7 页 + 2 预览页回归通过、行为保持。
+   - **R2b · glass 去重（待做）**：提取 `.glass`/`.glass-ring`，btn/nav/mailpill/nav__lang/footer__social 改组合，每实例 blur 用 `--gl-blur` 变量调。
 4. **R3 · 家族改名（改共享层 + 各页标记）**：`.card→.card-strategy`、`.pcard→.card-project`、（待定 `.tc→.card-award`）。**大范围替换**，需备份 + 全页回归 + 单独 PR 留痕。
 
 > R2 / R3 触及共享层与生产页，须经 Vera 明确批准后单独执行，每轮以本文 §七 清单验收。

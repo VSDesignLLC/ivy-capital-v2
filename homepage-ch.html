@@ -32,12 +32,7 @@
 .hero__ivy .ivy-t{ font-family:var(--ff-ital); font-style:italic; font-size:28.3px; line-height:31.2px; letter-spacing:-0.34px; color:var(--c-accent); }
 .hero__ivy .ivy-line{ width:1px; height:110px; background:var(--c-grid); opacity:.7; }
 
-/* HERO eyebrow dot — breathing halo (T3-A) */
-.dot--live{ position:relative; isolation:isolate; }
-.dot--live::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1; width:22px; height:22px; border-radius:50%; pointer-events:none;
-  transform:translate(-50%,-50%) scale(.55);
-  background:radial-gradient(circle, rgba(255,255,255,.95) 0%, rgba(255,255,255,.55) 38%, rgba(var(--c-accent-rgb),.16) 68%, rgba(var(--c-accent-rgb),0) 100%);
-  filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite; }
+/* HERO eyebrow dot — 呼吸光晕现由 components.css 单一来源（.dot--live + .dot--live--on-dark 白光）提供 */
 
 
 /* HERO headline — per-character left→right reveal (T2-A) */
@@ -152,7 +147,7 @@
       <div class="left" data-reveal>
         <span class="caption">成立于</span><span class="yr">2007</span><span class="city">· 上海 · 香港</span>
       </div>
-      <div class="right" data-reveal style="--d:120ms"><span class="dot dot--live"></span><span class="caption">第六期基金 · 募集中</span></div>
+      <div class="right" data-reveal style="--d:120ms"><span class="dot dot--live dot--live--on-dark"></span><span class="caption">第六期基金 · 募集中</span></div>
     </div>
     <div class="hero__heading">
       <h1 class="hero__title" aria-label="常春藤资本"><span class="b">常春藤</span>资本</h1>
@@ -179,7 +174,7 @@
       </div>
       <div class="about__left">
         <p class="about__p p-scroll">常春藤资本成立于 2007 年，总部位于上海，是中国最早一批<span class="b">市场化</span>风险投资机构之一。自成立以来我们穿越多个周期，始终坚持以深度研究和行业洞察为驱动，寻找那些有能力、有野心、有韧性，能够发现广阔市场价值的创业者。<br><br>常春藤旗下同时拥有一级市场投资平台「常春藤资本」与二级市场投资平台「常春藤基金」，累计管理规模超过 240 亿元人民币。常春藤资本已投资并长期陪伴超过 150 家科技企业成长，其中 23 家企业成功上市。</p>
-        <a class="btn" href="#" data-reveal style="--d:120ms"><span class="dot"></span>了解更多</a>
+        <a class="btn" href="#" data-reveal style="--d:120ms"><span class="dot dot--live"></span>了解更多</a>
         <div class="about__imgwrap" data-reveal style="--d:160ms"><video src="assets/about-intro.mp4" autoplay muted playsinline preload="auto"></video></div>
       </div>
       <div class="about__stats" data-reveal style="--d:120ms">
@@ -252,7 +247,7 @@
         <div class="sec-head" data-reveal><span class="rn">iii.</span><span class="cn">代表项目</span></div>
         <p class="intro p-scroll" style="--d:80ms">常春藤资本始终坚持长期主义，关注深度科技与产业创新，持续寻找并陪伴具有长期价值的创业者与科学家团队。过去二十年，我们陪伴这些企业从早期一路成长，在技术突破、产业落地与全球化进程中长期同行。</p>
       </div>
-      <a class="btn" href="#" data-reveal style="--d:120ms"><span class="dot"></span>更多项目</a>
+      <a class="btn" href="#" data-reveal style="--d:120ms"><span class="dot dot--live"></span>更多项目</a>
     </div>
     <div class="proj__grid">
       <div class="proj__row">
@@ -283,7 +278,7 @@
     </div>
     <div class="awards__lead">
       <p class="intro p-scroll">常春藤资本始终坚持长期主义，关注深度科技与产业创新，持续寻找并陪伴具有长期价值的创业者与科学家团队。过去二十年，我们陪伴这些企业从早期一路成长，在技术突破、产业落地与全球化进程中长期同行。</p>
-      <a class="btn" href="#" data-reveal style="--d:120ms"><span class="dot"></span>更多项目</a>
+      <a class="btn" href="#" data-reveal style="--d:120ms"><span class="dot dot--live"></span>更多项目</a>
     </div>
     <div class="ticker">
       <div class="ticker__track">

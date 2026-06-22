@@ -170,11 +170,11 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
       <div>
         <div class="spec__class">.dot · .dot--live</div>
         <div class="spec__src">base.css · components.css（dot-halo）</div>
-        <div class="spec__desc">品牌蓝圆点，7×7、半径 3.5、<code>flex:none</code>。<b>三者厘清</b>：<code>.dot</code> = 静态原子；<code>@keyframes dot-halo</code> = 呼吸动画（motion 原语，<b>不是组件</b>、不单独上页）；<code>.dot--live</code> = <code>.dot</code> + 跑 dot-halo 的 halo <code>::before</code> 组成的<b>呼吸变体原子</b>，本应能独立渲染。</div>
+        <div class="spec__desc">品牌蓝圆点，7×7、半径 3.5、<code>flex:none</code>。<b>三者厘清</b>：<code>.dot</code> = 静态原子；<code>@keyframes dot-halo</code> = 呼吸动画（motion 原语，<b>不是组件</b>、不单独上页）；<code>.dot--live</code> = <code>.dot</code> + 跑 dot-halo 的 halo <code>::before</code> 组成的<b>呼吸变体原子</b>，<b>独立即可渲染</b>（R2 已提为共享单一来源）。</div>
         <div class="spec__meta">
           <div class="r"><span class="k">token</span><span class="v"><code>--c-accent</code> · <code>@keyframes dot-halo</code></span></div>
-          <div class="r"><span class="k">现状</span><span class="v">⚠ halo 配方<b>困在 <code>.btn .dot::before</code></b>（+ homepage 内联各一份），<code>.dot--live</code> 尚非共享原子 → 单独放<b>不会呼吸</b>，呼吸效果暂见分子区 <code>.btn</code>。</span></div>
-          <div class="r"><span class="k">R2</span><span class="v">把配方提到 <code>.dot--live::before</code> 单一来源、<code>.btn</code> 改组合 <code>class="dot dot--live"</code> —— 届时此处即可真实预览独立呼吸点。</span></div>
+          <div class="r"><span class="k">来源</span><span class="v">✓ halo 已单一来源于 <code>components.css</code> 的 <code>.dot--live::before</code>；<code>.btn</code> / 各页 eyebrow 均组合 <code>class="dot dot--live"</code> 复用 —— 改一处全同步。</span></div>
+          <div class="r"><span class="k">变体</span><span class="v">深底场景（如 homepage hero 视频）叠 <code>.dot--live--on-dark</code> 把光晕核心改白以保对比 —— 同源、仅变体调色。</span></div>
         </div>
       </div>
       <div class="stage">
@@ -183,8 +183,8 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
           <div class="cl-var__cap"><code>.dot</code> · 静态原子<span class="cl-var__note">当前唯一能独立渲染的态</span></div>
         </div>
         <div class="cl-var">
-          <span class="dot" style="opacity:.45"></span>
-          <div class="cl-var__cap"><code>.dot--live</code> · 呼吸变体<span class="cl-var__note">暂不能独立预览（配方在 .btn）；R2 提取后于此真实呈现</span></div>
+          <span class="dot dot--live"></span>
+          <div class="cl-var__cap"><code>.dot--live</code> · 呼吸变体<span class="cl-var__note">已提为共享原子，独立渲染即呼吸；深底叠 .dot--live--on-dark 白光</span></div>
         </div>
       </div>
     </div>
@@ -282,7 +282,7 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
         <span class="hint">↑ hover 查看上浮 + 发光</span>
       </div>
       <div class="stage stage--photo">
-        <button class="btn"><span class="dot"></span>了解更多</button>
+        <button class="btn"><span class="dot dot--live"></span>了解更多</button>
       </div>
     </div>
 

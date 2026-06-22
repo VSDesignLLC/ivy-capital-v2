@@ -26,8 +26,7 @@
 /* label = 呼吸圆点 + 英文页名（复用 homepage hero eyebrow；.dot/.caption 在 base.css，dot-halo 在 components.css；浅底蓝光晕） */
 .hax__kick{ display:inline-flex; align-items:center; gap:10px; margin-bottom:42px; }
 .hax__kick .caption{ color:var(--c-accent); letter-spacing:.2em; }
-.hax__kick .dot--live{ position:relative; isolation:isolate; }
-.hax__kick .dot--live::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1; width:22px; height:22px; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%) scale(.55); background:radial-gradient(circle, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.38) 36%, rgba(var(--c-accent-rgb),.14) 68%, rgba(var(--c-accent-rgb),0) 100%); filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite; }
+/* .dot--live 呼吸光晕现由 components.css 单一来源提供（eyebrow markup 已组合 class="dot dot--live"）*/
 /* Hero 主标题 = design system `display`：Noto Sans SC Bold · 108/112/-0.64 */
 .hax__title{ font-family:var(--ff-sc); font-weight:700; font-size:108px; line-height:1.04; letter-spacing:-0.64px; color:var(--c-ink); }
 .hax__title .b{ color:var(--c-accent); }

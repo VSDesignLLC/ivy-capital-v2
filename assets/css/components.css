@@ -22,11 +22,15 @@
   -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite:xor; mask-composite:exclude; }
 .btn .dot{ position:relative; isolation:isolate; box-shadow:0 0 0 0 rgba(var(--c-accent-rgb),0); transition:transform .5s var(--ease), box-shadow .5s var(--ease); }
-/* 呼吸蓝点 (default state) — 动作 = hero .dot--live (dot-halo)，浅底改蓝色光晕 */
-.btn .dot::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1; width:22px; height:22px; border-radius:50%; pointer-events:none;
+/* 呼吸点变体 · 单一来源 —— .dot--live = .dot + dot-halo 呼吸光晕（默认浅底蓝光）。
+   btn / hero / 各页 eyebrow 在 markup 里组合 class="dot dot--live" 复用，改一处全同步。
+   深底场景（如 homepage hero 视频）再叠 .dot--live--on-dark，仅把光晕核心改白以保对比。 */
+.dot--live{ position:relative; isolation:isolate; }
+.dot--live::before{ content:""; position:absolute; left:50%; top:50%; z-index:-1; width:22px; height:22px; border-radius:50%; pointer-events:none;
   transform:translate(-50%,-50%) scale(.55);
   background:radial-gradient(circle, rgba(var(--c-accent-rgb),.55) 0%, rgba(var(--c-accent-rgb),.38) 36%, rgba(var(--c-accent-rgb),.14) 68%, rgba(var(--c-accent-rgb),0) 100%);
   filter:blur(2px); animation:dot-halo 2.4s var(--ease-io) infinite; }
+.dot--live--on-dark::before{ background:radial-gradient(circle, rgba(255,255,255,.95) 0%, rgba(255,255,255,.55) 38%, rgba(var(--c-accent-rgb),.16) 68%, rgba(var(--c-accent-rgb),0) 100%); }
 .btn:hover{ transform:translateY(-2px) scale(1.015);
   box-shadow:
     inset 0 1px 1px rgba(255,255,255,1),
