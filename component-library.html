@@ -37,7 +37,7 @@
 .navstage .nav{ position:static; left:auto; top:auto; transform:none; width:100%; }
 
 /* —— 作用域覆盖 ③ .tags 默认 opacity:0 / grid-template-rows:0fr（hover 才展开）。
-      仅在原子预览盒 .atom-tags 内强制展开可见；不影响 .card 内的 .tags（仍保留 hover 效果）。 —— */
+      仅在原子预览盒 .atom-tags 内强制展开可见；不影响 .card-strategy 内的 .tags（仍保留 hover 效果）。 —— */
 .atom-tags .tags{ display:flex; gap:8px; opacity:1; transform:none; grid-template-rows:1fr; }
 
 /* ===== layout ===== */
@@ -209,7 +209,7 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
         <div class="spec__src">components.css</div>
         <div class="spec__desc">图纸式直角角标，14×14、<code>position:absolute</code>、默认 ink 描边 opacity .4。装饰策略卡 / 奖项卡 / 章节框的对角。下方放进一个 <code>position:relative</code> 小盒，让 tl 停左上、br 停右下。</div>
         <div class="spec__meta">
-          <div class="r"><span class="k">token</span><span class="v"><code>--c-ink</code> 描边（<code>.tc</code>/<code>.sec-box</code> 内覆盖为 accent）</span></div>
+          <div class="r"><span class="k">token</span><span class="v"><code>--c-ink</code> 描边（<code>.card-award</code>/<code>.sec-box</code> 内覆盖为 accent）</span></div>
         </div>
       </div>
       <div class="stage">
@@ -222,10 +222,10 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
       <div>
         <div class="spec__class">.tags / .tags span</div>
         <div class="spec__src">components.css</div>
-        <div class="spec__desc">标签胶囊组。胶囊 11/16.5、字距 .03em、<code>--c-tag-line</code> 描边、半径 100。生产里默认 <code>opacity:0 / grid-template-rows:0fr</code>，卡片 hover 才展开——此处在 <code>.atom-tags</code> 作用域内强制展开以便预览（不影响 <code>.card</code> 内的 hover 行为）。</div>
+        <div class="spec__desc">标签胶囊组。胶囊 11/16.5、字距 .03em、<code>--c-tag-line</code> 描边、半径 100。生产里默认 <code>opacity:0 / grid-template-rows:0fr</code>，卡片 hover 才展开——此处在 <code>.atom-tags</code> 作用域内强制展开以便预览（不影响 <code>.card-strategy</code> 内的 hover 行为）。</div>
         <div class="spec__meta">
           <div class="r"><span class="k">token</span><span class="v"><code>--c-tag-line</code> · <code>--c-slate</code></span></div>
-          <div class="r"><span class="k">hover</span><span class="v">在 <code>.card:hover</code> 内 grid-rows 0fr→1fr 展开</span></div>
+          <div class="r"><span class="k">hover</span><span class="v">在 <code>.card-strategy:hover</code> 内 grid-rows 0fr→1fr 展开</span></div>
         </div>
       </div>
       <div class="stage atom-tags">
@@ -267,7 +267,7 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
   <!-- ============================================================ TIER 1 -->
   <section class="tier" id="tier1">
     <div class="tier__head"><span class="tier__no">TIER 1</span><h2 class="tier__h">分子</h2><span class="tier__en">Molecules</span></div>
-    <p class="tier__desc">由原子组合而成、可独立使用的小部件：按钮、邮箱胶囊、社交圆钮、带框章节标题、跑马灯。玻璃质感组件放在图底 / navy 舞台上以显出折射。（地址卡 <code>.locard</code> 与奖项卡 <code>.tc</code> 均属卡片，已上移复合区 Card 家族，分别为 <code>card-location</code> / <code>card-award</code>。）</p>
+    <p class="tier__desc">由原子组合而成、可独立使用的小部件：按钮、邮箱胶囊、社交圆钮、带框章节标题、跑马灯。玻璃质感组件放在图底 / navy 舞台上以显出折射。（地址卡与奖项卡均属卡片，已上移复合区 Card 家族，分别为 <code>card-location</code> / <code>card-award</code>。）</p>
 
     <!-- .btn -->
     <div class="spec">
@@ -381,24 +381,24 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
           <span class="fam__label">卡片家族</span>
           <span class="fam__en">Card family</span>
         </div>
-        <p class="fam__note">同属一类、解剖结构各异的卡片用统一前缀 <code>card-</code> 聚类（「文件树」式层级感）。<b>类名为规范目标名</b>；现行 canonical 仍用括注现名（如 <code>现 .pcard</code>），markup 仍按真实现名渲染——改名落地见 <code>COMPONENT-STANDARDS.md</code> 的 R3。</p>
+        <p class="fam__note">同属一类、解剖结构各异的卡片用统一前缀 <code>card-</code> 聚类（「文件树」式层级感）。<b>R3 已落地</b>：canonical 与全部页面均已采用 <code>card-strategy / card-project / card-award / card-location</code> 规范名（详见 <code>COMPONENT-STANDARDS.md</code> §八 R3）。</p>
         <div class="fam__tree"><b>card-</b>                            <i>家族（卡片）</i>
-├─ <b>card-strategy</b>   (.card)          <i>投资方向 / 策略卡</i>
-├─ <b>card-project</b>    (.pcard)         <i>被投企业卡</i>
+├─ <b>card-strategy</b>   (.card-strategy)          <i>投资方向 / 策略卡</i>
+├─ <b>card-project</b>    (.card-project)         <i>被投企业卡</i>
 │   ├─ __badge                     <i>可选徽章子元素</i>
 │   └─ --no-badge                  <i>无徽章变体</i>
-├─ <b>card-award</b>      (.ticker .tc)    <i>奖项文字卡</i>
+├─ <b>card-award</b>      (.ticker .card-award)    <i>奖项文字卡</i>
 │   └─ __kick __quote __org __award
-└─ <b>card-location</b>   (.locard)        <i>地址定位卡 · hover 浮出天际线</i>
+└─ <b>card-location</b>   (.card-location)        <i>地址定位卡 · hover 浮出天际线</i>
     └─ --sh / --hk                 <i>城市纹理对位变体</i></div>
       </div>
 
       <div class="fam__members">
 
-        <!-- ├─ card-strategy（现 .card） -->
+        <!-- ├─ card-strategy -->
         <div class="spec">
           <div>
-            <div class="spec__class"><span class="cl-branch">├─</span>.card-strategy<span class="spec__alias">现 .card</span></div>
+            <div class="spec__class"><span class="cl-branch">├─</span>.card-strategy</div>
             <div class="spec__src">components.css</div>
             <div class="spec__desc">投资方向 / 策略卡，高 378。底图 + 常驻窄渐变带托标题 + 对角角标 + 序号/标签头。hover 上浮、描边变蓝、底图放大、白色渐变上爬、<code>.tags</code> 从 0fr 展开。</div>
             <div class="spec__meta">
@@ -409,23 +409,23 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
             <span class="hint">↑ hover 查看上浮 + tags 展开</span>
           </div>
           <div class="stage">
-            <div class="card" style="width:320px">
-              <img class="card__bg" src="assets/strategy-ai.png" alt="">
-              <div class="card__grad"></div>
+            <div class="card-strategy" style="width:320px">
+              <img class="card-strategy__bg" src="assets/strategy-ai.png" alt="">
+              <div class="card-strategy__grad"></div>
               <span class="corner tl"></span><span class="corner br"></span>
-              <div class="card__top"><span class="idx">// 01</span><span class="tag">AI</span></div>
-              <div class="card__foot">
-                <div class="card__title">AI <span class="b">软件及硬件</span></div>
+              <div class="card-strategy__top"><span class="idx">// 01</span><span class="tag">AI</span></div>
+              <div class="card-strategy__foot">
+                <div class="card-strategy__title">AI <span class="b">软件及硬件</span></div>
                 <div class="tags"><div class="tags__inner"><span>基础模型</span><span>垂直应用</span></div></div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- ├─ card-project（现 .pcard）· 有 / 无徽章两态 -->
+        <!-- ├─ card-project · 有 / 无徽章两态 -->
         <div class="spec">
           <div>
-            <div class="spec__class"><span class="cl-branch">├─</span>.card-project<span class="spec__alias">现 .pcard</span></div>
+            <div class="spec__class"><span class="cl-branch">├─</span>.card-project</div>
             <div class="spec__src">components.css</div>
             <div class="spec__desc">被投企业卡，正方 1:1。底图 + 标题 + 可选股票代码徽章（<code>__badge</code>）。hover 上浮、底部霜玻璃块（<code>__plate</code>）由下生长、描述（<code>.d</code>）从 0fr 展开。<b>一条目并列两态</b>：含 / 不含 <code>__badge</code> —— 徽章是可选子元素，由标记是否包含该元素控制（无徽章可加表意修饰符 <code>--no-badge</code> 微调布局），canonical 本就支持，无需改 CSS。</div>
             <div class="spec__meta">
@@ -437,11 +437,11 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
           </div>
           <div class="stage">
             <div class="cl-var">
-              <div class="pcard" style="width:240px">
-                <img class="pcard__bg" src="assets/proj-3817.png" alt="">
-                <div class="pcard__plate"></div>
-                <span class="pcard__badge">688728</span>
-                <div class="pcard__foot">
+              <div class="card-project" style="width:240px">
+                <img class="card-project__bg" src="assets/proj-3817.png" alt="">
+                <div class="card-project__plate"></div>
+                <span class="card-project__badge">688728</span>
+                <div class="card-project__foot">
                   <div class="t">格科微电子</div>
                   <div class="d"><div class="d-inner">CMOS 图像传感器与显示驱动芯片设计</div></div>
                 </div>
@@ -449,10 +449,10 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
               <div class="cl-var__cap">有徽章 · 含 <code>__badge</code></div>
             </div>
             <div class="cl-var">
-              <div class="pcard" style="width:240px">
-                <img class="pcard__bg" src="assets/proj-3817.png" alt="">
-                <div class="pcard__plate"></div>
-                <div class="pcard__foot">
+              <div class="card-project" style="width:240px">
+                <img class="card-project__bg" src="assets/proj-3817.png" alt="">
+                <div class="card-project__plate"></div>
+                <div class="card-project__foot">
                   <div class="t">格科微电子</div>
                   <div class="d"><div class="d-inner">CMOS 图像传感器与显示驱动芯片设计</div></div>
                 </div>
@@ -462,15 +462,15 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
           </div>
         </div>
 
-        <!-- └─ card-award（现 .ticker .tc · 建议并入，待定） -->
+        <!-- └─ card-award · 作用域 .ticker .card-award -->
         <div class="spec">
           <div>
-            <div class="spec__class"><span class="cl-branch">├─</span>.card-award<span class="spec__alias">现 .ticker .tc</span></div>
+            <div class="spec__class"><span class="cl-branch">├─</span>.card-award<span class="spec__alias">作用域 .ticker .card-award</span></div>
             <div class="spec__src">components.css</div>
-            <div class="spec__desc">奖项纯文字卡，340×200。默认浅奶白，hover 翻成 navy 渐变 + 巨型引号点亮。卡片特征明显（边框 / 角标 / hover 抬升），<b>已确认并入 card 家族为 <code>card-award</code></b>；现作用域在 <code>.ticker .tc</code>，改名时一并调整该后代选择器（R3）。单卡预览须包进 <code>.ticker &gt; __track &gt; __group</code>，并给 <code>__track</code> 加 <code>animation:none</code> 让它静止。</div>
+            <div class="spec__desc">奖项纯文字卡，340×200。默认浅奶白，hover 翻成 navy 渐变 + 巨型引号点亮。卡片特征明显（边框 / 角标 / hover 抬升），<b>归入 card 家族为 <code>card-award</code></b>；基础样式作用域在 <code>.ticker .card-award</code>（容器 <code>.ticker</code> 保留原名，为滚动 organism）。单卡预览须包进 <code>.ticker &gt; __track &gt; __group</code>，并给 <code>__track</code> 加 <code>animation:none</code> 让它静止。</div>
             <div class="spec__meta">
               <div class="r"><span class="k">token</span><span class="v"><code>--c-accent</code> · <code>--c-accent-2</code> hover · <code>--ff-ital</code> 引号</span></div>
-              <div class="r"><span class="k">作用域</span><span class="v">现 <code>.ticker .tc</code>，真实使用环境见下方 <code>.ticker</code></span></div>
+              <div class="r"><span class="k">作用域</span><span class="v"><code>.ticker .card-award</code>，真实使用环境见下方 <code>.ticker</code></span></div>
               <div class="r"><span class="k">hover</span><span class="v">浅→深 navy 翻色 · 文字提亮 · 角标隐去</span></div>
             </div>
             <span class="hint">↑ hover 查看 navy 翻色</span>
@@ -479,9 +479,9 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
             <div class="ticker" style="padding:0">
               <div class="ticker__track" style="animation:none">
                 <div class="ticker__group">
-                  <div class="tc"><span class="corner tl"></span><span class="corner br"></span>
-                    <div class="tc__top"><span class="tc__kick">Recognition</span><span class="tc__quote">”</span></div>
-                    <div class="tc__body"><div class="tc__org">甲子光年</div><div class="tc__award">年度硬科技投资机构</div></div>
+                  <div class="card-award"><span class="corner tl"></span><span class="corner br"></span>
+                    <div class="card-award__top"><span class="card-award__kick">Recognition</span><span class="card-award__quote">”</span></div>
+                    <div class="card-award__body"><div class="card-award__org">甲子光年</div><div class="card-award__award">年度硬科技投资机构</div></div>
                   </div>
                 </div>
               </div>
@@ -489,12 +489,12 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
           </div>
         </div>
 
-        <!-- └─ card-location（现 .locard） -->
+        <!-- └─ card-location -->
         <div class="spec">
           <div>
-            <div class="spec__class"><span class="cl-branch">└─</span>.card-location<span class="spec__alias">现 .locard</span></div>
+            <div class="spec__class"><span class="cl-branch">└─</span>.card-location</div>
             <div class="spec__src">components.css</div>
-            <div class="spec__desc">地址定位卡，200×200（footer 用）。默认融入（纯文字 + 顶线），hover 浮出 blur→0 的城市天际线纹理 + 白色 scrim。<b>卡片的一种</b>，归入 card 家族为 <code>card-location</code>（现 <code>.locard</code>，改名见 R3）。<code>--sh</code> / <code>--hk</code> 调整城市纹理对位。</div>
+            <div class="spec__desc">地址定位卡，200×200（footer 用）。默认融入（纯文字 + 顶线），hover 浮出 blur→0 的城市天际线纹理 + 白色 scrim。<b>卡片的一种</b>，归入 card 家族为 <code>card-location</code>。<code>--sh</code> / <code>--hk</code> 调整城市纹理对位。</div>
             <div class="spec__meta">
               <div class="r"><span class="k">资源</span><span class="v"><code>footer-shanghai.jpg</code> · <code>footer-hongkong.jpg</code></span></div>
               <div class="r"><span class="k">子元素</span><span class="v"><code>__tex · __scrim · .city · .addr</code></span></div>
@@ -503,12 +503,12 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
             <span class="hint">↑ hover 查看天际线浮出</span>
           </div>
           <div class="stage stage--photo">
-            <div class="locard locard--sh">
-              <img class="locard__tex" src="assets/footer-shanghai.jpg" alt=""><div class="locard__scrim"></div>
+            <div class="card-location card-location--sh">
+              <img class="card-location__tex" src="assets/footer-shanghai.jpg" alt=""><div class="card-location__scrim"></div>
               <div class="city">上海</div><div class="addr">长宁区番禺路381号<br>幸福里E座5楼</div>
             </div>
-            <div class="locard locard--hk">
-              <img class="locard__tex" src="assets/footer-hongkong.jpg" alt=""><div class="locard__scrim"></div>
+            <div class="card-location card-location--hk">
+              <img class="card-location__tex" src="assets/footer-hongkong.jpg" alt=""><div class="card-location__scrim"></div>
               <div class="city">香港</div><div class="addr">中环花园道三号<br>冠君大厦10楼11室</div>
             </div>
           </div>
@@ -520,9 +520,9 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
     <!-- .ticker -->
     <div class="spec">
       <div>
-        <div class="spec__class">.ticker<span class="spec__alias">含 card-award（现 .tc）</span></div>
+        <div class="spec__class">.ticker<span class="spec__alias">含 card-award</span></div>
         <div class="spec__src">components.css</div>
-        <div class="spec__desc">奖项滚动容器。<code>__track</code> translateX −50% 44s linear 无缝循环（两组 <code>__group</code> 镜像复制），hover 暂停。每张 <code>card-award</code> 各自可 hover navy 翻色。这是 <code>card-award</code>（现 <code>.tc</code>）的真实使用环境。</div>
+        <div class="spec__desc">奖项滚动容器（滚动 organism，名称保留 <code>.ticker</code>，不并入 card 家族）。<code>__track</code> translateX −50% 44s linear 无缝循环（两组 <code>__group</code> 镜像复制），hover 暂停。每张 <code>card-award</code> 各自可 hover navy 翻色。这是 <code>card-award</code> 的真实使用环境。</div>
         <div class="spec__meta">
           <div class="r"><span class="k">token</span><span class="v"><code>--gap</code> 下内距 · <code>--c-accent-2</code></span></div>
           <div class="r"><span class="k">hover</span><span class="v">轨道暂停 + 单卡翻色</span></div>
@@ -533,14 +533,14 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
         <div class="ticker" style="padding:32px 0">
           <div class="ticker__track">
             <div class="ticker__group">
-              <div class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Recognition</span><span class="tc__quote">”</span></div><div class="tc__body"><div class="tc__org">甲子光年</div><div class="tc__award">年度硬科技投资机构</div></div></div>
-              <div class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">”</span></div><div class="tc__body"><div class="tc__org">投中榜</div><div class="tc__award">年度最佳早期投资机构 TOP 30</div></div></div>
-              <div class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Ranking</span><span class="tc__quote">”</span></div><div class="tc__body"><div class="tc__org">清科创投</div><div class="tc__award">中国硬科技投资机构 TOP 50</div></div></div>
+              <div class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Recognition</span><span class="card-award__quote">”</span></div><div class="card-award__body"><div class="card-award__org">甲子光年</div><div class="card-award__award">年度硬科技投资机构</div></div></div>
+              <div class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">”</span></div><div class="card-award__body"><div class="card-award__org">投中榜</div><div class="card-award__award">年度最佳早期投资机构 TOP 30</div></div></div>
+              <div class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Ranking</span><span class="card-award__quote">”</span></div><div class="card-award__body"><div class="card-award__org">清科创投</div><div class="card-award__award">中国硬科技投资机构 TOP 50</div></div></div>
             </div>
             <div class="ticker__group" aria-hidden="true">
-              <div class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Recognition</span><span class="tc__quote">”</span></div><div class="tc__body"><div class="tc__org">甲子光年</div><div class="tc__award">年度硬科技投资机构</div></div></div>
-              <div class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">”</span></div><div class="tc__body"><div class="tc__org">投中榜</div><div class="tc__award">年度最佳早期投资机构 TOP 30</div></div></div>
-              <div class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Ranking</span><span class="tc__quote">”</span></div><div class="tc__body"><div class="tc__org">清科创投</div><div class="tc__award">中国硬科技投资机构 TOP 50</div></div></div>
+              <div class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Recognition</span><span class="card-award__quote">”</span></div><div class="card-award__body"><div class="card-award__org">甲子光年</div><div class="card-award__award">年度硬科技投资机构</div></div></div>
+              <div class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">”</span></div><div class="card-award__body"><div class="card-award__org">投中榜</div><div class="card-award__award">年度最佳早期投资机构 TOP 30</div></div></div>
+              <div class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Ranking</span><span class="card-award__quote">”</span></div><div class="card-award__body"><div class="card-award__org">清科创投</div><div class="card-award__award">中国硬科技投资机构 TOP 50</div></div></div>
             </div>
           </div>
         </div>
@@ -568,10 +568,10 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
       <div>
         <div class="spec__class">.footer（&lt;site-footer&gt;）</div>
         <div class="spec__src">components.css · partials.js</div>
-        <div class="spec__desc">站点页脚全家族：双横线框 + 图底 + 标语 + 社交圆钮 + 双地址卡（locard）+ 分隔线 + logo + 双邮箱胶囊（mailpill）+ ICP。真实结构由 <code>&lt;site-footer&gt;</code> 注入。其 markup 带 <code>data-reveal</code>，因本页不引 site.js，已用作用域覆盖强制显影。</div>
+        <div class="spec__desc">站点页脚全家族：双横线框 + 图底 + 标语 + 社交圆钮 + 双地址卡（card-location）+ 分隔线 + logo + 双邮箱胶囊（mailpill）+ ICP。真实结构由 <code>&lt;site-footer&gt;</code> 注入。其 markup 带 <code>data-reveal</code>，因本页不引 site.js，已用作用域覆盖强制显影。</div>
         <div class="spec__meta">
           <div class="r"><span class="k">资源</span><span class="v"><code>footer-bg.jpg</code> · 城市纹理 · social svg · logo</span></div>
-          <div class="r"><span class="k">组成</span><span class="v">locard · mailpill · footer__social · footer__slogan</span></div>
+          <div class="r"><span class="k">组成</span><span class="v">card-location · mailpill · footer__social · footer__slogan</span></div>
         </div>
         <span class="hint">↑ hover 地址卡 / 社交钮 / 邮箱胶囊各有微交互</span>
       </div>

@@ -171,8 +171,8 @@
 
 - **导航 → V5 浮动胶囊**：`top:14px` 居中、`h:56`、宽 `min(100%,1760)-2*80`；液态玻璃（多重 inset 高光 + 蓝调描边环 `::after`）；向下滚动收起（`.tuck`）、向上回落。
 - **按钮 → 液态玻璃**：白玻璃渐变 + `::before` specular 高光（hover 下滑）+ `::after` 蓝调描边环 + `.dot` 呼吸蓝点光晕；hover 上移 2px / scale 1.015。
-- **奖项（IV.）→ 自动 ticker 文字卡 `.tc`**（替代 6.2 的图片画廊）：浅底卡，hover 翻成深 navy（org 转白、浅蓝 kicker + Instrument 大引号水印）；宽 340 / min-h 200。
-- **代表项目卡 `.pcard` → 正方全出血图**：底部霜玻璃块 hover 从下生长（`clip-path`）+ 蓝/白细线 + 描述展开；标题 22/29。
+- **奖项（IV.）→ 自动 ticker 文字卡 `.card-award`**（作用域 `.ticker .card-award`，替代 6.2 的图片画廊）：浅底卡，hover 翻成深 navy（org 转白、浅蓝 kicker + Instrument 大引号水印）；宽 340 / min-h 200。
+- **代表项目卡 `.card-project` → 正方全出血图**：底部霜玻璃块 hover 从下生长（`clip-path`）+ 蓝/白细线 + 描述展开；标题 22/29。
 - **Footer → B5 融入版**：背景纹理图（去掉旧奶白渐变 `.fade`）；左 serif 标语 + 3 社交圆钮（56）；右 上海/香港**正方地址卡**（默认纯文字 + 顶线，hover 才浮出天际线底图）；分隔线下为 logo（左）+ 项目投递/工作机会 `.mailpill` 玻璃胶囊（右）+ ICP。`min-height:420`（上下间距对称）。
 - **新增 token**：`--c-accent-2:#8db4ff`（玻璃描边环 / 奖项卡 hover，透明度用 `color-mix`）；`--tracking-caption:0.15em`；缓动补 `--ease-soft` / `--ease-io`。
 - **布局 token 正名**：以 `--rail / --page-x / --gap / --maxw` 为准（详见 §四），旧的 `--space-* / --w-* / --s-* / --radius-*` 文档名作废。
@@ -187,7 +187,7 @@
 |------|------|
 | `assets/css/tokens.css` | 设计 token（`:root`） |
 | `assets/css/base.css` | reset + 结构原语（grid / rails / sec-band / section / pagebg）+ `site-nav/footer` 透明包裹 |
-| `assets/css/components.css` | **可复用组件**：nav · btn · card · pcard · ticker/tc · marquee · footer(locard/mailpill) |
+| `assets/css/components.css` | **可复用组件**：nav · btn · card-strategy · card-project · ticker/card-award · marquee · footer(card-location/mailpill) |
 | `assets/css/motion.css` | 动画状态 + reduced-motion + 窄屏兜底（**最后 load**） |
 | `assets/js/site.js` | 通用行为：reveal · count-up · nav-tuck · bgop · p-scroll |
 | `assets/js/partials.js` | `<site-nav>` / `<site-footer>` 自定义元素（**nav/footer markup 单一来源**） |

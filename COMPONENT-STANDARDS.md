@@ -34,7 +34,7 @@
 | 层 | 定义 | 判定标准 | 例 |
 |---|---|---|---|
 | **原子 Atoms** | 不可再分的最小单元 | 不含其它具名组件 | `dot` · `caption` · `corner` · `tag` · `badge` |
-| **分子 Molecules** | 原子组合、可独立使用的小部件 | 含 ≥1 个原子，自身仍单一职责 | `btn`(含 dot) · `mailpill`(含 dot) · `sec-band`(含 corner+sec-head) · `locard` · `marquee` |
+| **分子 Molecules** | 原子组合、可独立使用的小部件 | 含 ≥1 个原子，自身仍单一职责 | `btn`(含 dot) · `mailpill`(含 dot) · `sec-band`(含 corner+sec-head) · `marquee` |
 | **复合 Composites** | 分子/原子拼装的完整功能块 | 构成一个独立区段或卡片 | `card-*` 家族 · `ticker` · `nav` · `footer` |
 | **布局骨架 Layout** | 页面级结构原语，非可见 UI | 容器 / 网格 / 背景层 | `page` · `grid-overlay` · `rails-top` · `section` · `pagebg` |
 
@@ -54,15 +54,15 @@
 
 ```
 card-                     ← 家族（卡片）
-├─ card-strategy          投资方向/策略卡（现 .card：378 高、渐变带、角标）
+├─ card-strategy          投资方向/策略卡（378 高、渐变带、角标）
 │   ├─ __bg __grad __top __foot __title
 │   └─ （tags 在 hover 展开）
-├─ card-project           被投企业卡（现 .pcard：正方 1:1、霜玻璃 plate）
+├─ card-project           被投企业卡（正方 1:1、霜玻璃 plate）
 │   ├─ __bg __plate __badge __foot(.t/.d)
 │   └─ --no-badge         无徽章变体  ← 见 §四.2
-├─ card-award             奖项文字卡（现 .ticker .tc：navy 翻色）
+├─ card-award             奖项文字卡（navy 翻色；作用域 .ticker .card-award）
 │   └─ __kick __quote __org __award
-└─ card-location          地址定位卡（现 .locard：200²、hover 浮出天际线）
+└─ card-location          地址定位卡（200²、hover 浮出天际线；footer 用）
     ├─ __tex __scrim .city .addr
     └─ --sh / --hk         城市纹理对位变体
 
@@ -92,10 +92,10 @@ dot
 - 若「无徽章」需要布局微调（如标题上移），加表意修饰符 `card-project--no-badge`（肯定式命名，避免双重否定）。
 - **组件库呈现**：`card-project` 条目同时展示「**有徽章 / 无徽章**」两态。
 
-### 4.3 card 家族：card / pcard / tc / locard 统一前缀
+### 4.3 card 家族：strategy / project / award / location 统一前缀
 - 四者**解剖结构各异**（策略卡矩形+渐变带 · 项目卡正方+霜玻璃 plate · 奖项卡文字翻色 · 地址卡 200² 天际线）→ 按法则各为**独立组件**，但**同属 `card-` 家族**，用前缀体现「文件树」层级（见 §3.2）。
-- 成员定名（已确认）：`.card → card-strategy` · `.pcard → card-project` · **`.ticker .tc → card-award`**（✅ 已确认并入）· **`.locard → card-location`**（✅ 卡片的一种，并入）。
-- `card-award` / `card-location` 改名时需一并调整其现作用域（`.ticker .tc` 后代选择器、`.locard` 的 footer 用法），属 R3。
+- 成员定名（✅ R3 已落地 2026-06-22）：`.card → .card-strategy` · `.pcard → .card-project` · `.ticker .tc → .card-award` · `.locard → .card-location`。canonical + 全部 5 页 + partials.js + 2 预览页均已改名。
+- 边界：奖项卡的滚动容器 `.ticker`（及 `__track`/`__group`）**保留原名**——它是与 `.marquee` 同级的滚动 organism，非卡片本体；基础样式作用域随之为 `.card-award`（含 `.ticker .card-award` 后代选择器）。容器 `.cards`（策略卡网格）同样保留，非家族成员。
 
 ---
 
@@ -142,7 +142,7 @@ dot
 3. **R2 · 配方去重（改共享层 + 各页标记）**：
    - **R2a · dot--live 单一来源（✅ 已完成 2026-06-22）**：halo 提到 `components.css` 的 `.dot--live::before`（+ 深底变体 `.dot--live--on-dark` 把光晕核心改白），删除 `.btn .dot::before`；homepage 与 4 子页移除内联 fork，btn / eyebrow 改组合 `class="dot dot--live"`。7 页 + 2 预览页回归通过、行为保持。
    - **R2b · glass 去重（✅ 已完成 2026-06-22，范围收敛）**：audit 推翻「glass 是一份被抄多次的配方」——**只有 btn/nav 的 `::after` 描边环逐字相同**。故仅提取 `.glass-ring`（btn/nav 组合 `class="… glass-ring"`，删除两处 `::after`）+ token 化 `--glass-feel`（saturate/brightness，btn/nav 共享）。btn/nav 玻璃**主体**（blur 10/16、底色、阴影）与 3 个简易磨砂胶囊（nav__lang/mailpill/footer__social，底色 alpha .55/.45/.05）是**按场景有意调过的不同设计、非重复**，保持不动（强行归一属设计改动，已与 Vera 确认不做）。
-4. **R3 · 家族改名（改共享层 + 各页标记）**：`.card→.card-strategy`、`.pcard→.card-project`、（待定 `.tc→.card-award`）。**大范围替换**，需备份 + 全页回归 + 单独 PR 留痕。
+4. **R3 · 家族改名（✅ 已完成 2026-06-22）**：`.card→.card-strategy`、`.pcard→.card-project`、`.ticker .tc→.card-award`、`.locard→.card-location`。改前 `cp` 备份（`backup/*.backup-2026-06-22-r3*`）；Python 脚本按 `pcard→locard→tc→card` 安全顺序前缀替换，负向断言保护 `.cards` 容器与 team 灯箱 JS 变量 `var card`（避免误伤），`.ticker`/`.marquee` 保留。components.css · motion.css · partials.js · 5 生产页 · 2 预览页全改；7 页 headless 回归 console-clean、DOM 零旧 class、新类 computed style 命中。
 
 > R2 / R3 触及共享层与生产页，须经 Vera 明确批准后单独执行，每轮以本文 §七 清单验收。
 

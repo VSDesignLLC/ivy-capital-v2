@@ -59,17 +59,17 @@
   .hax__axis::before{ animation:none; opacity:1; }
 }
 
-/* ---------- 团队成员网格（pcard 磨砂卡 · V1 渐变常驻 + 36% 磨砂高度） ---------- */
+/* ---------- 团队成员网格（card-project 磨砂卡 · V1 渐变常驻 + 36% 磨砂高度） ---------- */
 .team-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:56px; }
-/* 沿用 components.css 的 .pcard（图 + plate 磨砂 + hover lift/zoom/reveal）；以下为团队版定制：
+/* 沿用 components.css 的 .card-project（图 + plate 磨砂 + hover lift/zoom/reveal）；以下为团队版定制：
    姓名+职位常显 + 底部常驻奶白渐变；磨砂 plate 高度收到 36%（贴合文字，仅 hover 时升起） */
-.team-grid .pcard__foot{ gap:4px; padding-top:60px;
+.team-grid .card-project__foot{ gap:4px; padding-top:60px;
   background:linear-gradient(180deg, rgba(var(--c-bg-rgb),0) 0%, rgba(var(--c-bg-rgb),.55) 42%, rgba(var(--c-bg-rgb),.96) 100%); }
-.team-grid .pcard:hover .pcard__foot{ gap:6px; }
-.team-grid .pcard__foot .t{ color:var(--c-ink); text-shadow:0 0 10px rgba(var(--c-bg-rgb),.7); }
-.team-grid .pcard__foot .d{ grid-template-rows:1fr; opacity:1; transform:none; color:var(--c-slate); }
-.team-grid .pcard__plate{ height:36%; }
-.team-grid .pcard{ cursor:pointer; }
+.team-grid .card-project:hover .card-project__foot{ gap:6px; }
+.team-grid .card-project__foot .t{ color:var(--c-ink); text-shadow:0 0 10px rgba(var(--c-bg-rgb),.7); }
+.team-grid .card-project__foot .d{ grid-template-rows:1fr; opacity:1; transform:none; color:var(--c-slate); }
+.team-grid .card-project__plate{ height:36%; }
+.team-grid .card-project{ cursor:pointer; }
 
 /* ---------- 成员详情弹窗 lightbox（点击卡片打开 · 锁浅色 · 柔和投影 e-soft） ---------- */
 .lb{ position:fixed; inset:0; z-index:200; visibility:hidden; opacity:0;
@@ -163,14 +163,14 @@
       </div>
     </div>
     <div class="team-grid">
-      <article class="pcard" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">创始合伙人</span></span></div></article>
-      <article class="pcard" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:70ms"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">管理合伙人</span></span></div></article>
-      <article class="pcard" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:140ms"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">合伙人</span></span></div></article>
-      <article class="pcard" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:210ms"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">董事总经理</span></span></div></article>
-      <article class="pcard" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资总监</span></span></div></article>
-      <article class="pcard" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:70ms"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资副总裁</span></span></div></article>
-      <article class="pcard" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:140ms"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资经理</span></span></div></article>
-      <article class="pcard" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:210ms"><img class="pcard__bg" src="assets/team-placeholder.png" alt=""><div class="pcard__plate"></div><div class="pcard__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资分析师</span></span></div></article>
+      <article class="card-project" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）"><img class="card-project__bg" src="assets/team-placeholder.png" alt=""><div class="card-project__plate"></div><div class="card-project__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">创始合伙人</span></span></div></article>
+      <article class="card-project" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:70ms"><img class="card-project__bg" src="assets/team-placeholder.png" alt=""><div class="card-project__plate"></div><div class="card-project__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">管理合伙人</span></span></div></article>
+      <article class="card-project" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:140ms"><img class="card-project__bg" src="assets/team-placeholder.png" alt=""><div class="card-project__plate"></div><div class="card-project__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">合伙人</span></span></div></article>
+      <article class="card-project" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:210ms"><img class="card-project__bg" src="assets/team-placeholder.png" alt=""><div class="card-project__plate"></div><div class="card-project__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">董事总经理</span></span></div></article>
+      <article class="card-project" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）"><img class="card-project__bg" src="assets/team-placeholder.png" alt=""><div class="card-project__plate"></div><div class="card-project__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资总监</span></span></div></article>
+      <article class="card-project" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:70ms"><img class="card-project__bg" src="assets/team-placeholder.png" alt=""><div class="card-project__plate"></div><div class="card-project__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资副总裁</span></span></div></article>
+      <article class="card-project" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:140ms"><img class="card-project__bg" src="assets/team-placeholder.png" alt=""><div class="card-project__plate"></div><div class="card-project__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资经理</span></span></div></article>
+      <article class="card-project" data-reveal data-bio="成员简介待补充。资料文档就位后，将在此呈现该成员的履历背景、专业领域与代表性参与项目。（占位文案，不代表真实信息。）" style="--d:210ms"><img class="card-project__bg" src="assets/team-placeholder.png" alt=""><div class="card-project__plate"></div><div class="card-project__foot"><span class="t">成员姓名</span><span class="d"><span class="d-inner">投资分析师</span></span></div></article>
     </div>
   </section>
 
@@ -220,12 +220,12 @@
         nameEl = document.getElementById('lbName'),
         roleEl = document.getElementById('lbRole'),
         bioEl  = document.getElementById('lbBio');
-    var cards = [].slice.call(document.querySelectorAll('.team-grid .pcard'));
+    var cards = [].slice.call(document.querySelectorAll('.team-grid .card-project'));
     if(!cards.length) return;
     var members = cards.map(function(c){
-      var t = c.querySelector('.pcard__foot .t'),
-          d = c.querySelector('.pcard__foot .d-inner'),
-          bg = c.querySelector('.pcard__bg');
+      var t = c.querySelector('.card-project__foot .t'),
+          d = c.querySelector('.card-project__foot .d-inner'),
+          bg = c.querySelector('.card-project__bg');
       return {
         name: t ? t.textContent : '',
         role: d ? d.textContent : '',

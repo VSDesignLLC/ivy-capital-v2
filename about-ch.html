@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="assets/css/components.css" />
 <style>
 /* ============================================================ ABOUT 页专属布局
-   复用共享层组件 (sec-band/sec-box · ticker/tc · rails · grid)。
+   复用共享层组件 (sec-band/sec-box · ticker/card-award · rails · grid)。
    文案严格取自飞书《2026官网内容》Page2 关于我们，未增删自创文字。 */
 
 #directions, #philosophy, #empower{ padding-bottom:var(--gap); }
@@ -52,7 +52,7 @@
   .hax__axis::before{ animation:none; opacity:1; }
 }
 
-/* ---------- I. 投资方向 — 复用首页 .cards/.card 组件 + gutter 竖线 ---------- */
+/* ---------- I. 投资方向 — 复用首页 .cards/.card-strategy 组件 + gutter 竖线 ---------- */
 .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; padding-top:56px; }
 
 /* ---------- II. 投资哲学 · IVY — 整行 hover 揭示（C3 终版：混合图 + 逐行揭示） ---------- */
@@ -112,11 +112,11 @@
   .phil .row-idx{ display:none; }
 }
 
-/* ---------- III. 行业认可 — 复用 .ticker / .tc + 段落（同首页 .intro p-scroll） ---------- */
+/* ---------- III. 行业认可 — 复用 .ticker / .card-award + 段落（同首页 .intro p-scroll） ---------- */
 .recog-intro{ padding-top:40px; }
 #recognition .ticker{ padding-top:56px; }
 
-/* ---------- IV. 投后赋能 — image-top 卡，hover 整图铺满全卡 + 文字白磨砂托底（chrome 对齐 component .card） ---------- */
+/* ---------- IV. 投后赋能 — image-top 卡，hover 整图铺满全卡 + 文字白磨砂托底（chrome 对齐 component .card-strategy） ---------- */
 /* align-items:start + 统一 min-height：静态三卡等高；hover 时被 hover 的卡独自长高，
    兄弟卡停在 min-height 不被拉伸 → 背景图不再随兄弟卡高度变化重裁（消除「联动放大」） */
 .empower{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; align-items:start; margin-top:56px; }
@@ -135,7 +135,7 @@
   background:linear-gradient(180deg, rgba(var(--c-ink-rgb),.18) 0%, rgba(var(--c-ink-rgb),0) 38%,
     rgba(var(--c-bg-rgb),0) 72%, rgba(var(--c-bg-rgb),1) 100%); transition:opacity .6s var(--ease-soft); }
 .ecard:hover .ecard__media::after{ opacity:0; }
-/* idx 与角标的位置关系对齐 homepage .card：角标 12px、// 01 退到 30px 内容线 */
+/* idx 与角标的位置关系对齐 homepage .card-strategy：角标 12px、// 01 退到 30px 内容线 */
 .ecard__idx{ position:absolute; left:30px; top:30px; z-index:3; font-family:var(--ff-mono);
   font-size:12px; letter-spacing:.12em; color:#fff; text-shadow:0 1px 6px rgba(var(--c-ink-rgb),.5); }
 .ecard .corner{ position:absolute; width:14px; height:14px; opacity:.4; z-index:2; }
@@ -222,25 +222,25 @@
       <span class="vline" data-v="d1"></span><span class="vline" data-v="d2"></span>
     </div>
     <div class="cards">
-      <article class="card" data-reveal>
-        <img class="card__bg" src="assets/strategy-flow.png" alt="" /><div class="card__grad"></div>
+      <article class="card-strategy" data-reveal>
+        <img class="card-strategy__bg" src="assets/strategy-flow.png" alt="" /><div class="card-strategy__grad"></div>
         <span class="corner tl"></span><span class="corner br"></span>
-        <div class="card__top"><span class="idx">// 01</span><span class="tag">AI</span></div>
-        <div class="card__foot"><h3 class="card__title">AI&nbsp;&nbsp;<span class="b">软件及硬件</span></h3>
+        <div class="card-strategy__top"><span class="idx">// 01</span><span class="tag">AI</span></div>
+        <div class="card-strategy__foot"><h3 class="card-strategy__title">AI&nbsp;&nbsp;<span class="b">软件及硬件</span></h3>
           <div class="tags"><div class="tags__inner"><span>基础模型</span><span>垂直应用</span><span>端侧硬件</span></div></div></div>
       </article>
-      <article class="card" data-reveal style="--d:90ms">
-        <img class="card__bg" src="assets/strategy-flow.png" alt="" /><div class="card__grad"></div>
+      <article class="card-strategy" data-reveal style="--d:90ms">
+        <img class="card-strategy__bg" src="assets/strategy-flow.png" alt="" /><div class="card-strategy__grad"></div>
         <span class="corner tl"></span><span class="corner br"></span>
-        <div class="card__top"><span class="idx">// 02</span><span class="tag">芯片半导体</span></div>
-        <div class="card__foot"><h3 class="card__title">芯片与<span class="b">半导体</span></h3>
+        <div class="card-strategy__top"><span class="idx">// 02</span><span class="tag">芯片半导体</span></div>
+        <div class="card-strategy__foot"><h3 class="card-strategy__title">芯片与<span class="b">半导体</span></h3>
           <div class="tags"><div class="tags__inner"><span>算力</span><span>传感</span><span>材料</span></div></div></div>
       </article>
-      <article class="card" data-reveal style="--d:180ms">
-        <img class="card__bg" src="assets/strategy-flow.png" alt="" /><div class="card__grad"></div>
+      <article class="card-strategy" data-reveal style="--d:180ms">
+        <img class="card-strategy__bg" src="assets/strategy-flow.png" alt="" /><div class="card-strategy__grad"></div>
         <span class="corner tl"></span><span class="corner br"></span>
-        <div class="card__top"><span class="idx">// 03</span><span class="tag">智能制造</span></div>
-        <div class="card__foot"><h3 class="card__title">智能<span class="b">制造</span></h3>
+        <div class="card-strategy__top"><span class="idx">// 03</span><span class="tag">智能制造</span></div>
+        <div class="card-strategy__foot"><h3 class="card-strategy__title">智能<span class="b">制造</span></h3>
           <div class="tags"><div class="tags__inner"><span>机器人</span><span>自动化</span><span>具身智能</span></div></div></div>
       </article>
     </div>
@@ -303,18 +303,18 @@
     <div class="ticker">
       <div class="ticker__track">
         <div class="ticker__group">
-          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">清科</h3><p class="tc__award">中国创业投资机构50强</p></div></article>
-          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">投中</h3><p class="tc__award">最佳创业投资机构TOP100</p></div></article>
-          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">融资中国</h3><p class="tc__award">年度中国最佳创业投资机构50强</p></div></article>
-          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">LP智库</h3><p class="tc__award">“真金白银退出榜”VC机构TOP50</p></div></article>
-          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">甲子光年</h3><p class="tc__award">最佳硬科技投资机构TOP30</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">清科</h3><p class="card-award__award">中国创业投资机构50强</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">投中</h3><p class="card-award__award">最佳创业投资机构TOP100</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">融资中国</h3><p class="card-award__award">年度中国最佳创业投资机构50强</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">LP智库</h3><p class="card-award__award">“真金白银退出榜”VC机构TOP50</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">甲子光年</h3><p class="card-award__award">最佳硬科技投资机构TOP30</p></div></article>
         </div>
         <div class="ticker__group" aria-hidden="true">
-          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">清科</h3><p class="tc__award">中国创业投资机构50强</p></div></article>
-          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">投中</h3><p class="tc__award">最佳创业投资机构TOP100</p></div></article>
-          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">融资中国</h3><p class="tc__award">年度中国最佳创业投资机构50强</p></div></article>
-          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">LP智库</h3><p class="tc__award">“真金白银退出榜”VC机构TOP50</p></div></article>
-          <article class="tc"><span class="corner tl"></span><span class="corner br"></span><div class="tc__top"><span class="tc__kick">Award</span><span class="tc__quote">&rdquo;</span></div><div class="tc__body"><h3 class="tc__org">甲子光年</h3><p class="tc__award">最佳硬科技投资机构TOP30</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">清科</h3><p class="card-award__award">中国创业投资机构50强</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">投中</h3><p class="card-award__award">最佳创业投资机构TOP100</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">融资中国</h3><p class="card-award__award">年度中国最佳创业投资机构50强</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">LP智库</h3><p class="card-award__award">“真金白银退出榜”VC机构TOP50</p></div></article>
+          <article class="card-award"><span class="corner tl"></span><span class="corner br"></span><div class="card-award__top"><span class="card-award__kick">Award</span><span class="card-award__quote">&rdquo;</span></div><div class="card-award__body"><h3 class="card-award__org">甲子光年</h3><p class="card-award__award">最佳硬科技投资机构TOP30</p></div></article>
         </div>
       </div>
     </div>
@@ -395,7 +395,7 @@
 /* I. 投资方向：在 3 张卡的两个 gutter 居中画竖线，线高=卡高（复用首页 gutter 逻辑的本地版） */
 (function(){
   var sec=document.getElementById('directions'); if(!sec) return;
-  var cards=sec.querySelectorAll('.card'), lines=sec.querySelectorAll('#dirgrid .vline');
+  var cards=sec.querySelectorAll('.card-strategy'), lines=sec.querySelectorAll('#dirgrid .vline');
   if(cards.length<3 || lines.length<2) return;
   function layout(){
     var sb=sec.getBoundingClientRect();
