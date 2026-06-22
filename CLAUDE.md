@@ -8,7 +8,7 @@
 - **共享层 = 组件/样式/行为的唯一事实源,改组件改这里,不要在单页里复制**:
   - `assets/css/tokens.css` — 设计 token(`:root`)
   - `assets/css/base.css` — reset + 结构原语(grid/rails/sec-band/section/pagebg)+ `site-nav/footer` 透明包裹
-  - `assets/css/components.css` — 可复用组件:nav · btn · card · pcard · ticker/tc · marquee · footer(locard/mailpill)
+  - `assets/css/components.css` — 可复用组件:nav · btn · card-strategy · card-project · ticker/card-award · marquee · footer(card-location/mailpill)
   - `assets/css/motion.css` — 动画状态 + reduced-motion + 窄屏兜底(**必须最后 load**,覆盖前面)
   - `assets/js/site.js` — 通用行为:reveal · count-up · nav-tuck · bgop · p-scroll(靠 data-attr/class 钩子,缺元素自动跳过)
   - `assets/js/partials.js` — `<site-nav>` / `<site-footer>` 自定义元素,**nav/footer 的 markup 也单一来源**(头部同步 load)
@@ -22,11 +22,15 @@
 
 1. **fork subagent 写候选**:一个 section / 一种样式 = 一个或多个 `tests/<name>.html`。
    需要多方案对比时,并行 fork 多个 subagent 各写一版,放进 `tests/`。
-2. **主 agent 视觉审核**:候选写完后主 agent 自己先用 headless 截图过一遍
-   (布局对不对、有没有 console error、动效是否如预期),再交给 Vera 在
-   `localhost:8765` 上肉眼挑选。不要把没自检过的页面直接丢给用户。
+   - **测样式只放 2-3 张代表卡,别把整套数据(如 16 家)重复写一遍**——看效果用最短 + 最长 + 中等
+     各一张即可(覆盖极端),省 token 省时间。整页满数据留到选定整页 `final` / 写回生产再铺。
+2. **写完即给 Vera 看,不做重质检**:**测试阶段不跑 headless 截图自检**(逐版起浏览器 / hover 截图
+   极慢、串行无回报,得不偿失)。候选写完直接 `open` 到 Vera 浏览器里肉眼挑选(见「测试页约定」末条)。
+   subagent 自检也压到最轻:最多一张全页截图 + 看 console,**不要逐卡 hover 截图**;hover 之类的动效
+   验证由 Vera 肉眼过。
 3. **Vera 选定后才落地**:把中选版本的样式 / 标记**精确**写进主文件,
    只动被点名的部分,其他一律不碰("仅替换 X,其他都不要改动"是默认纪律)。
+   **质检(headless 截图 / console / 动效核对)只在这个写回生产阶段做**——上线前必须过。
 
 ## 测试页约定（Vera 偏好）
 
@@ -36,10 +40,14 @@
   - 页面 slug:`home` / `about` / `team` / `portfolio` / `news` / `ds`(design-system)。
   - section:区块或组件短名,如 `hero` / `cardgrid` / `membercard` / `popupcard`。
   - 类型:单个候选 `v1`/`v2`(或具体名如 `axis`)· 一轮横向对比 `compare` · 纵向迭代 `log` · 选定整页 `final`。
-- **归档文件夹 = `tests/<YYYYMMDD>-<批次>/`**(无空格,如 `tests/20260616-portfolio/`):
-  一轮迭代的所有单步探讨文件都丢这里。**文件夹内文件统一 `<base href="../../">`**(指回项目根,否则
-  CSS / 图片资源断链)。跨页面的迭代允许混前缀(文件名各自保留真实页面/section,文件夹名只标这批"为谁做")。
-- **日期只放在文件夹名上**;单步文件不带日期。**例外:迭代 log** 带日期标签(见下)。
+- **归档结构 = `tests/<日期>/<page-section 或 component>/`(两层)**:
+  - **每日新建当日日期文件夹**(短日期,如 `tests/0618/`);
+  - **在当日日期文件夹下,按 `page-section` 或 `component` 再开子文件夹**(如 `tests/0618/footer/`、
+    `tests/0618/portfolio-cardgrid/`),把这批测试文件放进去。
+  - **这层文件统一 `<base href="../../../">`**(比单层归档深一级,指回项目根,否则 CSS / 图片资源断链)。
+  - 跨页面的迭代允许混前缀(文件名各自保留真实页面/section,子文件夹名只标这批"为谁做")。
+  - (历史:更早的批次用过单层 `tests/<YYYYMMDD>-<批次>/` 或 `tests/0616 subpages/`,沿用即可,新批次按上面两层结构。)
+- **日期只放在当日日期文件夹名上**;单步文件不带日期。**例外:迭代 log** 带日期标签(见下)。
 
 ### 两种测试页
 
@@ -49,6 +57,12 @@
     最轻、滚动顺滑、和 Vera 习惯一致。
   - **仅当候选是「结构各异的整页」**(各有自己的 nav / 全屏背景 / 独立 `<style>`,直接合并会选择器串味)
     才退而用 **iframe 堆叠 + 标签**;或先把各版 CSS 命名空间化后再内联。
+  - **⚠ 反模式:按组件层级决定能否「横向并列」(side-by-side 同屏分栏)**。组件分四层:
+    **atom · molecules · composites · layout**(四层定义由另一 session 在本文件维护)。
+    - **atom / molecules** 层(小颗粒:按钮 / pill / 卡片 / 小组件):**在对宽度无需求是可以**横向并列对比。
+    - **composites & layout** 层(hero / section / 整页布局):**绝不可**横向并列。这类设计在生产里
+      **需要足够宽度**才成立,半宽 / 分栏下看不出真实效果 → **测试无效**。必须**纵向堆叠、每版占满生产宽度**测。
+    - 拿不准就**纵向堆叠满宽**——最保守、永远有效。(极简记法:**test 不可横向并列,宁可全部纵向**。)
 - **纵向迭代 log(跨多轮的全过程记录)**:**由 Vera 主动触发**,主要用于**和客户沟通来龙去脉**——所以**只做
   html(最直观),不另写 md**。
   - 文件名 `<页面>-<section>-log-<YYYYMMDD>.html`,**留在 `tests/` 根**(客户看的主入口)。
@@ -57,9 +71,9 @@
     「单独打开 ↗」链接 + 说明〔含 Vera 反馈〕+ **iframe 嵌入当批归档页**)→ footer 落地说明 + 归档位置。
   - 单步探讨页归档进当批 `tests/<日期>-<批次>/`;**选定整页 `<页面>-<section>-final.html`** 也归档其中,
     被 log 的 ★ 段 iframe 嵌入。
-- **写完测试 html → 直接在浏览器打开**:每次生成 / 更新测试页后,主 agent 自检截图通过,
-  就用 `open http://localhost:8765/<path>`(服务未起先 `python3 -m http.server 8765`)
-  直接在 Vera 的浏览器里打开,不用她手动点链接。
+- **写完测试 html → 直接在浏览器打开**:每次生成 / 更新测试页后,**不做 headless 自检**(理由见三步法第 2 步),
+  直接用 `open http://localhost:8765/<path>`(服务未起先 `python3 -m http.server 8765`)
+  在 Vera 的浏览器里打开,不用她手动点链接。质检留到写回生产阶段。
 
 ## 改主文件前
 
@@ -86,6 +100,10 @@
   文件夹的文件,**与 push 无关**(push 只往远端同步)。
 - **同一文件夹下别让两个 session 同时改同一个文件**:磁盘是后写覆盖先写、无冲突提示。
   多 session 并行时**分工改不同文件**,或同一时间只一个动手。需要真正隔离再用 `git worktree`。
+- **角色分工(测试 vs 写回)**:测试 session 只在 `tests/` 产候选,**不碰生产页 / 共享层**;
+  写回由单独 session 做。角色每次由 Vera 按 session 指派,以当前 session 的明确指令为准。
+- **交付降漂移**:测试 session 交「生产形态、可直接复制的 snippet」(真路径 / 真 class 名,不带演示脚手架),
+  并用**唯一字符串 find→replace(或直接 diff)当锚,不用行号**;写回前先 re-audit,匹配不上就停、别盲改。
 - **基于队友分支做迭代**:不要直接在队友分支上改。从远端分支开自己的新分支:
   `git switch -c <我的分支> origin/<队友分支>`,然后 `git branch --unset-upstream`
   防止普通 `git push` 误推到队友分支。第一次推送用 `git push -u origin <我的分支>`。
