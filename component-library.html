@@ -274,7 +274,7 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
       <div>
         <div class="spec__class">.btn（含 .dot）</div>
         <div class="spec__src">components.css</div>
-        <div class="spec__desc">液态玻璃胶囊按钮，半径 999、18px、内含呼吸蓝点（dot-halo 光晕在此能动）。多层 inset 高光 + 蓝调描边环（::after mask）+ 镜面高光（::before）。</div>
+        <div class="spec__desc">液态玻璃胶囊按钮，半径 999、18px、内含呼吸蓝点（组合 <code>.dot--live</code>）。多层 inset 高光 + 蓝调描边环（组合 <code>.glass-ring</code>，与 nav 共用单一来源）+ 镜面高光（::before）。质感滤镜 <code>--glass-feel</code> 与 nav 共享。</div>
         <div class="spec__meta">
           <div class="r"><span class="k">token</span><span class="v"><code>--c-accent</code> · <code>--c-accent-2</code> 描边环 · <code>--ease</code></span></div>
           <div class="r"><span class="k">hover</span><span class="v">translateY -2px scale 1.015 · 蓝点放大发光 · 高光下滑</span></div>
@@ -282,7 +282,7 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
         <span class="hint">↑ hover 查看上浮 + 发光</span>
       </div>
       <div class="stage stage--photo">
-        <button class="btn"><span class="dot dot--live"></span>了解更多</button>
+        <button class="btn glass-ring"><span class="dot dot--live"></span>了解更多</button>
       </div>
     </div>
 
@@ -552,7 +552,7 @@ footer.cl-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
       <div>
         <div class="spec__class">.nav（&lt;site-nav&gt;）</div>
         <div class="spec__src">components.css · partials.js</div>
-        <div class="spec__desc">浮动胶囊导航，满宽、高 56、液态玻璃 + 蓝调描边环。真实结构由 <code>&lt;site-nav&gt;</code> 注入（logo / 链接 / 语言切换）。生产里 <code>position:fixed</code> + 滚动收起（site.js 的 nav-tuck，本页不引）；舞台用 <code>.navstage</code> 作用域改回 static 以便预览。</div>
+        <div class="spec__desc">浮动胶囊导航，满宽、高 56、液态玻璃 + 蓝调描边环（组合 <code>.glass-ring</code>，与 btn 共用单一来源；质感滤镜 <code>--glass-feel</code> 共享）。真实结构由 <code>&lt;site-nav&gt;</code> 注入（logo / 链接 / 语言切换）。生产里 <code>position:fixed</code> + 滚动收起（site.js 的 nav-tuck，本页不引）；舞台用 <code>.navstage</code> 作用域改回 static 以便预览。</div>
         <div class="spec__meta">
           <div class="r"><span class="k">token</span><span class="v"><code>--maxw</code> · <code>--page-x</code> · <code>--c-accent-2</code> 描边环</span></div>
           <div class="r"><span class="k">hover</span><span class="v">链接下划线展开 · 当前页 <code>.active</code> 常亮</span></div>

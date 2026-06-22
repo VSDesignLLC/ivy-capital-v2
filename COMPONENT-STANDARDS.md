@@ -104,8 +104,8 @@ dot
 这是组件库可维护性的核心，也是命名/变体的底层目的：
 
 - **值层面**已由 token 实现（改 `--c-accent` → 全站同步）。
-- **配方层面**（多属性打包，如「液态玻璃」「呼吸点」）必须**提成原子并被组合**，不在各组件里重抄。当前重复：液态玻璃配方在 `.btn` 与 `.nav` 各写一份完整、`.mailpill`/`.nav__lang`/`.footer__social` 各半份；呼吸点 fork 两份（见 §4.1）。
-- **目标**：起步提取 `.glass` / `.glass-ring` / `.dot--live` 三个配方原子，组件在标记里组合它们；每实例差异用 CSS 变量（如 `--gl-blur`）调，不破坏单一来源。
+- **配方层面**（多属性打包）凡**真重复**必须提成原子并被组合，不在各组件里重抄。已落地：呼吸点 → `.dot--live`（R2a）；玻璃描边环 → `.glass-ring`、玻璃质感滤镜 → `--glass-feel` token（R2b）；组件在 markup 里组合（`class="dot dot--live"` / `"btn glass-ring"` / `"nav glass-ring"`）。
+- **重要校正（R2b audit）**：去重前必先 audit「是否真重复」。本项目玻璃「主体」（btn vs nav 的 blur/底色/阴影）与 3 个简易磨砂胶囊**并非重复，而是按场景有意调的不同设计** → 不强行归一（属设计改动而非重构）。每实例的合理差异（blur 半径等）保留自定，不破坏单一来源。
 - **物理顺序不动**：`components.css` 的书写顺序保持现状（层叠安全）；分层只体现在**命名 + 组件库分区 + 本文档**，不靠重排文件。
 
 ---
@@ -141,7 +141,7 @@ dot
 2. **R1 · 库内对齐（仅改预览页）**：按 §六 把 dot/dot--live、card-project 有/无徽章并条目；标注家族前缀；不动 canonical。**先做、低风险**。
 3. **R2 · 配方去重（改共享层 + 各页标记）**：
    - **R2a · dot--live 单一来源（✅ 已完成 2026-06-22）**：halo 提到 `components.css` 的 `.dot--live::before`（+ 深底变体 `.dot--live--on-dark` 把光晕核心改白），删除 `.btn .dot::before`；homepage 与 4 子页移除内联 fork，btn / eyebrow 改组合 `class="dot dot--live"`。7 页 + 2 预览页回归通过、行为保持。
-   - **R2b · glass 去重（待做）**：提取 `.glass`/`.glass-ring`，btn/nav/mailpill/nav__lang/footer__social 改组合，每实例 blur 用 `--gl-blur` 变量调。
+   - **R2b · glass 去重（✅ 已完成 2026-06-22，范围收敛）**：audit 推翻「glass 是一份被抄多次的配方」——**只有 btn/nav 的 `::after` 描边环逐字相同**。故仅提取 `.glass-ring`（btn/nav 组合 `class="… glass-ring"`，删除两处 `::after`）+ token 化 `--glass-feel`（saturate/brightness，btn/nav 共享）。btn/nav 玻璃**主体**（blur 10/16、底色、阴影）与 3 个简易磨砂胶囊（nav__lang/mailpill/footer__social，底色 alpha .55/.45/.05）是**按场景有意调过的不同设计、非重复**，保持不动（强行归一属设计改动，已与 Vera 确认不做）。
 4. **R3 · 家族改名（改共享层 + 各页标记）**：`.card→.card-strategy`、`.pcard→.card-project`、（待定 `.tc→.card-award`）。**大范围替换**，需备份 + 全页回归 + 单独 PR 留痕。
 
 > R2 / R3 触及共享层与生产页，须经 Vera 明确批准后单独执行，每轮以本文 §七 清单验收。
