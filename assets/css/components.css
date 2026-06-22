@@ -254,7 +254,7 @@ html[lang="en"] .nav__lang .en{ color:#000; }
 /* 正方定位卡 — 默认融入(纯文字+顶线)，hover 浮出 blur0 天际线 */
 .footer__locs{ display:flex; gap:20px; flex:none; align-items:flex-start; }
 .card-location{ position:relative; width:200px; height:200px; overflow:hidden; border-radius:0;
-  padding:17px 25px; gap:16px; display:flex; flex-direction:column; justify-content:flex-start;
+  padding:17px 18px; gap:16px; display:flex; flex-direction:column; justify-content:flex-start;
   background:transparent; border:1px solid transparent; border-top-color:rgba(var(--c-ink-rgb),.18);
   transition:border-color .45s var(--ease), background .45s var(--ease); }
 .card-location > *{ position:relative; z-index:2; }
@@ -263,7 +263,7 @@ html[lang="en"] .nav__lang .en{ color:#000; }
 .card-location:hover{ border-color:var(--c-divider); background:rgba(255,255,255,.05); }
 .card-location:hover .card-location__tex, .card-location:hover .card-location__scrim{ opacity:1; }
 .card-location .city{ font-family:var(--ff-sc); font-size:20px; line-height:30px; font-weight:700; letter-spacing:-0.2px; color:var(--c-ink); }
-.card-location .addr{ font-family:var(--ff-sc); font-size:16px; line-height:28px; color:var(--c-ink); }
+.card-location .addr{ font-family:var(--ff-sc); font-size:15px; line-height:26px; color:var(--c-ink); }
 .card-location--sh .card-location__tex{ object-position:50% 50%; }
 .card-location--hk .card-location__tex{ object-position:34% 36%; }
 /* 分隔线 */
