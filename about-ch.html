@@ -22,56 +22,70 @@
 /* ---------- I. 投资方向 — 复用首页 .cards/.card-strategy 组件 + gutter 竖线 ---------- */
 .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; padding-top:56px; }
 
-/* ---------- II. 投资哲学 · IVY — 整行 hover 绽放（终版：hero 视频三裂 crop + 浅色 L3 scrim + 绽放） ---------- */
-/* 容器横向撑满到左右竖线(rail)，与标题横线(sec-band rule)等宽。--lead = 色/背景领先几何的提前量 */
-.phil{ border-top:1px solid var(--c-hairline); margin:40px calc(var(--rail) - var(--page-x)) 0; --lead:.10s; }
+/* ---------- II. 投资哲学 · IVY — 左右版（左：真 .sec-box 标题框固定高垂直居中；右：list 第一项默认展开 + 手风琴）---------- */
+/* 左栏固定高 --panel-h（=右侧整体高度，手风琴一次只开一项 → 右侧恒定），align-items:start → 永不随 hover 伸缩。
+   --desc-x 描述起点 · --title-x 标题缩进 · --lead 色/背景领先几何的提前量。本段为 page 专属，不进共享层。 */
+.phil-split{ position:relative; display:grid; grid-template-columns:1fr 2fr; align-items:start;
+  --desc-x:52%; --title-x:24%; --panel-h:545px;
+  margin:0 calc(var(--rail) - var(--page-x)); border-top:1px solid var(--c-hairline); border-bottom:1px solid var(--c-hairline); }   /* 底线补满 rail 宽：左栏(1/3)无 row 边线，靠 split 自身 border-bottom 与右栏末行底线齐平接成整条 */
+.phil-split::before{ content:""; position:absolute; left:33.333%; top:0; bottom:0; width:1px;
+  background:var(--c-hairline); z-index:3; }
+/* 左：固定高面板 + 真 .sec-box（组件原物，垂直居中，水平留 40） */
+.phil-tag{ height:var(--panel-h); display:flex; align-items:center; justify-content:center;
+  padding:0 40px; box-sizing:border-box; }
+.phil-tag .sec-box{ width:100%; }
+/* 右：phil 行 */
+.phil{ --lead:.10s; }
 .phil-row{ position:relative; overflow:hidden; isolation:isolate; border-bottom:1px solid var(--c-hairline); }
 /* 视频背景层(z0)+ 浅色 L3 scrim(z1,::after)；内容 z2 */
 .phil-row .row-vid{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center center;
-  z-index:0; opacity:0; transform:scale(1.06);
-  transition:opacity .45s var(--ease), transform 1s var(--ease-io); pointer-events:none; }
+  z-index:0; opacity:0; transform:scale(1.04);
+  transition:opacity .55s var(--ease-io), transform .55s var(--ease-io); pointer-events:none; }
 .phil-row::after{ content:""; position:absolute; inset:0; z-index:1; opacity:0; pointer-events:none;
-  transition:opacity .45s var(--ease);
-  background:linear-gradient(rgba(var(--c-bg-rgb),.52), rgba(var(--c-bg-rgb),.40)); }
+  transition:opacity .55s var(--ease-io);
+  background:linear-gradient(180deg,rgba(var(--c-bg-rgb),.62),rgba(var(--c-bg-rgb),.62)); }
 /* 三裂 crop：同一视频，各取上/中/下纵向区段 */
 .phil-row.crop-top .row-vid{ object-position:center 0%; }
 .phil-row.crop-mid .row-vid{ object-position:center 50%; }
 .phil-row.crop-bot .row-vid{ object-position:center 100%; }
-/* 三栏栅格；几何(min-height+padding)统一 .55s ease-io，延迟 --lead */
+/* 两栏栅格（lead | desc）；几何(min-height+padding)统一 .55s ease-io，延迟 --lead */
 .phil .row-inner{ position:relative; z-index:2;
-  display:grid; grid-template-columns:30% minmax(0,1fr) minmax(280px,36%); align-items:start;
-  gap:clamp(28px,5vw,72px); padding:26px 40px; min-height:96px;
+  display:grid; grid-template-columns:var(--desc-x,52%) minmax(0,1fr); column-gap:0; align-items:start;
+  padding:26px 40px; min-height:96px;
   transition:min-height .55s var(--ease-io) var(--lead), padding .55s var(--ease-io) var(--lead); }
-/* dot④：呼吸光晕复用 canonical .dot--live（单一来源）；此处只管 dot 本体的收紧(-40px)+ 对齐基线 + 放大随几何 */
-.phil .row-dot{ justify-self:end; align-self:start; width:7px; height:7px; border-radius:50%; background:var(--c-accent);
-  margin-top:1.3em; margin-right:-40px;
+.phil .row-lead{ display:flex; align-items:flex-start; gap:16px; padding-left:var(--title-x,0); padding-right:24px; }
+.phil .row-dot{ flex:none; width:7px; height:7px; border-radius:50%; background:var(--c-accent); margin-top:1.3em;
   transition:background .4s var(--ease), transform .55s var(--ease-io) var(--lead), box-shadow .45s var(--ease); }
-/* 标题/描述：default A1+C1 → hover A3+C2；文字「保持深色」(浅底不翻色) */
+/* 标题/描述：浅底深字（不翻色）。本版不再放大标题/蓝点，仅展开行 + 放大描述 */
 .phil .row-title{ display:flex; align-items:baseline; gap:16px; padding-top:2px; }
-.phil .row-title .cn{ font-family:var(--ff-sc); font-weight:500; font-size:26px; letter-spacing:-.025em; color:var(--c-ink);
-  transition:font-size .55s var(--ease-io) var(--lead), letter-spacing .55s var(--ease-io) var(--lead); }
-.phil .row-title .en{ font-family:var(--ff-sans);  font-size:22px; color:var(--c-accent);
-  transition:font-size .55s var(--ease-io) var(--lead); }
+.phil .row-title .cn{ font-family:var(--ff-sc); font-weight:500; font-size:26px; letter-spacing:-.025em; color:var(--c-ink); }
+.phil .row-title .en{ font-family:var(--ff-sans);  font-size:22px; color:var(--c-accent); }
 .phil .row-desc{ font-family:var(--ff-sc); font-size:14px; line-height:1.5; letter-spacing:1px; color:var(--c-slate); margin:0; padding-top:6px;
   transition:font-size .55s var(--ease-io) var(--lead), line-height .55s var(--ease-io) var(--lead); }
 .phil .row-desc .ln{ display:block; margin:0; transition:margin .55s var(--ease-io) var(--lead); }
-/* hover 终态(仅指针设备；浅底深字：文字不翻色) */
+/* 默认展开项（无 hover 时）= 第一项 .is-open */
+.phil:not(:hover) .phil-row.is-open .row-vid{ opacity:1; transform:scale(1); }
+.phil:not(:hover) .phil-row.is-open::after{ opacity:1; }
+.phil:not(:hover) .phil-row.is-open .row-inner{ min-height:300px; padding:52px 40px; }
+.phil:not(:hover) .phil-row.is-open .row-desc{ font-size:16px; line-height:1.55; letter-spacing:1px; }
+.phil:not(:hover) .phil-row.is-open .row-desc .ln{ margin:0 0 .85em; }
+.phil:not(:hover) .phil-row.is-open .row-desc .ln:last-child{ margin-bottom:0; }
+/* hover 终态（仅指针设备）：手风琴跟随指针，一次只开一项 */
 @media (hover:hover){
   .phil-row:hover .row-vid{ opacity:1; transform:scale(1); }
   .phil-row:hover::after{ opacity:1; }
   .phil-row:hover .row-inner{ min-height:300px; padding:52px 40px; }
-  .phil-row:hover .row-dot{ transform:scale(1.5); box-shadow:0 0 10px rgba(var(--c-accent-rgb),.5); }
-  .phil-row:hover .row-title .cn{ font-size:40px; letter-spacing:-.035em; }
-  .phil-row:hover .row-title .en{ font-size:32px; }
   .phil-row:hover .row-desc{ font-size:16px; line-height:1.55; letter-spacing:1px; }
   .phil-row:hover .row-desc .ln{ margin:0 0 .85em; }
   .phil-row:hover .row-desc .ln:last-child{ margin-bottom:0; }
 }
-/* 窄屏：两栏化，dot 归位，描述常显(default 即深字，触屏可读) */
+/* 窄屏：单列堆叠，分隔线隐藏，左栏高度放开 */
 @media (max-width:860px){
-  .phil .row-inner{ grid-template-columns:18px 1fr; gap:14px 16px; }
-  .phil .row-dot{ margin-right:0; margin-top:.4em; }
-  .phil .row-desc{ grid-column:2; }
+  .phil-split{ grid-template-columns:1fr; }
+  .phil-split::before{ display:none; }
+  .phil-tag{ height:auto; padding:32px 0; }
+  .phil .row-inner{ grid-template-columns:1fr; }
+  .phil .row-lead{ padding-left:0; padding-right:0; }
 }
 
 /* ---------- III. 行业认可 — 复用 .ticker / .card-award + 段落（同首页 .intro p-scroll） ---------- */
@@ -203,49 +217,50 @@
     </div>
   </section>
 
-  <!-- II. 投资哲学 -->
+  <!-- II. 投资哲学 — 左右版（左 sec-box 标题框 · 右 list 第一项默认展开手风琴） -->
   <section class="section" id="philosophy" data-bgop="0.4">
-    <div class="sec-band left sec-anim">
-      <span class="rule top"></span><span class="rule bot"></span>
-      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
-        <span class="bt"><span class="rn">ii.</span><span class="cn">投资哲学</span></span>
-      </div>
-    </div>
-    <div class="phil">
-      <div class="phil-row crop-top">
-        <video class="row-vid" muted loop playsinline preload="metadata"><source src="assets/0616/selected%20hero%20video/kling_20260616_%E4%BD%9C%E5%93%81_%E6%97%A0%E7%BC%9D%E5%BE%AA%E7%8E%AF_hero__5332_0.mp4" type="video/mp4"></video>
-        <div class="row-inner">
-          <span class="dot dot--live row-dot"></span>
-          <div class="row-title"><span class="cn">原则</span><span class="en">Integrity</span></div>
-          <p class="row-desc">
-            <span class="ln">我们坚持以诚信与原则行事，</span>
-            <span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span>
-            <span class="ln">并建立长期可信赖的关系。</span>
-          </p>
+    <div class="phil-split">
+      <div class="phil-tag">
+        <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+          <span class="bt"><span class="rn">ii.</span><span class="cn">投资哲学</span></span>
         </div>
       </div>
-      <div class="phil-row crop-mid">
-        <video class="row-vid" muted loop playsinline preload="metadata"><source src="assets/0616/selected%20hero%20video/kling_20260616_%E4%BD%9C%E5%93%81_%E6%97%A0%E7%BC%9D%E5%BE%AA%E7%8E%AF_hero__5332_0.mp4" type="video/mp4"></video>
-        <div class="row-inner">
-          <span class="dot dot--live row-dot"></span>
-          <div class="row-title"><span class="cn">愿景</span><span class="en">Vision</span></div>
-          <p class="row-desc">
-            <span class="ln">我们以远见投资未来，</span>
-            <span class="ln">相信真正改变世界的技术，</span>
-            <span class="ln">在最早期往往并不被多数人理解。</span>
-          </p>
+      <div class="phil">
+        <div class="phil-row crop-top is-open">
+          <video class="row-vid" autoplay muted loop playsinline preload="auto"><source src="assets/0616/selected%20hero%20video/kling_20260616_%E4%BD%9C%E5%93%81_%E6%97%A0%E7%BC%9D%E5%BE%AA%E7%8E%AF_hero__5332_0.mp4" type="video/mp4"></video>
+          <div class="row-inner">
+            <div class="row-lead"><span class="dot dot--live row-dot"></span>
+              <div class="row-title"><span class="cn">原则</span><span class="en">Integrity</span></div></div>
+            <p class="row-desc">
+              <span class="ln">我们坚持以诚信与原则行事，</span>
+              <span class="ln">真诚对待每一位创业者、投资人与合作伙伴，</span>
+              <span class="ln">并建立长期可信赖的关系。</span>
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="phil-row crop-bot">
-        <video class="row-vid" muted loop playsinline preload="metadata"><source src="assets/0616/selected%20hero%20video/kling_20260616_%E4%BD%9C%E5%93%81_%E6%97%A0%E7%BC%9D%E5%BE%AA%E7%8E%AF_hero__5332_0.mp4" type="video/mp4"></video>
-        <div class="row-inner">
-          <span class="dot dot--live row-dot"></span>
-          <div class="row-title"><span class="cn">初心</span><span class="en">Yearning</span></div>
-          <p class="row-desc">
-            <span class="ln">我们因热爱和好奇而出发，</span>
-            <span class="ln">相信人类对未知的探索、对科学的追求，</span>
-            <span class="ln">以及创造未来的勇气。</span>
-          </p>
+        <div class="phil-row crop-mid">
+          <video class="row-vid" muted loop playsinline preload="metadata"><source src="assets/0616/selected%20hero%20video/kling_20260616_%E4%BD%9C%E5%93%81_%E6%97%A0%E7%BC%9D%E5%BE%AA%E7%8E%AF_hero__5332_0.mp4" type="video/mp4"></video>
+          <div class="row-inner">
+            <div class="row-lead"><span class="dot dot--live row-dot"></span>
+              <div class="row-title"><span class="cn">愿景</span><span class="en">Vision</span></div></div>
+            <p class="row-desc">
+              <span class="ln">我们以远见投资未来，</span>
+              <span class="ln">相信真正改变世界的技术，</span>
+              <span class="ln">在最早期往往并不被多数人理解。</span>
+            </p>
+          </div>
+        </div>
+        <div class="phil-row crop-bot">
+          <video class="row-vid" muted loop playsinline preload="metadata"><source src="assets/0616/selected%20hero%20video/kling_20260616_%E4%BD%9C%E5%93%81_%E6%97%A0%E7%BC%9D%E5%BE%AA%E7%8E%AF_hero__5332_0.mp4" type="video/mp4"></video>
+          <div class="row-inner">
+            <div class="row-lead"><span class="dot dot--live row-dot"></span>
+              <div class="row-title"><span class="cn">初心</span><span class="en">Yearning</span></div></div>
+            <p class="row-desc">
+              <span class="ln">我们因热爱和好奇而出发，</span>
+              <span class="ln">相信人类对未知的探索、对科学的追求，</span>
+              <span class="ln">以及创造未来的勇气。</span>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -341,13 +356,14 @@
 
 <script src="assets/js/site.js"></script>
 <script>
-  // II. 投资哲学：hero 视频 play-on-hover（仅悬停播放、离开暂停，省资源）
+  // II. 投资哲学：hero 视频 play-on-hover（悬停播放、离开暂停省资源）；默认展开项(.is-open)持续播放
   (function(){
     document.querySelectorAll('.phil-row').forEach(function(row){
       var v = row.querySelector('.row-vid');
       if(!v) return;
+      var keep = row.classList.contains('is-open');   // 默认展开行：常驻播放，不在离开时暂停
       row.addEventListener('mouseenter', function(){ try{ v.play(); }catch(e){} });
-      row.addEventListener('mouseleave', function(){ try{ v.pause(); }catch(e){} });
+      row.addEventListener('mouseleave', function(){ if(!keep){ try{ v.pause(); }catch(e){} } });
     });
   })();
 </script>
