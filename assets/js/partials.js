@@ -19,6 +19,28 @@
       }
     });
   }
+  /* ---- NAV v2（新增 · opt-in；原 NAV / site-nav 不动）。布局 = .nav--v2，tab 动效 = .nav__links--roll。
+     逐字翻滚需要每个字一组 <span class="ch"> markup，这里用 splitTab() 自动按字拆，避免手写超长字符串。 */
+  function splitTab(href, key, label){
+    var chars = Array.from(label), inner = "";
+    for(var i=0;i<chars.length;i++){
+      inner += "<span class=\"ch\" style=\"--chd:"+(i*0.05).toFixed(2)+"s\"><span class=\"mask\"><span class=\"roll\"><span>"+chars[i]+"</span><span aria-hidden=\"true\">"+chars[i]+"</span></span></span></span>";
+    }
+    return "<a href=\""+href+"\" data-nav=\""+key+"\">"+inner+"</a>";
+  }
+  function navV2(tabs, homeHref, alt){
+    var links = "";
+    for(var i=0;i<tabs.length;i++){ links += splitTab(tabs[i][0], tabs[i][1], tabs[i][2]); }
+    return "  <nav class=\"nav nav--v2\" id=\"nav\">\n"
+      + "    <div class=\"nav__logo\"><a href=\""+homeHref+"\"><img src=\"assets/logo.png\" alt=\""+alt+"\" /></a></div>\n"
+      + "    <div class=\"nav__links nav__links--roll\">"+links+"</div>\n"
+      + "    <div class=\"nav__lang\"><a class=\"z\" href=\"homepage-ch.html\">中</a><span class=\"sep\">·</span><a class=\"en\" href=\"homepage-en.html\">EN</a></div>\n"
+      + "  </nav>";
+  }
+  var NAV_V2 = navV2([["about-ch.html","about","关于我们"],["team-ch.html","team","团队"],["portfolio-ch.html","portfolio","被投企业"],["news-ch.html","news","最新动态"]], "homepage-ch.html", "Ivy Capital 常春藤资本");
+  var NAV_V2_EN = navV2([["about-ch.html","about","About"],["team-ch.html","team","Team"],["portfolio-ch.html","portfolio","Portfolio"],["news-ch.html","news","News"]], "homepage-en.html", "Ivy Capital");
+
   def('site-nav', isEN ? NAV_EN : NAV);
+  def('site-nav-v2', isEN ? NAV_V2_EN : NAV_V2);
   def('site-footer', isEN ? FOOTER_EN : FOOTER);
 })();

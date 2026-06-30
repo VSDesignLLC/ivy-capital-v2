@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NAV v2 · canonical 校验（真共享层 + &lt;site-nav-v2&gt;）</title>
+<base href="../../../" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+<style>
+  body{ margin:0; min-height:200vh; font-family:"Noto Sans SC",var(--ff-sans);
+    background:linear-gradient(135deg,#1849c6 0%, #15346e 45%, #0d1b2a 100%); }
+  .note{ color:#fff; max-width:760px; margin:0 auto; padding:160px 32px 40px; }
+  .note h1{ font-family:var(--ff-sans); font-weight:600; font-size:24px; margin:0 0 8px; }
+  .note p{ font-size:14px; line-height:1.7; color:rgba(255,255,255,.8); margin:0; }
+</style>
+</head>
+<body>
+  <!-- 用 canonical 的 opt-in 元素，验证写回的 components.css + partials.js 真的能产出 v2 nav -->
+  <site-nav-v2></site-nav-v2>
+  <div class="note">
+    <h1>NAV v2 · canonical 校验</h1>
+    <p>本页只 link 真实共享层（tokens/base/components/motion）+ partials.js，并写 <code>&lt;site-nav-v2&gt;</code>。
+    若上方 nav = 玻璃只包中间 4 tab、hover 逐字翻滚+下划线左→右，则写回成功。原 <code>&lt;site-nav&gt;</code> v1 不受影响。</p>
+  </div>
+</body>
+</html>

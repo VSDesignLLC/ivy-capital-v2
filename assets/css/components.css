@@ -363,3 +363,51 @@ html[lang="en"] .nav__lang .en{ color:#000; }
   .hax__kick, .hax__title, .hax__desc{ opacity:1; transform:none; animation:none; }
   .hax .ivy-glow{ animation:none; opacity:0; }
 }
+/* ============================================================ NAV v2 （新增 · opt-in，不改 v1）
+   v2 布局 = 磨砂玻璃只包中间 4 tab；logo / 中·EN 贴齐内容栏。markup: <nav class="nav nav--v2">，
+   描边环 .glass-ring 从 nav 移到 .nav__links。上方原 .nav（v1 满宽胶囊）整段保留不动。
+   消费方式：页面写 <site-nav-v2>（partials.js）即得 v2 布局 + 确定版 tab 动效。 */
+.nav--v2{ background:none; -webkit-backdrop-filter:none; backdrop-filter:none;
+  box-shadow:none; border-radius:0; padding:0; }
+.nav--v2 .nav__links{ position:relative; isolation:isolate;
+  padding:13px 34px; gap:40px; border-radius:999px;
+  background:linear-gradient(135deg, rgba(255,255,255,.5), rgba(255,255,255,.2) 45%, rgba(255,255,255,.4));
+  -webkit-backdrop-filter:blur(16px) var(--glass-feel); backdrop-filter:blur(16px) var(--glass-feel);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.9), inset 0 -6px 14px rgba(255,255,255,.4),
+              0 14px 32px -14px rgba(var(--c-ink-rgb),.3); }
+
+/* ---- tab 动效 · 确定版 .nav__links--roll：竖向翻滚「逐字左→右」+ 下划线同步左→右（划完=翻完同刻）----
+   每 tab markup（partials.js splitTab 自动生成）：
+     <a data-nav=…><span class="ch" style="--chd:Xs"><span class="mask"><span class="roll">
+        <span>字</span><span aria-hidden="true">字</span></span></span></span> …逐字… </a>
+   逐字延迟靠每个 .ch 上的 --chd（自动继承给 .roll 与 .ch::after）；翻滚/下划线同为 .4s →
+   每字「翻完=划完」、整行末字同刻收尾，且不限字数（中/英任意长度都自动同步）。 */
+.nav__links--roll a{ display:inline-flex; color:var(--c-ink); }
+.nav__links--roll a::after{ display:none; }                 /* 关掉 v1 整条下划线，改用逐字段 */
+.nav__links--roll a:hover{ color:var(--c-ink); }            /* 翻滚不变色 */
+.nav__links--roll .ch{ display:inline-block; position:relative; }
+.nav__links--roll .mask{ display:block; height:21px; overflow:hidden; }
+.nav__links--roll .roll{ display:block; transition:transform .4s var(--ease) var(--chd,0s); }
+.nav__links--roll .roll > span{ display:block; height:21px; line-height:21px; }
+.nav__links--roll a:hover .roll{ transform:translateY(-21px); }
+.nav__links--roll .ch::after{ content:""; position:absolute; left:0; bottom:-3px; height:1.5px; width:0;
+  background:var(--c-accent); transition:width .4s var(--ease) var(--chd,0s); }
+.nav__links--roll a:hover .ch::after{ width:100%; }
+.nav__links--roll a.active .ch::after{ width:100%; transition-delay:0s; }   /* 当前页：下划线常驻 */
+
+/* ---- tab 动效 · 备选①b（存档）.nav__links--dot：accent 点入 + 文字右移，文字本身不变色 ----
+   每 tab markup：<a data-nav=…><span class="t">关于我们</span></a> */
+.nav__links--dot a{ position:relative; }
+.nav__links--dot a::after{ display:none; }
+.nav__links--dot a:hover{ color:var(--c-ink); }
+.nav__links--dot .t{ display:inline-block; transition:transform .4s var(--ease); }
+.nav__links--dot a::before{ content:""; position:absolute; left:0; top:50%; width:5px; height:5px;
+  border-radius:50%; background:var(--c-accent); transform:translate(-2px,-50%) scale(.3); opacity:0;
+  transition:opacity .3s var(--ease), transform .4s var(--ease); }
+.nav__links--dot a:hover .t, .nav__links--dot a.active .t{ transform:translateX(15px); }
+.nav__links--dot a:hover::before, .nav__links--dot a.active::before{ opacity:1; transform:translate(0,-50%) scale(1); }
+
+@media (prefers-reduced-motion:reduce){
+  .nav__links--roll .roll, .nav__links--roll .ch::after,
+  .nav__links--dot .t, .nav__links--dot a::before{ transition:none; }
+}
