@@ -13,7 +13,7 @@
 <style>
 /* ===== EN 首页：字体全部继承 tokens.css（html[lang="en"] → 正文 Instrument Sans，CJK 回退 Noto；全站两款字体、无衬线，单一来源）。
    本页 <style> 只保留 EN 专属布局微调，不再覆盖字体 token。 ===== */
-.footer__slogan{ font-weight:700; line-height:1.4; }   /* footer 标语 EN 下加粗 + 收紧行距(原 51.2px 是给窄衬线的，sans 下太散) */
+.footer__slogan{ font-weight:400; line-height:1.4; }   /* footer 标语 EN：regular + 收紧行距(原 51.2px 是给窄衬线的，sans 下太散) */
 /* footer 底部 responsive 兜底：logo + 联系胶囊在中/窄宽度优雅换行，不再被拉伸或挤压 */
 .footer__bottom{ flex-wrap:wrap; row-gap:18px; column-gap:32px; }
 .footer__mails{ flex-wrap:wrap; gap:16px; }
@@ -93,7 +93,7 @@
 .about__stats .num .cn{ font-family:var(--ff-sc); font-weight:500; }
 
 /* STRATEGY */
-.card-strategy__title{ overflow-wrap:break-word; }   /* EN responsive: long Latin titles wrap, never clip past the card edge */
+.card-strategy__title{ overflow-wrap:break-word; font-weight:400; }   /* EN responsive: long Latin titles wrap, never clip past the card edge；EN 下标题改 regular（h3 默认 bold）*/
 .strategy__intro{ padding-top:40px; }
 .strategy__sub{ font-family:var(--ff-sans); font-size:13px; letter-spacing:.08em; color:var(--c-accent); margin:0 0 14px; }
 .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; padding-top:56px; padding-bottom:var(--gap); }
