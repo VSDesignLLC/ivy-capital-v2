@@ -143,6 +143,19 @@ html[lang="en"] .nav__lang .en{ color:#000; }
 .card-project:hover .card-project__foot{ gap:5px; }
 .card-project:hover .card-project__foot .t{ text-shadow:0 0 20px rgba(var(--c-bg-rgb),0), 0 0 7px rgba(var(--c-bg-rgb),0); }
 .card-project:hover .card-project__foot .d{ grid-template-rows:1fr; opacity:1; transform:translateY(0); }
+/* ---------- card-project--logo · 默认墨色 logo 居中变体（首页代表项目）· additive，不改 base / --wall ----------
+   默认：bg 之上叠「居中墨色 logo」（--logo 传图 → CSS mask + --c-ink 上色；z-1，DOM 在 plate 之前 → hover 时 plate 盖其上）、名称隐藏；
+   hover：沿用 canonical —— 磨砂 plate 升起盖在 logo 上方 + 名称/描述揭示（plate/bg放大/描述 全用现成规则）。 */
+.card-project--logo .card-project__logo{ position:absolute; inset:0; z-index:1; pointer-events:none;
+  -webkit-mask-image:var(--logo); mask-image:var(--logo);
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-position:center 50%; mask-position:center 50%;
+  -webkit-mask-size:60% auto; mask-size:60% auto;
+  background-color:var(--c-ink);
+  transition:-webkit-mask-position .55s var(--ease-soft), mask-position .55s var(--ease-soft); }
+.card-project--logo:hover .card-project__logo{ -webkit-mask-position:center 34%; mask-position:center 34%; }   /* hover：logo 上浮（与 card-project--wall 统一）*/
+.card-project--logo .card-project__foot .t{ opacity:0; transition:opacity .45s var(--ease); }
+.card-project--logo:hover .card-project__foot .t{ opacity:1; }
 
 /* ---------- card-project--wall · 名称墙变体（portfolio 被投企业）----------
    透明磨砂卡：默认整卡居中显示名称；hover → 项目图淡入 + 底部满宽磨砂带升起
@@ -282,6 +295,11 @@ html[lang="en"] .nav__lang .en{ color:#000; }
   background:rgba(255,255,255,.45); border:1px solid rgba(255,255,255,.8); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
   box-shadow:0 4px 16px -12px rgba(var(--c-ink-rgb),.3); transition:transform .35s var(--ease), background .35s var(--ease); }
 .mailpill:hover{ transform:translateY(-2px); background:rgba(255,255,255,.7); }
+/* dot-in hover：默认无点（dot 收为 0 footprint，margin-right:-12 抵消容器 gap:12 → 内容贴左、点不可见）；
+   hover → accent 点在左侧淡入撑开、内容整体右移 19px（动效同 nav ①b）。 */
+.mailpill .dot{ width:0; opacity:0; margin-right:-12px;
+  transition:width .38s var(--ease), opacity .3s var(--ease), margin-right .38s var(--ease); }
+.mailpill:hover .dot{ width:7px; opacity:1; margin-right:0; }
 .mailpill .l{ color:var(--c-accent); font-size:15px; line-height:1; }
 .mailpill .m{ color:var(--c-ink); font-size:15px; line-height:1; }
 .footer__icp{ position:absolute; left:0; right:0; bottom:0; height:52px; z-index:3; display:flex; align-items:center; justify-content:flex-end; padding:0 104px; }
