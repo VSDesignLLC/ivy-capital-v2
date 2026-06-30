@@ -204,31 +204,37 @@ html[lang="en"] .nav__lang .en{ color:#000; }
 .ticker__track{ display:flex; gap:24px; width:max-content; animation:ticker 44s linear infinite; }
 .ticker__track:hover{ animation-play-state:paused; }
 .ticker__group{ display:flex; gap:24px; }
-/* 奖项 ticker 用纯文字卡 (F: A→B 翻色)，与「代表项目」图片卡区分 */
+/* 奖项 ticker 卡（logo 版，F: A→B 翻色）：左上角机构 logo（白底 PNG 作 CSS mask，颜色 background-color
+   控：默认 ink → hover 白；各卡高度由内联 --lh 定），右上引号，底部奖项文字。与「代表项目」图片卡区分。
+   静态预览用 .is-hover 复现 hover 终态（不抬升）。 */
 .ticker .card-award{ position:relative; width:340px; flex:none; min-height:200px; padding:26px 28px; overflow:hidden;
   display:flex; flex-direction:column; isolation:isolate; background:var(--c-bg); border:1px solid var(--c-hairline);
   transition:transform .6s var(--ease-soft), box-shadow .6s var(--ease-soft), border-color .6s var(--ease-soft); }
 .ticker .card-award::before{ content:""; position:absolute; inset:0; z-index:0; opacity:0; transition:opacity .55s var(--ease);
   background:radial-gradient(120% 100% at 100% 100%, rgba(var(--c-accent-rgb),.42) 0%, rgba(var(--c-accent-rgb),0) 52%), linear-gradient(158deg, #16233d 0%, #0d1b2a 58%, #091324 100%); }
-.card-award__top{ display:flex; align-items:flex-start; justify-content:space-between; position:relative; z-index:1; }
-.card-award__body{ margin-top:auto; display:flex; flex-direction:column; gap:10px; position:relative; z-index:1; }
-.card-award__kick{ font-family:var(--ff-sans); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--c-accent); transition:color .5s var(--ease); }
-.card-award__quote{ font-family:var(--ff-sans);  line-height:.7; pointer-events:none; user-select:none;
-  font-size:66px; color:var(--c-accent); opacity:.16; margin-top:-6px; transition:opacity .5s var(--ease), color .5s var(--ease); }
-.card-award__org{ font-family:var(--ff-sc); font-weight:600; letter-spacing:-0.3px; font-size:26px; color:var(--c-ink); transition:color .5s var(--ease); }
+.card-award__top{ display:block; position:relative; z-index:2; }
+.card-award__logo{ display:block; height:var(--lh,56px); width:100%; z-index:2;
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; -webkit-mask-size:contain; mask-size:contain;
+  -webkit-mask-position:left top; mask-position:left top;
+  background-color:var(--c-ink); transition:background-color .5s var(--ease); }
+.card-award__quote{ position:absolute; top:16px; right:11px; z-index:1; font-family:var(--ff-sans); line-height:.7;
+  pointer-events:none; user-select:none; font-size:66px; color:var(--c-accent); opacity:.16;
+  transition:opacity .5s var(--ease), color .5s var(--ease); }
+.card-award__body{ margin-top:auto; position:relative; z-index:1; }
 .card-award__award{ letter-spacing:-0.1px; font-size:14px; line-height:22px; color:var(--c-slate);
   transition:color .5s var(--ease), font-size .5s var(--ease-soft), line-height .5s var(--ease-soft); }
 .card-award .corner{ position:absolute; width:13px; height:13px; opacity:.5; z-index:2; transition:opacity .45s var(--ease); }
 .card-award .corner.tl{ left:11px; top:11px; border-left:1px solid var(--c-accent); border-top:1px solid var(--c-accent); }
 .card-award .corner.br{ right:11px; bottom:11px; border-right:1px solid var(--c-accent); border-bottom:1px solid var(--c-accent); }
-.ticker .card-award:hover{ transform:translateY(-5px); border-color:color-mix(in srgb, var(--c-accent-2) 28%, transparent);
+.ticker .card-award:hover{ transform:translateY(-5px); }
+.ticker .card-award.is-hover{ transform:none; }
+.ticker .card-award:hover, .ticker .card-award.is-hover{ border-color:color-mix(in srgb, var(--c-accent-2) 28%, transparent);
   box-shadow:0 18px 44px -20px rgba(9,19,40,.6), 0 6px 16px -10px rgba(var(--c-accent-rgb),.4); }
-.ticker .card-award:hover::before{ opacity:1; }
-.card-award:hover .corner{ opacity:0; }
-.card-award:hover .card-award__kick{ color:color-mix(in srgb, var(--c-accent-2) 85%, transparent); }
-.card-award:hover .card-award__quote{ color:color-mix(in srgb, var(--c-accent-2) 50%, transparent); opacity:1; }
-.card-award:hover .card-award__org{ color:#fff; }
-.card-award:hover .card-award__award{ color:rgba(255,255,255,.72); font-size:17px; line-height:25px; }
+.ticker .card-award:hover::before, .ticker .card-award.is-hover::before{ opacity:1; }
+.card-award:hover .corner, .card-award.is-hover .corner{ opacity:0; }
+.card-award:hover .card-award__quote, .card-award.is-hover .card-award__quote{ color:color-mix(in srgb, var(--c-accent-2) 50%, transparent); opacity:1; }
+.card-award:hover .card-award__award, .card-award.is-hover .card-award__award{ color:rgba(255,255,255,.72); }
+.card-award:hover .card-award__logo, .card-award.is-hover .card-award__logo{ background-color:#fff; }
 @keyframes ticker{ to{ transform:translateX(-50%); } }
 
 /* ============================================================ FOOTER */
