@@ -282,8 +282,8 @@ html[lang="en"] .nav__lang .en{ color:#000; }
   background:rgba(255,255,255,.45); border:1px solid rgba(255,255,255,.8); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
   box-shadow:0 4px 16px -12px rgba(var(--c-ink-rgb),.3); transition:transform .35s var(--ease), background .35s var(--ease); }
 .mailpill:hover{ transform:translateY(-2px); background:rgba(255,255,255,.7); }
-.mailpill .l{ color:var(--c-accent); font-size:17px; line-height:1; }
-.mailpill .m{ color:var(--c-ink); font-size:17px; line-height:1; }
+.mailpill .l{ color:var(--c-accent); font-size:15px; line-height:1; }
+.mailpill .m{ color:var(--c-ink); font-size:15px; line-height:1; }
 .footer__icp{ position:absolute; left:0; right:0; bottom:0; height:52px; z-index:3; display:flex; align-items:center; justify-content:flex-end; padding:0 104px; }
 .footer__icp span{ font-family:var(--ff-sans); font-size:11px; line-height:16.5px; letter-spacing:1.32px; color:rgba(var(--c-ink-rgb),.4); }
 /* footer 窄屏断点：默认 footer__top/__bottom 是横排 space-between；视口收窄时若不堆叠，
