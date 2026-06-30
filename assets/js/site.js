@@ -14,8 +14,25 @@
     (lateSet.has(el) ? ioLate : io).observe(el);
   });
 
-  /* full-height side rails fade in on load */
-  var rails=document.getElementById('rails'); if(rails) requestAnimationFrame(function(){ rails.classList.add('in'); });
+  /* side rails：顶端锚定到第一个 <section>（hero 不画 rail），底端仍到 footer；load 后淡入。
+     .rails-top 是 .page 内 absolute(inset:0)，这里只覆盖 inline top = 首个 section 顶边相对 .page 的偏移。 */
+  var rails=document.getElementById('rails');
+  if(rails){
+    var railPage=document.querySelector('.page');
+    var firstSec=document.querySelector('.page > section');
+    /* 首个 section 无标题横线（无 .sec-band/.band/.rule/.sec-box）→ rail 顶端无处收口，改用透明渐显起笔 */
+    if(firstSec && !firstSec.querySelector('.sec-band, .band, .rule, .sec-box')) rails.classList.add('rails-top--fade');
+    function anchorRails(){
+      if(!railPage||!firstSec) return;
+      var pr=railPage.getBoundingClientRect(), sr=firstSec.getBoundingClientRect();
+      rails.style.top=(sr.top-pr.top)+'px';
+    }
+    anchorRails();
+    window.addEventListener('load', anchorRails);
+    window.addEventListener('resize', anchorRails, {passive:true});
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(anchorRails);
+    requestAnimationFrame(function(){ rails.classList.add('in'); });
+  }
 
   /* ---------- count-up ---------- */
   function countUp(el){

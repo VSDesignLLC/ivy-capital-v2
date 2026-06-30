@@ -10,12 +10,14 @@ a{color:inherit;text-decoration:none}
 .grid-overlay{ position:absolute; inset:0; z-index:0; pointer-events:none; }
 .grid-overlay .vline{ position:absolute; width:1px; background:var(--c-grid); opacity:.34; height:0; }
 
-/* full-height side rails — drawn ABOVE hero & footer; only nav (z100) covers them */
+/* side rails — 顶端由 site.js 锚定到第一个 <section>（hero 不画 rail），底端到 footer；只有 nav(z100) 盖住 */
 .rails-top{ position:absolute; inset:0; z-index:90; pointer-events:none; opacity:0; transition:opacity 1.2s var(--ease); }
 .rails-top.in{ opacity:1; }
 .rails-top .rail{ position:absolute; top:0; bottom:0; width:1px; background:var(--c-grid); opacity:.55; }
 .rails-top .rail.l{ left:var(--rail); }
 .rails-top .rail.r{ right:var(--rail); }
+/* 无标题横线的首个 section（portfolio / news）：rail 顶端透明渐显，自然起笔（由 site.js 加 .rails-top--fade）*/
+.rails-top--fade .rail{ -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 72px); mask-image:linear-gradient(180deg, transparent 0, #000 72px); }
 
 .page > header, .page > section, .page > .marquee-wrap, .page > footer{ position:relative; z-index:1; }
 
@@ -50,7 +52,7 @@ a{color:inherit;text-decoration:none}
 
 /* hero→内容 交界过渡：首个内容段顶部叠 奶白→透明 竖向渐变，盖住 #pagebg 但被内容压住，
    消除 hero 底部不透明奶白 与 下方视频 的硬接缝。挂在 hero 下面第一个 section 上即可。 */
-.bg-fade-top{ position:relative; z-index:1; }
+.bg-fade-top{ position:relative; z-index:1; display:flow-root; }   /* flow-root=建 BFC，阻断首子元素 margin-top 上穿塌陷（否则 hero 与 section 间露出未渐变的 pagebg 横条）*/
 .bg-fade-top > *{ position:relative; z-index:1; }
 .bg-fade-top::before{ content:""; position:absolute; left:0; right:0; top:0; height:480px;
   z-index:0; pointer-events:none;
