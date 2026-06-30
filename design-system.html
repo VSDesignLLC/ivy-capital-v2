@@ -6,7 +6,7 @@
 <title>常春藤资本 · Design System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/tokens.css" />
 <link rel="stylesheet" href="assets/css/components.css" />
 <link rel="stylesheet" href="assets/css/motion.css" />
@@ -26,26 +26,26 @@ a{color:inherit}
 .ds-head::after{ content:""; position:absolute; right:64px; top:0; bottom:0; width:1px; background:var(--c-grid); opacity:.5; }
 .ds-kicker{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--c-accent); margin-bottom:18px; display:flex; gap:9px; align-items:center; }
 .ds-kicker .dot{ width:7px;height:7px;border-radius:3.5px;background:var(--c-accent); }
-.ds-title{ font-family:var(--ff-serif); font-weight:500; font-size:54px; line-height:1.1; letter-spacing:-1px; }
-.ds-title .ital{ font-family:var(--ff-ital); font-style:italic; color:var(--c-accent); }
+.ds-title{ font-family:var(--ff-sc); font-weight:500; font-size:54px; line-height:1.1; letter-spacing:-1px; }
+.ds-title .ital{ font-family:var(--ff-sans);  color:var(--c-accent); }
 .ds-sub{ margin-top:14px; color:var(--c-slate); font-size:16px; max-width:680px; }
-.ds-meta{ margin-top:20px; display:flex; gap:24px; flex-wrap:wrap; font-family:var(--ff-mono); font-size:12px; color:var(--c-muted); letter-spacing:.04em; }
+.ds-meta{ margin-top:20px; display:flex; gap:24px; flex-wrap:wrap; font-family:var(--ff-sans); font-size:12px; color:var(--c-muted); letter-spacing:.04em; }
 
 main{ padding:0 64px 120px; }
 .sec{ padding:72px 0; border-bottom:1px solid var(--c-hairline); }
-.sec-no{ font-family:var(--ff-ital); font-style:italic; font-size:30px; color:var(--c-accent); }
+.sec-no{ font-family:var(--ff-sans);  font-size:30px; color:var(--c-accent); }
 .sec-h{ display:flex; align-items:baseline; gap:14px; margin-bottom:8px; }
-.sec-h h2{ font-family:var(--ff-serif); font-weight:500; font-size:30px; letter-spacing:-.5px; }
+.sec-h h2{ font-family:var(--ff-sc); font-weight:500; font-size:30px; letter-spacing:-.5px; }
 .sec-desc{ color:var(--c-muted); font-size:14px; margin-bottom:36px; max-width:680px; }
 
 /* ===== color ===== */
 .swatches{ display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:16px; }
 .sw{ border:1px solid var(--c-hairline); border-radius:2px; overflow:hidden; background:#fff; }
 .sw .chip{ height:96px; position:relative; }
-.sw .chip .on{ position:absolute; left:12px; bottom:10px; font-size:11px; font-family:var(--ff-mono); }
+.sw .chip .on{ position:absolute; left:12px; bottom:10px; font-size:11px; font-family:var(--ff-sans); }
 .sw .meta{ padding:12px 14px; }
 .sw .nm{ font-size:13px; font-weight:700; }
-.sw .vr{ font-family:var(--ff-mono); font-size:11px; color:var(--c-muted); margin-top:3px; }
+.sw .vr{ font-family:var(--ff-sans); font-size:11px; color:var(--c-muted); margin-top:3px; }
 .sw .vr b{ color:var(--c-slate); font-weight:500; }
 .sw .use{ font-size:11px; color:var(--c-muted); margin-top:6px; }
 .checker{ background:
@@ -56,7 +56,7 @@ main{ padding:0 64px 120px; }
 /* ===== type ===== */
 .type-row{ display:grid; grid-template-columns:200px 1fr; gap:32px; padding:22px 0; border-top:1px solid var(--c-hairline); align-items:baseline; }
 .type-row:first-child{ border-top:0; }
-.type-spec{ font-family:var(--ff-mono); font-size:11px; color:var(--c-muted); line-height:1.7; }
+.type-spec{ font-family:var(--ff-sans); font-size:11px; color:var(--c-muted); line-height:1.7; }
 .type-spec .tk{ display:inline-block; color:var(--c-accent); font-weight:700; margin-bottom:4px; letter-spacing:.04em; }
 .type-sample{ color:var(--c-ink); }
 
@@ -64,7 +64,7 @@ main{ padding:0 64px 120px; }
 .spaces{ display:flex; flex-direction:column; gap:12px; }
 .sp{ display:flex; align-items:center; gap:18px; }
 .sp .bar{ background:var(--c-accent); height:18px; border-radius:1px; }
-.sp .lab{ font-family:var(--ff-mono); font-size:12px; color:var(--c-slate); width:120px; }
+.sp .lab{ font-family:var(--ff-sans); font-size:12px; color:var(--c-slate); width:120px; }
 .sp .lab b{ color:var(--c-ink); }
 
 /* ===== grid demo ===== */
@@ -73,15 +73,15 @@ main{ padding:0 64px 120px; }
 .griddemo .rail.l{ left:48px; } .griddemo .rail.r{ right:48px; }
 .griddemo .vline{ position:absolute; top:30px; height:240px; width:1px; background:var(--c-grid); opacity:.32; }
 .griddemo .vline.a{ left:30%; } .griddemo .vline.b{ left:62%; }
-.griddemo .note{ position:absolute; font-family:var(--ff-mono); font-size:10px; color:var(--c-muted); }
+.griddemo .note{ position:absolute; font-family:var(--ff-sans); font-size:10px; color:var(--c-muted); }
 .band-demo{ position:relative; height:64px; display:flex; align-items:center; justify-content:center; margin-top:8px; }
 .band-demo .rule{ position:absolute; left:0; right:0; height:0; border-top:1px solid var(--c-grid); }
 .band-demo .rule.t{top:0} .band-demo .rule.b{bottom:0}
 .sec-box{ position:relative; width:440px; max-width:100%; height:64px; background:var(--c-bg); border:1px solid rgba(24,73,198,.4);
   display:flex; align-items:center; justify-content:center; }
 .sec-box .bt{ display:flex; gap:14px; align-items:baseline; color:var(--c-accent); }
-.sec-box .rn{ font-family:var(--ff-ital); font-style:italic; font-size:36px; text-transform:uppercase; }
-.sec-box .cn{ font-family:var(--ff-serif); font-weight:500; font-size:36px; letter-spacing:-.64px; }
+.sec-box .rn{ font-family:var(--ff-sans);  font-size:36px; text-transform:uppercase; }
+.sec-box .cn{ font-family:var(--ff-sc); font-weight:500; font-size:36px; letter-spacing:-.64px; }
 .corner{ position:absolute; width:14px; height:14px; }
 .corner.tl{ left:12px; top:12px; border-left:1px solid var(--c-accent); border-top:1px solid var(--c-accent); }
 .corner.br{ right:12px; bottom:12px; border-right:1px solid var(--c-accent); border-bottom:1px solid var(--c-accent); }
@@ -90,7 +90,7 @@ main{ padding:0 64px 120px; }
 .comp-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:28px; align-items:start; }
 .comp{ border:1px solid var(--c-hairline); border-radius:2px; background:#fff; overflow:hidden; }
 .comp .stage{ padding:28px; display:flex; align-items:center; justify-content:center; min-height:140px; background:var(--c-bg); }
-.comp .cap{ padding:12px 16px; border-top:1px solid var(--c-hairline); font-family:var(--ff-mono); font-size:11px; color:var(--c-muted); }
+.comp .cap{ padding:12px 16px; border-top:1px solid var(--c-hairline); font-family:var(--ff-sans); font-size:11px; color:var(--c-muted); }
 .comp .cap b{ color:var(--c-ink); font-weight:700; }
 
 .dot{ width:7px;height:7px;border-radius:3.5px;background:var(--c-accent);flex:none }
@@ -112,19 +112,19 @@ main{ padding:0 64px 120px; }
 .bf .item{ width:220px; }
 .bf .line{ height:0; border-top:1px solid; margin-bottom:10px; }
 .bf .l1{ border-color:var(--c-divider); } .bf .l2{ border-color:var(--c-grid); } .bf .l3{ border-color:var(--c-tag-line); } .bf .l4{ border-color:rgba(24,73,198,.4); }
-.bf .nm{ font-size:12px; font-weight:700; } .bf .vr{ font-family:var(--ff-mono); font-size:11px; color:var(--c-muted); margin-top:2px; }
+.bf .nm{ font-size:12px; font-weight:700; } .bf .vr{ font-family:var(--ff-sans); font-size:11px; color:var(--c-muted); margin-top:2px; }
 .bf .use{ font-size:11px; color:var(--c-muted); margin-top:6px; }
 
 /* motion */
 .mot{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; }
 .mot .m{ border:1px solid var(--c-hairline); padding:18px; background:#fff; border-radius:2px; }
 .mot .m .k{ font-size:13px; font-weight:700; margin-bottom:6px; }
-.mot .m .v{ font-family:var(--ff-mono); font-size:11px; color:var(--c-muted); }
+.mot .m .v{ font-family:var(--ff-sans); font-size:11px; color:var(--c-muted); }
 .ease-demo{ height:36px; position:relative; margin-top:12px; background:var(--c-accent-wash); border-radius:18px; overflow:hidden; }
 .ease-demo .ball{ position:absolute; top:7px; left:6px; width:22px; height:22px; border-radius:50%; background:var(--c-accent); animation:slide 2.4s var(--ease) infinite alternate; }
 @keyframes slide{ to{ left:calc(100% - 28px); } }
 
-footer.ds-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-family:var(--ff-mono); font-size:12px; color:var(--c-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+footer.ds-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-family:var(--ff-sans); font-size:12px; color:var(--c-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
 </style>
 </head>
 <body>
@@ -133,7 +133,7 @@ footer.ds-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
   <div class="ds-kicker"><span class="dot"></span>Design System · v3 · 浮动胶囊 nav + 液态玻璃 + B5 footer · 与 homepage-ch.html 对齐</div>
   <div class="ds-title">常春藤资本 <span class="ital">Design System</span></div>
   <p class="ds-sub">从生产主文件 <code>homepage-ch.html</code> 反向审计、对齐的活样式指南。每个色板 / 字阶 / 组件均用与主文件完全相同的 token 取值渲染，可直接用于核对设计系统的正确性。</p>
-  <div class="ds-meta"><span>FONT · Noto Sans SC / Noto Serif SC / Geist / Geist Mono / Instrument Serif</span><span>ACCENT · #1849C6</span><span>GRID · #B6BDCD</span></div>
+  <div class="ds-meta"><span>FONT · 中文 系统黑体（Hiragino → 苹方 → 雅黑 → 免费 Noto） · 英文 Instrument Sans · 无衬线</span><span>ACCENT · #1849C6</span><span>GRID · #B6BDCD</span></div>
 </header>
 
 <main>
@@ -162,24 +162,41 @@ footer.ds-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
   <!-- 02 TYPE -->
   <section class="sec">
     <div class="sec-h"><span class="sec-no">ii.</span><h2>字体 Typography</h2></div>
-    <p class="sec-desc">5 个字体族按角色分工。CJK 正文 = Noto Sans SC；章节标题 / 金句 = Noto Serif SC；数字 = Geist；标注 = Geist Mono；罗马数字 / 年份斜体 = Instrument Serif。下方每行按真实字号渲染。</p>
+    <p class="sec-desc">全站两款字体、无衬线。中文 = 系统黑体（Apple 设备用本机 Hiragino/苹方，Windows 雅黑，其余回退免费 Noto，规避版权）；英文 / 数字 / 罗马数字 / 标签 = Instrument Sans。下方每行按真实字号渲染。</p>
 
-    <div class="type-row"><div class="type-spec"><span class="tk">display</span><br>Noto Sans SC · Bold<br>108 / 112 / -0.64</div><div class="type-sample" style="font-family:var(--ff-sc);font-weight:700;font-size:108px;line-height:1.04;letter-spacing:-.64px"><span style="color:var(--c-accent)">常春藤</span>资本</div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">h1-sub</span><br>Noto Sans SC · Regular<br>54 / 64 / -0.64</div><div class="type-sample" style="font-size:54px;line-height:1.18;letter-spacing:-.64px;color:var(--c-slate)">与你共生、共韧、<span style="color:var(--c-accent)">长青</span>。</div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">stat</span><br>Geist · Medium<br>64 / 64 / -1.92</div><div class="type-sample" style="font-family:var(--ff-sans);font-weight:500;font-size:64px;line-height:1;letter-spacing:-1.92px">240<span style="font-family:var(--ff-sc)">亿</span></div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">section</span><br>Serif Medium + Instrument<br>36 / 42 / -0.64</div><div class="type-sample" style="display:flex;gap:14px;align-items:baseline;color:var(--c-accent)"><span style="font-family:var(--ff-ital);font-style:italic;font-size:36px">II.</span><span style="font-family:var(--ff-serif);font-weight:500;font-size:36px;letter-spacing:-.64px">投资策略</span></div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">quote</span><br>Noto Serif SC · Regular<br>34 / 45.9 / -0.34</div><div class="type-sample" style="font-family:var(--ff-serif);font-size:34px;line-height:1.35;letter-spacing:-.34px">更相信人与技术长期积累所创造的价值。</div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">card-title</span><br>Noto Sans SC · Regular<br>32 / 33 / -0.32 <em style="color:#c08">(原 31.7 已规整)</em></div><div class="type-sample" style="font-size:32px;letter-spacing:-.32px">芯片与<span style="color:var(--c-accent)">半导体</span></div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">proj-title</span><br>Noto Sans SC · Bold<br>22 / 29 / -0.2 <em style="color:#c08">(原 20→22)</em></div><div class="type-sample" style="font-weight:700;font-size:22px;line-height:29px;letter-spacing:-.2px">格科微电子</div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">award-org</span><br>Noto Serif SC · 600<br>26 / -0.3 <em style="color:#c08">(原 award-title 28)</em></div><div class="type-sample" style="font-family:var(--ff-serif);font-weight:600;font-size:26px;letter-spacing:-.3px">甲子光年</div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">award-body</span><br>Noto Sans SC · Regular<br>14 / 22 · kick mono 10/.2em</div><div class="type-sample" style="display:flex;flex-direction:column;gap:6px"><span style="font-family:var(--ff-mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--c-accent)">RECOGNITION</span><span style="font-size:14px;line-height:22px;color:var(--c-slate)">年度硬科技投资机构</span></div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">footer-slogan</span><br>Noto Serif SC · Regular<br>24 / 51.2 / -0.4</div><div class="type-sample" style="font-family:var(--ff-serif);font-size:24px;line-height:1.4;letter-spacing:-.4px;color:rgba(0,0,0,.92)">一家以人为本的深科技投资机构</div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">footer-loc</span><br>Noto Sans SC<br>city 20/30/700 · addr 16/28</div><div class="type-sample" style="display:flex;flex-direction:column;gap:8px"><span style="font-weight:700;font-size:20px;line-height:30px;letter-spacing:-.2px;color:#000">上海</span><span style="font-size:16px;line-height:28px;color:#000">长宁区番禺路381号</span></div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">body-lg / intro</span><br>Noto Sans SC · Regular<br>18 / 28 / -0.3 <em style="color:#c08">(v2: 16→18)</em></div><div class="type-sample" style="font-size:18px;line-height:1.55;letter-spacing:-.3px;max-width:560px;color:var(--c-ink)">常春藤资本专注深科技领域，重点关注 AI、芯片半导体、智能制造等领域。</div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">body-sm</span><br>Noto Sans SC · Regular<br>13 / 19.5</div><div class="type-sample" style="font-size:13px;color:var(--c-slate)">CMOS 图像传感器与显示驱动</div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">nav</span><br>Noto Sans SC · Bold<br>14 / 21</div><div class="type-sample" style="font-weight:700;font-size:14px">被投企业</div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">caption</span><br>Noto Sans SC · Regular<br>11 / 16.5 / .15em up</div><div class="type-sample" style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--c-muted)">第六期基金 · 募集中</div></div>
-    <div class="type-row"><div class="type-spec"><span class="tk">mono / serif-ital</span><br>Geist Mono 11 · Instrument 14/28</div><div class="type-sample" style="display:flex;gap:16px;align-items:baseline"><span style="font-family:var(--ff-mono);font-size:11px;color:var(--c-muted)">沪ICP备 XXXX 号</span><span style="font-family:var(--ff-ital);font-style:italic;font-size:28px;color:var(--c-accent)">I Value You</span></div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">display</span><br>系统黑体 · Regular<br>108 / 112 / -0.64</div><div class="type-sample" style="font-family:var(--ff-sc);font-weight:400;font-size:108px;line-height:1.04;letter-spacing:-.64px"><span style="color:var(--c-accent)">常春藤</span>资本</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">h1-sub</span><br>系统黑体 · Regular<br>54 / 64 / 1px</div><div class="type-sample" style="font-size:54px;line-height:1.18;letter-spacing:1px;color:var(--c-slate)">与你共生、共韧、<span style="color:var(--c-accent)">长青</span>。</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">stat</span><br>Instrument Sans · Medium<br>64 / 64 / -1.92</div><div class="type-sample" style="font-family:var(--ff-sans);font-weight:500;font-size:64px;line-height:1;letter-spacing:-1.92px">240<span style="font-family:var(--ff-sc)">亿</span></div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">section</span><br>系统黑体 Medium + Instrument Sans 罗马<br>36 / 42 / -0.64</div><div class="type-sample" style="display:flex;gap:14px;align-items:baseline;color:var(--c-accent)"><span style="font-family:var(--ff-sans);font-size:36px">II.</span><span style="font-family:var(--ff-sc);font-weight:500;font-size:36px;letter-spacing:-.64px">投资策略</span></div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">quote</span><br>系统黑体 · Regular<br>34 / 45.9 / 1px</div><div class="type-sample" style="font-family:var(--ff-sc);font-size:34px;line-height:1.35;letter-spacing:1px">更相信人与技术长期积累所创造的价值。</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">card-title</span><br>系统黑体 · Regular<br>32 / 33 / -0.32 <em style="color:#c08">(原 31.7 已规整)</em></div><div class="type-sample" style="font-size:32px;letter-spacing:-.32px">芯片与<span style="color:var(--c-accent)">半导体</span></div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">proj-title</span><br>系统黑体 · Bold<br>22 / 29 / -0.2 <em style="color:#c08">(原 20→22)</em></div><div class="type-sample" style="font-weight:700;font-size:22px;line-height:29px;letter-spacing:-.2px">格科微电子</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">award-org</span><br>系统黑体 · 600<br>26 / -0.3 <em style="color:#c08">(原 award-title 28)</em></div><div class="type-sample" style="font-family:var(--ff-sc);font-weight:600;font-size:26px;letter-spacing:-.3px">甲子光年</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">award-body</span><br>系统黑体 · Regular<br>14 / 22 · kick mono 10/.2em</div><div class="type-sample" style="display:flex;flex-direction:column;gap:6px"><span style="font-family:var(--ff-sans);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--c-accent)">RECOGNITION</span><span style="font-size:14px;line-height:22px;color:var(--c-slate)">年度硬科技投资机构</span></div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">footer-slogan</span><br>系统黑体 · Regular<br>24 / 51.2 / -0.4</div><div class="type-sample" style="font-family:var(--ff-sc);font-size:24px;line-height:1.4;letter-spacing:-.4px;color:rgba(0,0,0,.92)">一家以人为本的深科技投资机构</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">footer-loc</span><br>系统黑体<br>city 20/30/700 · addr 16/28</div><div class="type-sample" style="display:flex;flex-direction:column;gap:8px"><span style="font-weight:700;font-size:20px;line-height:30px;letter-spacing:-.2px;color:#000">上海</span><span style="font-size:16px;line-height:28px;color:#000">长宁区番禺路381号</span></div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">body-lg / intro</span><br>系统黑体 · Regular<br>18 / 28 / 1px</div><div class="type-sample" style="font-size:18px;line-height:1.55;letter-spacing:1px;max-width:560px;color:var(--c-ink)">常春藤资本专注深科技领域，重点关注 AI、芯片半导体、智能制造等领域。</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">body-sm</span><br>系统黑体 · Regular<br>13 / 19.5</div><div class="type-sample" style="font-size:13px;color:var(--c-slate)">CMOS 图像传感器与显示驱动</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">nav</span><br>系统黑体 · Bold<br>14 / 21</div><div class="type-sample" style="font-weight:700;font-size:14px">被投企业</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">caption</span><br>系统黑体 · Regular<br>11 / 16.5 / .15em up</div><div class="type-sample" style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--c-muted)">第六期基金 · 募集中</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">label / accent</span><br>Instrument Sans 11 · 28 italic<br><em style="color:#c08">italic = 全站唯一斜体</em></div><div class="type-sample" style="display:flex;gap:16px;align-items:baseline"><span style="font-family:var(--ff-sans);font-size:11px;color:var(--c-muted)">沪ICP备 XXXX 号</span><span style="font-family:var(--ff-sans);font-style:italic;font-size:28px;color:var(--c-accent)">I Value You</span></div></div>
+
+    <!-- ============ 英文 · Instrument Sans（CJK 回退 Noto；正文字距 1px，与中文站统一；镜像上方中文全部角色。专有名词为示意样本，非定稿）============ -->
+    <div class="type-row"><div class="type-spec"><span class="tk">display · EN</span><br>Instrument Sans · Regular<br>108 / 112 / -0.64</div><div class="type-sample" style="font-family:var(--ff-sans);font-weight:400;font-size:108px;line-height:1.04;letter-spacing:-.64px"><span style="color:var(--c-accent)">Ivy</span> Capital</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">h1-sub · EN</span><br>Instrument Sans · Regular<br>34 / 44 / 1px <em style="color:#c08">(EN 副标比中文 54 小)</em></div><div class="type-sample" style="font-family:var(--ff-sans);font-size:34px;line-height:1.29;letter-spacing:1px;color:var(--c-slate)">Growing alongside you in symbiosis, resilience, and <span style="color:var(--c-accent)">enduring strength</span>.</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">stat · EN</span><br>Instrument Sans · Medium<br>64 / 64 / -1.92</div><div class="type-sample" style="font-family:var(--ff-sans);font-weight:500;font-size:64px;line-height:1;letter-spacing:-1.92px">RMB&nbsp;24B+</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">section · EN</span><br>Instrument Sans · 罗马数字 + 标题<br>36 / 42 / -0.64</div><div class="type-sample" style="display:flex;gap:14px;align-items:baseline;color:var(--c-accent);font-family:var(--ff-sans)"><span style="font-size:36px">II.</span><span style="font-weight:500;font-size:36px;letter-spacing:-.64px">Strategy</span></div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">quote · EN</span><br>Instrument Sans · Regular<br>34 / 45.9 / 1px</div><div class="type-sample" style="font-family:var(--ff-sans);font-size:34px;line-height:1.35;letter-spacing:1px">We don&rsquo;t just back companies &mdash; we believe in the value people and technology compound over time.</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">card-title · EN</span><br>Instrument Sans · Regular<br>32 / 33 / -0.32</div><div class="type-sample" style="font-family:var(--ff-sans);font-size:32px;letter-spacing:-.32px">Chips &amp; <span style="color:var(--c-accent)">Semiconductors</span></div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">proj-title · EN</span><br>Instrument Sans · Bold<br>22 / 29 / -0.2</div><div class="type-sample" style="font-family:var(--ff-sans);font-weight:700;font-size:22px;line-height:29px;letter-spacing:-.2px">GalaxyCore</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">award-org · EN</span><br>Instrument Sans · 600<br>26 / -0.3</div><div class="type-sample" style="font-family:var(--ff-sans);font-weight:600;font-size:26px;letter-spacing:-.3px">Zero2IPO</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">award-body · EN</span><br>Instrument Sans · Regular<br>14 / 22 · kick 10/.2em</div><div class="type-sample" style="display:flex;flex-direction:column;gap:6px;font-family:var(--ff-sans)"><span style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--c-accent)">RECOGNITION</span><span style="font-size:14px;line-height:22px;color:var(--c-slate)">Top Hard-Tech Investor of the Year</span></div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">footer-slogan · EN</span><br>Instrument Sans · Bold<br>24 / 1.4</div><div class="type-sample" style="font-family:var(--ff-sans);font-weight:700;font-size:24px;line-height:1.4;letter-spacing:1px;color:rgba(0,0,0,.92)">A people-centered deep-tech investment firm.</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">footer-loc · EN</span><br>Instrument Sans<br>city 20/700 · addr 16/28</div><div class="type-sample" style="display:flex;flex-direction:column;gap:8px;font-family:var(--ff-sans)"><span style="font-weight:700;font-size:20px;line-height:30px;letter-spacing:-.2px;color:#000">Shanghai</span><span style="font-size:16px;line-height:28px;color:#000">19F, Kerry Parkside, 1155 Fangdian Rd, Pudong</span></div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">body-lg / intro · EN</span><br>Instrument Sans · Regular<br>18 / 28 / 1px</div><div class="type-sample" style="font-family:var(--ff-sans);font-size:18px;line-height:1.55;letter-spacing:1px;max-width:560px;color:var(--c-ink)">Ivy Capital focuses on deep tech &mdash; AI, chips and semiconductors, and intelligent manufacturing &mdash; backing teams with durable technological barriers.</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">body-sm · EN</span><br>Instrument Sans · Regular<br>13 / 19.5</div><div class="type-sample" style="font-family:var(--ff-sans);font-size:13px;color:var(--c-slate)">CMOS image sensors and display driver ICs.</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">nav · EN</span><br>Instrument Sans · Bold<br>14 / 21</div><div class="type-sample" style="font-family:var(--ff-sans);font-weight:700;font-size:14px">Portfolio</div></div>
+    <div class="type-row"><div class="type-spec"><span class="tk">caption · EN</span><br>Instrument Sans · Regular<br>11 / 16.5 / .15em up</div><div class="type-sample" style="font-family:var(--ff-sans);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--c-muted)">Fund VI · Now Raising</div></div>
   </section>
 
   <!-- 03 SPACING -->
@@ -226,7 +243,7 @@ footer.ds-foot{ padding:40px 64px; border-top:1px solid var(--c-grid); font-fami
       <div class="comp"><div class="stage"><button class="btn glass-ring"><span class="dot dot--live"></span>了解更多</button></div><div class="cap"><b>.btn</b> · 液态玻璃胶囊 18px · 呼吸蓝点 · hover 上浮发光</div></div>
       <div class="comp"><div class="stage"><div class="tags"><span>基础模型</span><span>垂直应用</span></div></div><div class="cap"><b>.tags</b> · 标签胶囊 · 11px / .03em</div></div>
       <div class="comp"><div class="stage"><span class="badge">688728</span></div><div class="cap"><b>.badge</b> · 股票代码徽章 · 10px</div></div>
-      <div class="comp"><div class="stage"><div class="statc"><span class="lbl">管理规模</span><span class="num">240<span class="cn">亿</span></span></div></div><div class="cap"><b>.stat</b> · Geist 64 + 标签</div></div>
+      <div class="comp"><div class="stage"><div class="statc"><span class="lbl">管理规模</span><span class="num">240<span class="cn">亿</span></span></div></div><div class="cap"><b>.stat</b> · Instrument Sans 64 + 标签</div></div>
       <div class="comp"><div class="stage stage--photo"><div class="social"><a href="#"><img src="assets/social-1.svg" alt=""></a><a href="#" class="big"><img src="assets/social-2.svg" alt=""></a><a href="#"><img src="assets/social-3.svg" alt=""></a></div></div><div class="cap"><b>.social</b> · 玻璃圆钮 56 · hover 上浮</div></div>
       <div class="comp"><div class="stage stage--photo"><div class="card-location"><img class="card-location__tex" src="assets/footer-shanghai.jpg" alt=""><div class="card-location__scrim"></div><div class="city">上海</div><div class="addr">长宁区番禺路381号<br>幸福里E座5楼</div></div></div><div class="cap"><b>.card-location</b> · footer B5 地址卡 · hover 浮出天际线</div></div>
       <div class="comp"><div class="stage stage--photo"><a class="mailpill" href="#"><span class="dot"></span><span class="l">项目投递</span><span class="m">xxxx @ gmail.com</span></a></div><div class="cap"><b>.mailpill</b> · footer 邮箱玻璃胶囊 · 17px</div></div>

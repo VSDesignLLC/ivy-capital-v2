@@ -6,11 +6,17 @@
 <title>Ivy Capital</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/tokens.css" />
 <link rel="stylesheet" href="assets/css/base.css" />
 <link rel="stylesheet" href="assets/css/components.css" />
 <style>
+/* ===== EN 首页：字体全部继承 tokens.css（html[lang="en"] → 正文 Instrument Sans，CJK 回退 Noto；全站两款字体、无衬线，单一来源）。
+   本页 <style> 只保留 EN 专属布局微调，不再覆盖字体 token。 ===== */
+.footer__slogan{ font-weight:700; line-height:1.4; }   /* footer 标语 EN 下加粗 + 收紧行距(原 51.2px 是给窄衬线的，sans 下太散) */
+/* footer 底部 responsive 兜底：logo + 联系胶囊在中/窄宽度优雅换行，不再被拉伸或挤压 */
+.footer__bottom{ flex-wrap:wrap; row-gap:18px; column-gap:32px; }
+.footer__mails{ flex-wrap:wrap; gap:16px; }
 /* ============================================================ HERO */
 .hero{ position:relative; height:1024px; overflow:hidden; }
 .hero__img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
@@ -19,17 +25,17 @@
 .hero__eyebrow{ position:absolute; top:97px; left:100px; right:64px; display:flex; justify-content:space-between; align-items:flex-start; }
 .hero__eyebrow .left{ display:flex; gap:9px; align-items:center; }
 .hero__eyebrow .left .caption{ letter-spacing:.2em; }
-.hero__eyebrow .left .yr{ font-family:var(--ff-ital); font-style:italic; font-size:14px; line-height:21px; color:var(--c-muted); }
-.hero__eyebrow .left .city{ font-family:var(--ff-mono); font-size:11px; line-height:16.5px; color:var(--c-muted); letter-spacing:.05em; }
+.hero__eyebrow .left .yr{ font-family:var(--ff-sans);  font-size:14px; line-height:21px; color:var(--c-muted); }
+.hero__eyebrow .left .city{ font-family:var(--ff-sans); font-size:11px; line-height:16.5px; color:var(--c-muted); letter-spacing:.05em; }
 .hero__eyebrow .right{ display:flex; gap:8px; align-items:center; }
 .hero__eyebrow .right .caption{ color:var(--c-accent); letter-spacing:.2em; }
 .hero__heading{ position:absolute; left:80px; top:371px; display:flex; flex-direction:column; gap:40px; }
-.hero__title{ font-weight:700; font-size:108px; line-height:112.32px; letter-spacing:-0.64px; color:var(--c-ink); }
+.hero__title{ font-weight:400; font-size:108px; line-height:112.32px; letter-spacing:-0.64px; color:var(--c-ink); }
 .hero__title .b{ color:var(--c-accent); }
-.hero__sub{ font-size:34px; line-height:44px; letter-spacing:-0.4px; color:var(--c-slate); }
+.hero__sub{ font-size:34px; line-height:44px; letter-spacing:1px; color:var(--c-slate); }
 .hero__sub .b{ color:var(--c-accent); }
 .hero__ivy{ position:absolute; left:0; right:0; top:807px; display:flex; flex-direction:column; align-items:center; gap:15px; }
-.hero__ivy .ivy-t{ font-family:var(--ff-ital); font-style:italic; font-size:28.3px; line-height:31.2px; letter-spacing:-0.34px; color:var(--c-accent); }
+.hero__ivy .ivy-t{ font-family:var(--ff-sans); font-style:italic; font-size:28.3px; line-height:31.2px; letter-spacing:-0.34px; color:var(--c-accent); }
 .hero__ivy .ivy-line{ width:1px; height:110px; background:var(--c-grid); opacity:.7; }
 
 /* HERO eyebrow dot — 呼吸光晕现由 components.css 单一来源（.dot--live + .dot--live--on-dark 白光）提供 */
@@ -75,7 +81,7 @@
 .agrid .sec-box{ grid-column:2; grid-row:1; z-index:2; }   /* center third; width = 1fr = 1/3 */
 .about__left{ grid-column:1 / 3; grid-row:2; min-width:0; display:flex; flex-direction:column; gap:40px; padding:80px 56px 0 16px; }
 .about__left .btn{ align-self:flex-start; }
-.about__p{ font-size:18px; line-height:28px; letter-spacing:-0.3px; color:var(--c-ink); max-width:46em; }
+.about__p{ font-size:18px; line-height:28px; letter-spacing:1px; color:var(--c-ink); max-width:46em; }
 .about__p .b{ color:var(--c-accent); }
 .about__imgwrap{ height:270px; overflow:hidden; position:relative; }
 .about__imgwrap img, .about__imgwrap video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.8; }
@@ -87,8 +93,9 @@
 .about__stats .num .cn{ font-family:var(--ff-sc); font-weight:500; }
 
 /* STRATEGY */
+.card-strategy__title{ overflow-wrap:break-word; }   /* EN responsive: long Latin titles wrap, never clip past the card edge */
 .strategy__intro{ padding-top:40px; }
-.strategy__sub{ font-family:var(--ff-mono); font-size:13px; letter-spacing:.08em; color:var(--c-accent); margin:0 0 14px; }
+.strategy__sub{ font-family:var(--ff-sans); font-size:13px; letter-spacing:.08em; color:var(--c-accent); margin:0 0 14px; }
 .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; padding-top:56px; padding-bottom:var(--gap); }
 
 .marquee-wrap{ padding-bottom:var(--gap); }
@@ -101,7 +108,7 @@
 
 /* QUOTE / breather — left aligned */
 .quote{ padding:0 var(--page-x) var(--gap); display:flex; justify-content:flex-start; }
-.quote p{ font-family:var(--ff-serif); font-weight:400; font-size:34px; line-height:45.9px; letter-spacing:-0.34px; color:var(--c-ink); text-align:left; }
+.quote p{ font-family:var(--ff-sc); font-weight:400; font-size:34px; line-height:45.9px; letter-spacing:1px; color:var(--c-ink); text-align:left; }
 
 /* AWARDS — auto ticker */
 .awards__lead{ display:flex; align-items:flex-end; justify-content:space-between; padding-top:60px; gap:40px; }
@@ -223,7 +230,7 @@
         <img class="card-strategy__bg" src="assets/strategy-manufacturing.png" alt="" /><div class="card-strategy__grad"></div>
         <span class="corner tl"></span><span class="corner br"></span>
         <div class="card-strategy__top"><span class="idx">// 03</span><span class="tag">Intelligent Manufacturing</span></div>
-        <div class="card-strategy__foot"><h3 class="card-strategy__title">Intelligent&nbsp;<span class="b">Manufacturing</span></h3>
+        <div class="card-strategy__foot"><h3 class="card-strategy__title">Intelligent <span class="b">Manufacturing</span></h3>
           <div class="tags"><div class="tags__inner"><span>Robotics</span><span>Automation</span><span>Embodied Intelligence</span></div></div></div>
       </article>
     </div>
@@ -262,13 +269,13 @@
       <div class="proj__row">
         <article class="card-project" data-reveal><img class="card-project__bg" src="assets/current/glass-v1/04486c28ba9beef02fba18ed50f17196.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">688728</span><div class="card-project__foot"><span class="t">GalaxyCore</span><span class="d"><span class="d-inner">A leading domestic provider of CMOS image sensors and display driver chips.</span></span></div></article>
         <article class="card-project" data-reveal style="--d:70ms"><img class="card-project__bg" src="assets/current/glass-v1/175083b5ee803e03555861285d9df3d7.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">300950</span><div class="card-project__foot"><span class="t">Doright</span><span class="d"><span class="d-inner">A provider of energy-efficient and environmental-protection equipment.</span></span></div></article>
-        <article class="card-project" data-reveal style="--d:140ms"><img class="card-project__bg" src="assets/current/glass-v1/proj-3826.png" alt=""><div class="card-project__plate"></div><span class="card-project__badge">02576</span><div class="card-project__foot"><span class="t">Taimei</span><span class="d"><span class="d-inner">A digital-intelligence operating platform for the life-sciences industry.</span></span></div></article>
+        <article class="card-project" data-reveal style="--d:140ms"><img class="card-project__bg" src="assets/current/glass-v1/027c335f6144fc055ba4587c15b0f7c3.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">02576</span><div class="card-project__foot"><span class="t">Taimei</span><span class="d"><span class="d-inner">A digital-intelligence operating platform for the life-sciences industry.</span></span></div></article>
         <article class="card-project" data-reveal style="--d:210ms"><img class="card-project__bg" src="assets/current/glass-v1/4c4efba321b9e0f476103d72c36f2e1d.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">6871.HK</span><div class="card-project__foot"><span class="t">Robot Phoenix</span><span class="d"><span class="d-inner">A full-category industrial-robotics provider rooted in light industry.</span></span></div></article>
       </div>
       <div class="proj__row">
         <article class="card-project" data-reveal><img class="card-project__bg" src="assets/current/glass-v1/74f2a93d67cd495fc2666aef248bab15.jpg" alt="" style="object-position:50% 20%"><div class="card-project__plate"></div><span class="card-project__badge">603501</span><div class="card-project__foot"><span class="t">Will Semiconductor</span><span class="d"><span class="d-inner">A leading domestic, globally top-ranked fabless semiconductor design company and the national champion in high-end image-sensor chips.</span></span></div></article>
         <article class="card-project" data-reveal style="--d:70ms"><img class="card-project__bg" src="assets/current/glass-v1/8f50f4795974bb70fbe37f6c9c39d405.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">603986</span><div class="card-project__foot"><span class="t">GigaDevice</span><span class="d"><span class="d-inner">A dual-leader semiconductor design company across memory and MCUs.</span></span></div></article>
-        <article class="card-project" data-reveal style="--d:140ms"><img class="card-project__bg" src="assets/current/glass-v1/proj-3831.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">688141</span><div class="card-project__foot"><span class="t">JoulWatt</span><span class="d"><span class="d-inner">A virtual-IDM analog chip design company.</span></span></div></article>
+        <article class="card-project" data-reveal style="--d:140ms"><img class="card-project__bg" src="assets/current/glass-v1/034918063ab5b60c2a774b996fde11bc.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">688141</span><div class="card-project__foot"><span class="t">JoulWatt</span><span class="d"><span class="d-inner">A virtual-IDM analog chip design company.</span></span></div></article>
         <article class="card-project" data-reveal style="--d:210ms"><img class="card-project__bg" src="assets/current/glass-v1/ec00d6e8653f0bd74dee220d8e4f0a51.jpg" alt=""><div class="card-project__plate"></div><span class="card-project__badge">09885</span><div class="card-project__foot"><span class="t">YSB</span><span class="d"><span class="d-inner">China&rsquo;s largest digital integrated-services platform for the out-of-hospital pharmaceutical industry.</span></span></div></article>
       </div>
     </div>

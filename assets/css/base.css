@@ -24,8 +24,8 @@ a{color:inherit;text-decoration:none}
 .dot{ width:7px;height:7px;border-radius:3.5px;background:var(--c-accent);flex:none }
 
 .sec-head{ display:flex; gap:14px; align-items:baseline; color:var(--c-accent); }
-.sec-head .rn{ font-family:var(--ff-ital); font-style:italic; font-size:36px; line-height:42px; letter-spacing:-0.56px; text-transform:uppercase; }
-.sec-head .cn{ font-family:var(--ff-serif); font-weight:500; font-size:36px; line-height:42px; letter-spacing:-0.64px; }
+.sec-head .rn{ font-family:var(--ff-sans);  font-size:36px; line-height:42px; letter-spacing:-0.56px; text-transform:uppercase; }
+.sec-head .cn{ font-family:var(--ff-sc); font-weight:500; font-size:36px; line-height:42px; letter-spacing:-0.64px; }
 
 /* BOXED blueprint header */
 .sec-band{ position:relative; height:64px; display:flex; align-items:center; justify-content:center; margin:0 calc(var(--rail) - var(--page-x)); }
@@ -36,14 +36,14 @@ a{color:inherit;text-decoration:none}
   border:1px solid rgba(var(--c-accent-rgb),.4); display:flex; align-items:center; justify-content:center; z-index:1; }
 .sec-band .sec-box{ width:calc(100% / 3); }   /* II/IV: 1/3 of the rail-to-rail rule, matching 关于我们 */
 .sec-box .bt{ display:flex; gap:14px; align-items:baseline; color:var(--c-accent); white-space:nowrap; }
-.sec-box .rn{ font-family:var(--ff-ital); font-style:italic; font-size:36px; line-height:42px; letter-spacing:-0.56px; text-transform:uppercase; }
-.sec-box .cn{ font-family:var(--ff-serif); font-weight:500; font-size:36px; line-height:42px; letter-spacing:-0.64px; }
-.sec-box .serif1{ font-family:var(--ff-serif); font-weight:500; font-size:36px; line-height:42px; letter-spacing:-0.64px; }
+.sec-box .rn{ font-family:var(--ff-sans);  font-size:36px; line-height:42px; letter-spacing:-0.56px; text-transform:uppercase; }
+.sec-box .cn{ font-family:var(--ff-sc); font-weight:500; font-size:36px; line-height:42px; letter-spacing:-0.64px; }
+.sec-box .serif1{ font-family:var(--ff-sc); font-weight:500; font-size:36px; line-height:42px; letter-spacing:-0.64px; }
 .sec-box .corner{ position:absolute; width:14px; height:14px; }
 .sec-box .corner.tl{ left:12px; top:12px; border-left:1px solid var(--c-accent); border-top:1px solid var(--c-accent); }
 .sec-box .corner.br{ right:11.94px; bottom:12.5px; border-right:1px solid var(--c-accent); border-bottom:1px solid var(--c-accent); }
 
-.intro{ font-size:18px; line-height:28px; color:var(--c-ink); letter-spacing:-0.3px; max-width:760px; }
+.intro{ font-size:18px; line-height:28px; color:var(--c-ink); letter-spacing:1px; max-width:760px; }
 
 /* ============================================================ SECTION shells */
 .section{ padding:0 var(--page-x); position:relative; }

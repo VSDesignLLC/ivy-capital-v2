@@ -6,7 +6,7 @@
 <title>被投企业 · 常春藤资本 Ivy Capital</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/tokens.css" />
 <link rel="stylesheet" href="assets/css/base.css" />
 <link rel="stylesheet" href="assets/css/components.css" />
@@ -23,11 +23,11 @@
 .bcard{ position:relative; background:var(--c-bg); padding:28px 26px 30px; min-height:176px; display:flex; flex-direction:column; gap:13px; isolation:isolate; transition:background .5s var(--ease); }
 .bcard::before{ content:""; position:absolute; inset:0; z-index:-1; opacity:0; background:var(--c-accent-wash); transition:opacity .5s var(--ease); }
 .bcard:hover::before{ opacity:1; }
-.bcard__name{ font-family:var(--ff-serif); font-weight:600; font-size:21px; line-height:28px; letter-spacing:-0.3px; color:var(--c-ink); }
+.bcard__name{ font-family:var(--ff-sc); font-weight:600; font-size:21px; line-height:28px; letter-spacing:-0.3px; color:var(--c-ink); }
 .bcard__meta{ display:flex; align-items:center; gap:10px; min-height:18px; }
-.bcard__yr{ font-family:var(--ff-mono); font-size:11px; letter-spacing:.05em; color:var(--c-muted); }
-.bcard__ipo{ font-family:var(--ff-mono); font-size:10px; letter-spacing:.1em; color:var(--c-accent); border:1px solid var(--c-accent-line); border-radius:100px; padding:2px 9px; }
-.bcard__desc{ font-size:13px; line-height:20.5px; letter-spacing:-0.1px; color:var(--c-slate); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+.bcard__yr{ font-family:var(--ff-sans); font-size:11px; letter-spacing:.05em; color:var(--c-muted); }
+.bcard__ipo{ font-family:var(--ff-sans); font-size:10px; letter-spacing:.1em; color:var(--c-accent); border:1px solid var(--c-accent-line); border-radius:100px; padding:2px 9px; }
+.bcard__desc{ font-size:13px; line-height:20.5px; letter-spacing:1px; color:var(--c-slate); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
 
 /* 头部 16 家 = 名称墙卡（终版）：默认透明磨砂、居中衬线名（无图/无 logo/无描述）→
    hover 项目图淡入 + 底部满宽磨砂带升起（gap 14px）+ 全文描述居中 + 深底名称自动反色（ondark JS）。

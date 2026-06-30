@@ -6,7 +6,7 @@
 <title>关于我们 · 常春藤资本 Ivy Capital</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/tokens.css" />
 <link rel="stylesheet" href="assets/css/base.css" />
 <link rel="stylesheet" href="assets/css/components.css" />
@@ -48,11 +48,11 @@
   transition:background .4s var(--ease), transform .55s var(--ease-io) var(--lead), box-shadow .45s var(--ease); }
 /* 标题/描述：default A1+C1 → hover A3+C2；文字「保持深色」(浅底不翻色) */
 .phil .row-title{ display:flex; align-items:baseline; gap:16px; padding-top:2px; }
-.phil .row-title .cn{ font-family:var(--ff-serif); font-weight:500; font-size:26px; letter-spacing:-.025em; color:var(--c-ink);
+.phil .row-title .cn{ font-family:var(--ff-sc); font-weight:500; font-size:26px; letter-spacing:-.025em; color:var(--c-ink);
   transition:font-size .55s var(--ease-io) var(--lead), letter-spacing .55s var(--ease-io) var(--lead); }
-.phil .row-title .en{ font-family:var(--ff-ital); font-style:italic; font-size:22px; color:var(--c-accent);
+.phil .row-title .en{ font-family:var(--ff-sans);  font-size:22px; color:var(--c-accent);
   transition:font-size .55s var(--ease-io) var(--lead); }
-.phil .row-desc{ font-family:var(--ff-sc); font-size:14px; line-height:1.5; letter-spacing:.01em; color:var(--c-slate); margin:0; padding-top:6px;
+.phil .row-desc{ font-family:var(--ff-sc); font-size:14px; line-height:1.5; letter-spacing:1px; color:var(--c-slate); margin:0; padding-top:6px;
   transition:font-size .55s var(--ease-io) var(--lead), line-height .55s var(--ease-io) var(--lead); }
 .phil .row-desc .ln{ display:block; margin:0; transition:margin .55s var(--ease-io) var(--lead); }
 /* hover 终态(仅指针设备；浅底深字：文字不翻色) */
@@ -63,7 +63,7 @@
   .phil-row:hover .row-dot{ transform:scale(1.5); box-shadow:0 0 10px rgba(var(--c-accent-rgb),.5); }
   .phil-row:hover .row-title .cn{ font-size:40px; letter-spacing:-.035em; }
   .phil-row:hover .row-title .en{ font-size:32px; }
-  .phil-row:hover .row-desc{ font-size:16px; line-height:1.55; letter-spacing:.02em; }
+  .phil-row:hover .row-desc{ font-size:16px; line-height:1.55; letter-spacing:1px; }
   .phil-row:hover .row-desc .ln{ margin:0 0 .85em; }
   .phil-row:hover .row-desc .ln:last-child{ margin-bottom:0; }
 }
@@ -98,7 +98,7 @@
     rgba(var(--c-bg-rgb),0) 72%, rgba(var(--c-bg-rgb),1) 100%); transition:opacity .6s var(--ease-soft); }
 .ecard:hover .ecard__media::after{ opacity:0; }
 /* idx 与角标的位置关系对齐 homepage .card-strategy：角标 12px、// 01 退到 30px 内容线 */
-.ecard__idx{ position:absolute; left:30px; top:30px; z-index:3; font-family:var(--ff-mono);
+.ecard__idx{ position:absolute; left:30px; top:30px; z-index:3; font-family:var(--ff-sans);
   font-size:12px; letter-spacing:.12em; color:#fff; text-shadow:0 1px 6px rgba(var(--c-ink-rgb),.5); }
 .ecard .corner{ position:absolute; width:14px; height:14px; opacity:.4; z-index:2; }
 .ecard .corner.tl{ left:12px; top:12px; border-left:1px solid var(--c-ink); border-top:1px solid var(--c-ink); }
@@ -112,15 +112,15 @@
 .ecard__rule{ width:34px; height:2px; background:var(--c-accent); margin-bottom:18px; flex:none;
   transition:width .55s var(--ease-soft), box-shadow .55s var(--ease-soft); }
 .ecard:hover .ecard__rule{ width:64px; box-shadow:0 0 0 0.5px var(--c-accent), 0 1px 10px -2px var(--c-accent); }
-.ecard__title{ font-family:var(--ff-serif); font-weight:500; font-size:25px; line-height:1.32; letter-spacing:-.01em; color:var(--c-ink); margin-bottom:16px; }
+.ecard__title{ font-family:var(--ff-sc); font-weight:500; font-size:25px; line-height:1.32; letter-spacing:-.01em; color:var(--c-ink); margin-bottom:16px; }
 .ecard__title .q{ color:var(--c-accent); }
-.ecard__desc{ font-family:var(--ff-sc); font-size:14.5px; line-height:1.85; color:var(--c-slate); letter-spacing:.005em; }
+.ecard__desc{ font-family:var(--ff-sc); font-size:14.5px; line-height:1.85; color:var(--c-slate); letter-spacing:1px; }
 /* 隐藏「查看案例 →」标签：hover 以 grid-rows 优雅展开 */
 .ecard__meta{ margin-top:auto; display:grid; grid-template-rows:0fr; opacity:0; transform:translateY(8px); padding-top:0;
   transition:grid-template-rows .55s var(--ease-soft), opacity .45s var(--ease) .04s, transform .55s var(--ease-soft), padding-top .55s var(--ease-soft); }
 .ecard:hover .ecard__meta{ grid-template-rows:1fr; opacity:1; transform:translateY(0); padding-top:20px; }
 .ecard__meta-inner{ overflow:hidden; min-height:0; }
-.ecard__more{ display:inline-flex; align-items:center; gap:7px; font-family:var(--ff-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--c-accent); }
+.ecard__more{ display:inline-flex; align-items:center; gap:7px; font-family:var(--ff-sans); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--c-accent); }
 .ecard__more .arr{ transition:transform .55s var(--ease-soft); }
 .ecard:hover .ecard__more .arr{ transform:translateX(4px); }
 
