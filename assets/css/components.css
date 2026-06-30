@@ -383,18 +383,19 @@ html[lang="en"] .nav__lang .en{ color:#000; }
         <span>字</span><span aria-hidden="true">字</span></span></span></span> …逐字… </a>
    逐字延迟靠每个 .ch 上的 --chd（自动继承给 .roll 与 .ch::after）；翻滚/下划线同为 .4s →
    每字「翻完=划完」、整行末字同刻收尾，且不限字数（中/英任意长度都自动同步）。 */
-.nav__links--roll a{ display:inline-flex; color:var(--c-ink); }
-.nav__links--roll a::after{ display:none; }                 /* 关掉 v1 整条下划线，改用逐字段 */
+.nav__links--roll a{ position:relative; display:inline-flex; color:var(--c-ink); }
 .nav__links--roll a:hover{ color:var(--c-ink); }            /* 翻滚不变色 */
-.nav__links--roll .ch{ display:inline-block; position:relative; }
+.nav__links--roll .ch{ display:inline-block; }
 .nav__links--roll .mask{ display:block; height:21px; overflow:hidden; }
 .nav__links--roll .roll{ display:block; transition:transform .4s var(--ease) var(--chd,0s); }
 .nav__links--roll .roll > span{ display:block; height:21px; line-height:21px; }
 .nav__links--roll a:hover .roll{ transform:translateY(-21px); }
-.nav__links--roll .ch::after{ content:""; position:absolute; left:0; bottom:-3px; height:1.5px; width:0;
-  background:var(--c-accent); transition:width .4s var(--ease) var(--chd,0s); }
-.nav__links--roll a:hover .ch::after{ width:100%; }
-.nav__links--roll a.active .ch::after{ width:100%; transition-delay:0s; }   /* 当前页：下划线常驻 */
+/* 整条下划线（一条，非逐字段）：width 0→100% 左→右画出；时长 --ul-dur = 末字翻完时刻
+   （partials.js 按字数算 (n-1)*.05+.4），故整条画完与末字翻完同刻收尾。 */
+.nav__links--roll a::after{ content:""; position:absolute; left:0; bottom:-3px; height:1.5px; width:0;
+  background:var(--c-accent); transition:width var(--ul-dur,.55s) var(--ease); }
+.nav__links--roll a:hover::after{ width:100%; }
+.nav__links--roll a.active::after{ width:100%; transition:none; }   /* 当前页：下划线常驻 */
 
 /* ---- tab 动效 · 备选①b（存档）.nav__links--dot：accent 点入 + 文字右移，文字本身不变色 ----
    每 tab markup：<a data-nav=…><span class="t">关于我们</span></a> */
@@ -409,6 +410,6 @@ html[lang="en"] .nav__lang .en{ color:#000; }
 .nav__links--dot a:hover::before, .nav__links--dot a.active::before{ opacity:1; transform:translate(0,-50%) scale(1); }
 
 @media (prefers-reduced-motion:reduce){
-  .nav__links--roll .roll, .nav__links--roll .ch::after,
+  .nav__links--roll .roll, .nav__links--roll a::after,
   .nav__links--dot .t, .nav__links--dot a::before{ transition:none; }
 }

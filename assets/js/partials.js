@@ -31,7 +31,8 @@
     for(var i=0;i<chars.length;i++){
       inner += "<span class=\"ch\" style=\"--chd:"+(i*0.05).toFixed(2)+"s\"><span class=\"mask\"><span class=\"roll\"><span>"+chars[i]+"</span><span aria-hidden=\"true\">"+chars[i]+"</span></span></span></span>";
     }
-    return "<a href=\""+href+"\" data-nav=\""+key+"\">"+inner+"</a>";
+    var uldur = ((chars.length-1)*0.05 + 0.4).toFixed(2);   /* 整条下划线时长 = 末字翻完时刻 */
+    return "<a href=\""+href+"\" data-nav=\""+key+"\" style=\"--ul-dur:"+uldur+"s\">"+inner+"</a>";
   }
   function navV2(tabs, homeHref, alt){
     var links = "";
