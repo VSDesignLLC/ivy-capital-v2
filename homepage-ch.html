@@ -79,7 +79,7 @@
 .about__p .b{ color:var(--c-accent); }
 .about__imgwrap{ height:270px; overflow:hidden; position:relative; }
 .about__imgwrap img, .about__imgwrap video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.8; }
-.about__stats{ grid-column:3; grid-row:2; --stat-pad:48px; border-left:1px solid var(--c-grid);
+.about__stats{ grid-column:3; grid-row:2; --stat-pad:48px;
   padding:40px 0 6px var(--stat-pad); display:flex; flex-direction:column; justify-content:space-between; gap:24px; }
 .about__stats .stat{ position:relative; display:flex; flex-direction:column; gap:14px; }
 .about__stats .lbl{ font-size:11px; line-height:16.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--c-muted); }
@@ -337,13 +337,16 @@
     if(!about||cards.length<3||!marq||projRow.length<4||!awards) return;
 
     var aboutBot=rel(about).bottom;
-    var stratTop=rel(cards[0]).top;
     var marqTop=rel(marq).top, marqBot=rel(marq).bottom;
     var awardsTop=rel(awards).top;
 
-    // strategy gutters (3-col → 2 lines): sA runs from about heading bottom; sB from strategy cards top — both to marquee top
-    var sA=gutter(cards[1],cards[2]);   // x ≈ 940 (right gutter)
-    var sB=gutter(cards[0],cards[1]);   // x ≈ 499 (left gutter)
+    // strategy vlines anchored to title-card (sec-box) edges → 与 boxed 标题严格对齐（rail-to-rail 1/3、2/3）
+    var stratBox=document.querySelector('#strategy .sec-box');
+    var stratBand=document.querySelector('#strategy .sec-band');
+    var rbox=rel(stratBox);
+    var sA=rbox.right;   // 2/3 — 同 about 标题卡右缘 & about 数字列左界
+    var sB=rbox.left;    // 1/3
+    var stratBandBot=rel(stratBand).bottom;   // sB 顶端 = strategy 标题带底（顶到标题横线下方）
     // projects gutters (4-col → 3 lines): marquee bottom → awards top (through breather)
     var p1=gutter(projRow[0],projRow[1]);
     var p2=gutter(projRow[1],projRow[2]);
@@ -353,8 +356,8 @@
       var el=document.querySelector('.vline[data-v="'+name+'"]');
       if(!el)return; el.style.left=x+'px'; el.style.top=top+'px'; el.style.height=Math.max(0,bottom-top)+'px';
     }
-    set('sA', sA, aboutBot, marqTop);
-    set('sB', sB, stratTop, marqTop);
+    set('sA', sA, aboutBot, marqTop);          // 2/3：从 about 标题带底延伸（覆盖 about 数字列）到 marquee
+    set('sB', sB, stratBandBot, marqTop);      // 1/3：从 strategy 标题带底顶起到 marquee
     set('p1', p1, marqBot, awardsTop);
     set('p2', p2, marqBot, awardsTop);
     set('p3', p3, marqBot, awardsTop);
