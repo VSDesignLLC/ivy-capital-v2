@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Team · Ivy Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* ============================================================ TEAM 页专属布局
+   复用共享层组件 (sec-band/sec-box · rails · grid)。
+   文案严格取自飞书《2026官网内容》Page3 团队（仅 block 57 介绍文字）；
+   团队成员资料文档未提供 → 成员卡用占位骨架，不编造姓名/职位。 */
+
+#team-ops{ padding-top:120px; padding-bottom:var(--gap); }
+
+/* HERO (.hax) → canonical: assets/css/components.css（子页通用，已抽出） */
+
+/* ---------- 团队成员网格：.team-grid 布局（本页）+ card-member 卡片（canonical） ---------- */
+.team-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:24px; margin-top:56px; }
+/* .card-member 卡片样式 → canonical card-member: assets/css/components.css（已抽出） */
+
+/* ---------- 成员详情弹窗 lightbox（点击卡片打开 · 锁浅色 · 柔和投影 e-soft） ---------- */
+.lb{ position:fixed; inset:0; z-index:200; visibility:hidden; opacity:0;
+  --scrim:rgba(var(--c-bg-rgb),.84); --rail:rgba(var(--c-ink-rgb),.14); --photo:#d9d6cd;
+  transition:opacity .4s var(--ease), visibility .4s var(--ease); }
+.lb.is-open{ visibility:visible; opacity:1; }
+.lb__scrim{ position:absolute; inset:0; z-index:0; background:var(--scrim);
+  backdrop-filter:blur(10px) saturate(.9); -webkit-backdrop-filter:blur(10px) saturate(.9); }
+.lb__rail{ position:fixed; z-index:1; background:var(--rail); pointer-events:none; }
+.lb__rail.v{ width:1px; top:0; height:100vh; } .lb__rail.h{ height:1px; left:0; width:100vw; }
+.lb__rail.l{ left:var(--x1,-99px); } .lb__rail.r{ left:var(--x2,-99px); }
+.lb__rail.t{ top:var(--y1,-99px); } .lb__rail.b{ top:var(--y2,-99px); }
+.lb__card{ position:absolute; z-index:2; top:50%; left:50%; transform:translate(-50%,-50%);
+  display:grid; grid-template-columns:1.15fr 1fr; align-items:stretch;
+  width:min(1180px, calc(100vw - 220px)); height:min(840px, 86vh);
+  background:var(--c-bg); overflow:hidden;
+  box-shadow:0 24px 60px -26px rgba(var(--c-ink-rgb),.28); }
+.lb__photo{ min-width:0; min-height:0; background:var(--photo); }
+.lb__photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+.lb__panel{ position:relative; min-width:0; padding:46px 54px 52px; display:flex; flex-direction:column; }
+.lb__label{ font-family:var(--ff-sc); font-weight:500; font-size:16px; color:rgba(var(--c-ink-rgb),.62); }
+.lb__body{ margin-top:auto; }
+.lb__name{ position:relative; padding-left:18px; font-family:var(--ff-sc); font-weight:700; font-size:34px; line-height:1.1; letter-spacing:-0.5px; color:var(--c-ink); }
+.lb__name::before{ content:""; position:absolute; left:0; top:.14em; bottom:.12em; width:3px; background:var(--c-accent); }
+.lb__role{ padding-left:18px; margin-top:10px; font-family:var(--ff-sc); font-size:15px; letter-spacing:.04em; color:rgba(var(--c-ink-rgb),.55); }
+.lb__bio{ margin-top:30px; max-width:46ch; font-family:var(--ff-sc); font-size:17px; line-height:1.95; letter-spacing:1px; color:rgba(var(--c-ink-rgb),.82); }
+.lb__cell{ position:fixed; z-index:3; display:grid; place-items:center; background:transparent; border:0; cursor:pointer;
+  color:rgba(var(--c-ink-rgb),.5); transition:color .25s, background .25s; }
+.lb__cell:hover{ color:var(--c-ink); background:rgba(var(--c-ink-rgb),.07); }
+.lb__cell svg{ width:24px; height:24px; }
+.lb__cell.close{ left:var(--x2,-99px); top:0; width:calc(100vw - var(--x2,0px)); height:var(--y1,0px); }
+.lb__cell.prev{ left:0; top:var(--y1,0px); width:var(--x1,0px); height:calc(var(--y2,0px) - var(--y1,0px)); }
+.lb__cell.next{ left:var(--x2,-99px); top:var(--y1,0px); width:calc(100vw - var(--x2,0px)); height:calc(var(--y2,0px) - var(--y1,0px)); }
+@media (max-width:760px){
+  .lb__card{ grid-template-columns:1fr; grid-template-rows:42% 1fr; width:calc(100vw - 28px); height:90vh; }
+  .lb__panel{ padding:26px 22px 30px; }
+  .lb__name{ font-size:26px; } .lb__bio{ margin-top:18px; font-size:15px; line-height:1.8; }
+}
+
+/* ---------- narrow safety ---------- */
+@media (max-width:1100px){
+  .team-grid{ grid-template-columns:repeat(3,1fr); }
+}
+@media (max-width:640px){
+  .team-grid{ grid-template-columns:repeat(2,1fr); }
+}
+</style>
+<link rel="stylesheet" href="assets/css/motion.css" />
+<script src="assets/js/partials.js"></script>
+</head>
+<body data-nav="team">
+
+<!-- GLOBAL fixed video background（与首页同源，团队页压得很淡） -->
+<video class="pagebg" id="pagebg" autoplay muted loop playsinline preload="auto">
+  <source src="assets/0617/kling_20260617_VIDEO_无缝循环_hero__5143_0.mp4" type="video/mp4" />
+</video>
+
+<div class="page">
+
+  <div class="rails-top" id="rails" aria-hidden="true">
+    <div class="rail l"></div>
+    <div class="rail r"></div>
+  </div>
+
+  <!-- NAV (共享单一来源) -->
+  <site-nav-v2></site-nav-v2>
+
+  <!-- TEAM HERO · V4 中轴版 -->
+  <header class="hero hax" data-bgop="0">
+    <video class="hax__bg" autoplay muted loop playsinline preload="auto"><source src="assets/team-hero.mp4" type="video/mp4"></video>
+    <div class="hax__fade" aria-hidden="true"></div>
+    <div class="hax__halo" aria-hidden="true"></div>
+    <div class="hax__inner">
+      <p class="hax__kick"><span class="dot dot--live"></span><span class="caption">Team</span></p>
+      <h1 class="hax__title">Team</h1>
+      <p class="hax__desc">Our team comes from the front lines of investment, technology, industry, and the global innovation ecosystem. Beyond their deep institutional expertise, many among us were also once founders, engineers, or scientists. We are highly selective in building a dedicated team, structured to help founders navigate the myriad complexities of scaling a business.</p>
+      <div class="hero__ivy">
+        <span class="ivy-t"><span class="w"><span class="cap">I</span></span><span class="w"><span class="cap">Value</span></span><span class="w"><span class="cap">You</span></span></span>
+        <span class="ivy-line"><span class="ivy-glow"></span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 投资团队 -->
+  <section class="section bg-fade-top" id="team-invest" data-bgop="0.12">
+    <div class="sec-band sec-anim">
+      <span class="rule top"></span><span class="rule bot"></span>
+      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+        <span class="bt"><span class="cn">Investment Team</span></span>
+      </div>
+    </div>
+    <div class="team-grid">
+      <article class="card-member" data-group="Investment Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">翁吉义</span><span class="d">创始合伙人</span></div></div></article>
+      <article class="card-member" data-group="Investment Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">路明</span><span class="d">高级合伙人</span></div></div></article>
+      <article class="card-member" data-group="Investment Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:140ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">严恺</span><span class="d">合伙人</span></div></div></article>
+      <article class="card-member" data-group="Investment Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:210ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">薛玉梁</span><span class="d">投资董事</span></div></div></article>
+      <article class="card-member" data-group="Investment Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">张健</span><span class="d">投资总监</span></div></div></article>
+      <article class="card-member" data-group="Investment Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">季翔</span><span class="d">投资总监</span></div></div></article>
+      <article class="card-member" data-group="Investment Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:140ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">缪荣高</span><span class="d">高级投资经理</span></div></div></article>
+      <article class="card-member" data-group="Investment Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:210ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">李政陶</span><span class="d">投资经理</span></div></div></article>
+      <article class="card-member" data-group="Investment Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">范雪瑞</span><span class="d">合伙人</span></div></div></article>
+      <article class="card-member" data-group="Investment Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">王颖</span><span class="d">高级合伙人</span></div></div></article>
+    </div>
+  </section>
+
+  <!-- 运营团队 -->
+  <section class="section" id="team-ops" data-bgop="0.12">
+    <div class="sec-band sec-anim">
+      <span class="rule top"></span><span class="rule bot"></span>
+      <div class="sec-box"><span class="corner tl"></span><span class="corner br"></span>
+        <span class="bt"><span class="cn">Operations Team</span></span>
+      </div>
+    </div>
+    <div class="team-grid">
+      <article class="card-member" data-group="Operations Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">龚胜利</span><span class="d">COO</span></div></div></article>
+      <article class="card-member" data-group="Operations Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">祁燕</span><span class="d">CFO</span></div></div></article>
+      <article class="card-member" data-group="Operations Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:140ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">陈丹</span><span class="d">投后高级副总裁</span></div></div></article>
+      <article class="card-member" data-group="Operations Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:210ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">张嘉洋</span><span class="d"></span></div></div></article>
+      <article class="card-member" data-group="Operations Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">王天怡</span><span class="d">投后</span></div></div></article>
+      <article class="card-member" data-group="Operations Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">史建霞</span><span class="d">基金运营</span></div></div></article>
+      <article class="card-member" data-group="Operations Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:140ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">娄欣</span><span class="d">基金运营</span></div></div></article>
+      <article class="card-member" data-group="Operations Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:210ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">刘海燕</span><span class="d">投资者关系</span></div></div></article>
+      <article class="card-member" data-group="Operations Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">凌紫璇</span><span class="d">品牌公关与市场负责人</span></div></div></article>
+      <article class="card-member" data-group="Operations Team" data-reveal data-bio="Member bio to be added. Once the profile is provided, this space will present the member&rsquo;s background, areas of expertise, and representative involvements. (Placeholder text &mdash; not actual information.)" style="--d:70ms"><div class="card-member__photo"><img src="assets/team-placeholder.png" alt=""></div><div class="card-member__plate"><span class="corner tl"></span><span class="corner br"></span><div class="card-member__txt"><span class="t">郭倩</span><span class="d">人力资源及行政副总裁</span></div></div></article>
+    </div>
+  </section>
+
+  <!-- 成员详情 lightbox（共用：点击卡片填充并打开 · 浅色 · 柔和投影） -->
+  <div class="lb" id="lb" aria-hidden="true">
+    <div class="lb__scrim" id="lbScrim"></div>
+    <div class="lb__rail v l"></div><div class="lb__rail v r"></div>
+    <div class="lb__rail h t"></div><div class="lb__rail h b"></div>
+    <div class="lb__card" id="lbCard">
+      <div class="lb__photo"><img id="lbPhoto" src="" alt="" /></div>
+      <div class="lb__panel">
+        <span class="lb__label" id="lbLabel">Investment Team</span>
+        <div class="lb__body">
+          <h2 class="lb__name" id="lbName"></h2>
+          <div class="lb__role" id="lbRole"></div>
+          <p class="lb__bio" id="lbBio"></p>
+        </div>
+      </div>
+    </div>
+    <button class="lb__cell close" id="lbClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+    <button class="lb__cell prev" id="lbPrev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="lb__cell next" id="lbNext" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+
+  <!-- FOOTER (共享单一来源) -->
+  <site-footer></site-footer>
+
+</div>
+
+<script src="assets/js/site.js"></script>
+<script>
+  // 团队成员弹窗：点击卡片打开，prev/next 在成员间循环，close / ESC / 点遮罩关闭。
+  (function(){
+    var lb = document.getElementById('lb'); if(!lb) return;
+    var card = document.getElementById('lbCard'),
+        photo = document.getElementById('lbPhoto'),
+        nameEl = document.getElementById('lbName'),
+        roleEl = document.getElementById('lbRole'),
+        bioEl  = document.getElementById('lbBio'),
+        labelEl = document.getElementById('lbLabel');
+    var cards = [].slice.call(document.querySelectorAll('.team-grid .card-member'));
+    if(!cards.length) return;
+    var members = cards.map(function(c){
+      var t = c.querySelector('.card-member__txt .t'),
+          d = c.querySelector('.card-member__txt .d'),
+          bg = c.querySelector('.card-member__photo img');
+      return {
+        name: t ? t.textContent : '',
+        role: d ? d.textContent : '',
+        photo: bg ? bg.getAttribute('src') : '',
+        bio: c.getAttribute('data-bio') || '',
+        group: c.getAttribute('data-group') || ''
+      };
+    });
+    var idx = 0;
+    function layout(){ var r = card.getBoundingClientRect();
+      lb.style.setProperty('--x1', r.left + 'px'); lb.style.setProperty('--x2', r.right + 'px');
+      lb.style.setProperty('--y1', r.top + 'px');  lb.style.setProperty('--y2', r.bottom + 'px'); }
+    function fill(i){ var m = members[i]; if(!m) return;
+      photo.src = m.photo; photo.alt = m.name;
+      nameEl.textContent = m.name; roleEl.textContent = m.role; bioEl.textContent = m.bio;
+      if(labelEl && m.group) labelEl.textContent = m.group; }
+    function open(i){ idx = i; fill(i); lb.classList.add('is-open'); lb.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(function(){ requestAnimationFrame(layout); }); }
+    function close(){ lb.classList.remove('is-open'); lb.setAttribute('aria-hidden','true');
+      document.body.style.overflow = ''; }
+    function go(step){ idx = (idx + step + members.length) % members.length; fill(idx); }
+    cards.forEach(function(c, i){ c.addEventListener('click', function(){ open(i); }); });
+    document.getElementById('lbClose').addEventListener('click', close);
+    document.getElementById('lbScrim').addEventListener('click', close);
+    document.getElementById('lbPrev').addEventListener('click', function(){ go(-1); });
+    document.getElementById('lbNext').addEventListener('click', function(){ go(1); });
+    document.addEventListener('keydown', function(e){
+      if(!lb.classList.contains('is-open')) return;
+      if(e.key === 'Escape') close();
+      else if(e.key === 'ArrowLeft') go(-1);
+      else if(e.key === 'ArrowRight') go(1);
+    });
+    window.addEventListener('resize', function(){ if(lb.classList.contains('is-open')) layout(); }, {passive:true});
+  })();
+</script>
+</body>
+</html>

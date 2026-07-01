@@ -264,6 +264,8 @@ html[lang="en"] .nav__lang .en{ color:#000; }
 .footer__top{ display:flex; align-items:flex-start; justify-content:space-between; gap:40px; }
 .footer__left{ flex:1; min-width:0; display:flex; flex-direction:column; gap:26px; }
 .footer__slogan{ font-family:var(--ff-sc); font-weight:400; font-size:24px; line-height:51.2px; letter-spacing:-0.4px; color:rgba(var(--c-ink-rgb),.92); max-width:720px; }
+/* EN 标语较长：中文标语的 24px/51.2px 行距会让英文折到 3 行且撑出页脚格 → 全站 EN 收字号+行距（单一来源，覆盖 homepage-en 原内联补丁） */
+html[lang="en"] .footer__slogan{ font-weight:400; font-size:22px; line-height:1.45; letter-spacing:0; }
 .footer__social{ display:flex; gap:8px; }
 .footer__social a{ width:56px; height:56px; border-radius:56px; background:rgba(255,255,255,.05); border:1px solid #fff; backdrop-filter:blur(10px);
   display:flex; align-items:center; justify-content:center; transition:transform .35s var(--ease), background .35s var(--ease); }
